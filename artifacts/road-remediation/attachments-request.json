@@ -1,0 +1,21 @@
+{
+  "label": "Unbraid two same-level central west ramp conflicts",
+  "operations": [
+    {
+      "op": "modifyRamp",
+      "id": "access-ew-west-eb-on-ramp",
+      "to": {
+        "roadId": "ew-eb-split-4-split-split-section-2",
+        "station": 29.8802437845954
+      }
+    },
+    {
+      "op": "modifyRamp",
+      "id": "access-ew-west-wb-off-ramp",
+      "from": {
+        "roadId": "ew-wb-split-split-split-split-4-section",
+        "station": 10.162825103624538
+      }
+    }
+  ]
+}

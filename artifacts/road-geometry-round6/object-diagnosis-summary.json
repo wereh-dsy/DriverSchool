@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "domain": "objects",
+  "scope": {
+    "domain": "objects",
+    "limit": 1000000,
+    "full": true,
+    "offset": 0
+  },
+  "coverage": {
+    "roads": 0,
+    "objects": 11505
+  },
+  "counts": {
+    "total": 1377,
+    "error": 0,
+    "warning": 1259,
+    "info": 118
+  },
+  "issues": [
+    {
+      "id": "object.buried:diamond-east:exit-sign",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "diamond-east:exit-sign",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": -0.04,
+        "expected": 2.3370591604525504,
+        "delta": -2.3770591604525504
+      },
+      "approximate": true
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 1,
+    "total": 1377,
+    "nextOffset": 1
+  },
+  "mapDigest": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9"
+}

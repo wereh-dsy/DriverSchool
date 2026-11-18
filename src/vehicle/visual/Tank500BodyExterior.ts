@@ -73,7 +73,8 @@ export function buildTank500BodyExterior(root: T.Group, c: VehicleVisualConfig):
     } else root.add(belt);
     for (const axle of [-1, 1]) {
       const points: P[] = []; for (let i = 0; i <= 24; i++) { const a = i / 24 * Math.PI, r = c.wheelRadius + c.body.wheelArchClearance; const z = axle * c.wheelBase / 2 + Math.cos(a) * r;
-        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); points.push([p[0] + side * .004, p[1], p[2]]); }
+        // Keep the 22mm trim outside the shell opening at full suspension bump.
+        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); points.push([p[0] + side * .004, p[1] + .011, p[2]]); }
       root.add(tankRibbon(`${label} Tank wheelarch lip ${axle}`, points, .022, dark));
       root.add(surfaceGrid(`${label} Tank inner wheelarch liner ${axle}`, 24, 3, (u, v) => {
         const a = u * Math.PI, r = c.wheelRadius + c.body.wheelArchClearance + .008;

@@ -18,6 +18,7 @@ export class StartupApplication {
   private game?: DrivingGame;
   private starting = false;
   private disposed = false;
+  private loadAbort?:AbortController;
   private settings?: ControlSettingsPanel;
   private settingsCleanup?: () => void;
   constructor(private readonly host: HTMLElement) {
@@ -31,6 +32,10 @@ export class StartupApplication {
     const mapId = preferredMap && maps.some(m => m.id === preferredMap) ? preferredMap : this.stored('drivergame.ground-id.v1', maps.map(m => m.id), 'road-course');
     this.ui = new GameUIController({
       startDrive: restart => this.startDrive(restart),
+      cancelStart:()=>{
+        this.loadAbort?.abort();this.loadAbort=undefined;this.game?.dispose();this.game=undefined;this.starting=false;
+        if(!this.menu&&!this.disposed)this.menuTask=this.prepareMenu().catch(error=>console.error(error));
+      },
       selectVehicle: id => this.selectVehicle(id), selectMap: id => this.selectMap(id),
       openSettings: section => { void this.openSettings(section); },
       screenChanged: screen => this.screenChanged(screen),
@@ -68,6 +73,7 @@ export class StartupApplication {
     this.menu?.setScreen(screen); this.game?.uiScreenChanged(screen);
   }
   private async startDrive(restart: boolean): Promise<void> {
+    const abort=this.loadAbort=new AbortController();
     loadingMark('drivePreload');
     this.starting = true; this.ui.setLoading('loadingWorld', '正在准备驾驶场地');
     await nextPaint();
@@ -75,16 +81,26 @@ export class StartupApplication {
       // Runtime modules and the already selected exterior prepare independently.
       const runtimeModule = import('../DrivingGame');
       await this.menuTask.catch(() => {});
-      const shared = await this.menu?.transfer();
+      if(abort.signal.aborted||this.disposed)throw new DOMException('Loading cancelled','AbortError');
+      const menu=this.menu;await menu?.dispose();if(this.menu===menu)this.menu=undefined;
+      if(abort.signal.aborted||this.disposed)throw new DOMException('Loading cancelled','AbortError');
       this.settings?.dispose(); this.settings = undefined; this.settingsCleanup?.();
-      const { DrivingGame } = await runtimeModule;
-      const options = { ...shared, ui: this.ui, vehicleId: this.ui.state.vehicleId, groundId: this.ui.state.mapId };
+      const options = { signal:abort.signal, ui: this.ui, vehicleId: this.ui.state.vehicleId, groundId: this.ui.state.mapId };
       // Runtime validates stable IDs at its own boundary.
-      this.game = await DrivingGame.create(this.runtimeHost, options as Parameters<typeof DrivingGame.create>[1]);
-      if (this.disposed) { this.game.dispose(); return; }
-      this.game.start();
+      let game:DrivingGame;
+      try{
+        const { DrivingGame } = await runtimeModule;
+        if(abort.signal.aborted||this.disposed)throw new DOMException('Loading cancelled','AbortError');
+        this.ui.loadingProgress.update('foundation',1,3,'运行模块已准备');
+        game=await DrivingGame.create(this.runtimeHost, options as Parameters<typeof DrivingGame.create>[1]);
+      }catch(error){throw error;}
+      if (this.disposed||abort.signal.aborted) {game.dispose();throw new DOMException('Loading cancelled','AbortError');}
+      this.game=game;this.game.start();
     }
-    await this.game.prepareDriveFromUI(this.ui.state.vehicleId, this.ui.state.mapId, restart);
+    this.ui.loadingProgress.update('foundation',3,3,'地图与基础系统已准备');this.ui.loadingProgress.close('foundation');
+    this.ui.loadingProgress.update('vehicle',3,3,'车辆与驾驶系统已准备');this.ui.loadingProgress.close('vehicle');
+    try{await this.game.prepareDriveFromUI(this.ui.state.vehicleId, this.ui.state.mapId, restart,abort.signal);}
+    catch(error){if(this.loadAbort===abort){this.game?.dispose();this.game=undefined;}throw error;}
   }
   private async openSettings(section: 'vehicle' | 'controls' | 'world'): Promise<void> {
     if (this.game) { this.game.uiSettings(section); return; }
@@ -110,6 +126,7 @@ export class StartupApplication {
     this.settings.setSessionAvailable(false); this.settings.openSection(section);
   }
   dispose(): void {
+    this.loadAbort?.abort();
     this.disposed = true; this.shell.dispose(); this.settings?.dispose(); this.settingsCleanup?.();
     if (this.game) this.game.dispose(); else void this.menuTask.finally(() => this.menu?.dispose());
   }

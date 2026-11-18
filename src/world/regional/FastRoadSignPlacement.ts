@@ -79,6 +79,13 @@ export class RoadSignPlacement {
     if (result.advanceMetres !== undefined) {
       result.actualAdvanceMetres = (sign.actualAdvanceMetres ?? sign.advanceMetres!) - move;
       result.destinations.forEach(d => { if (d.distanceMetres !== undefined) d.distanceMetres = Math.round(result.actualAdvanceMetres!); });
+    } else if(result.type==='EXPRESSWAY_DISTANCE') {
+      // Mileage boards have no advanceMetres, but moving along the approach
+      // changes every retained destination's remaining distance just as well.
+      for(const destination of result.destinations)if(destination.distanceMetres!==undefined){
+        if(destination.distanceMetres<=move)return undefined;
+        destination.distanceMetres=Math.round(destination.distanceMetres-move);
+      }
     }
     if (result.template === 'ceiling') {
       const own = road.structure?.enclosure, deck = this.clearance.lowestDeckHeight(frame.point, (frame.point.y ?? 0) + 6.5, (frame.point.y ?? 0) + 25, road.id, 0);

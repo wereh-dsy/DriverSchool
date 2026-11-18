@@ -128,7 +128,7 @@ export class VehicleVisual {
     this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
     if (config.body.exterior !== 'xiaomi-su7' && config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
-      config.body.design !== 'mercedes-v214' && config.body.design !== 'maybach-z223' && config.body.design !== 'jesko-attack' && config.body.design !== 'tank-500') this.cockpitRoot.add(buildSimplifiedSeats(config));
+      config.body.design !== 'mercedes-v214' && config.body.design !== 'maybach-z223' && config.body.design !== 'jesko-attack' && config.body.design !== 'tank-500' && config.body.design !== 'qin-plus') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);

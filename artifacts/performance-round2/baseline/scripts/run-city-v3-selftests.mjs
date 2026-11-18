@@ -1,0 +1,4 @@
+import { build } from 'esbuild';
+const result=await build({stdin:{contents:`import {runMarkingOwnershipSelfTest} from './src/world/city/MarkingOwnership.selftest';import {runCityMainV3SelfTest,runRoadSignSelfTest} from './src/world/city/CityMainV3.selftest';import {runCityMainSelfTest} from './src/world/city/CityMain.selftest';console.log(JSON.stringify({markings:runMarkingOwnershipSelfTest(),cityV3:runCityMainV3SelfTest(),signCache:runRoadSignSelfTest(),contacts:runCityMainSelfTest()},null,2));`,resolveDir:process.cwd(),loader:'ts'},bundle:true,platform:'node',format:'esm',write:false,logLevel:'silent'});
+try{await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));}
+catch(error){console.error(String(error.stack??error).replace(/data:text\/javascript;base64,[A-Za-z0-9+/=]+/g,'<city-v3-selftest>'));process.exitCode=1;}

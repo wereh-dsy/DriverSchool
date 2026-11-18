@@ -123,7 +123,7 @@ export class AutomaticShiftController {
     // AUTO cannot be held at the limiter by dwell, a sport hold, or kickdown.
     if (safeUpshift && upshiftRPM >= automaticCeiling) return { gear: next, kickdown: false };
     const heavy = throttle >= this.config.kickdownThrottle;
-    const urgentKickdown = heavy && throttleRate > .7 && this.timeInGear >= .2;
+    const urgentKickdown = heavy && (throttleRate > .7 || context.kickdownRequested === true) && this.timeInGear >= .2;
     if (this.timeInGear < this.config.minimumTimeInGear && !urgentKickdown) return null;
 
     const fullTorque = context.engineTorqueAtRPM?.(Math.max(context.idleRPM, context.engineRPM));

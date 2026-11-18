@@ -4,6 +4,16 @@
 
 相关文档：[操作与启动](../README.md)、[代理约束](../AGENTS.md)、[审阅报告](CODE_REVIEW_2026-10-12.md)、[可复制的 Chat 指示文本](CHAT_HANDOFF.md)、[地图作者指南](../src/world/city/AGENT_GUIDE.md)。
 
+运行时增补（2026-11-16）：静态世界已接入 Runtime V2 Phase 2 的空间簇、批处理、实例化与共享几何租约，见 [实现、数据与限制](RUNTIME_V2_PHASE2_2026-11-16.md)。下文车型/地图目录仍保留 11 月 6 日快照；当前批准地图为 v507，车辆目录已包含秦 PLUS 共 18 辆，以源码为准。
+
+Runtime-First 增补（2026-11-17）：[Phase 2.1](RUNTIME_V2_PHASE21_2026-11-17.md) 增加精确顶点去重、位置/辅助属性双流、加载期唯一模型与共享代理准备、闲置 FIFO、增量页面填充，以及逐材质阴影预热。没有更换调度器、缩短 LOD/视距或修改物理。
+
+Render Runtime 增补（2026-11-17）：[Phase 3](RUNTIME_V2_PHASE3_2026-11-17.md) 将静态绘制记录、矩阵及资源句柄接入 RenderWorld，专用 Worker 生成版本化多视图/阴影可见列表、LOD 和提交排序。统一 WebGL Render Graph 与资源驻留登记，Three Object3D 保留构建/动态场景/提交适配。完整 OffscreenCanvas 未迁移，融合透明/座舱顺序保留；性能改善须以有效激活窗口对照为准。
+
+Independent Rendering 增补（2026-11-18）：[Phase 4](RUNTIME_V2_PHASE4_2026-11-18.md) 正式驾驶默认使用独立 Renderer Worker，拥有 OffscreenCanvas/WebGL2、RenderWorld、车辆/座舱/天气、镜面、Graph 和 GPU 资源。主线程通过版本化 Transferable 状态发布，保留120Hz物理、输入、音频、DOM及模拟合同。菜单展示在驾驶前释放主线程上下文；旧解析式训练场仍有加载期兼容构造。电池供电对照显示主线程 CPU 明显下降，但渲染/GPU 长尾尚未全面改善，详见报告的测量边界。
+
+性能记录约定：每次标明 AC/电池/未知、电源计划、窗口激活状态、分辨率、DPR、画质、车辆、出生点和路线。历史未记录的电源不能补推为接电或断电；不同电源、失焦和遮挡限频数据不得直接用于因果结论。独立样本使用新渲染进程，避免前一页面延迟回收污染 Heap；不以强制 GC 清理结果。CPU 提交、GPU Query 时间线和实际呈现是不同测量。测试窗口不得置顶、锁定移动或自动恢复用户的最小化操作。
+
 ## 工程与入口
 
 - TypeScript strict、Three.js、Vite、pnpm；没有前端框架、后端服务或网络多人系统。
@@ -57,6 +67,7 @@ flowchart TD
 | 输入/反馈/音频 | `input/`、`vehicle/feedback/`、`audio/` | 统一输入边沿、改键、标准手柄、震动节奏和合成音 |
 | 世界 | `DrivingGround.ts` / `DrivingGroundCatalog.ts` | ground 生命周期、spawn、surface、colliders、roadNetwork、lapCourse |
 | City/区域世界 | `world/city/`、`world/regional/` | 数据验证、路口路面、边链、标线/路牌、地形、视觉扇区加载 |
+| 静态世界渲染 | `world/render/{WorldRenderClusters,StaticBatchBuilder,WorldRenderResources,WorldLODPolicy,WorldLODProxies}.ts` | Sector 所有权、空间剔除、合批/实例、HLOD、几何租约与增量释放；沿用 RuntimeCoordinator |
 | 编辑与工具 | `editor/CityMapEditor.ts`、`CityEditorHistory.ts`、`city/MapAPI.ts`、`scripts/map-cli.ts` | 浏览器草稿、事务回滚、显式拓扑、导入导出/安全写入 |
 
 上表中车辆局部文件均在 `src/vehicle/` 下。改具体系统时读取入口与调用者/配置/自测即可；除用户要求整体审阅外，不默认扫描全仓库。
@@ -133,6 +144,8 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 扇区现在先完成异步 shader 预热再可见，切图/取消时延迟释放预热借用的资源；路牌绘制与上传分开推进，支架按共享几何/材质合批。EnvironmentVisual 按视觉节点增删维护材质与灯位，避免每次发布全图重扫和湿路面重复变暗。区域选择签名包含实际 sector key，跨扇区不会被 100 m 缓存桶漏掉；Worker 近景请求可提优先级并避免重复在途任务。ContactSystem 常规无碰撞步减少两次完整 snapshot，碰撞后仍重采样/同步支撑。
 
 静态扇区按包围球与主相机/实际镜面相机视锥并集筛选可见性，雾判断使用相机空间深度；近 400 m 边界保留阴影与泊车资源，非雾材质和调试视角保留。该筛选不卸载逻辑路网、物理路面或碰撞体。混合路面地图登记湿路/标线材质，复用统一环境系统。
+
+Phase 2 在 Sector 发布前按 500m 空间单元和垂向边界合批兼容静态几何、按空间单元实例化共享模型，最终边界交给 `WorldRenderClusters` 联合剔除；动态灯头、透明和自定义绘制对象保持独立。`WorldRenderResources` 租用不可变几何，闲置目标 12MiB，受 Coordinator 增量淘汰；活跃资源不计入闲置上限。远景页面接入同一索引和租约，按 2km 空间桶追加约 1MiB 页面。模型代理在准备阶段生成，道路安全几何不简化。镜面保留并恢复主视图阴影失效状态；没有另建静态阴影缓存或改换渲染后端。性能取舍、测量条件和未验证项见增补报告，不能据 Draw Calls 下降推断 GPU 时间或内存同步下降。
 
 混合路面 V1 的 SurfaceProfile / SurfaceInteraction 复用四轮接触和联合滑移预算，松软地面附加阻力反向于实际接触速度；不变形、不永久陷车。加速测试与被动诊断、两秒轨迹预测均为可选工具，未开启时不记录常驻遥测。Taycan 的 UI/shift/input 选挡统一经 Powertrain 同步所有轴，保留脚刹/速度/方向安全门。详见 [路面](SURFACE_INTERACTION_V1.md) 与 [动力修复](PERFORMANCE_TCS_2026-10-15.md)。
 

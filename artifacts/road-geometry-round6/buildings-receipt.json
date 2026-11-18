@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 2,
+  "mapDigest": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+  "mapVersion": 494,
+  "operationDigest": "72a9e6b9b4f2841ce809d278811211345ff16e11156589238eef90c8183d7445",
+  "operations": [
+    {
+      "op": "moveObject",
+      "id": "regional:warehouse:3480:4500",
+      "delta": {
+        "x": 3.8822856765377765,
+        "y": 0,
+        "z": 14.488887394336416
+      }
+    },
+    {
+      "op": "moveObject",
+      "id": "regional:warehouse:3640:4340",
+      "delta": {
+        "x": 21.047588780079877,
+        "y": 0,
+        "z": 50.81337428812094
+      }
+    },
+    {
+      "op": "moveObject",
+      "id": "regional:wuliuyuan:building:-1",
+      "delta": {
+        "x": -54.78852861078485,
+        "y": 0,
+        "z": 71.4018006262113
+      }
+    }
+  ],
+  "affectedIds": [
+    "regional:warehouse:3480:4500",
+    "regional:warehouse:3640:4340",
+    "regional:wuliuyuan:building:-1"
+  ],
+  "sourceState": [
+    {
+      "id": "regional:wuliuyuan:building:-1",
+      "prefabId": "industrial",
+      "position": {
+        "x": 6810.676389124976,
+        "y": 3.5806477727463846,
+        "z": 3217.1126055417803
+      },
+      "rotation": 0.9533971391152722,
+      "scale": {
+        "x": 1,
+        "y": 0.8,
+        "z": 1
+      }
+    },
+    {
+      "id": "regional:warehouse:3480:4500",
+      "prefabId": "industrial",
+      "position": {
+        "x": 3522.8125913447,
+        "y": -0.04,
+        "z": 4491.2104723715765
+      },
+      "rotation": 0,
+      "scale": {
+        "x": 2.889205375860911,
+        "y": 1,
+        "z": 2.5
+      },
+      "color": "#adb1ac"
+    },
+    {
+      "id": "regional:warehouse:3640:4340",
+      "prefabId": "industrial",
+      "position": {
+        "x": 3688.2216954863543,
+        "y": -0.04,
+        "z": 4337.5491507064
+      },
+      "rotation": 0,
+      "scale": {
+        "x": 2.938379049875948,
+        "y": 1,
+        "z": 2.5
+      },
+      "color": "#adb1ac"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Round 6: relocate three buildings clear of seven piers; retain authored heights",
+    "created": [],
+    "modified": [
+      "regional:warehouse:3480:4500",
+      "regional:warehouse:3640:4340",
+      "regional:wuliuyuan:building:-1"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 3482.8125913447,
+      "maxX": 6850.676389124976,
+      "minZ": 3177.1126055417803,
+      "maxZ": 4545.699359765913
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:warehouse:3480:4500",
+          "regional:warehouse:3640:4340",
+          "regional:wuliuyuan:building:-1",
+          "regional:G4516:out:split192:split402",
+          "regional:G4516:in:split410",
+          "regional:wuliuyuan:local:-1",
+          "regional:v3:S36-extension54:out:24",
+          "regional:v3:S36-extension54:in:6",
+          "regional:v3:S36-extension54:out:21",
+          "regional:v3:S36-extension54:in:9",
+          "regional:v3:S36-extension54:in:8"
+        ],
+        "message": "roads: 8 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  },
+  "diff": {
+    "schemaVersion": 1,
+    "signs": {
+      "added": [],
+      "removed": [],
+      "modified": []
+    },
+    "roads": {
+      "added": [],
+      "removed": [],
+      "modified": []
+    },
+    "intersections": {
+      "added": [],
+      "removed": [],
+      "modified": []
+    },
+    "objects": {
+      "added": [],
+      "removed": [],
+      "modified": [
+        {
+          "id": "regional:wuliuyuan:building:-1",
+          "type": "industrial",
+          "displacement": 90.00000000000011,
+          "heightDelta": 0,
+          "rotationDelta": 0,
+          "anchorBefore": {
+            "anchorRoadId": "regional:v3:S36-extension54:in:6",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 104.20584558198304,
+            "lateralOffset": 4.373659336854894,
+            "verticalOffset": -14.159032512519488,
+            "facingDirection": "forward",
+            "expectedHeading": 1.3839082811556163,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "anchorAfter": {
+            "anchorRoadId": "regional:wuliuyuan:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 63.338169488660284,
+            "lateralOffset": -29.93807105150168,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9533971391151983,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "anchorRoadUnchanged": false,
+          "anchorApproachUnchanged": true
+        },
+        {
+          "id": "regional:warehouse:3480:4500",
+          "type": "industrial",
+          "displacement": 15.00000000000037,
+          "heightDelta": 0,
+          "rotationDelta": 0,
+          "anchorBefore": {
+            "anchorRoadId": "regional:v3:S36-extension54:out:21",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 660.5586618444468,
+            "lateralOffset": 46.639062455668544,
+            "verticalOffset": -17.965385646342174,
+            "facingDirection": "forward",
+            "expectedHeading": -1.0585813961256858,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "anchorAfter": {
+            "anchorRoadId": "regional:v3:S36-extension54:out:21",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 656.8415634064794,
+            "lateralOffset": 61.17120542229511,
+            "verticalOffset": -17.971134983950282,
+            "facingDirection": "forward",
+            "expectedHeading": -1.0585813961256858,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "anchorRoadUnchanged": true,
+          "anchorApproachUnchanged": true
+        },
+        {
+          "id": "regional:warehouse:3640:4340",
+          "type": "industrial",
+          "displacement": 55.00000000000013,
+          "heightDelta": 0,
+          "rotationDelta": 0,
+          "anchorBefore": {
+            "anchorRoadId": "regional:v3:S36-extension54:out:21",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 880.1196089132081,
+            "lateralOffset": -4.691710676539562,
+            "verticalOffset": -17.621511920436685,
+            "facingDirection": "forward",
+            "expectedHeading": -1.0452669639611907,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "anchorAfter": {
+            "anchorRoadId": "regional:v3:S36-extension54:out:21",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 872.8637817837237,
+            "lateralOffset": 49.82779492405447,
+            "verticalOffset": -17.632991298425658,
+            "facingDirection": "forward",
+            "expectedHeading": -1.045836425852331,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "anchorRoadUnchanged": true,
+          "anchorApproachUnchanged": true
+        }
+      ]
+    },
+    "structures": [],
+    "roadLinks": {
+      "added": [],
+      "removed": [],
+      "modified": []
+    },
+    "affectedBbox": {
+      "minX": 3456.3608676998992,
+      "maxX": 6833.676389124976,
+      "minZ": 3194.1126055417803,
+      "maxZ": 4572.151083410714
+    },
+    "maxRoadDisplacement": 0,
+    "maxElevationDelta": 0,
+    "topology": {
+      "changed": false,
+      "scope": "localDependency",
+      "componentDelta": 0,
+      "newDeadEnds": [],
+      "before": {
+        "components": 0,
+        "deadEnds": [],
+        "adjacency": []
+      },
+      "after": {
+        "components": 0,
+        "deadEnds": [],
+        "adjacency": []
+      },
+      "routeChecks": [],
+      "laneConnectionsAdded": [],
+      "laneConnectionsRemoved": [],
+      "directedLaneRouteVerified": true
+    }
+  }
+}

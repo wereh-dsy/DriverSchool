@@ -1,0 +1,89 @@
+{
+  "assertions": 7566,
+  "results": {
+    "launch": {
+      "time100": 8.116666666666667,
+      "maxWheelW": 167207.3461571701,
+      "maximumGenerationW": 57692.86781474261,
+      "firstJointDriveKmh": 75.70078232247518,
+      "maximumTorqueDrop": 89.87995802417163,
+      "trace": [
+        {
+          "seconds": 2,
+          "speedKmh": 24.27966930522522,
+          "state": "EV",
+          "rpm": 0,
+          "soc": 0.8494291438704127
+        },
+        {
+          "seconds": 4,
+          "speedKmh": 51.68710329337972,
+          "state": "SERIES",
+          "rpm": 5786.540752803397,
+          "soc": 0.8475903237597067
+        },
+        {
+          "seconds": 6,
+          "speedKmh": 76.64978287898656,
+          "state": "PARALLEL",
+          "rpm": 2076.239959259314,
+          "soc": 0.845517145036558
+        },
+        {
+          "seconds": 8,
+          "speedKmh": 98.90897379229685,
+          "state": "PARALLEL",
+          "rpm": 2662.5521666700924,
+          "soc": 0.8423932156680927
+        },
+        {
+          "seconds": 10,
+          "speedKmh": 117.503673924837,
+          "state": "PARALLEL",
+          "rpm": 3139.0774452935293,
+          "soc": 0.8392432864741044
+        },
+        {
+          "seconds": 12,
+          "speedKmh": 133.4910245419532,
+          "state": "PARALLEL",
+          "rpm": 3549.5181411787503,
+          "soc": 0.8360905170060481
+        },
+        {
+          "seconds": 14,
+          "speedKmh": 147.53124047263327,
+          "state": "PARALLEL",
+          "rpm": 3910.631413257909,
+          "soc": 0.8329329931193228
+        }
+      ]
+    },
+    "braking": [
+      {
+        "soc": 0.6,
+        "speed": 0,
+        "distanceM": 33.82792178428092,
+        "regenSamples": 395,
+        "hydraulicSamples": 600,
+        "absSamples": 0
+      },
+      {
+        "soc": 1,
+        "speed": 0,
+        "distanceM": 33.82792178428092,
+        "regenSamples": 145,
+        "hydraulicSamples": 600,
+        "absSamples": 0
+      }
+    ],
+    "lowGripABS": {
+      "absReleases": 469,
+      "absRegenCuts": 469,
+      "finalSpeed": 16.42221629141807
+    },
+    "reverse": {
+      "speed": -2.951158797879114
+    }
+  }
+}

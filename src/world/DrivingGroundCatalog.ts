@@ -7,11 +7,12 @@ import { MountainProvingGround } from './mountain/MountainProvingGround';
 import { Subject2Ground } from './subject2';
 import { Subject3Ground } from './subject3';
 import { CityGround } from './city/CityGround';
-import { CITY_EDITOR_STORAGE_KEY } from './city/CityMapLoader';
+import { CITY_EDITOR_STORAGE_KEY, loadCityMap } from './city/CityMapLoader';
 import cityAlpha from './city/maps/city-alpha.json';
 import { cityMainRuntime, prepareCityMain } from './city/CityMainResource';
 import type { CityResourceTiming, CityRuntimeData } from './city/CityRuntimeData';
 import presetShowcase from './city/maps/preset-showcase.json';
+import {releaseSimulationVisuals} from '../game/render/SimulationGroundVisuals';
 
 export const DRIVING_GROUND_IDS = [
   'road-course',
@@ -110,8 +111,8 @@ export function getDrivingGroundDescriptor(
 }
 
 /** Prepares only external resources. Synchronous grounds and their API remain unchanged. */
-export async function prepareDrivingGround(id: DrivingGroundId, supplied?: CityRuntimeData): Promise<CityResourceTiming | undefined> {
-  return id === 'city-main' ? prepareCityMain(supplied) : undefined;
+export async function prepareDrivingGround(id: DrivingGroundId, supplied?: CityRuntimeData,runtimeRole?:'simulation'|'visual'): Promise<CityResourceTiming | undefined> {
+  return id === 'city-main' ? prepareCityMain(supplied,runtimeRole!=='simulation') : undefined;
 }
 
 export function createDrivingGround(id: DrivingGroundId, resourceTiming?: CityResourceTiming): DrivingGround {
@@ -128,17 +129,25 @@ export function createDrivingGround(id: DrivingGroundId, resourceTiming?: CityRe
 }
 
 /** Async play entry; synchronous authoring/selftest APIs retain their exact output. */
-export async function createDrivingGroundAsync(id: DrivingGroundId, timing?: CityResourceTiming): Promise<DrivingGround> {
-  if (id !== 'city-main') return createDrivingGround(id, timing);
+export async function createDrivingGroundAsync(id: DrivingGroundId, timing?: CityResourceTiming,signal?:AbortSignal,runtimeRole?:'simulation'|'visual'): Promise<DrivingGround> {
+  if (id !== 'city-main') {
+    if(runtimeRole&&['city-alpha','preset-showcase','city-editor-map'].includes(id)){
+      let source:unknown=id==='preset-showcase'?presetShowcase:cityAlpha;
+      if(id==='city-editor-map'&&typeof localStorage!=='undefined')try{const saved=localStorage.getItem(CITY_EDITOR_STORAGE_KEY);if(saved)source=loadCityMap(JSON.parse(saved));}catch(error){console.warn('Unable to load editor map; using City Alpha.',error);}
+      const ground=new CityGround(source,{deferred:true,runtimeRole,spawnId:new URLSearchParams(runtimeSearch()).get('preset')??undefined});await ground.prepare(signal);const descriptor=getDrivingGroundDescriptor(id);Object.defineProperty(ground,'metadata',{value:Object.freeze({...ground.metadata,id,displayName:descriptor.displayName,description:descriptor.description})});return ground;
+    }
+    const ground=createDrivingGround(id,timing);if(runtimeRole==='simulation')releaseSimulationVisuals(ground);return ground;
+  }
   const runtime = cityMainRuntime();
-  const ground = new CityGround(runtime.map, { runtime, deferred: true,
-    spawnId: typeof location === 'undefined' ? undefined : new URLSearchParams(location.search).get('regionalSpawn') ?? undefined });
+  const ground = new CityGround(runtime.map, { runtime, deferred: true,runtimeRole,
+    spawnId: new URLSearchParams(runtimeSearch()).get('regionalSpawn') ?? undefined });
   ground.resourceTiming = timing;
-  try { await ground.prepare(); } catch (error) { ground.dispose(); throw error; }
+  try { await ground.prepare(signal); } catch (error) { ground.dispose(); throw error; }
   const descriptor = getDrivingGroundDescriptor(id);
   Object.defineProperty(ground, 'metadata', {value: Object.freeze({...ground.metadata, id, displayName:descriptor.displayName, description:descriptor.description})});
   return ground;
 }
+function runtimeSearch():string {return (globalThis as unknown as {__driverSchoolRenderSearch?:string}).__driverSchoolRenderSearch??(typeof location==='undefined'?'':location.search);}
 
 /** Existing URL shortcuts and saved IDs share the same catalog resolution. */
 export function getInitialDrivingGroundId(storedId: string | null, search: string): DrivingGroundId {

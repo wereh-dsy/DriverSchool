@@ -20,6 +20,9 @@ export class P2HybridTransmission implements TransmissionSystem {
   private outputRPM = 0;
   private inputTorque = 0;
   private outputTorque = 0;
+  private duration = 0;
+  private queuedKickdown = false;
+  private previousThrottle = 0;
   public get selectedMode(): DriveSelector { return this.selector.mode; }
   public get isShifting(): boolean { return this.target !== null; }
   public constructor(public readonly gearbox: Gearbox, private readonly config: TransmissionConfig, radius: number) {
@@ -27,7 +30,7 @@ export class P2HybridTransmission implements TransmissionSystem {
     this.selector = new SelectorSafety(gearbox, a.parkMaximumSpeed, radius, 6400, 1600);
     this.controller = new AutomaticShiftController(a.shiftStrategy, gearbox, radius);
   }
-  public get progress(): number { return this.target === null ? 0 : clamp01(this.elapsed / this.config.shiftTime); }
+  public get progress(): number { return this.target === null ? 0 : clamp01(this.elapsed / Math.max(.01, this.duration)); }
   public get ratio(): number {
     const t = this.progress, blend = t * t * (3 - 2 * t);
     return this.target === null ? this.gearbox.getRatio() : this.fromRatio + (this.gearbox.getRatio(this.target) - this.fromRatio) * blend;
@@ -36,6 +39,7 @@ export class P2HybridTransmission implements TransmissionSystem {
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
     this.selector.reset(gear, selector); this.controller.reset(); this.target = null; this.elapsed = 0;
     this.inputRPM = this.outputRPM = this.inputTorque = this.outputTorque = 0;
+    this.queuedKickdown = false; this.previousThrottle = 0;
   }
   public requestSelector(mode: DriveSelector, speed: number, lateral = 0, brake = 0): boolean {
     const old = this.selector.mode, accepted = this.selector.request(mode, speed, lateral, brake);
@@ -45,6 +49,10 @@ export class P2HybridTransmission implements TransmissionSystem {
   public requestManualSelection(direction: -1 | 1): void { if (this.selector.mode === 'D') this.controller.requestManualSelection(direction); }
   public returnToAuto(): void { this.controller.returnToAuto(); }
   public prepare(c: TransmissionContext): { throttleScale: number } {
+    const heavy = c.throttle >= this.config.automatic!.shiftStrategy.kickdownThrottle;
+    if (this.target !== null && heavy && this.previousThrottle < this.config.automatic!.shiftStrategy.kickdownThrottle) this.queuedKickdown = true;
+    if (!heavy) this.queuedKickdown = false;
+    this.previousThrottle = c.throttle; c.kickdownRequested = this.queuedKickdown;
     if (c.selectorRequest) this.requestSelector(c.selectorRequest, c.vehicleSpeed, c.vehicleLateralSpeed, c.brake);
     if (this.target !== null) {
       this.elapsed += c.dt;
@@ -54,6 +62,9 @@ export class P2HybridTransmission implements TransmissionSystem {
       const decision = this.controller.decide(c, this.target !== null);
       if (decision && decision.gear !== this.gearbox.currentGear) {
         this.fromRatio = this.ratio; this.target = decision.gear; this.elapsed = 0; this.kickdown = decision.kickdown;
+        const steps = Math.abs((typeof this.gearbox.currentGear === 'number' ? this.gearbox.currentGear : 1) - decision.gear);
+        this.duration = this.config.shiftTime * Math.max(1, .6 + steps * .35);
+        if (decision.kickdown) this.queuedKickdown = false;
       }
     }
     return { throttleScale: this.torqueFactor };

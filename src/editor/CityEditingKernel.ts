@@ -612,6 +612,12 @@ class EditTransaction {
       case 'modifySign': {
         const i=this.map.signs!.findIndex(s=>s.id===c.id);if(i<0)throw new Error('Missing sign');const old=this.map.signs![i]!;this.assertUnlocked(old.roadId);
         const sign={...structuredClone(old),...structuredClone(c.properties)};
+        if(c.properties.template!==undefined&&sign.template!==old.template){
+          if(sign.template!=='highway-gantry')delete sign.gantryPosts;
+          if(sign.template!=='gantry')delete sign.postOffset;
+          if(sign.template!=='ceiling')delete sign.mountHeight;
+          if(sign.template==='ceiling'||sign.template==='highway-gantry')delete sign.postBaseY;
+        }
         if(c.properties.stationMetres!==undefined){const road=this.map.roads.find(r=>r.id===sign.roadId);if(!road)throw new Error('Missing sign road');const pts=roadPoints(road),length=polylineLength(pts);if(sign.stationMetres!<0||sign.stationMetres!>length)throw new Error('Sign station outside road');const previous=project(pts,old.position),next=sampleAt(pts,sign.stationMetres!),offset=(old.position.x-previous.point.x)*-previous.tangent.z+(old.position.z-previous.point.z)*previous.tangent.x;if(!c.properties.position)sign.position={x:next.point.x-next.tangent.z*offset,y:next.point.y,z:next.point.z+next.tangent.x*offset};if(c.properties.heading===undefined)sign.heading+=Math.atan2(next.tangent.x,next.tangent.z)-Math.atan2(previous.tangent.x,previous.tangent.z);}
         this.map.signs![i]=sign;this.changed.add(c.id);break;
       }

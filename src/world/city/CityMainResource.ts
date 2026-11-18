@@ -9,12 +9,12 @@ export function takePreparedCityWorker(map: import('./CityMapData').CityMapData)
 let pending: Promise<CityRuntimeData> | undefined;
 
 /** Explicit resource boundary; the main game bundle contains no City Main map data. */
-export async function prepareCityMain(supplied?: CityRuntimeData): Promise<CityResourceTiming> {
+export async function prepareCityMain(supplied?: CityRuntimeData,retainVisualWorker=true): Promise<CityResourceTiming> {
   const timing = { startedAt: performance.now(), resourceLoadMs: 0, mapParseMs: 0, cached: !!runtime };
   if (supplied) { if (runtime !== supplied) { preparedWorker?.terminate(); preparedWorker = undefined; } runtime = supplied; }
   if (!runtime) {
     pending ??= (async () => {
-      const url = new URL(__CITY_MAIN_RUNTIME_URL__, document.baseURI).href;
+      const url = (globalThis as unknown as {__driverSchoolCityRuntimeURL?:string}).__driverSchoolCityRuntimeURL??new URL(__CITY_MAIN_RUNTIME_URL__, document.baseURI).href;
       if (typeof Worker !== 'undefined') {
         const worker = new Worker(new URL('./VisualStreaming.worker.ts', import.meta.url), { type: 'module' });
         try {
@@ -28,7 +28,8 @@ export async function prepareCityMain(supplied?: CityRuntimeData): Promise<CityR
             worker.onerror = event => reject(new Error(`Map resource worker: ${event.message}`));
             worker.postMessage({ kind: 'loadRuntime', url });
           });
-          worker.onmessage = null; worker.onerror = null; preparedWorker = worker;
+          worker.onmessage = null; worker.onerror = null;
+          if(retainVisualWorker)preparedWorker=worker;else worker.terminate();
           performance.measure('city:resourceLoad', {start:timing.startedAt,end:performance.now()});
           return data;
         } catch (error) { worker.terminate(); throw error; }
@@ -37,7 +38,8 @@ export async function prepareCityMain(supplied?: CityRuntimeData): Promise<CityR
       if (!response.ok) throw new Error(`City Main map resource: HTTP ${response.status}`);
       const json = await response.text(), parsedAt = performance.now();
       timing.resourceLoadMs = parsedAt - timing.startedAt;
-      const data = JSON.parse(json) as CityRuntimeData;
+      const {shareCityRuntimePaths}=await import('./CityRuntimeData');
+      const data = shareCityRuntimePaths(JSON.parse(json) as CityRuntimeData);
       timing.mapParseMs = performance.now() - parsedAt;
       return data;
     })();

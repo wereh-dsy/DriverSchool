@@ -136,6 +136,6 @@ export class MenuScene {
   }
   async dispose(): Promise<void> {
     if (this.transferred) return;
-    await this.transfer(); this.assets.dispose(); this.renderer.dispose(); this.renderer.domElement.remove();
+    await this.transfer(); this.assets.dispose(); this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove();
   }
 }

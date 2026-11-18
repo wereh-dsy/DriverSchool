@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const dir='artifacts/runtime-v3/',comparison=JSON.parse(fs.readFileSync(dir+'comparison.json','utf8'));
+if(!comparison.comparable)throw Error('Test conditions are not comparable');
+const delivery=JSON.parse(fs.readFileSync(dir+'delivery-status.json','utf8'));
+delivery.performance='One valid same-AC-power comparison completed; mixed results, full performance targets not met';
+delivery.performanceTestCompleted=true;delivery.performanceAcceptance='partial improvement; long-tail and submission targets not met';
+fs.writeFileSync(dir+'delivery-status.json',JSON.stringify(delivery,null,2));
+fs.writeFileSync(dir+'comparison-status.json',JSON.stringify({status:'completed',date:'2026-11-17',comparable:true,power:'AC',plan:comparison.phase3.conditions.powerPlan,oneFreshProcessPerVariant:true,allFocused:true,automaticRepeats:0,productionSourcesModified:false,releaseModified:false,conclusion:delivery.performance,raw:['phase21-cold-day.json','phase3-cold-day.json','phase21-native.json','phase3-native.json','comparison.json']},null,2));
+const report='docs/RUNTIME_V2_PHASE3_2026-11-17.md';for(const file of [report,dir+'phase21-drive.png',dir+'phase3-drive.png',dir+'phase21-day-release.json',dir+'phase3-day-release.json'])if(!fs.existsSync(file))throw Error('Missing evidence: '+file);
+console.log({completed:true,comparable:true,performanceAcceptance:delivery.performanceAcceptance,report});

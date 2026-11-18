@@ -11,6 +11,8 @@ function Get-SourceFingerprint {
     Get-ChildItem -LiteralPath (Join-Path $projectRoot 'src'), (Join-Path $projectRoot 'scripts') -Recurse -File
     Get-Item -LiteralPath (Join-Path $projectRoot 'package.json'), (Join-Path $projectRoot 'tsconfig.json'), (Join-Path $projectRoot 'index.html')
     Get-Item -LiteralPath (Join-Path $projectRoot 'vite.config.ts'), (Join-Path $projectRoot 'start-editor.cmd')
+    Get-Item -LiteralPath (Join-Path $projectRoot 'artifacts/regional-world/approved-baseline.json'), (Join-Path $projectRoot 'artifacts/regional-world/baseline-approvals.json')
+    Get-ChildItem -LiteralPath (Join-Path $projectRoot 'artifacts/regional-world') -Filter 'v*-regression-baseline.json' -File
   ) | Sort-Object FullName
   # .NET hashing also works in the minimal PowerShell used by the launcher.
   $hasher = [Security.Cryptography.SHA256]::Create()
@@ -31,6 +33,7 @@ try {
   $sourceFingerprint = Get-SourceFingerprint
   $packageRunner = (Get-Command pnpm -ErrorAction Stop).Source
   Invoke-Checked -Program $packageRunner -Arguments @('run', 'typecheck')
+  Invoke-Checked -Program (Get-Command node -ErrorAction Stop).Source -Arguments @('scripts/approve-regional-baseline.mjs', 'verify')
   if ($BasicValidation) {
     Write-Host 'Basic validation: typecheck and production build; core selftests skipped by request.'
   } else {

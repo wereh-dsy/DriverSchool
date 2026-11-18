@@ -1,0 +1,8 @@
+import fs from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';
+const snapshot=JSON.parse(fs.readFileSync('artifacts/performance-deep/starting-worktree.json')),hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex'),changed=[],missing=[];
+for(const file of snapshot.files??snapshot.fingerprints??[]){if(!fs.existsSync(file.path))missing.push(file.path);else if(hash(file.path)!==file.sha256)changed.push(file.path);}
+const map=JSON.parse(fs.readFileSync('src/world/regional/regional-main.json')),original=JSON.parse(fs.readFileSync('artifacts/performance-deep/baseline/src/world/regional/regional-main.json')),fields=Object.keys(map).filter(k=>JSON.stringify(map[k])!==JSON.stringify(original[k]));
+const releasePaths=['D:/DriverSchoolRelease/DriverSchool-before-PerformanceDeep-20261107/resources/app.asar','D:/DriverSchoolRelease/DriverSchool-Round5-baseline-20261107/resources/app.asar'];
+const report={head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),startingHead:snapshot.head,missing,changedExistingFiles:changed,mapChangedFields:fields,roadAndNavigationSourceUnchanged:fields.every(k=>['version','signs'].includes(k)),releases:releasePaths.map(path=>({path,sha256:hash(path)})),historical494SHA256:hash('artifacts/regional-world/v494-regression-baseline.json')};
+if(report.head!==snapshot.head||missing.length||!report.roadAndNavigationSourceUnchanged||report.releases.some((r,i)=>r.sha256!==snapshot.releases[i].sha256))throw Error('Preservation check failed');
+fs.writeFileSync('artifacts/performance-deep/preservation-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

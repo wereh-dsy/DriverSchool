@@ -12,7 +12,7 @@ import { SectorManager, type SectorOptions } from './SectorManager';
 import { roadStructureColliders } from './RoadInfrastructure';
 import { roadSignColliders } from './RoadSignTemplates';
 
-import { runtimeRoadClearance } from './RoadClearance';
+import { prepareRoadClearanceSteps, runtimeRoadClearance } from './RoadClearance';
 import { cityGroundGeometrySteps } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { roadPavementSurface,roadPavementTriangle } from './RoadPavementSurface';
@@ -21,6 +21,7 @@ import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
 import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
 import { CityPhysicsSectors } from './CityPhysicsSectors';
+import {CitySimulationSectors} from './CitySimulationSectors';
 import { prepareRoadCarriagewaysSteps } from './RoadCarriageway';
 
 interface SurfaceArea { junctionId?: string; reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
@@ -37,13 +38,15 @@ export class CityGround implements DrivingGround {
   readonly spawnPose;
   readonly roadNetwork;
   readonly colliders: DrivingGround['colliders'][number][] = [];
-  readonly sectors: SectorManager;
+  readonly sectors: SectorManager|CitySimulationSectors;
+  get whenDisposed():Promise<void>{return this.sectors.whenReleased;}
+  private readonly runtimeRole?:'simulation'|'visual';
   private physics?: CityPhysicsSectors;
   colliderRevision = 0;
   get physicsStatistics() { return this.physics?.statistics; }
   get trafficSignals(): import('../navigation/TrafficSignalState').TrafficSignalProvider { return this.sectors.signals; }
   private readonly materials = { ...createSubject3Materials(), tunnelLight: new MeshBasicMaterial({color:0xffefd0}) };
-  private readonly prefabs = new PrefabRegistry(this.materials);
+  private readonly prefabs:PrefabRegistry;
   private readonly surfaces = new Map<string, SurfaceArea[]>();
   private readonly editor: boolean;
   private referenceHeight = 0;
@@ -66,34 +69,44 @@ export class CityGround implements DrivingGround {
     if (name === 'playable' && typeof location !== 'undefined' && new URLSearchParams(location.search).get('cityProfile') === '1') console.info('City startup', this.loadStatistics);
   }
   private sectorStartOffset=0;
-  get visualReady(): boolean { return this.sectors.spawnReady; }
+  private initialPreparing=false;
+  get visualReady(): boolean { const p=this.physics?.preloadProgress;return this.sectors.spawnReady&&(!this.initialPreparing||this.sectors.renderReady&&(!p||p.done===p.total)); }
+  beginVisualPreload():void {this.initialPreparing=true;this.sectors.beginInitialPreparation();}
+  finishVisualPreload():void {this.initialPreparing=false;this.sectors.finishInitialPreparation();}
+  get visualLoadingProgress(){const p=this.sectors.initialProgress,c=this.initialPreparing?this.physics?.preloadProgress:undefined;return p&&c?{...p,regionDone:p.regionDone+c.done,regionTotal:p.regionTotal+c.total,resource:c.done<c.total?'道路静态碰撞预备':p.resource}:p;}
   get visualLoadingError(): Error | undefined { return this.sectors.loadingError; }
   setVisualResourcePreparation(prepare: (texture: import('three').Texture) => void,
     warmup?: (root: Group) => Promise<unknown>): void { this.sectors.setResourcePreparation(prepare, warmup); }
   setVisualObserver(observer: (root: import('three').Object3D, added: boolean) => void): void { this.sectors.setVisualObserver(observer); }
-  updateVisualVisibility(eye: Vector3, fogFar: number, cameras: readonly import('three').Camera[]): void { this.sectors.updateVisibility(eye, fogFar, cameras); }
+  setRuntimeCoordinator(runtime: import('../../game/runtime/RuntimeCoordinator').RuntimeCoordinator): void { this.sectors.setRuntimeCoordinator(runtime); }
+  runtimeState() { return this.sectors.runtimeState(); }
+  updateVisualVisibility(eye: Vector3, fogFar: number, cameras: readonly import('three').Camera[],shadows:readonly import('three').Camera[]=[]): void { this.sectors.updateVisibility(eye, fogFar, cameras,shadows); }
+  prepareRenderView(camera:import('three').Camera,shadow=false):void {this.sectors.prepareRenderView(camera,shadow);}
   get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,physics:this.physicsStatistics,ground:this.sectors.groundStatistics,initializationMs:this.initializationMs,resource:this.resourceTiming,milestones:this.milestones,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
-  constructor(data: unknown, options: SectorOptions & { spawnId?: string; runtime?: CityRuntimeData } = {}) {
+  constructor(data: unknown, options: SectorOptions & { spawnId?: string; runtime?: CityRuntimeData;runtimeRole?:'simulation'|'visual' } = {}) {
     let stage = performance.now();
     const measured = (name: string) => { const now = performance.now(); this.initializationMs[name] = now - stage; performance.measure(`city:${name}`, {start:stage,end:now}); stage = now; };
     this.data = options.runtime?.map ?? loadCityMap(data); this.editor = options.editor ?? false;
+    this.runtimeRole=options.runtimeRole;this.prefabs=new PrefabRegistry(this.materials,options.runtimeRole==='simulation');
     measured('loadCityMap');
     if(this.data.regional){this.materials.asphalt.polygonOffset=true;this.materials.asphalt.polygonOffsetFactor=-1;this.materials.asphalt.polygonOffsetUnits=-1;}
     this.worldBounds = this.data.bounds;
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
+    this.root.userData.staticWorldTransforms=!options.editor;
     this.roadNetwork = options.runtime?.roadNetwork ?? buildCityRoadNetwork(this.data);
     measured('roadNetwork');
     const spawn = this.data.environment.spawnPoints.find(s => s.id === options.spawnId) ?? this.data.environment.spawnPoints[0]!;
     this.spawnPose = { position: new Vector3(spawn.position.x, spawn.position.y ?? 0, spawn.position.z), yawRadians: spawn.rotation };
-    this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options);
+    this.sectors = options.runtimeRole==='simulation'?new CitySimulationSectors(this.data):new SectorManager(this.data, this.materials, this.prefabs, options);
     measured('sectorSetup');
     this.initialization = this.initialize(options, measured);
     if (!options.deferred) drain(this.initialization);
   }
   private readonly initialization: Generator<void>;
-  public async prepare(): Promise<void> {
-    await runBatched(this.initialization);
-    await this.physics?.prepareSpawn(this.spawnPose.position.x,this.spawnPose.position.z,this.spawnPose.yawRadians);
+  public async prepare(signal?:AbortSignal): Promise<void> {
+    await runBatched(this.initialization,8,signal);
+    if(signal?.aborted)throw new DOMException('Loading cancelled','AbortError');
+    await this.physics?.prepareSpawn(this.spawnPose.position.x,this.spawnPose.position.z,this.spawnPose.yawRadians,signal);
   }
   private *initialize(options: SectorOptions & { spawnId?: string }, measured: (name: string) => void): Generator<void> {
     const link = (a: string, b: string) => {
@@ -107,11 +120,16 @@ export class CityGround implements DrivingGround {
     }
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
     const groundAreas=this.data.regional?[this.data.regional.cityBounds,...this.data.regional.cityExtensions??[]]:[this.data.bounds];
-    if(!this.sectors.streamsGround) for(const bounds of groundAreas){const base = new Mesh((yield* cityGroundGeometrySteps(this.data,bounds)), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
+    if(!this.sectors.streamsGround&&this.sectors instanceof SectorManager) {
+      yield* this.sectors.visualTerrainClearance!.prepareSteps();
+      for(const bounds of groundAreas){const base = new Mesh((yield* cityGroundGeometrySteps(this.data,bounds,false,20,this.sectors.visualTerrainClearance)), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
+    }
     measured('groundGeometry');
     this.sectorStartOffset=performance.now()-this.loadStarted;
     yield* this.sectors.prepareSteps(); this.root.add(this.sectors.root);
     measured('sectorManager');
+    if(this.runtimeRole==='visual'){this.referenceHeight=this.spawnPose.position.y;this.sectors.updatePosition(this.spawnPose.position.x,this.spawnPose.position.z,this.spawnPose.yawRadians);return;}
+    yield* prepareRoadClearanceSteps(this.data);
     const clearance = runtimeRoadClearance(this.data);
     measured('clearanceIndex');
     for (const object of this.data.objects) { const collider = this.prefabs.collider(object); if (collider) this.colliders.push(collider); yield; }
@@ -136,7 +154,11 @@ export class CityGround implements DrivingGround {
         this.colliderRevision++;
       });
     }
-    const junctionMasks=new Map(this.data.intersections.filter(j=>j.pavementFootprint).map(j=>[j.id,compileJunctionSurface(j)]));
+    const junctionMasks = new Map<string, ReturnType<typeof compileJunctionSurface>>();
+    for (const junction of this.data.intersections) {
+      if (junction.pavementFootprint) junctionMasks.set(junction.id, compileJunctionSurface(junction));
+      yield;
+    }
     const sourceRoads = new Map(this.data.roads.map(r => [r.id, r]));
     for (const road of this.data.roads) this.supportStructures.set(road.id,
       road.structure?.enclosure?.kind ?? road.elevationMode ?? 'ground');
@@ -204,7 +226,7 @@ export class CityGround implements DrivingGround {
     }
     this.spawnPose.position.set(spawn.x, this.getRoadHeightAt(spawn.x, spawn.z) + 0.04, spawn.z);
     if (!this.editor) this.sectors.updatePosition(spawn.x, spawn.z);
-    if(this.data.regional&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('regionalDebug')==='1')this.regionalDebug=new RegionalDebug(this.sectors);
+    if(this.sectors instanceof SectorManager&&this.data.regional&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('regionalDebug')==='1')this.regionalDebug=new RegionalDebug(this.sectors);
     measured('spawnPreparation');
   }
 
@@ -283,12 +305,18 @@ export class CityGround implements DrivingGround {
   getRoadPitchAt(x: number, z: number, yaw: number): number { return Math.atan(this.sampleRoadSurface(x, z, { x: -Math.sin(yaw), y: -Math.cos(yaw) }).grade); }
   setSurfaceReferenceHeight(height: number): void { this.referenceHeight = height; }
   update(dt: number): void { this.sectors.update(dt); this.physics?.advance(); }
+  getRenderClock():number{return this.sectors.signals.presentationSeconds;}
+  applyRenderClock(seconds:number):void{this.sectors.signals.synchronizePresentation(seconds);}
   preparePhysicsStep(x:number,z:number,vx:number,vz:number,dt:number,bodyRadius:number): void {
     this.physics?.ensure(x,z,vx,vz,dt,bodyRadius);
   }
-  updatePlayerPosition(x: number, z: number,yaw=0,speed=0): boolean {
-    this.physics?.select(x,z,-Math.sin(yaw)*speed,-Math.cos(yaw)*speed);
-    const changed=!this.editor&&this.sectors.updatePosition(x,z,yaw,speed);this.regionalDebug?.update();return changed;
+  updatePlayerPosition(x: number, z: number,yaw=0,speed=0,frameMs?:number): boolean {
+    const preloadSpeed=this.initialPreparing?Math.max(30,speed):speed;
+    this.physics?.select(x,z,-Math.sin(yaw)*preloadSpeed,-Math.cos(yaw)*preloadSpeed);
+    // Loading frames do not run update(). Prepare the existing bounded corridor
+    // here, retaining the usual active/guard collision publication contract.
+    if(this.initialPreparing)this.physics?.advance(3);
+    const changed=!this.editor&&this.sectors.updatePosition(x,z,yaw,speed,frameMs,this.referenceHeight);this.regionalDebug?.update();return changed;
   }
   dispose(): void {
     this.physics?.dispose();

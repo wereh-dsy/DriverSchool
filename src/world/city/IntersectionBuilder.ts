@@ -1,4 +1,4 @@
-import { Group, Mesh, PlaneGeometry, BufferGeometry, Float32BufferAttribute } from 'three';
+import { Group, Mesh } from 'three';
 import { makeBox, makeDirectionArrow, makeMarkingRectangle } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import { armControlKind, Subject3TrafficSignals } from '../subject3/trafficSignals';
@@ -8,18 +8,23 @@ import { insideIntersectionMarkingFootprint } from './MarkingOwnership';
 import {junctionSurfaceHeight,junctionApproachExtent} from './JunctionSurface';
 import {CityTrafficSignals} from './CityTrafficSignals';
 import { approachPaintOffsets } from './SignalPlacement';
+import {RoadGeometry,type RoadGeometryTrialSelection} from './RoadGeometry';
+import { drain } from '../../loading/Loading';
+import type { RoadGeometryCompilationCache } from './RoadGeometryTrialCache';
 
 export class IntersectionBuilder {
-  constructor(private readonly map: CityMapData, private readonly materials: Subject3Materials) {}
-  build(j: CityIntersection, signals?: Subject3TrafficSignals, index = 0): Group {
+  private readonly geometrySystem: RoadGeometry;
+  constructor(private readonly map: CityMapData, private readonly materials: Subject3Materials, _trial?: RoadGeometryTrialSelection, cache?: RoadGeometryCompilationCache) {
+    this.geometrySystem = new RoadGeometry(map, materials, undefined, cache);
+  }
+  build(j: CityIntersection, signals?: Subject3TrafficSignals, index = 0): Group {return drain(this.buildSteps(j,signals,index));}
+  *buildSteps(j: CityIntersection, signals?: Subject3TrafficSignals, index = 0): Generator<void,Group> {
     const root = new Group(), h = junctionExtent(j, this.map);
     root.name = j.id; root.position.set(j.position.x, j.position.y ?? 0, j.position.z); root.rotation.y = j.rotation;
     const outline=j.pavementFootprint;
-    let pavement:BufferGeometry=new PlaneGeometry(h*2,h*2);
-    if(outline){pavement.dispose();pavement=new BufferGeometry();pavement.setAttribute('position',new Float32BufferAttribute([0,0,0,...outline.flatMap(p=>[p.x,p.y??0,p.z])],3));pavement.setIndex(outline.flatMap((_,i)=>[0,(i+1)%outline.length+1,i+1]));pavement.computeVertexNormals();}
-    const asphalt = new Mesh(pavement, this.materials.asphalt);
-    asphalt.name='junction pavement';asphalt.userData.pavementOwner=j.id;
-    asphalt.rotation.x = outline?0:-Math.PI / 2; asphalt.position.y = 0.024; asphalt.receiveShadow = true; root.add(asphalt);
+    const continuous=this.geometrySystem,pavement=continuous.junctionPavement(j)!;
+    root.userData.roadGeometrySystem='continuous-v5';
+    const asphalt=new Mesh(pavement,this.materials.asphalt);asphalt.name='junction pavement';asphalt.userData.pavementOwner=j.id;asphalt.receiveShadow=true;root.add(asphalt);
     if(j.channelized)for(const sign of [-1,1])root.add(makeBox('channelization island',[2,0.18,2],[sign*(h-2.5),0.09,sign*(h-2.5)],this.materials.curb,true));
     const paint = (x: number, z: number, yaw: number, width: number, depth: number,role:string,port:string) => {
       const paintHeight=(x:number,z:number)=>{const q=rotatePoint({x,z},j.rotation);return junctionSurfaceHeight(j,{x:j.position.x+q.x,z:j.position.z+q.z})-(j.position.y??0);};
@@ -40,6 +45,7 @@ export class IntersectionBuilder {
       return true;
     };
     for (const port of portsFor(j)) {
+      yield;
       const c = j.connections.find(c => c.port === port), r = this.map.roads.find(r => r.id === c?.roadId);
       if(!c||!r)continue;
       // Approach heading comes from the actual road tangent at its mouth, not
@@ -108,6 +114,7 @@ export class IntersectionBuilder {
     // The closed side of a T gets an uninterrupted sidewalk and curb.
     if (!outline && j.type.startsWith('t_') && !j.portAngles) root.add(makeBox('T closed curb', [h * 2, 0.17, 0.22], [0, 0.085, h], this.materials.curb, true),
       makeBox('T closed sidewalk', [h * 2, 0.14, 2], [0, 0.07, h + 1], this.materials.sidewalk, true));
+    yield* continuous.finishIntersectionSteps(root,j,pavement);
     return root;
   }
 }

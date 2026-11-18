@@ -1,6 +1,7 @@
 import { createStaticOBBCollider, type StaticCollider } from '../../vehicle/physics/CollisionSystem';
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
+import { roadCompileSampler } from './RoadCompileSampling';
 import { barrierOffset, RoadClearance } from './RoadClearance';
 import {roadEdgeChains} from './RoadEdgeChain';
 import { regionalTerrainSampler } from '../regional/RegionalTerrain';
@@ -64,7 +65,7 @@ export function* barrierSectionSteps(road: CityRoad, map?: CityMapData, clearanc
   const blocked=(p:CityPoint)=>{const y=p.y??0,top=retainingWall?y+(branchOpenings?road.structure!.enclosure!.clearance:retainingWallHeight(road,p,clearance))+.3:y+1.3;return !!(clearance?.roadAt(p,retainingWall?.9:.5,y-2.1,top,road.id,id=>branchOpenings?branchOpenings.includes(id):!continuation.has(id))||!branchOpenings&&clearance?.junctionAt(p,retainingWall?.9:.5,y-2.1,top));};
   const boundary=(a:CityPoint,b:CityPoint)=>{let lo=0,hi=1;const state=blocked(a);for(let n=0;n<15;n++){const t=(lo+hi)/2,p={x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t};if(blocked(p)===state)lo=t;else hi=t;}const t=state?hi:lo;return{x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t};};
   for (const side of [-1, 1]) {
-    const edge=map?roadEdgeChains(map).barrierEdge(road,side):barrierPoints(road).map((p,i,a)=>{const b=a[Math.min(i+1,a.length-1)]!,c=a[Math.max(0,i-1)]!,l=Math.hypot(b.x-c.x,b.z-c.z)||1,offset=barrierOffset(road,side);return{x:p.x-(b.z-c.z)/l*offset,y:p.y,z:p.z+(b.x-c.x)/l*offset};});
+    const edge=map?roadEdgeChains(map).barrierEdge(road,side,retainingWall):barrierPoints(road).map((p,i,a)=>{const b=a[Math.min(i+1,a.length-1)]!,c=a[Math.max(0,i-1)]!,l=Math.hypot(b.x-c.x,b.z-c.z)||1,offset=barrierOffset(road,side,retainingWall);return{x:p.x-(b.z-c.z)/l*offset,y:p.y,z:p.z+(b.x-c.x)/l*offset};});
     // A long straight edge can cross a short ramp between both endpoints and
     // its midpoint. Sample the physical edge before clipping its openings.
     const path:CityPoint[]=[];
@@ -77,11 +78,11 @@ export function* barrierSectionSteps(road: CityRoad, map?: CityMapData, clearanc
     // median in the actual gap between live lanes rather than clipping both
     // inner rails away against the opposite paved shoulder.
     if(!retainingWall&&carriageways&&road.travelDirection!=='two-way'&&side===innerRoadSide(road)){
-      const centre=roadPoints(road),total=polylineLength(centre);let run:CityPoint[]=[];
+      const centre=roadPoints(road),total=polylineLength(centre),sample=roadCompileSampler(centre);let run:CityPoint[]=[];
       const flushMedian=()=>{if(run.length>1)sections.push({side,points:run,kind:'shared-median'});run=[];};
       for(let d=0;d<=total;d=Math.min(total,d+3)){
         if(++work%16===0) yield;
-        const f=sampleAt(centre,d),pair=carriageways.opposing(road,f.point,f.tangent);
+        const f=sample(d),pair=carriageways.opposing(road,f.point,f.tangent);
         if(pair?.sharedPavement&&pair.laneGap>=.6){
           const p=pair.midpoint,own=carriageways.pavedHeight(road.id,p),opposite=carriageways.pavedHeight(pair.road.id,p),floor=own===undefined?opposite:opposite===undefined?own:Math.max(own,opposite),y=floor??p.y??0;
           if(floor!==undefined&&road.id.localeCompare(pair.road.id)<0&&!clearance?.roadAt(p,.2,y-2.1,y+1.3,road.id,id=>id!==pair.road.id&&!continuation.has(id),true)&&!clearance?.junctionAt(p,.5,y-2.1,y+1.3))run.push({...p,y});else flushMedian();
@@ -117,13 +118,17 @@ export function centralBarrierSections(road:CityRoad,map?:CityMapData,clearance=
 }
 export function* centralBarrierSectionSteps(road:CityRoad,map?:CityMapData,clearance=map?new RoadClearance(map):undefined):Generator<void,CityPoint[][]>{
   if(!hasCentralBarrier(road))return [];
+  // This predicate is queried for thousands of nearby segments. Resolve the
+  // same explicit adjacency once, preserving the original collision decision.
+  const linked=new Set<string>();for(const link of map?.roadLinks??[]){if(link.from.roadId===road.id)linked.add(link.to.roadId);if(link.to.roadId===road.id)linked.add(link.from.roadId);}
   let work=0;
   const points=roadPoints(road),length=polylineLength(points),sections:CityPoint[][]=[];let run:CityPoint[]=[];
+  const sample=roadCompileSampler(points);
   const flush=()=>{if(run.length>1)sections.push(run);run=[];};
   for(let d=0;d<=length;d=Math.min(length,d+1.5)){
     if(++work%16===0) yield;
-    const p=sampleAt(points,d).point,y=p.y??0;
-    if(clearance?.junctionAt(p,1,y-.2,y+.2)||clearance?.roadAt(p,.2,y-.2,y+1.3,road.id,id=>!map?.roadLinks?.some(l=>l.from.roadId===road.id&&l.to.roadId===id||l.to.roadId===road.id&&l.from.roadId===id),true))flush();else run.push(p);
+    const p=sample(d).point,y=p.y??0;
+    if(clearance?.junctionAt(p,1,y-.2,y+.2)||clearance?.roadAt(p,.2,y-.2,y+1.3,road.id,id=>!linked.has(id),true))flush();else run.push(p);
     if(d===length)break;
   }flush();return sections;
 }
@@ -133,7 +138,7 @@ export function roadStructureColliders(road: CityRoad, map: CityMapData, clearan
 /** Rendering and collision share the same explicit tunnel branch openings. */
 export function* enclosureWallSectionSteps(road:CityRoad,map?:CityMapData,clearance=map?new RoadClearance(map):undefined):Generator<void,{side:number;points:CityPoint[]}[]> {
   if(road.structure?.enclosure?.kind==='cutting'||road.structure?.enclosure?.branchOpenings?.length)return yield* barrierSectionSteps(road,map,clearance,true);
-  return [-1,1].map(side=>({side,points:map?roadEdgeChains(map).barrierEdge(road,side):roadPoints(road)}));
+  return [-1,1].map(side=>({side,points:map?roadEdgeChains(map).barrierEdge(road,side,true):roadPoints(road)}));
 }
 /** Same primitives and IDs; callers may budget registration between primitives. */
 export function* roadStructureColliderSteps(road: CityRoad, map: CityMapData, clearance = new RoadClearance(map)): Generator<StaticCollider|void> {
@@ -163,7 +168,7 @@ export function* roadStructureColliderSteps(road: CityRoad, map: CityMapData, cl
   }
   const enclosure=road.structure?.enclosure;
   if(enclosure) {
-    const points=roadPoints(road);
+    const chain=roadEdgeChains(map),points=chain.edge(road,0),left=chain.barrierEdge(road,-1,true),right=chain.barrierEdge(road,1,true);
     const walls=yield* enclosureWallSectionSteps(road,map,clearance);
     for(const {side,points:wallPoints} of walls)for(let i=1;i<wallPoints.length;i++) {
       const a=wallPoints[i-1]!,b=wallPoints[i]!,length=Math.hypot(b.x-a.x,b.z-a.z);
@@ -174,8 +179,10 @@ export function* roadStructureColliderSteps(road: CityRoad, map: CityMapData, cl
     }
     if(enclosure.kind!=='cutting')for(let i=1;i<points.length;i++) {
       const a=points[i-1]!,b=points[i]!,length=Math.hypot(b.x-a.x,b.z-a.z);
-      const edges=roadEdges(road),offset=(edges.left+edges.right)/2;
-      count++; yield createStaticOBBCollider({id:`${road.id}:ceiling:${i}`,x:(a.x+b.x)/2-(b.z-a.z)/length*offset,z:(a.z+b.z)/2+(b.x-a.x)/length*offset,width:edges.right-edges.left+0.6,length:length+0.04,
+      if(length<.01)continue;
+      const nx=-(b.z-a.z)/length,nz=(b.x-a.x)/length,cx=(a.x+b.x)/2,cz=(a.z+b.z)/2;
+      const offsets=[left[i-1]!,left[i]!,right[i-1]!,right[i]!].map(p=>(p.x-cx)*nx+(p.z-cz)*nz),lo=Math.min(...offsets)-.3,hi=Math.max(...offsets)+.3,offset=(lo+hi)/2;
+      count++; yield createStaticOBBCollider({id:`${road.id}:ceiling:${i}`,x:cx+nx*offset,z:cz+nz*offset,width:hi-lo,length:length+0.04,
         yaw:Math.atan2(b.x-a.x,b.z-a.z),minHeight:Math.min(a.y??0,b.y??0)+enclosure.clearance,maxHeight:Math.max(a.y??0,b.y??0)+enclosure.clearance+0.65,type:'obstacle'});
     }
   }

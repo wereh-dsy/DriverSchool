@@ -1,0 +1,2948 @@
+{
+  "errors": [
+    {
+      "name": "roadSignPlacement",
+      "error": "Fast road signs: 清江市 · City Main: no same-facing reading-band conflicts"
+    },
+    {
+      "name": "circuit",
+      "error": "Circuit hairpin tank-500-hi4-t: body has lateral margin"
+    }
+  ],
+  "results": {
+    "regionalBaseline": {
+      "assertions": 12,
+      "revision": 505,
+      "historicalRevision": 494
+    },
+    "runtimeSharing": {
+      "passed": true,
+      "assertions": 5
+    },
+    "recentVehicles": {
+      "p2": {
+        "assertions": 9018,
+        "results": {
+          "ev": {
+            "speed": 16.719533111472103,
+            "soc": 0.7448885192681274,
+            "fuelL": 0
+          },
+          "lowSOC": {
+            "speed": 37.41595041020434,
+            "rpm": 3677.5860503544905,
+            "clutch": 1,
+            "soc": 0.12779731023561647
+          },
+          "HYBRID": {
+            "mode": "HYBRID",
+            "state": "BOOST",
+            "holdSOC": 0.5,
+            "engineRequested": true,
+            "enginePhase": "RUNNING",
+            "clutchEngagement": 1,
+            "clutchSlipRPM": 27.15306867135668,
+            "clutchTorque": 324.662952623116,
+            "enginePowerW": 129877.26851185174,
+            "motorPowerW": 120000,
+            "generationPowerW": 0,
+            "wheelPowerW": 226996.35398952526,
+            "clutchLossW": 923.166996508847,
+            "transmissionLossW": 21957.752162619174,
+            "electricalLossW": 12919.90427968296,
+            "battery": {
+              "soc": 0.7392690534893078,
+              "energyKWh": 27.426881884453323,
+              "temperatureC": 20.29043148999046,
+              "voltage": 348.1771380302107,
+              "current": 383.6262915921072,
+              "internalResistance": 0.055,
+              "dischargePowerW": 150000,
+              "chargePowerW": 70000,
+              "connector": null,
+              "state": "DISCONNECTED",
+              "gridPowerW": 0,
+              "gridEnergyKWh": 0,
+              "chargerLossKWh": 0,
+              "thermalCapability": 1
+            },
+            "transfer": {
+              "mode": "AWD",
+              "ratio": 1,
+              "frontShare": 0.35,
+              "rearShare": 0.65,
+              "centerCoupling": "VARIABLE",
+              "rejectedReason": null,
+              "axleLocks": "NOT_SIMULATED"
+            }
+          },
+          "SPORT": {
+            "mode": "SPORT",
+            "state": "BOOST",
+            "holdSOC": 0.5,
+            "engineRequested": true,
+            "enginePhase": "RUNNING",
+            "clutchEngagement": 1,
+            "clutchSlipRPM": 34.81799259710044,
+            "clutchTorque": 369.301613023785,
+            "enginePowerW": 148030.82682000645,
+            "motorPowerW": 120000,
+            "generationPowerW": 0,
+            "wheelPowerW": 243162.7488587967,
+            "clutchLossW": 1346.5223027909196,
+            "transmissionLossW": 23521.555658418423,
+            "electricalLossW": 12919.90427968296,
+            "battery": {
+              "soc": 0.7392691524231559,
+              "energyKWh": 27.426885554899087,
+              "temperatureC": 20.290393817419872,
+              "voltage": 348.17714765271376,
+              "current": 383.62628098990314,
+              "internalResistance": 0.055,
+              "dischargePowerW": 150000,
+              "chargePowerW": 70000,
+              "connector": null,
+              "state": "DISCONNECTED",
+              "gridPowerW": 0,
+              "gridEnergyKWh": 0,
+              "chargerLossKWh": 0,
+              "thermalCapability": 1
+            },
+            "transfer": {
+              "mode": "AWD",
+              "ratio": 1,
+              "frontShare": 0.35,
+              "rearShare": 0.65,
+              "centerCoupling": "VARIABLE",
+              "rejectedReason": null,
+              "axleLocks": "NOT_SIMULATED"
+            }
+          },
+          "charge": {
+            "gainedKWh": 0.3750311150324581,
+            "fuelL": 0.16711920583474948,
+            "generatorW": 27777.846711121758
+          },
+          "plugAC": {
+            "gainKWh": 0.9939954245346634,
+            "inputKWh": 1.100000000000009
+          },
+          "plugDC": {
+            "gainKWh": 7.716655552293949,
+            "inputKWh": 8.333333333333444
+          },
+          "driveEnergyResidualW": 0,
+          "regenEnergyResidualW": 0,
+          "braking": {
+            "regenSamples": 398,
+            "hydraulicSamples": 400,
+            "finalSpeed": 1.3289642845671765
+          },
+          "shifts": {
+            "samples": 288,
+            "maximumWheelTorqueStep": 103.68828848479734,
+            "speed": 48.14327926494629
+          },
+          "climb": {
+            "speed": 6.500480246316945,
+            "soc": 0.13927574821569963,
+            "rpm": 2729.9531351765645
+          },
+          "mud": {
+            "speed": 2.797699105437311,
+            "frontShare": 0.24756320696326026
+          },
+          "gravel": {
+            "speed": 8.952679883778272,
+            "frontShare": 0.23236401295034803
+          },
+          "wet-asphalt": {
+            "speed": 10.575973278702483,
+            "frontShare": 0.22492576634609895
+          },
+          "sand": {
+            "speed": 1.0285219888617374,
+            "frontShare": 0.18015629541592362
+          },
+          "sustained": {
+            "soc": 0.029337930211698414,
+            "batteryTemperature": 23.09478919497169,
+            "motorTemperature": 24.900577429342583,
+            "engineTemperature": 54.320888503066385,
+            "fuelL": 6.283331150805342
+          },
+          "mercedes-e300l-v214": {
+            "speed": 7.46843580193357,
+            "kind": "ICE"
+          },
+          "tesla-model-3-rwd": {
+            "speed": 8.92853634116487,
+            "kind": "EV"
+          },
+          "porsche-taycan-4s": {
+            "speed": 12.287771578571451,
+            "kind": "EV"
+          },
+          "xiaomi-su7-max-2026": {
+            "speed": 14.839253066752256,
+            "kind": "EV"
+          }
+        }
+      },
+      "maybach": {
+        "checks": 50,
+        "coldIdleRPM": 650.0000000013915,
+        "creepPeakMps": 1.389620387896774,
+        "modes": {
+          "NORMAL": {
+            "speedKmh": 56.33262512291426,
+            "shifts": 3,
+            "shiftSpeeds": [
+              21.067635648001417,
+              33.8345761589534,
+              47.052051460120026
+            ],
+            "maximumJerk": 9.093773504575076
+          },
+          "SPORT": {
+            "speedKmh": 86.09729053691674,
+            "shifts": 3,
+            "shiftSpeeds": [
+              33.92617362236824,
+              55.90951966727171,
+              78.6699563044756
+            ],
+            "maximumJerk": 15.23319835312476
+          },
+          "MAYBACH": {
+            "speedKmh": 43.396332791650316,
+            "shifts": 3,
+            "shiftSpeeds": [
+              0.41045483322132814,
+              27.474908943213986,
+              37.720965283319174
+            ],
+            "maximumJerk": 7.361872614945425
+          }
+        },
+        "bumps": {
+          "NORMAL": {
+            "peakAcceleration": 0.7921965830527108,
+            "peakPitch": 0.013773496930942472,
+            "peakRoll": 0.006507779081814228,
+            "rideOffset": 0,
+            "load": 25260.228962619563
+          },
+          "SPORT": {
+            "peakAcceleration": 0.7935188820680326,
+            "peakPitch": 0.013363323022655355,
+            "peakRoll": 0.006420488333737841,
+            "rideOffset": -0.012,
+            "load": 25260.227492629634
+          },
+          "MAYBACH": {
+            "peakAcceleration": 0.7950226273258483,
+            "peakPitch": 0.01408083634870374,
+            "peakRoll": 0.0065383079038281965,
+            "rideOffset": 0.008,
+            "load": 25260.22911887415
+          }
+        },
+        "performance": {
+          "zeroTo100": 4.583333333333333,
+          "fullModeTimes": {
+            "NORMAL": 4.583333333333333,
+            "SPORT": 4.458333333333333,
+            "MAYBACH": 4.908333333333333
+          },
+          "dyno": {
+            "2000": 899.9972637678793,
+            "4000": 899.9972637224702,
+            "5500": 780.9976119322367
+          },
+          "maximumAcceleration": 9.263133721593055,
+          "brakePitch": 0.03474346111826536
+        },
+        "rearSteering": {
+          "low": -0.07853975945341898,
+          "high": 0.020296901339612268,
+          "radius": 5.776615791764714,
+          "withoutRear": 6.669470974004348
+        },
+        "highway": {
+          "maxRoll": 0.006794620056120724,
+          "maxPitch": 0.0008465592259750542
+        },
+        "audio": {
+          "inside": {
+            "exhaustCutoffHz": 311.24,
+            "intakeCutoffHz": 344.71999999999997,
+            "firingHz": 200,
+            "exhaust": 0.004078155520548175,
+            "exhaustBody": 0.003298928804883182,
+            "upperExhaust": 0.00005480000232998452,
+            "intake": 0.000444096,
+            "mechanical": 0.00002890981275091488,
+            "combustionNoise": 0.0016314932354709211,
+            "turbo": 0,
+            "road": 0.0027099125364431482,
+            "wind": 0.0018463320226940938,
+            "cabinLowpassHz": 1350,
+            "load": 0.4,
+            "speed": 30
+          },
+          "outside": {
+            "exhaustCutoffHz": 502,
+            "intakeCutoffHz": 556,
+            "firingHz": 200,
+            "exhaust": 0.030149787895103235,
+            "exhaustBody": 0.02438896781820251,
+            "upperExhaust": 0.0004051362039959945,
+            "intake": 0.0032831999999999996,
+            "mechanical": 0.0002137301331779699,
+            "combustionNoise": 0.012061623141613813,
+            "turbo": 0,
+            "road": 0.010839650145772593,
+            "wind": 0.008392418284973153,
+            "cabinLowpassHz": 20000,
+            "load": 0.4,
+            "speed": 30
+          }
+        },
+        "geometry": {
+          "meshes": 309,
+          "vertices": 173393
+        }
+      },
+      "maybachAccess": {
+        "checks": 47,
+        "isolation": {
+          "closed": 0.006314829159574451,
+          "half": 0.01326114123510635,
+          "open": 0.020207453310638245
+        },
+        "beamMaps": "256×256 projected angular intensity; RHT cutoff"
+      },
+      "su7Presentation": {
+        "assertions": 40,
+        "triangles": 55180,
+        "textures": 7,
+        "dashboardSeamGapMeters": 0,
+        "clusterPixelsAt720p": {
+          "width": 266.76951750954,
+          "height": 78.34833126435825
+        },
+        "steeringStalkClearanceMeters": 0.055686734148466865,
+        "driverAccess": true,
+        "independentElectricVoice": true
+      },
+      "su7Exterior": {
+        "assertions": 30,
+        "triangles": 55180,
+        "textures": 7,
+        "bodySizeMeters": [
+          1.9703855514526367,
+          1.4455000030398368,
+          4.997000000107391
+        ],
+        "windscreenWrapMeters": 0.03200000524520874,
+        "rearSeamGapMeters": 0,
+        "bumperSeamGapMeters": 0,
+        "deckEndGapMeters": 0,
+        "rearTrimClearanceMeters": 0.016109153959083855,
+        "paintRGB": "#406858",
+        "detailAtlas": [
+          1024,
+          512
+        ],
+        "driverAccess": true,
+        "maskedProjectors": true
+      },
+      "golfAccess": {
+        "assertions": 26,
+        "scope": "driver-front door / window / existing exit and re-entry"
+      },
+      "tankDisplays": {
+        "assertions": 7
+      }
+    },
+    "cityRoadModel": {
+      "assertions": 9
+    },
+    "roadEdgeChains": {
+      "assertions": 50
+    },
+    "cityV5": {
+      "roads": {
+        "before": 500,
+        "after": 623,
+        "newStreetSegments": 71,
+        "frozen": 383
+      },
+      "junctions": 71,
+      "signs": {
+        "locations": 654,
+        "expresswayDecisions": 72,
+        "urbanDecisions": 224,
+        "coverage": "100% requirements"
+      },
+      "edges": {
+        "corridors": 387,
+        "continuedSeams": 236,
+        "verifiedEdgeSeams": 920,
+        "anchoredSamples": 66390,
+        "fixture": "graded curved bridge: exact shared rail/curb endpoints"
+      },
+      "junctionTriangles": 127136
+    },
+    "roadSignPlacement": {
+      "failed": true
+    },
+    "teslaExperience": {
+      "passed": true,
+      "assertions": 2934,
+      "layout": "33/67",
+      "lightingModes": 3,
+      "parkingZones": 8,
+      "cachedRoadTiles": 1
+    },
+    "suspensionKinematics": {
+      "assertions": 36,
+      "cases": 11,
+      "calibratedVehicles": 17
+    },
+    "electricPowertrain": {
+      "assertions": 295,
+      "zeroTo100Seconds": 6.175,
+      "topSpeedKmh": 198.0240971651955,
+      "remainingEnergyKWh": 45.915942351182665
+    },
+    "teslaModel3Visual": {
+      "assertions": 26,
+      "physicalWheelPoses": 4,
+      "cockpitDisplay": "ev-center"
+    },
+    "ferrari458": {
+      "assertions": 866,
+      "powerKW": 419.4026192542373,
+      "roadReadyMass": 1479.6993432637628,
+      "launchSpeedKmh": 98.59814852884215
+    },
+    "ferrari458Visual": {
+      "assertions": 2264
+    },
+    "vehicleLayout": {
+      "assertions": 648,
+      "front": {
+        "front": 8393.436000000002,
+        "rear": 5144.3640000000005
+      },
+      "rear": {
+        "front": 5685.876,
+        "rear": 7851.924000000002
+      },
+      "accelerated": {
+        "front": 4685.853140133549,
+        "rear": 9107.74208409071
+      }
+    },
+    "vehicleExperience": {
+      "passed": true,
+      "assertions": 1232
+    },
+    "cruiseVehicleExperience": {
+      "passed": true,
+      "assertions": 365,
+      "metrics": [
+        {
+          "vehicle": "sport-coupe",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.00010843121365,
+          "minimum": 60.00010843121365,
+          "maximum": 60.000110888469344,
+          "spread": 0.0000024572556966973025,
+          "mean": 60.00010979161983,
+          "drift": -0.0000018076949951743397
+        },
+        {
+          "vehicle": "sport-coupe",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00011666058278,
+          "minimum": 80.00011666058278,
+          "maximum": 80.00011988875586,
+          "spread": 0.000003228173085290109,
+          "mean": 80.00011826705851,
+          "drift": -0.000002153196934765826
+        },
+        {
+          "vehicle": "sport-coupe",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00013614009893,
+          "minimum": 100.00013614009893,
+          "maximum": 100.00014039509081,
+          "spread": 0.000004254991878838155,
+          "mean": 100.00013825664827,
+          "drift": -0.0000028358835576606605
+        },
+        {
+          "vehicle": "sport-coupe",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00015105334691,
+          "minimum": 120.00015105334691,
+          "maximum": 120.00015629174354,
+          "spread": 0.000005238396624918096,
+          "mean": 120.00015365713551,
+          "drift": -0.0000034905174349357065
+        },
+        {
+          "vehicle": "test-6at-sedan",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 59.99937713515648,
+          "minimum": 59.99937713515648,
+          "maximum": 60.01126523823549,
+          "spread": 0.011888103079009227,
+          "mean": 60.00685894973366,
+          "drift": -0.005868900451666074
+        },
+        {
+          "vehicle": "test-6at-sedan",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00022373575673,
+          "minimum": 79.99990843461478,
+          "maximum": 80.00022373575673,
+          "spread": 0.0003153011419527729,
+          "mean": 80.00005951181092,
+          "drift": 0.00025585700024142473
+        },
+        {
+          "vehicle": "test-6at-sedan",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00022591510003,
+          "minimum": 100.0000803267939,
+          "maximum": 100.00022635760278,
+          "spread": 0.00014603080887809483,
+          "mean": 100.00015714371695,
+          "drift": 0.0001280865770362046
+        },
+        {
+          "vehicle": "test-6at-sedan",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.0002645385271,
+          "minimum": 120.00017172239826,
+          "maximum": 120.0002847885016,
+          "spread": 0.00011306610333861045,
+          "mean": 120.00021641558472,
+          "drift": 0.0000455949601988929
+        },
+        {
+          "vehicle": "test-7dct-sedan",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.02787758796167,
+          "minimum": 59.935675652420414,
+          "maximum": 60.03148766236176,
+          "spread": 0.09581200994134775,
+          "mean": 60.001703265046736,
+          "drift": 0.06722511662200607
+        },
+        {
+          "vehicle": "test-7dct-sedan",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.04065080638807,
+          "minimum": 79.90886535000408,
+          "maximum": 80.0448071132463,
+          "spread": 0.13594176324222929,
+          "mean": 80.00133708010246,
+          "drift": 0.0968513714323126
+        },
+        {
+          "vehicle": "test-7dct-sedan",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00044566984951,
+          "minimum": 99.9992514586618,
+          "maximum": 100.00044566984951,
+          "spread": 0.0011942111877090156,
+          "mean": 99.99978440814257,
+          "drift": 0.0008582847984143882
+        },
+        {
+          "vehicle": "test-7dct-sedan",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00021881445035,
+          "minimum": 120.00019476440168,
+          "maximum": 120.00022353488828,
+          "spread": 0.000028770486593998612,
+          "mean": 120.0002159949724,
+          "drift": 0.000016380834858864544
+        },
+        {
+          "vehicle": "cvt-family-sedan",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.00008725938029,
+          "minimum": 60.00008718463108,
+          "maximum": 60.000091554089906,
+          "spread": 0.000004369458828534789,
+          "mean": 60.0000895456996,
+          "drift": -0.0000021063223054322104
+        },
+        {
+          "vehicle": "cvt-family-sedan",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00011750715296,
+          "minimum": 80.00011727903743,
+          "maximum": 80.00012099113181,
+          "spread": 0.0000037120943829904718,
+          "mean": 80.00011950413743,
+          "drift": -0.0000014397537355155995
+        },
+        {
+          "vehicle": "cvt-family-sedan",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.0001409454358,
+          "minimum": 100.0001409454358,
+          "maximum": 100.00014465891147,
+          "spread": 0.0000037134756638579347,
+          "mean": 100.00014331356931,
+          "drift": -0.0000024637882719010427
+        },
+        {
+          "vehicle": "cvt-family-sedan",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00014345691072,
+          "minimum": 120.00014345691072,
+          "maximum": 120.00014865799137,
+          "spread": 0.0000052010806541602506,
+          "mean": 120.00014604229209,
+          "drift": -0.0000034991641102048256
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 59.99931094795448,
+          "minimum": 59.99917589455254,
+          "maximum": 60.004109191095964,
+          "spread": 0.00493329654342034,
+          "mean": 60.00086631732339,
+          "drift": -0.0037382684202020757
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00160217746259,
+          "minimum": 79.99745982894336,
+          "maximum": 80.01120043636085,
+          "spread": 0.013740607417489059,
+          "mean": 80.00702549853003,
+          "drift": -0.00023701533418109952
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 99.994820360937,
+          "minimum": 99.994820360937,
+          "maximum": 100.0189899672096,
+          "spread": 0.02416960627260778,
+          "mean": 100.00801995269076,
+          "drift": -0.02028185776245664
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00026310615381,
+          "minimum": 119.99996301908223,
+          "maximum": 120.00035611953878,
+          "spread": 0.00039310045654872283,
+          "mean": 120.00026549107997,
+          "drift": 0.00015027415926548808
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 59.998881674792884,
+          "minimum": 59.998881674792884,
+          "maximum": 60.01150874652448,
+          "spread": 0.012627071731593276,
+          "mean": 60.00687691160647,
+          "drift": -0.007502413987216035
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 79.99850291326784,
+          "minimum": 79.99850291326784,
+          "maximum": 80.01811144524149,
+          "spread": 0.019608531973645427,
+          "mean": 80.01099405579636,
+          "drift": -0.010683396594564935
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00017396153349,
+          "minimum": 100.00017396153349,
+          "maximum": 100.00017718998134,
+          "spread": 0.0000032284478521660276,
+          "mean": 100.00017594422933,
+          "drift": -0.0000024085418529769717
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00027437055061,
+          "minimum": 120.00027431692145,
+          "maximum": 120.00033482091625,
+          "spread": 0.00006050399480272972,
+          "mean": 120.00030360416599,
+          "drift": -0.0000475793292086261
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.000079551913046,
+          "minimum": 60.000079551913046,
+          "maximum": 60.00008140977204,
+          "spread": 0.0000018578589902062959,
+          "mean": 60.000080476494304,
+          "drift": -0.000001238307910777318
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00011740104726,
+          "minimum": 80.00011740104726,
+          "maximum": 80.0001206294417,
+          "spread": 0.000003228394433563153,
+          "mean": 80.00011900634105,
+          "drift": -0.000002154185191708772
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00012339228545,
+          "minimum": 100.00012339228545,
+          "maximum": 100.00012719889196,
+          "spread": 0.0000038066065144448658,
+          "mean": 100.00012528588681,
+          "drift": -0.00000253678351631
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00013189887711,
+          "minimum": 120.00013189887711,
+          "maximum": 120.00013640559075,
+          "spread": 0.00000450671363694255,
+          "mean": 120.0001341393636,
+          "drift": -0.000003001309475318218
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.00144152748323,
+          "minimum": 59.997435218392816,
+          "maximum": 60.01254328245903,
+          "spread": 0.015108064066211568,
+          "mean": 60.007821252803964,
+          "drift": -0.0006125915321293481
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.01690448152245,
+          "minimum": 79.96081912777612,
+          "maximum": 80.02377876894106,
+          "spread": 0.06295964116493735,
+          "mean": 80.00709797203388,
+          "drift": 0.038377421142589206
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00020897802149,
+          "minimum": 99.99917542467053,
+          "maximum": 100.0018669181434,
+          "spread": 0.0026914934728807793,
+          "mean": 99.99983561335533,
+          "drift": -0.0006264405890275763
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00045774524963,
+          "minimum": 119.99911318018445,
+          "maximum": 120.0005361680269,
+          "spread": 0.0014229878424458775,
+          "mean": 120.00001670533965,
+          "drift": 0.0011638899441459216
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.000124400722754,
+          "minimum": 60.00006844143744,
+          "maximum": 60.000126002328784,
+          "spread": 0.0000575608913422343,
+          "mean": 60.00010352921822,
+          "drift": 0.00004864379166974686
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.00020092686388,
+          "minimum": 80.00001222351095,
+          "maximum": 80.00020092686388,
+          "spread": 0.0001887033529328619,
+          "mean": 80.00009895056054,
+          "drift": 0.0001345036964994506
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00020622342396,
+          "minimum": 100.00002766144483,
+          "maximum": 100.00022214403857,
+          "spread": 0.00019448259374144072,
+          "mean": 100.00016575072137,
+          "drift": 0.00013286286390211898
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00013556914278,
+          "minimum": 120.00013556914278,
+          "maximum": 120.00014039590391,
+          "spread": 0.000004826761127674217,
+          "mean": 120.00013794021994,
+          "drift": -0.0000032069790419579172
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.00013133005887,
+          "minimum": 60.000090611521124,
+          "maximum": 60.00013515781781,
+          "spread": 0.000044546296685155085,
+          "mean": 60.00012239838407,
+          "drift": 0.000029820930831192526
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 79.99966229568581,
+          "minimum": 79.9995583237298,
+          "maximum": 80.00309752870744,
+          "spread": 0.00353920497764193,
+          "mean": 80.00073952174145,
+          "drift": -0.0026454349544170934
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 99.9986637782267,
+          "minimum": 99.9986637782267,
+          "maximum": 100.00740262354262,
+          "spread": 0.008738845315917843,
+          "mean": 100.003606743745,
+          "drift": -0.00717824609875
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00034406075386,
+          "minimum": 119.99998261896252,
+          "maximum": 120.00034675860267,
+          "spread": 0.0003641396401548036,
+          "mean": 120.00017849632778,
+          "drift": 0.0003231668951533114
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 60,
+          "setSpeed": 60,
+          "mode": "NORMAL",
+          "actual": 60.00011204324074,
+          "minimum": 60.000097504280006,
+          "maximum": 60.00011618415712,
+          "spread": 0.000018679877115346244,
+          "mean": 60.000112138868694,
+          "drift": 0.000006558486699456504
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 80,
+          "setSpeed": 80,
+          "mode": "NORMAL",
+          "actual": 80.0001674062724,
+          "minimum": 80.00010995248947,
+          "maximum": 80.00017247390832,
+          "spread": 0.00006252141885454421,
+          "mean": 80.00015474158971,
+          "drift": 0.000042019351518926365
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 100,
+          "setSpeed": 100,
+          "mode": "NORMAL",
+          "actual": 100.00019463095569,
+          "minimum": 100.0001569551709,
+          "maximum": 100.00020181740379,
+          "spread": 0.00004486223289745794,
+          "mean": 100.00019129373773,
+          "drift": 0.00002219221099949209
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 120,
+          "setSpeed": 120,
+          "mode": "NORMAL",
+          "actual": 120.00020842705496,
+          "minimum": 120.00020150718785,
+          "maximum": 120.0002158431058,
+          "spread": 0.000014335917953189892,
+          "mean": 120.0002119076219,
+          "drift": 8.051974873524159e-8
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 60,
+          "setSpeed": 60.06214667826862,
+          "mode": "ECO",
+          "actual": 60.03683086821718,
+          "minimum": 60.03683086821718,
+          "maximum": 60.143031894841776,
+          "spread": 0.1062010266245963,
+          "mean": 60.09156141283879,
+          "drift": -0.08414816644155508
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 80,
+          "setSpeed": 80.03976910629343,
+          "mode": "ECO",
+          "actual": 80.06058073630983,
+          "minimum": 80.06058073630983,
+          "maximum": 80.16268594818764,
+          "spread": 0.10210521187781296,
+          "mean": 80.1294455695686,
+          "drift": -0.042258196127756185
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 100,
+          "setSpeed": 100.00761258861642,
+          "mode": "ECO",
+          "actual": 100.01152509971367,
+          "minimum": 99.99220984895241,
+          "maximum": 100.01152509971367,
+          "spread": 0.0193152507612524,
+          "mean": 99.99961691001835,
+          "drift": 0.013454240131104599
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 120,
+          "setSpeed": 120.01799237875093,
+          "mode": "ECO",
+          "actual": 120.01820276953535,
+          "minimum": 120.01816312679547,
+          "maximum": 120.01867725843503,
+          "spread": 0.0005141316395622653,
+          "mean": 120.01832322112875,
+          "drift": -0.00037384731127531267
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 60,
+          "setSpeed": 60.02670287809392,
+          "mode": "SPORT",
+          "actual": 60.02682409448114,
+          "minimum": 60.02677193077206,
+          "maximum": 60.026866003687324,
+          "spread": 0.00009407291526741801,
+          "mean": 60.02684163031422,
+          "drift": 4.1757639943777275e-7
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 80,
+          "setSpeed": 80.0485351439432,
+          "mode": "SPORT",
+          "actual": 80.04885913809339,
+          "minimum": 80.04791777351082,
+          "maximum": 80.0488950738018,
+          "spread": 0.0009773002909838624,
+          "mean": 80.04857440119329,
+          "drift": 0.0007382208813578472
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 100,
+          "setSpeed": 100.06140972774105,
+          "mode": "SPORT",
+          "actual": 100.06158082011171,
+          "minimum": 100.0615808176354,
+          "maximum": 100.06159944131852,
+          "spread": 0.000018623683118335066,
+          "mean": 100.06158716606153,
+          "drift": -0.000014324972253234592
+        },
+        {
+          "vehicle": "executive-lwb-2t",
+          "target": 120,
+          "setSpeed": 120.00494922794148,
+          "mode": "SPORT",
+          "actual": 120.00518703949919,
+          "minimum": 120.00518703674717,
+          "maximum": 120.00523561471098,
+          "spread": 0.000048577963809748326,
+          "mean": 120.00521111908515,
+          "drift": -0.00004061755539927011
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 60,
+          "setSpeed": 60.01135878267151,
+          "mode": "ECO",
+          "actual": 59.99188163560946,
+          "minimum": 59.99188163560946,
+          "maximum": 60.13362751634975,
+          "spread": 0.14174588074028804,
+          "mean": 60.08269549879232,
+          "drift": -0.10533264851645072
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 80,
+          "setSpeed": 80.12689032288117,
+          "mode": "ECO",
+          "actual": 80.13054875687985,
+          "minimum": 80.11222079230855,
+          "maximum": 80.13054875687985,
+          "spread": 0.018327964571298594,
+          "mean": 80.11919038346899,
+          "drift": 0.013273090236046604
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 100,
+          "setSpeed": 100.02204436268003,
+          "mode": "ECO",
+          "actual": 100.02467021301723,
+          "minimum": 100.0100273225998,
+          "maximum": 100.02826469383263,
+          "spread": 0.018237371232828536,
+          "mean": 100.02361578603276,
+          "drift": 0.00960235684486785
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 120,
+          "setSpeed": 120.01072274723107,
+          "mode": "ECO",
+          "actual": 120.01100712033602,
+          "minimum": 120.01097458759227,
+          "maximum": 120.01100819829146,
+          "spread": 0.000033610699190944615,
+          "mean": 120.01099311934821,
+          "drift": 0.000025816267467841195
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 60,
+          "setSpeed": 60.082476861196504,
+          "mode": "SPORT",
+          "actual": 60.08263283339466,
+          "minimum": 60.08252715263769,
+          "maximum": 60.082764133967096,
+          "spread": 0.00023698132940808136,
+          "mean": 60.08269487044644,
+          "drift": -0.000020369768171804027
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 80,
+          "setSpeed": 80.1051352793914,
+          "mode": "SPORT",
+          "actual": 80.10574136147365,
+          "minimum": 80.10347828152842,
+          "maximum": 80.10582236677166,
+          "spread": 0.0023440852432372594,
+          "mean": 80.10503055249431,
+          "drift": 0.0017949436546768993
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 100,
+          "setSpeed": 100.0006143781991,
+          "mode": "SPORT",
+          "actual": 100.00081680471943,
+          "minimum": 100.00062235743987,
+          "maximum": 100.00151434233905,
+          "spread": 0.0008919848991837398,
+          "mean": 100.00118228823531,
+          "drift": -0.00028316401897124404
+        },
+        {
+          "vehicle": "road-suv-v6-8at",
+          "target": 120,
+          "setSpeed": 120.04551827200507,
+          "mode": "SPORT",
+          "actual": 120.0458057669915,
+          "minimum": 120.0456935346248,
+          "maximum": 120.04616392831917,
+          "spread": 0.0004703936943712961,
+          "mean": 120.04579660612916,
+          "drift": -0.00014278460774221457
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 60,
+          "setSpeed": 60.19405911256317,
+          "mode": "WET",
+          "actual": 60.194167144531065,
+          "minimum": 60.19416714322858,
+          "maximum": 60.194177103068306,
+          "spread": 0.000009959839722739616,
+          "mean": 60.19417083215892,
+          "drift": -0.000008123008883558214
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 80,
+          "setSpeed": 80.19484249049854,
+          "mode": "WET",
+          "actual": 80.19495648472537,
+          "minimum": 80.19495648380966,
+          "maximum": 80.19495981082076,
+          "spread": 0.0000033270111003957936,
+          "mean": 80.19495807817984,
+          "drift": -0.0000022096939452846223
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 100,
+          "setSpeed": 100.1647801188769,
+          "mode": "WET",
+          "actual": 100.16489955329189,
+          "minimum": 100.16489955329189,
+          "maximum": 100.16490323769635,
+          "spread": 0.000003684404461523627,
+          "mean": 100.16490138242634,
+          "drift": -0.0000024565226703998635
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 120,
+          "setSpeed": 120.17478692056993,
+          "mode": "WET",
+          "actual": 120.17491431438069,
+          "minimum": 120.17491431162847,
+          "maximum": 120.1749186574237,
+          "spread": 0.000004345795233007266,
+          "mean": 120.1749164702175,
+          "drift": -0.0000028951769248427203
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 60,
+          "setSpeed": 60.17213756634147,
+          "mode": "RACE",
+          "actual": 60.172192353136495,
+          "minimum": 60.172192353136495,
+          "maximum": 60.17219359956886,
+          "spread": 0.000001246432361767802,
+          "mean": 60.172192973835095,
+          "drift": -8.311918039301721e-7
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 80,
+          "setSpeed": 80.05395777065038,
+          "mode": "RACE",
+          "actual": 80.05403934256424,
+          "minimum": 80.05403934256424,
+          "maximum": 80.05404152560142,
+          "spread": 0.0000021830371821351946,
+          "mean": 80.05404042929963,
+          "drift": -0.0000014561052982268546
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 100,
+          "setSpeed": 100.07933126443955,
+          "mode": "RACE",
+          "actual": 100.07944952464611,
+          "minimum": 100.07944952464611,
+          "maximum": 100.07945316994376,
+          "spread": 0.000003645297653065427,
+          "mean": 100.07945133614965,
+          "drift": -0.000002428823124015859
+        },
+        {
+          "vehicle": "ferrari-458-italia",
+          "target": 120,
+          "setSpeed": 120.16333409738766,
+          "mode": "RACE",
+          "actual": 120.16346034698839,
+          "minimum": 120.16346034698839,
+          "maximum": 120.16346464012555,
+          "spread": 0.00000429313716665547,
+          "mean": 120.16346247939474,
+          "drift": -0.00000286440146737732
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 60,
+          "setSpeed": 60.037001333239495,
+          "mode": "ECO",
+          "actual": 60.08224409659461,
+          "minimum": 60.06243835256956,
+          "maximum": 60.16793201729165,
+          "spread": 0.10549366472208987,
+          "mean": 60.13439238143575,
+          "drift": -0.0012144999453933755
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 80,
+          "setSpeed": 80.03093722498002,
+          "mode": "ECO",
+          "actual": 80.17563012306276,
+          "minimum": 79.97098025093729,
+          "maximum": 80.2396498723704,
+          "spread": 0.26866962143311923,
+          "mean": 80.17301220936338,
+          "drift": 0.1318906977791024
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 100,
+          "setSpeed": 100.03169872168633,
+          "mode": "ECO",
+          "actual": 100.03423819722107,
+          "minimum": 99.99629302343743,
+          "maximum": 100.03423819722107,
+          "spread": 0.037945173783640485,
+          "mean": 100.01022052786566,
+          "drift": 0.01384285127750142
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 120,
+          "setSpeed": 120.01970241208826,
+          "mode": "ECO",
+          "actual": 120.01977699929198,
+          "minimum": 120.01974041385186,
+          "maximum": 120.02091953984413,
+          "spread": 0.0011791259922659947,
+          "mean": 120.0202276654285,
+          "drift": -0.0010300192799331852
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 60,
+          "setSpeed": 60.07051983554422,
+          "mode": "SPORT",
+          "actual": 60.07068323173345,
+          "minimum": 60.07020334916744,
+          "maximum": 60.07075050373121,
+          "spread": 0.0005471545637689701,
+          "mean": 60.070621466000475,
+          "drift": 0.0002926471935643349
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 80,
+          "setSpeed": 80.03677620079812,
+          "mode": "SPORT",
+          "actual": 80.03766519509573,
+          "minimum": 80.03390316954066,
+          "maximum": 80.03766519509573,
+          "spread": 0.0037620255550621096,
+          "mean": 80.03553643801925,
+          "drift": 0.0029810202029451225
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 100,
+          "setSpeed": 100.02598788393165,
+          "mode": "SPORT",
+          "actual": 100.02616649670261,
+          "minimum": 100.02616649670261,
+          "maximum": 100.02624968997765,
+          "spread": 0.00008319327503159002,
+          "mean": 100.02620851484386,
+          "drift": -0.000057528045326762365
+        },
+        {
+          "vehicle": "bmw-530li-g38",
+          "target": 120,
+          "setSpeed": 120.05073922573978,
+          "mode": "SPORT",
+          "actual": 120.05096070497426,
+          "minimum": 120.05094799272872,
+          "maximum": 120.05097994105901,
+          "spread": 0.000031948330288855686,
+          "mean": 120.05097022251755,
+          "drift": -0.000004990658781025559
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 60,
+          "setSpeed": 60.00578818310008,
+          "mode": "ECO",
+          "actual": 60.00728746538176,
+          "minimum": 60.0005721129861,
+          "maximum": 60.00728815011007,
+          "spread": 0.006716037123972285,
+          "mean": 60.003592743824264,
+          "drift": 0.005597540614520161
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 80,
+          "setSpeed": 80.04767668418245,
+          "mode": "ECO",
+          "actual": 80.04903436922145,
+          "minimum": 80.0410376943743,
+          "maximum": 80.04903436922145,
+          "spread": 0.007996674847149166,
+          "mean": 80.04414036653884,
+          "drift": 0.004971864353234802
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 100,
+          "setSpeed": 100.00787283016834,
+          "mode": "ECO",
+          "actual": 100.00802899668662,
+          "minimum": 100.00802899668662,
+          "maximum": 100.00822863559591,
+          "spread": 0.00019963890929375339,
+          "mean": 100.00813089407615,
+          "drift": -0.00015911252245132346
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 120,
+          "setSpeed": 120.05549466636283,
+          "mode": "ECO",
+          "actual": 120.05562607906988,
+          "minimum": 120.05562607764826,
+          "maximum": 120.05563067187128,
+          "spread": 0.000004594223028675515,
+          "mean": 120.05562832561498,
+          "drift": -0.000002995600831733706
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 60,
+          "setSpeed": 60.03136452306118,
+          "mode": "SPORT",
+          "actual": 60.0314431642109,
+          "minimum": 60.0314431642109,
+          "maximum": 60.03144538762761,
+          "spread": 0.0000022234167147416883,
+          "mean": 60.03144435032581,
+          "drift": -0.0000017581971648420827
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 80,
+          "setSpeed": 80.09781235260336,
+          "mode": "SPORT",
+          "actual": 80.09792985516371,
+          "minimum": 80.09792985516371,
+          "maximum": 80.09793784637995,
+          "spread": 0.00000799121623629162,
+          "mean": 80.09793386875023,
+          "drift": -0.000006500129735892794
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 100,
+          "setSpeed": 100.02737502995198,
+          "mode": "SPORT",
+          "actual": 100.02748683236678,
+          "minimum": 100.02748683089801,
+          "maximum": 100.02749035106775,
+          "spread": 0.00000352016974147773,
+          "mean": 100.0274885595044,
+          "drift": -0.0000023456494939940363
+        },
+        {
+          "vehicle": "volkswagen-golf-gti",
+          "target": 120,
+          "setSpeed": 120.05905996106792,
+          "mode": "SPORT",
+          "actual": 120.05919149152089,
+          "minimum": 120.05919149009272,
+          "maximum": 120.0591959967132,
+          "spread": 0.000004506620484789892,
+          "mean": 120.05919372576156,
+          "drift": -0.0000030091850445993866
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 60,
+          "setSpeed": 60.08488731604091,
+          "mode": "ECO",
+          "actual": 60.07147045169935,
+          "minimum": 60.06295387554014,
+          "maximum": 60.12517355810099,
+          "spread": 0.0622196825608512,
+          "mean": 60.07938036121343,
+          "drift": -0.03691995849721328
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 80,
+          "setSpeed": 80.13051631260225,
+          "mode": "ECO",
+          "actual": 80.11600870988784,
+          "minimum": 80.10845683657817,
+          "maximum": 80.16576351851363,
+          "spread": 0.05730668193545796,
+          "mean": 80.12336061636422,
+          "drift": -0.033694058802915
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 100,
+          "setSpeed": 100.05799663423284,
+          "mode": "ECO",
+          "actual": 100.02762110006924,
+          "minimum": 100.0271823009862,
+          "maximum": 100.13596373287142,
+          "spread": 0.1087814318852196,
+          "mean": 100.06784294826232,
+          "drift": -0.08211759866746433
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 120,
+          "setSpeed": 120.05283101119477,
+          "mode": "ECO",
+          "actual": 120.05488955371214,
+          "minimum": 120.04561599354207,
+          "maximum": 120.05534655435143,
+          "spread": 0.00973056080935919,
+          "mean": 120.05216343217911,
+          "drift": 0.007227167180050552
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 60,
+          "setSpeed": 60.08627136518491,
+          "mode": "SPORT",
+          "actual": 60.08640271975129,
+          "minimum": 60.08617447905111,
+          "maximum": 60.08646194624421,
+          "spread": 0.00028746719310390745,
+          "mean": 60.08640046877213,
+          "drift": 0.00010486742390639847
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 80,
+          "setSpeed": 80.01337026388599,
+          "mode": "SPORT",
+          "actual": 80.01351804165242,
+          "minimum": 80.01351803962993,
+          "maximum": 80.01354126658812,
+          "spread": 0.000023226958191457925,
+          "mean": 80.01352870480517,
+          "drift": -0.000020210904525204874
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 100,
+          "setSpeed": 100.00253996652727,
+          "mode": "SPORT",
+          "actual": 100.00273114176062,
+          "minimum": 100.00268733424645,
+          "maximum": 100.00279858675566,
+          "spread": 0.00011125250921395491,
+          "mean": 100.00276331726506,
+          "drift": -0.000020878419248523036
+        },
+        {
+          "vehicle": "mercedes-e300l-v214",
+          "target": 120,
+          "setSpeed": 120.0048284966833,
+          "mode": "SPORT",
+          "actual": 120.00502059739256,
+          "minimum": 120.0050205969257,
+          "maximum": 120.00503148945837,
+          "spread": 0.000010892532671391564,
+          "mean": 120.00502534986491,
+          "drift": -0.000008469247938288996
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 60,
+          "setSpeed": 60.19296059290295,
+          "mode": "NORMAL",
+          "actual": 60.19322001126444,
+          "minimum": 60.19192840325894,
+          "maximum": 60.1934004902252,
+          "spread": 0.001472086966259667,
+          "mean": 60.19303764698066,
+          "drift": 0.0008277333799075374
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 80,
+          "setSpeed": 80.00135495490662,
+          "mode": "NORMAL",
+          "actual": 80.00169014577891,
+          "minimum": 80.00038419098009,
+          "maximum": 80.00181299977878,
+          "spread": 0.0014288087986926712,
+          "mean": 80.00143463936303,
+          "drift": 0.0008953005210544992
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 100,
+          "setSpeed": 100.01810026476959,
+          "mode": "NORMAL",
+          "actual": 100.01852260336227,
+          "minimum": 100.01696385537883,
+          "maximum": 100.01870078149113,
+          "spread": 0.0017369261123008073,
+          "mean": 100.01825707227802,
+          "drift": 0.0010367289339653022
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 120,
+          "setSpeed": 120.11308379492269,
+          "mode": "NORMAL",
+          "actual": 120.11330811848529,
+          "minimum": 120.11330811848529,
+          "maximum": 120.11353342966179,
+          "spread": 0.0002253111764929372,
+          "mean": 120.11342786246455,
+          "drift": -0.00016260837874142452
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 60,
+          "setSpeed": 60.06976437254526,
+          "mode": "MAYBACH",
+          "actual": 60.06996780209103,
+          "minimum": 60.068933715273765,
+          "maximum": 60.07025669112113,
+          "spread": 0.0013229758473656261,
+          "mean": 60.06995922182093,
+          "drift": 0.0005308594052136565
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 80,
+          "setSpeed": 80.04068875015649,
+          "mode": "MAYBACH",
+          "actual": 80.04197940019641,
+          "minimum": 80.03530751821233,
+          "maximum": 80.04197940019641,
+          "spread": 0.006671881984075867,
+          "mean": 80.0379572562681,
+          "drift": 0.004528769516728062
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 100,
+          "setSpeed": 100.08476216528973,
+          "mode": "MAYBACH",
+          "actual": 100.08515369633497,
+          "minimum": 100.08369809720513,
+          "maximum": 100.08540092058412,
+          "spread": 0.0017028233789915248,
+          "mean": 100.08499738493735,
+          "drift": 0.000886772988900096
+        },
+        {
+          "vehicle": "mercedes-maybach-s680-z223",
+          "target": 120,
+          "setSpeed": 120.03315727871575,
+          "mode": "MAYBACH",
+          "actual": 120.03336154890627,
+          "minimum": 120.03335935156693,
+          "maximum": 120.03340690780156,
+          "spread": 0.00004755623463381653,
+          "mean": 120.0333713608784,
+          "drift": -0.00002987856998515781
+        }
+      ]
+    },
+    "powertrainBoundary": {
+      "assertions": 154,
+      "iceVehicles": 13,
+      "nonICEFixture": true
+    },
+    "vehiclePlatform": {
+      "assertions": 2128,
+      "openTraction": 2957.279706957467,
+      "lsdTraction": 3634.8915507704396
+    },
+    "powertrainLayout": {
+      "assertions": 604,
+      "suvAccelerationKmh": 47.11879851776287,
+      "suvCruiseRPM": 1846.4428448313938
+    },
+    "fuel": {
+      "assertions": 300,
+      "idleFlowsLPerHour": {
+        "family-sedan": 0.6489872456893824,
+        "sport-coupe": 1.0200000223506955,
+        "test-6at-sedan": 0.680000707469981,
+        "test-7dct-sedan": 0.48076960736876595,
+        "cvt-family-sedan": 0.6800005482865327,
+        "executive-lwb-2t": 0.68,
+        "road-suv-v6-8at": 1.0200000383403196,
+        "ferrari-458-italia": 1.5679014999999998,
+        "bmw-530li-g38": 0.68,
+        "volkswagen-golf-gti": 0.680000827711417,
+        "mercedes-e300l-v214": 0.68,
+        "mercedes-maybach-s680-z223": 2.0332000000000003,
+        "koenigsegg-jesko-attack": 1.7425
+      },
+      "liveModeFlowsLPerHour": [
+        0.8825025641025642,
+        0.9005128205128204,
+        0.923025641025641
+      ]
+    },
+    "cityToolchain": {
+      "valid": true,
+      "errorCount": 0,
+      "checks": "creation, IDs, styles, links, split references, atomic rejection, stamps, warnings, save/load"
+    },
+    "cityPresets": {
+      "valid": true,
+      "errorCount": 0,
+      "cases": 312,
+      "drivingCases": 72,
+      "drivingSamples": 156605,
+      "geometryRejections": 8,
+      "presets": [
+        {
+          "id": "system_compact_x",
+          "cases": 12
+        },
+        {
+          "id": "system_compact_turbine",
+          "cases": 12
+        },
+        {
+          "id": "system_compact_star",
+          "cases": 12
+        },
+        {
+          "id": "system_compact_cloverleaf",
+          "cases": 12
+        },
+        {
+          "id": "system_compact_hybrid",
+          "cases": 12
+        },
+        {
+          "id": "urban_side_access",
+          "cases": 8
+        },
+        {
+          "id": "peripheral_motorway_junction",
+          "cases": 12
+        },
+        {
+          "id": "signal_cross_channelized_6x6",
+          "cases": 8
+        },
+        {
+          "id": "system_cloverleaf",
+          "cases": 12
+        },
+        {
+          "id": "system_cloverleaf_cd",
+          "cases": 12
+        },
+        {
+          "id": "system_cloverstack_lite",
+          "cases": 12
+        },
+        {
+          "id": "system_parclo_cd",
+          "cases": 12
+        },
+        {
+          "id": "divided_tunnel",
+          "cases": 8
+        },
+        {
+          "id": "urban_underpass",
+          "cases": 8
+        },
+        {
+          "id": "urban_main_aux",
+          "cases": 8
+        },
+        {
+          "id": "urban_overpass",
+          "cases": 8
+        },
+        {
+          "id": "diamond_interchange",
+          "cases": 8
+        },
+        {
+          "id": "cloverleaf_interchange",
+          "cases": 8
+        },
+        {
+          "id": "trumpet_interchange",
+          "cases": 8
+        },
+        {
+          "id": "roundabout",
+          "cases": 8
+        },
+        {
+          "id": "highway_entry",
+          "cases": 8
+        },
+        {
+          "id": "highway_exit",
+          "cases": 8
+        },
+        {
+          "id": "residential_block",
+          "cases": 8
+        },
+        {
+          "id": "commercial_block",
+          "cases": 8
+        },
+        {
+          "id": "industrial_block",
+          "cases": 8
+        },
+        {
+          "id": "urban_boulevard_straight",
+          "cases": 8
+        },
+        {
+          "id": "urban_boulevard_curve",
+          "cases": 8
+        },
+        {
+          "id": "elevated_expressway_straight",
+          "cases": 8
+        },
+        {
+          "id": "elevated_expressway_curve",
+          "cases": 8
+        },
+        {
+          "id": "signal_cross_6x6",
+          "cases": 8
+        },
+        {
+          "id": "signal_cross_6x4",
+          "cases": 8
+        },
+        {
+          "id": "signal_cross_4x4",
+          "cases": 8
+        },
+        {
+          "id": "t_4x2",
+          "cases": 8
+        },
+        {
+          "id": "t_4x4",
+          "cases": 8
+        }
+      ]
+    },
+    "cityMap": {
+      "roads": 43,
+      "intersections": 12,
+      "prefabs": 288,
+      "instancedBatches": 104,
+      "streaming": "load/unload/reload passed",
+      "backbone": {
+        "ringLengthMetres": 12093.1,
+        "expressways": "3+3",
+        "systems": 5,
+        "diamonds": 2,
+        "directAccessRamps": 12,
+        "motorwayLength": 1982,
+        "urbanFootprints": {
+          "central": {
+            "width": 660,
+            "depth": 660,
+            "area": 435600
+          },
+          "west": {
+            "width": 540,
+            "depth": 540,
+            "area": 291600
+          },
+          "east": {
+            "width": 660,
+            "depth": 660,
+            "area": 435600
+          },
+          "north": {
+            "width": 740,
+            "depth": 740,
+            "area": 547600
+          },
+          "south": {
+            "width": 660,
+            "depth": 660,
+            "area": 435600
+          }
+        },
+        "peripheralFootprint": {
+          "width": 1335,
+          "depth": 870,
+          "area": 1161450
+        },
+        "tunnelMetres": 500,
+        "underpassMetres": 110,
+        "objectBatches": 35,
+        "maximumGrades": {
+          "mainline": 0.03748437792968744,
+          "ramp": 0.07583357009084632,
+          "underpass": 0.046840289351851895
+        },
+        "contactSamples": 37183
+      }
+    },
+    "cityMarkings": {
+      "paintVertices": 78072,
+      "stopLines": 4,
+      "metadataArrows": 8,
+      "separatorVertices": 248,
+      "outerVertices": 292,
+      "intersectionAndMergeOwnership": "passed",
+      "exitTaperAndDuplicatePaint": "passed"
+    },
+    "cityV3": {
+      "directionalMovements": 40,
+      "semiDirectionalRadiusRange": [
+        70.98315579932986,
+        79.9999999996445
+      ],
+      "innerLoopRoadSegments": 27,
+      "innerLengthMetres": 7491.8,
+      "ordinaryDistrictConnectivity": "passed",
+      "signs": 180,
+      "gantries": 46,
+      "signTypes": 6
+    },
+    "citySigns": {
+      "registryRename": "passed",
+      "unchangedRoadsAndPlacement": "passed",
+      "repeatedSigns": 100,
+      "texturesCreated": 2,
+      "templateCount": 1
+    },
+    "executiveSedan": {
+      "assertions": 37,
+      "throttleSamples": [
+        0.14857864080601593,
+        0.22782538048295387,
+        0.3288085245628352
+      ],
+      "steeringSamples": [
+        0.12341850909649345,
+        0.13034236839013907,
+        0.14338626697169524
+      ],
+      "rearSplits": [
+        0.4003284237932673,
+        0.4333690767732871,
+        0.4629961716786262
+      ]
+    },
+    "executivePolish": {
+      "assertions": 749,
+      "peakRPM": 885.8655200534106,
+      "catchAtSeconds": 0.55,
+      "shutdownSeconds": 1.05,
+      "sportPresence": 1.17
+    },
+    "suspensionStance": {
+      "assertions": 442,
+      "maximumWheelError": 5.551115123125783e-17
+    },
+    "environment": {
+      "assertions": 988,
+      "maps": 11,
+      "vehicles": 17
+    },
+    "input": {
+      "passed": true,
+      "assertions": 159
+    },
+    "feedback": {
+      "assertions": 2551,
+      "maximumIdleOffset": 0.00022999997984222905,
+      "maximumJudderOffset": 0.0009561042514340201,
+      "manualJudderIntensity": 1,
+      "automaticJudderIntensity": 0,
+      "normalAutoClutchIntensity": 0,
+      "abnormalAutoClutchIntensity": 0.2356410977421978,
+      "matchedJolt": 0.25,
+      "mismatchedJolt": 1,
+      "gentleJolt": 0.0005267988917352294,
+      "continuousWallPulseCount": 1,
+      "normalLaunchPulseCount": 0,
+      "doesNotMutatePhysics": true
+    },
+    "haptics": {
+      "assertions": 13,
+      "continuousCommandsPerSecond": 31,
+      "failedActuatorAttempts": 1,
+      "capabilityDetectionPassed": true,
+      "mergedPulsePriorityPassed": true,
+      "disconnectStopsOutput": true,
+      "errorsRemainSilent": true
+    },
+    "steeringReturn": {
+      "parkedAfterOneSecond": 0.342651477849076,
+      "tenKmhAfterOneSecond": 0.23161480498803805,
+      "fortyKmhAfterOneSecond": 0.04546779738248144,
+      "highSpeedAfterOneSecond": 0.04425077053744872,
+      "grassAfterOneSecond": 0.05680636920466254,
+      "activeSteeringUnchanged": true,
+      "noCentreOscillation": true
+    },
+    "transmissionBackend": {
+      "assertions": 2440,
+      "converterRatios": [
+        2.05,
+        1.5,
+        1.13,
+        1
+      ],
+      "atCreepTorque": 489.95136075861353,
+      "dctCreepTorque": 342.51515008276374
+    },
+    "transmissionDriving": {
+      "assertions": 55111,
+      "scenarios": [
+        {
+          "type": "TORQUE_CONVERTER_AT",
+          "creepSpeedKmh": 5.387821668157636,
+          "lightGear": 4,
+          "lightRPM": 1615.638105944685,
+          "cruiseLockup": 1,
+          "beforeKickdownGear": 6,
+          "kickdownMinimumGear": 4,
+          "beforeKickdownRPM": 1374.987005255437,
+          "kickdownRPM": 3215.5670791648486,
+          "handoverSeen": false,
+          "reverseSpeedKmh": 5.107308731400847
+        },
+        {
+          "type": "DCT",
+          "creepSpeedKmh": 7.142922118115568,
+          "lightGear": 5,
+          "lightRPM": 1598.1275913268282,
+          "cruiseLockup": null,
+          "beforeKickdownGear": 7,
+          "kickdownMinimumGear": 4,
+          "beforeKickdownRPM": 1412.7618775177073,
+          "kickdownRPM": 2900.149039763192,
+          "handoverSeen": true,
+          "reverseSpeedKmh": 7.219968634173725
+        }
+      ]
+    },
+    "transmissionShifts": {
+      "assertions": 37167,
+      "scenarios": [
+        {
+          "type": "TORQUE_CONVERTER_AT",
+          "firstShiftRPM": 2395.277863738454,
+          "firstShiftDuration": 0.5250000000000004,
+          "firstShiftMinWheelTorque": 194.21221218001338,
+          "fullThrottleFirstShiftRPM": 6267.862357575601,
+          "maximumRPMStep": 32.95621221800684,
+          "gearChanges": 3,
+          "overlapSeen": false,
+          "shaftSwitches": 0,
+          "maximumLowSpeedStep": 0.01590539481107668
+        },
+        {
+          "type": "DCT",
+          "firstShiftRPM": 2078.9836613651673,
+          "firstShiftDuration": 0.20833333333333393,
+          "firstShiftMinWheelTorque": 328.03088694153325,
+          "fullThrottleFirstShiftRPM": 5976.8165026513525,
+          "maximumRPMStep": 40.265913852274934,
+          "gearChanges": 4,
+          "overlapSeen": true,
+          "shaftSwitches": 3,
+          "maximumLowSpeedStep": 0.020033660409103773
+        }
+      ]
+    },
+    "automaticGround": {
+      "assertions": 37696,
+      "scenarios": [
+        {
+          "transmission": "TORQUE_CONVERTER_AT",
+          "map": "road-course",
+          "maximumSpeedStep": 0.038502363833318454,
+          "stoppedRPM": 800.0133068901071
+        },
+        {
+          "transmission": "TORQUE_CONVERTER_AT",
+          "map": "subject-2-training-ground",
+          "maximumSpeedStep": 0.03850236383331851,
+          "stoppedRPM": 800.0133068901071
+        },
+        {
+          "transmission": "TORQUE_CONVERTER_AT",
+          "map": "simple-circuit",
+          "maximumSpeedStep": 0.038502363833318454,
+          "stoppedRPM": 800.0133068901067
+        },
+        {
+          "transmission": "TORQUE_CONVERTER_AT",
+          "map": "subject-2-hill-launch",
+          "maximumSpeedKmh": 55.85860983065172,
+          "endSpeedKmh": 0,
+          "rpm": 1944.1572984798295
+        },
+        {
+          "transmission": "DCT",
+          "map": "road-course",
+          "maximumSpeedStep": 0.040546746471974315,
+          "stoppedRPM": 799.9972040887945
+        },
+        {
+          "transmission": "DCT",
+          "map": "subject-2-training-ground",
+          "maximumSpeedStep": 0.040546746472501866,
+          "stoppedRPM": 799.9972040888133
+        },
+        {
+          "transmission": "DCT",
+          "map": "simple-circuit",
+          "maximumSpeedStep": 0.04054674646602052,
+          "stoppedRPM": 799.9972040888842
+        },
+        {
+          "transmission": "DCT",
+          "map": "subject-2-hill-launch",
+          "maximumSpeedKmh": 60.06847622459572,
+          "endSpeedKmh": 0,
+          "rpm": 4377.976045733807
+        }
+      ]
+    },
+    "automaticSelectorInput": {
+      "assertions": 89
+    },
+    "lighting": {
+      "assertions": 403,
+      "testedVehicles": 3,
+      "realLampMeshes": 108,
+      "maximumBodyLengthIncreaseMetres": 0.0030000946994874766
+    },
+    "physics": {
+      "straightZ": -2.004108644402154,
+      "rightTurnX": 1.6983011704478332,
+      "rightTurnYaw": -0.44347580882177473,
+      "gearedCoastSpeed": 20.084646876208573,
+      "neutralCoastSpeed": 21.28254214909024,
+      "manualShiftRejected": true,
+      "manualShiftAccepted": true,
+      "autoShiftPassed": true,
+      "modeTakeoverMaxJump": 0.011249999999999982,
+      "handbrakeSlowedVehicle": true,
+      "lightLoadUpshiftRPM": 1854.9167860972564,
+      "highLoadUpshiftRPM": 2500,
+      "everydayUpshiftRangePassed": true,
+      "upshiftHysteresisPassed": true,
+      "invalidUpshiftSuppressed": true,
+      "redlineIsSeparate": true,
+      "throttleProgressionPassed": true,
+      "steeringSensitivityPassed": true,
+      "steeringContinuityMaxYawStep": 0.007775236172896799,
+      "normalSteeringContinuityPassed": true,
+      "highSpeedYawRatio": 0.6662073414357819,
+      "highSpeedYawReductionPassed": true,
+      "handbrakeSlideAngleDegrees": 15.159740805636423,
+      "handbrakeYawGain": 1.6400726285411544,
+      "handbrakeSlidePassed": true,
+      "handbrakeSlideRecoveryPassed": true,
+      "surfaceGripResponsePassed": true,
+      "longitudinalBaselineSpeedKmh": 7.368586078133131,
+      "longitudinalBaselineDistance": 2.004108644402154,
+      "longitudinalBaselinePassed": true,
+      "manualBrakeStallPassed": true,
+      "idleLoadSagRPM": 106.34651583183859,
+      "idleCreepSpeedKmh": 1.6592117286202044,
+      "idleLoadBehaviourPassed": true,
+      "highGearIdleLaunchPrevented": true,
+      "engineRestartInterlockPassed": true,
+      "ignitionTogglePassed": true,
+      "normalFirstGearLaunchPassed": true,
+      "normalAutoClutchAntiStallPassed": true,
+      "nanRecoveryPassed": true
+    },
+    "mechanicalDetails": {
+      "assertions": 38,
+      "revHang": [
+        {
+          "vehicle": "family",
+          "peakResidualTorque": 28.293461240817123,
+          "savedRPM": 165.60522137528915
+        },
+        {
+          "vehicle": "gt",
+          "peakResidualTorque": 6.446357417128513,
+          "savedRPM": 20.554060434213625
+        }
+      ]
+    },
+    "engineTorque": {
+      "assertions": 38
+    },
+    "engineTurbo": {
+      "assertions": 1463,
+      "lowRPMBoostBar": 0.23443038190441756,
+      "fullBoostBar": 1.0823529411764645,
+      "loadedTurboSpeed": 1,
+      "cruisingTurboSpeed": 0.6876880312052137,
+      "retainedAfterBriefLift": 0.9195332756285529
+    },
+    "wheelRotation": {
+      "assertions": 28,
+      "lockedWheelSlip": -0.9950371902099892,
+      "reverseWheelForce": 2651.880000001957
+    },
+    "tyreDifferential": {
+      "assertions": 66,
+      "splitTraction": 3680.756259522442,
+      "asphaltTraction": 4444.444461615524,
+      "splitWheelSpeedRatio": 4.440231548080794
+    },
+    "driverAssists": {
+      "assertions": 133,
+      "absSeen": true
+    },
+    "escAWD": {
+      "assertions": 50
+    },
+    "cvt": {
+      "assertions": 10573,
+      "scenarios": [
+        {
+          "throttle": 0.2,
+          "speedKmh": 16.255578375077928,
+          "rpm": 1737.322029891109,
+          "ratio": 2.0392182620111297
+        },
+        {
+          "throttle": 1,
+          "speedKmh": 96.57677498126299,
+          "rpm": 5703.159544653401,
+          "ratio": 1.3353669449028833
+        }
+      ],
+      "reverseSpeedKmh": 4.499604787978607
+    },
+    "vehicleStructure": {
+      "assertions": 2990,
+      "vehicles": 17
+    },
+    "suspensionMechanics": {
+      "assertions": 126,
+      "maximumStopForce": 5039.999999999999
+    },
+    "wheelContact": {
+      "assertions": 3426,
+      "roadSplitGripDifference": 0.21999999999999997,
+      "splitRollingResistanceDifference": 2,
+      "maximumBoundaryGripStep": 0.005499197376105158,
+      "maximumBoundaryRollingResistanceStep": 0.02530722656247697,
+      "maximumNormalLengthError": 0
+    },
+    "staticCollision": {
+      "sweptFrontalStopPassed": true,
+      "frontalStoppedZ": -5.767,
+      "glancingSlideSpeed": 6.16,
+      "glancingSlidePassed": true,
+      "persistentWallPositionSpread": 0,
+      "persistentWallPassed": true,
+      "sustainedGrazingSpeed": 6.800000000000001,
+      "sustainedGrazingPassed": true,
+      "impactReentryPassed": true,
+      "exposedRailEndPassed": true,
+      "rotatedFootprintPassed": true,
+      "wallExitPassed": true,
+      "buildingCornerPassed": true,
+      "verticalSeparationPassed": true
+    },
+    "contactDynamics": {
+      "asphaltLaunchDifference": 0,
+      "moderateBrakingYawRetention": 1.0584840910470579,
+      "splitCoastingYaw": -0.007116555894584042,
+      "splitBrakingYaw": 0.025111444549566375,
+      "grassCoastingExtraSpeedLoss": 0.45227606216932514,
+      "maximumTransitionAccelerationStep": 0.003868998357057424,
+      "normalGradeForce": -1651.2617923698945,
+      "collisionCorrectionConsistent": true,
+      "obliqueVelocityX": -0.0008357659467952416,
+      "obliqueVelocityZ": -1.9995174703056382,
+      "maximumCollisionRecoveryLateralStep": 0.09790493661776678,
+      "maximumRecreatedInwardVelocity": 0
+    },
+    "fourWheelPhysics": {
+      "assertions": 20888,
+      "scenarios": [
+        {
+          "vehicle": "family-sedan",
+          "drivenAxle": "FWD",
+          "brakeBias": 0.68,
+          "brakingPitchDegrees": -0.532561783422595,
+          "cornerRollDegrees": 1.9783399970937807,
+          "splitYawDegrees": -0.17369055843275824,
+          "cornerSpeedKmh": 48.39765536378944,
+          "hillLaunchSpeedKmh": 26.42497967601358,
+          "hillMaximumRPM": 3358.818390723529
+        },
+        {
+          "vehicle": "sport-coupe",
+          "drivenAxle": "RWD",
+          "brakeBias": 0.67,
+          "brakingPitchDegrees": -0.37317378424143205,
+          "cornerRollDegrees": 1.2647807758207648,
+          "splitYawDegrees": -0.21386134426269107,
+          "cornerSpeedKmh": 48.311376047017724,
+          "hillLaunchSpeedKmh": 68.61920498256988,
+          "hillMaximumRPM": 7364.577899162478
+        }
+      ],
+      "restStable": true,
+      "rearOnlyHandbrake": true,
+      "preservedPowertrain": true
+    },
+    "verticalDynamics": {
+      "passed": true,
+      "assertions": 107,
+      "restHeight": 0,
+      "landingCompression": 0.20537789563165076,
+      "freeFallSpeed": -4.905000000000005,
+      "ramps": [
+        {
+          "speedKmh": 80,
+          "valid": true,
+          "maximumCorrection": 0,
+          "totalCorrection": 0,
+          "integratedMotion": 2.7822892629091496,
+          "maxAcceleration": 598.2345416763189,
+          "maxForce": 449970.0271514836,
+          "maxVelocity": 8.700861834315289,
+          "maxMicrosteps": 2,
+          "safety": 0,
+          "finalY": 2.7822892629091496,
+          "finalVelocity": 7.219275619053228,
+          "finalPitchRate": -0.436055539449976
+        },
+        {
+          "speedKmh": 100,
+          "valid": true,
+          "maximumCorrection": 0,
+          "totalCorrection": 0,
+          "integratedMotion": 3.541594074276189,
+          "maxAcceleration": 552.1261720379795,
+          "maxForce": 411898.33275184984,
+          "maxVelocity": 10.753984411932091,
+          "maxMicrosteps": 3,
+          "safety": 0,
+          "finalY": 3.541594074276189,
+          "finalVelocity": 9.008964694937408,
+          "finalPitchRate": -0.3073950055779318
+        },
+        {
+          "speedKmh": 120,
+          "valid": true,
+          "maximumCorrection": 0,
+          "totalCorrection": 0,
+          "integratedMotion": 4.3254460344855845,
+          "maxAcceleration": 922.6527559716156,
+          "maxForce": 692599.1538617967,
+          "maxVelocity": 12.797306978048251,
+          "maxMicrosteps": 3,
+          "safety": 0,
+          "finalY": 4.3254460344855845,
+          "finalVelocity": 10.878591472436689,
+          "finalPitchRate": -0.2893902915443036
+        },
+        {
+          "speedKmh": 140,
+          "valid": true,
+          "maximumCorrection": 0,
+          "totalCorrection": 0,
+          "integratedMotion": 4.4366712157771895,
+          "maxAcceleration": 1076.3019032208883,
+          "maxForce": 788054.8643423878,
+          "maxVelocity": 13.479887242541542,
+          "maxMicrosteps": 4,
+          "safety": 0,
+          "finalY": 4.4366712157771895,
+          "finalVelocity": 10.498947475258054,
+          "finalPitchRate": -0.0992875758717965
+        }
+      ],
+      "phase2": {
+        "assertions": 9,
+        "restLoad": 13793.595750124412,
+        "brakePitch": -0.011206232865509673,
+        "cornerRoll": 0.02187856149275498,
+        "noBarRoll": 0.034347759708294644,
+        "landingTorque": 88750.68449134906,
+        "maxAngleStep": 0.024717074286580987,
+        "ramps": [
+          {
+            "speedKmh": 80,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 2.7822892629091496,
+            "maxAcceleration": 598.2345416763189,
+            "maxForce": 449970.0271514836,
+            "maxVelocity": 8.700861834315289,
+            "maxMicrosteps": 2,
+            "safety": 0,
+            "finalY": 2.7822892629091496,
+            "finalVelocity": 7.219275619053228,
+            "finalPitchRate": -0.436055539449976
+          },
+          {
+            "speedKmh": 100,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 3.541594074276189,
+            "maxAcceleration": 552.1261720379795,
+            "maxForce": 411898.33275184984,
+            "maxVelocity": 10.753984411932091,
+            "maxMicrosteps": 3,
+            "safety": 0,
+            "finalY": 3.541594074276189,
+            "finalVelocity": 9.008964694937408,
+            "finalPitchRate": -0.3073950055779318
+          },
+          {
+            "speedKmh": 120,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 4.3254460344855845,
+            "maxAcceleration": 922.6527559716156,
+            "maxForce": 692599.1538617967,
+            "maxVelocity": 12.797306978048251,
+            "maxMicrosteps": 3,
+            "safety": 0,
+            "finalY": 4.3254460344855845,
+            "finalVelocity": 10.878591472436689,
+            "finalPitchRate": -0.2893902915443036
+          },
+          {
+            "speedKmh": 140,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 4.4366712157771895,
+            "maxAcceleration": 1076.3019032208883,
+            "maxForce": 788054.8643423878,
+            "maxVelocity": 13.479887242541542,
+            "maxMicrosteps": 4,
+            "safety": 0,
+            "finalY": 4.4366712157771895,
+            "finalVelocity": 10.498947475258054,
+            "finalPitchRate": -0.0992875758717965
+          }
+        ],
+        "convergence": {
+          "two": {
+            "speedKmh": 140,
+            "refinement": 2,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 4.413641948619749,
+            "maxAcceleration": 1074.27946356368,
+            "maxForce": 799987.3531207738,
+            "maxVelocity": 13.42180987430041,
+            "maxMicrosteps": 2,
+            "safety": 0,
+            "finalY": 4.413641948619749,
+            "finalVelocity": 10.440865986584518,
+            "finalPitchRate": -0.07553122146309675
+          },
+          "four": {
+            "speedKmh": 140,
+            "refinement": 4,
+            "valid": true,
+            "maximumCorrection": 0,
+            "totalCorrection": 0,
+            "integratedMotion": 4.436553564002024,
+            "maxAcceleration": 1078.3823807218141,
+            "maxForce": 791989.4272519556,
+            "maxVelocity": 13.479582035578407,
+            "maxMicrosteps": 4,
+            "safety": 0,
+            "finalY": 4.436553564002024,
+            "finalVelocity": 10.498640630438171,
+            "finalPitchRate": -0.09931950396422079
+          }
+        }
+      }
+    },
+    "mapContactAcceptance": {
+      "assertions": 37419,
+      "scenarios": [
+        {
+          "mapId": "road-course",
+          "vehicleId": "family-sedan",
+          "asphaltTurnDegrees": 13.02036527432803,
+          "brakeSteeringRatio": 0.9942512680907282,
+          "asphaltCoastDeceleration": 0.1400365642710947,
+          "comparisonSurface": "grass",
+          "comparisonCoastDeceleration": 0.3666037658498986,
+          "comparisonBrakingDeceleration": 4.938347942493697,
+          "maximumComparisonSpeedStep": 0.003120025833522888,
+          "maximumSurfaceTransitionSpeedStep": 0.002882348424462222,
+          "splitYawDegrees": -0.07714263964024969,
+          "splitGripDifference": 0.21999999999999997,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 97,
+          "obliquePostImpactSpeed": 3.575974418348143,
+          "obliqueContacts": 73,
+          "reverseEscapeDistance": 1.5734292443118774,
+          "maximumCollisionStep": 0.14999286138092405,
+          "maximumPenetration": 0
+        },
+        {
+          "mapId": "road-course",
+          "vehicleId": "sport-coupe",
+          "asphaltTurnDegrees": 16.95136680116322,
+          "brakeSteeringRatio": 0.9773734460361785,
+          "asphaltCoastDeceleration": 0.1475076500702445,
+          "comparisonSurface": "grass",
+          "comparisonCoastDeceleration": 0.3934767244963832,
+          "comparisonBrakingDeceleration": 5.351030473864058,
+          "maximumComparisonSpeedStep": 0.003329971303907442,
+          "maximumSurfaceTransitionSpeedStep": 0.0031082902950814173,
+          "splitYawDegrees": -0.09112848097124122,
+          "splitGripDifference": 0.21999999999999997,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 102,
+          "obliquePostImpactSpeed": 3.576144657569548,
+          "obliqueContacts": 86,
+          "reverseEscapeDistance": 3.6828940373148846,
+          "maximumCollisionStep": 0.14999280839242113,
+          "maximumPenetration": 0
+        },
+        {
+          "mapId": "simple-circuit",
+          "vehicleId": "family-sedan",
+          "asphaltTurnDegrees": 13.020365274328284,
+          "brakeSteeringRatio": 0.9942512680906951,
+          "asphaltCoastDeceleration": 0.14003656427109354,
+          "comparisonSurface": "grass",
+          "comparisonCoastDeceleration": 0.3552741781463536,
+          "comparisonBrakingDeceleration": 5.006204283040092,
+          "maximumComparisonSpeedStep": 0.0030237450694343693,
+          "maximumSurfaceTransitionSpeedStep": 0.0028012321692152398,
+          "splitYawDegrees": -0.0604408838264588,
+          "splitGripDifference": 0.17937162597656298,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 97,
+          "obliquePostImpactSpeed": 3.558689553195563,
+          "obliqueContacts": 35,
+          "reverseEscapeDistance": 1.1421665113373365,
+          "maximumCollisionStep": 0.1499872971482148,
+          "maximumPenetration": 0
+        },
+        {
+          "mapId": "simple-circuit",
+          "vehicleId": "sport-coupe",
+          "asphaltTurnDegrees": 16.951366801163477,
+          "brakeSteeringRatio": 0.9773734460361788,
+          "asphaltCoastDeceleration": 0.1475076500702445,
+          "comparisonSurface": "grass",
+          "comparisonCoastDeceleration": 0.38117750440377546,
+          "comparisonBrakingDeceleration": 5.42455402056504,
+          "maximumComparisonSpeedStep": 0.003226034797338073,
+          "maximumSurfaceTransitionSpeedStep": 0.003026122628155825,
+          "splitYawDegrees": -0.07162211580132134,
+          "splitGripDifference": 0.18000000000000005,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 104,
+          "obliquePostImpactSpeed": 3.557795171641115,
+          "obliqueContacts": 32,
+          "reverseEscapeDistance": 2.3759758037042786,
+          "maximumCollisionStep": 0.14998744483236237,
+          "maximumPenetration": 0
+        },
+        {
+          "mapId": "subject-2-training-ground",
+          "vehicleId": "family-sedan",
+          "asphaltTurnDegrees": 13.020365274327684,
+          "brakeSteeringRatio": 0.9942512680907409,
+          "asphaltCoastDeceleration": 0.14003656427109235,
+          "comparisonSurface": "asphalt",
+          "comparisonCoastDeceleration": 0.14003656427109354,
+          "comparisonBrakingDeceleration": 6.898391779170834,
+          "maximumComparisonSpeedStep": 0.0011944915050552396,
+          "maximumSurfaceTransitionSpeedStep": 0.0010462718309609542,
+          "splitYawDegrees": 0,
+          "splitGripDifference": 0,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 97,
+          "obliquePostImpactSpeed": 3.576467572201972,
+          "obliqueContacts": 71,
+          "reverseEscapeDistance": 1.6277175218171323,
+          "maximumCollisionStep": 0.14999286138092527,
+          "maximumPenetration": 0
+        },
+        {
+          "mapId": "subject-2-training-ground",
+          "vehicleId": "sport-coupe",
+          "asphaltTurnDegrees": 16.951366801163616,
+          "brakeSteeringRatio": 0.9773734460361512,
+          "asphaltCoastDeceleration": 0.14750765007023978,
+          "comparisonSurface": "asphalt",
+          "comparisonCoastDeceleration": 0.14750765007024214,
+          "comparisonBrakingDeceleration": 8.336294056891013,
+          "maximumComparisonSpeedStep": 0.001251411416065551,
+          "maximumSurfaceTransitionSpeedStep": 0.0011158227322249914,
+          "splitYawDegrees": 0,
+          "splitGripDifference": 0,
+          "frontalStopSpeed": 0,
+          "frontalContacts": 103,
+          "obliquePostImpactSpeed": 3.5762249128675676,
+          "obliqueContacts": 83,
+          "reverseEscapeDistance": 3.731274609893532,
+          "maximumCollisionStep": 0.149992808392426,
+          "maximumPenetration": 0
+        }
+      ]
+    },
+    "vehicleCatalog": {
+      "descriptorCount": 17,
+      "sedanIdleRPM": 850,
+      "sportsPeakPowerKW": 268.86797126972647,
+      "sedanForwardGearCount": 5,
+      "sportsForwardGearCount": 7,
+      "sportsTopGearRatio": 0.68,
+      "sedanAccelerationSampleKmh": 53.62069641634283,
+      "sportsAccelerationSampleKmh": 105.24449783367606,
+      "sportsToSedanSpeedRatio": 1.9627588760969361,
+      "sportsDigitalWheelClearanceNdc": 0.21938331293915736,
+      "sportsIndicatorWheelClearanceNdc": 0.290066059624825,
+      "sportsAuxiliaryGaugeWheelClearanceNdc": 0.19645918293675171,
+      "sportsNeedleWheelClearanceNdc": 0.32408298130935176
+    },
+    "cruiseControl": {
+      "passed": true,
+      "assertions": 27
+    },
+    "rearParkingProximity": {
+      "passed": true,
+      "assertions": 27
+    },
+    "mirrors": {
+      "reflection": {
+        "assertions": 518,
+        "bodyCoverage": {
+          "sedan/left": 0.18096958747365252,
+          "sedan/right": 0.18066847335140018,
+          "sport-coupe/left": 0.13941583860283047,
+          "sport-coupe/right": 0.15356820234869015
+        },
+        "rearBodyMaximumZ": {
+          "sedan/left": 1.7035412186490193,
+          "sedan/right": 1.7167675083321627,
+          "sport-coupe/left": 1.0456990735730258,
+          "sport-coupe/right": 1.1554869475418976
+        },
+        "visibleBodyParts": {
+          "sedan/left": {
+            "wheel-arch": 56,
+            "door": 1001,
+            "rear-quarter": 125,
+            "door-handle": 7
+          },
+          "sedan/right": {
+            "door": 995,
+            "rear-quarter": 96,
+            "wheel-arch": 99
+          },
+          "sport-coupe/left": {
+            "wheel-arch": 109,
+            "door": 685,
+            "rear-quarter": 56
+          },
+          "sport-coupe/right": {
+            "door": 769,
+            "rear-quarter": 73,
+            "wheel-arch": 121
+          }
+        },
+        "hudMatchesPhysicalAperture": true,
+        "clippedBehindPlane": true,
+        "worldExteriorOnly": true
+      },
+      "fixedEyeHeadYawCameraDelta": 0,
+      "fixedEyeHeadYawProjectionDelta": 0,
+      "fixedEyeHeadYawTextureDelta": 0,
+      "movedEyeCameraDelta": 0.12221254067111254,
+      "movedEyeProjectionDelta": 1.6273010654117641,
+      "movedEyeTextureDelta": 0.8213995346315563,
+      "cameraBasisDeterminant": 1,
+      "rawTargetIsHorizontallyMirrored": true,
+      "rawTargetIsVerticallyUpright": true,
+      "defaultRearwardPitchDegrees": -6.164182887925176,
+      "defaultRearwardYawDegrees": 0.6850889175243492,
+      "defaultRearwardHorizonNdcY": 3.250826550445278,
+      "rearRoadTwentyMetresNdcY": 1.8166049445899106,
+      "mirrorAspectRatio": 1.919642857142857,
+      "actualMirrorHorizonNdcY": {
+        "sedan": 3.096025286138358,
+        "sport": 4.656845299860377
+      },
+      "actualRearRoadTwentyMetresNdcY": {
+        "sedan": 1.7300999472284855,
+        "sport": 3.258015910640326
+      },
+      "actualRearRoadTwentyMetresNdcX": {
+        "sedan": 0.902015654767389,
+        "sport": 1.0273456546349042
+      },
+      "actualRearRoadTwentyMetresNdcZ": {
+        "sedan": 0.8583836473935972,
+        "sport": 0.859022706452616
+      },
+      "mirrorAdjustmentIsIndependent": true,
+      "mirrorAdjustmentClamped": true,
+      "legacyAdjustmentWasDiscarded": true
+    },
+    "adaptiveMirrors": {
+      "passed": true,
+      "assertions": 34,
+      "highwayPasses": [
+        240,
+        0,
+        240
+      ]
+    },
+    "visualStreaming": {
+      "passed": true,
+      "assertions": 86,
+      "parityRoads": [
+        "boulevard-north",
+        "alpha-v2-overpass:overpass:1"
+      ]
+    },
+    "visualStreamingLifecycle": {
+      "assertions": 10
+    },
+    "instruments": {
+      "suv": {
+        "assertions": 850,
+        "stateChecks": 16,
+        "centerWidthFraction": 0.1937984496124031
+      },
+      "minimumNdcX": -0.2884990955117271,
+      "maximumNdcX": 0.286384720783468,
+      "minimumNdcY": -0.8431474579795768,
+      "maximumNdcY": -0.3373328134261727,
+      "digitalDisplayMinimumNdcY": -0.5005886180796908,
+      "lampPanelMinimumNdcY": -0.3951981152849522,
+      "fuelGaugeMinimumNdcY": -0.48176748443195005,
+      "temperatureGaugeMinimumNdcY": -0.48176748443195005,
+      "steeringWheelTopNdcY": -0.762747899617639,
+      "minimumDigitalWheelClearanceNdc": 0.2621592815379482,
+      "minimumAuxiliaryGaugeWheelClearanceNdc": 0.32408152111785987,
+      "minimumNeedlePivotWheelClearanceNdc": 0.21332463999410828
+    },
+    "driverView": {
+      "fovDegrees": 62,
+      "yawLimitDegrees": 59.99999999999999,
+      "pitchUpLimitDegrees": 24,
+      "pitchDownLimitDegrees": 21,
+      "vehicles": [
+        {
+          "vehicle": "LHD family sedan",
+          "windshieldLowerEdgeNdcY": -0.6705592089082187,
+          "windshieldUpperEdgeNdcY": 0.7489257670577331,
+          "windshieldOpeningNdc": 1.4194849759659518,
+          "dashboardTopNdcY": -0.7190333685883308,
+          "instrumentMinimumNdcY": -0.8431474579795768,
+          "instrumentMaximumNdcY": -0.3373328134261727,
+          "importantReadoutMinimumNdcY": -0.5005886180796908
+        },
+        {
+          "vehicle": "LHD grand-touring sports coupe",
+          "windshieldLowerEdgeNdcY": -0.669143297027528,
+          "windshieldUpperEdgeNdcY": 0.7230066603653887,
+          "windshieldOpeningNdc": 1.3921499573929168,
+          "dashboardTopNdcY": -0.7120370981190361,
+          "instrumentMinimumNdcY": -0.8383205588214969,
+          "instrumentMaximumNdcY": -0.3855976933153762,
+          "importantReadoutMinimumNdcY": -0.6494110876871645
+        }
+      ]
+    },
+    "vehicleExteriors": {
+      "sedan": {
+        "profile": "sedan",
+        "meshCount": 85,
+        "nonBoxMeshCount": 85,
+        "glassCount": 8,
+        "pillarCount": 10,
+        "wheelArchCount": 4,
+        "lampCount": 4,
+        "bumperCount": 2,
+        "shellVertexCount": 2353,
+        "renderedWidth": 1.8007992506027222,
+        "renderedLength": 4.502600193023682,
+        "renderedHeight": 1.4446578472852707,
+        "rooflineY": 1.644657850265503
+      },
+      "sportsCoupe": {
+        "profile": "sport-coupe",
+        "meshCount": 87,
+        "nonBoxMeshCount": 87,
+        "glassCount": 8,
+        "pillarCount": 10,
+        "wheelArchCount": 4,
+        "lampCount": 4,
+        "bumperCount": 2,
+        "shellVertexCount": 2353,
+        "renderedWidth": 1.881870150566101,
+        "renderedLength": 4.550000190734863,
+        "renderedHeight": 1.3278526663780212,
+        "rooflineY": 1.5078526735305786
+      }
+    },
+    "visualDimensions": {
+      "assertions": 595,
+      "maximumWheelWorldErrorMetres": 3.985994439185401e-15,
+      "checkedWheelPoses": 32,
+      "exteriorViewsChecked": 12,
+      "collisionLengthAllowanceMetres": 0.12,
+      "collisionWidthAllowanceMetres": 0.06
+    },
+    "roadCourse": {
+      "assertions": 14,
+      "asphaltGrip": 1,
+      "shoulderGrip": 0.7845161346694606,
+      "grassGrip": 0.55,
+      "shoulderRollingResistance": 1.6856304805971711,
+      "grassRollingResistance": 3,
+      "maximumGripStep": 0.027261867874973422,
+      "maximumRollingResistanceStep": 0.08674230687491535,
+      "markingVertices": 30400,
+      "markingClearanceError": 0.0000016797194270987137,
+      "markingJoinGap": 0,
+      "markingHeightRange": 7.999999992549419
+    },
+    "groundCatalog": {
+      "assertions": 117,
+      "maps": 11,
+      "reloads": 11
+    },
+    "circuit": {
+      "failed": true
+    },
+    "tsukuba": {
+      "assertions": 183450,
+      "lapLength": 2045.000000000003,
+      "homeStraight": 275.4816556239,
+      "backStraight": 418.3853531769312,
+      "minimumHeight": 0.00022903965570422453,
+      "maximumHeight": 5.300165790264522,
+      "maximumGrade": 0.05069534375006349,
+      "maximumPitGrade": 0.060280085337232524,
+      "pitLength": 472.26754691552975,
+      "minJoinDot": 0.9997012780667123,
+      "meshes": 67,
+      "instances": 14,
+      "colliders": 1450,
+      "vehicles": 17
+    },
+    "mountain": {
+      "assertions": 172722,
+      "routeLength": 6580.2682050960175,
+      "minimumHeight": 1.9580749240983295,
+      "maximumHeight": 93.89844130222998,
+      "routes": [
+        {
+          "id": "main",
+          "length": 6580.2682050960175,
+          "maxGrade": 0.11560935305456169,
+          "maxCrossfallDegrees": 7.806003432535873
+        },
+        {
+          "id": "steep-climb",
+          "length": 177.00616018771495,
+          "maxGrade": 0.16924436192091574,
+          "maxCrossfallDegrees": 8.255729269958689
+        },
+        {
+          "id": "side-slope",
+          "length": 123.914691184725,
+          "maxGrade": 0.07530720788733308,
+          "maxCrossfallDegrees": 11.547379846619716
+        },
+        {
+          "id": "deep-ruts",
+          "length": 68.65110503276753,
+          "maxGrade": 0.08160248631298334,
+          "maxCrossfallDegrees": 8.945760398290467
+        }
+      ],
+      "mainRutDepth": 0.17279422463988112,
+      "technicalRutDepth": 0.23405927682275846,
+      "terrainVertices": 254202,
+      "instanceBatches": 6,
+      "vehicles": 13
+    },
+    "lapTimer": {
+      "assertions": 34
+    },
+    "subject2": {
+      "assertions": 1465,
+      "routeLength": 370.3321094651131,
+      "connectionLengths": [
+        28.681541692269406,
+        28,
+        30.62049935181331,
+        30,
+        34.40151894305153
+      ],
+      "maximumRouteHeightStep": 0.025000000000000133,
+      "maximumHillGrade": 0.10000000000000009,
+      "hillHeight": 1.1,
+      "asphaltGrip": 1,
+      "openApronGrip": 1,
+      "maximumPavementHeightError": 0.006250020980835137,
+      "maximumGripStep": 0,
+      "maximumRollingResistanceStep": 0,
+      "markingVertices": 6549,
+      "markingClearanceError": 1.8894672385721956e-7,
+      "markingHeightRange": 1.0999999959021807
+    },
+    "subject3": {
+      "assertions": 4036,
+      "roadLength": 3964.5271541510306,
+      "roadSegmentCount": 8,
+      "junctionCount": 11,
+      "signalisedJunctionCount": 2,
+      "teeJunctionCount": 7,
+      "signalHeadCount": 8,
+      "signalCycleSeconds": 49,
+      "nextSignalColour": "red",
+      "asphaltGrip": 1,
+      "sidewalkGrip": 0.9,
+      "grassGrip": 0.55,
+      "markingVertices": 39486,
+      "markingClearanceError": 1.5497207649095568e-9,
+      "spawnOnAsphalt": true
+    }
+  }
+}

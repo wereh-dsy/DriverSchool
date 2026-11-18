@@ -9,6 +9,8 @@ export class HybridControlPanel {
   private readonly hold = document.createElement('input');
   private readonly status = document.createElement('div');
   private readonly message = document.createElement('div');
+  private readonly rearLock = document.createElement('input');
+  private readonly frontLock = document.createElement('input');
   private elapsed = 1;
   public constructor(private readonly getPowertrain: () => P2HybridPowertrain | undefined,
     private readonly getSpeed: () => number, private readonly getBrake: () => number) {
@@ -25,10 +27,20 @@ export class HybridControlPanel {
     this.mode.onchange = selectMode; this.hold.onchange = selectMode;
     for (const value of ['2H', 'AWD', '4H', '4L']) { const o = document.createElement('option'); o.value = o.textContent = value; this.transfer.append(o); }
     line('分动模式 ', this.transfer);
+    for (const [axle, checkbox, label] of [['rear', this.rearLock, '后桥差速锁 '], ['front', this.frontLock, '前桥差速锁 ']] as const) {
+      checkbox.type = 'checkbox'; line(label, checkbox);
+      checkbox.onchange = () => {
+        const p = this.getPowertrain(); if (!p) return;
+        const ok = p.requestAxleLock(axle, checkbox.checked, this.getSpeed());
+        this.message.textContent = ok ? checkbox.checked ? '差速锁已锁止' : '差速锁已解除' : '请低速并同步车轮，在4H/4L操作后锁；前锁需已装备并选择4L';
+        checkbox.checked = (axle === 'rear' ? p.transfer.rearLock : p.transfer.frontLock)?.engaged ?? false;
+      };
+    }
     this.transfer.onchange = () => {
       const p = this.getPowertrain(); if (!p) return;
       const accepted = p.requestTransferMode(this.transfer.value as TransferMode, this.getSpeed(), this.getBrake());
-      this.message.textContent = accepted ? '分动模式已切换' : '切换失败：4L需停车、N挡、踩刹车；高速切换需低于80km/h';
+      this.message.textContent = accepted ? '分动模式已切换' : p.transfer.rejectedReason === 'synchronize-front-rear-shafts'
+        ? '请收油、停车，使前后传动轴同步后再锁止' : '切换失败：4L需停车、N挡、踩刹车；高速切换需低于80km/h';
       this.transfer.value = p.transfer.mode;
     };
     const buttons = document.createElement('div'); this.root.append(buttons);
@@ -50,6 +62,9 @@ export class HybridControlPanel {
     if (!p || !visible) return;
     this.elapsed += dt; if (this.elapsed < .2) return; this.elapsed = 0;
     this.mode.value = p.energyManagement.mode; this.transfer.value = p.transfer.mode;
+    this.rearLock.disabled = !p.transfer.rearLock; this.frontLock.disabled = !p.transfer.frontLock;
+    this.rearLock.checked = p.transfer.rearLock?.engaged ?? false; this.frontLock.checked = p.transfer.frontLock?.engaged ?? false;
+    this.frontLock.title = p.transfer.frontLock ? '' : '本车型未安装前桥差速锁';
     if (document.activeElement !== this.hold) this.hold.value = String(Math.round(p.energyManagement.holdSOC * 100));
     const b = p.battery.getSnapshot();
     this.status.textContent = `SOC ${(b.soc * 100).toFixed(1)}% · ${b.energyKWh.toFixed(2)} kWh · ${b.temperatureC.toFixed(0)}°C | ${b.state} ${(b.gridPowerW / 1000).toFixed(1)} kW`;

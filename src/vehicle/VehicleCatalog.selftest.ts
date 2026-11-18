@@ -298,8 +298,12 @@ const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 17 && isVehicleId('tank-500-hi4-t') && isVehicleId('mercedes-maybach-s680-z223') && isVehicleId('koenigsegg-jesko-attack') && isVehicleId('xiaomi-su7-max-2026') && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
-    isVehicleId('mercedes-e300l-v214'), 'seventeen official vehicles including Tank 500, Maybach, Jesko, SU7 Max, Taycan, Golf and E 300 L');
+  const expectedIds = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
+    'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38',
+    'porsche-taycan-4s', 'volkswagen-golf-gti', 'mercedes-e300l-v214', 'mercedes-maybach-s680-z223',
+    'xiaomi-su7-max-2026', 'koenigsegg-jesko-attack', 'tank-500-hi4-t', 'byd-qin-plus-dmi-210-2026'] as const;
+  assert(VEHICLE_CATALOG.length === expectedIds.length && expectedIds.every(id =>
+    isVehicleId(id) && VEHICLE_CATALOG.some(vehicle => vehicle.id === id)), 'eighteen approved official vehicles including Qin PLUS');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');

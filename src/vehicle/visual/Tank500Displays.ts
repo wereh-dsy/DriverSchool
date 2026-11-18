@@ -91,7 +91,8 @@ export class Tank500Display extends T.Group {
       text(`${Math.round(this.power)}`, 980, 242, 78, this.power < 0 ? GREEN : WHITE); text(this.power < 0 ? 'kW · 回收' : 'kW · 动力', 980, 289, 27);
       this.car(c, 600, 210, .60); this.flow(c, t, 195);
       text(t.engineRunning ? '发动机运行' : '发动机停止', 600, 108, 26, t.engineRunning ? GOLD : MUTED);
-      text(`${hybrid.transfer.mode}   前/后 ${Math.round(hybrid.transfer.frontShare * 100)}/${Math.round(hybrid.transfer.rearShare * 100)}`, 600, 319, 25, GOLD);
+      const axle = hybrid.transfer.axleOutputTorques;
+      text(`${hybrid.transfer.mode}  前/后 ${Math.round(axle.front)}/${Math.round(axle.rear)} Nm`, 600, 319, 25, GOLD);
       text(`SOC ${Math.round(battery.soc * 100)}%`, 1000, 361, 28, GREEN);
     } else {
       text({ ENERGY: '能量流', OFFROAD: '越野信息', STATUS: '车辆状态' }[this.page], 600, 105, 32, GOLD);
@@ -102,10 +103,11 @@ export class Tank500Display extends T.Group {
         text('实际能量流向 · ' + (hybrid.motorPowerW < -500 ? 'P2 → 电池' : hybrid.motorPowerW > 500 ? '电池 → P2' : '待机'), 600, 515, 25, MUTED);
       } else if (this.page === 'OFFROAD') {
         this.car(c, 345, 285, 1.15); text(`${hybrid.transfer.mode}   ${hybrid.transfer.ratio.toFixed(2)} : 1`, 820, 198, 43, GOLD);
-        text(`前轴 ${Math.round(hybrid.transfer.frontShare * 100)}% / 后轴 ${Math.round(hybrid.transfer.rearShare * 100)}%`, 820, 267, 31);
+        text(`前轴 ${Math.round(hybrid.transfer.axleOutputTorques.front)} / 后轴 ${Math.round(hybrid.transfer.axleOutputTorques.rear)} Nm`, 820, 267, 29);
         text(`K0 ${Math.round(hybrid.clutchEngagement * 100)}%   ${Math.round(hybrid.clutchSlipRPM)} rpm滑差`, 820, 326, 27);
         text(`TCS ${t.indicators?.tcsOff ? '关闭' : t.indicators?.tcsActive ? '介入' : '待命'}`, 820, 384, 29, GREEN);
-        text('机械四驱 · 中央耦合等效模型', 600, 466, 27, MUTED);
+        text(`传动轴反力 ${Math.round(Math.abs(hybrid.transfer.centerLock?.reactionTorqueNm ?? 0))} Nm`, 345, 447, 22, MUTED);
+        text(`中央${hybrid.transfer.centerLock?.engaged ? '锁止' : '开放'} · 后锁${hybrid.transfer.rearLock?.engaged ? '锁止' : '开放'} · 前锁${hybrid.transfer.frontLock ? hybrid.transfer.frontLock.engaged ? '锁止' : '开放' : '未装备'}`, 600, 466, 27, MUTED);
       } else {
         text(`电池 ${battery.temperatureC.toFixed(1)} °C   ${Math.round(battery.voltage)} V   ${Math.round(battery.current)} A`, 600, 205, 30);
         text(`可放电 ${(battery.dischargePowerW / 1000).toFixed(0)} kW   可充电 ${(battery.chargePowerW / 1000).toFixed(0)} kW`, 600, 270, 28);

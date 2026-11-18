@@ -61,6 +61,16 @@ export function runEditorSelfTest(){
   signs.apply({op:'moveRoad',id:'avenue',delta:{x:10,z:20}});assert(distance(signs.getSign('name-sign')!.position,{x:signBefore.position.x+10,z:signBefore.position.z+20})<.01,'sign follows moved road');
   signs.apply({op:'splitRoad',roadId:'avenue',point:{x:10,y:0,z:20}});assert(signs.getSign('name-sign')!.roadId!=='avenue'&&Math.abs(signs.getSign('name-sign')!.stationMetres!-150)<.01,'split remaps sign ownership and station');
   const newSignRoad=signs.getSign('name-sign')!.roadId;signs.apply({op:'modifySign',id:'name-sign',properties:{stationMetres:100}});assert(signs.getSign('name-sign')!.stationMetres===100,'station edit');
+  const beforeTemplates=JSON.stringify(signs.getSign('name-sign'));
+  signs.apply({op:'modifySign',id:'name-sign',properties:{template:'highway-gantry',gantryPosts:[-7,9]}});
+  signs.apply({op:'modifySign',id:'name-sign',properties:{template:'gantry',postOffset:12}});
+  assert(signs.getSign('name-sign')!.gantryPosts===undefined,'cantilever conversion removes incompatible twin supports');
+  signs.apply({op:'modifySign',id:'name-sign',properties:{template:'ceiling',mountHeight:8}});
+  assert(signs.getSign('name-sign')!.postOffset===undefined,'ceiling conversion removes roadside post offset');
+  signs.apply({op:'modifySign',id:'name-sign',properties:{template:'single-post'}});
+  assert(signs.getSign('name-sign')!.mountHeight===undefined,'ground post conversion removes ceiling mount');
+  for(let i=0;i<4;i++)assert(signs.undo(),'template conversion is undoable');
+  assert(JSON.stringify(signs.getSign('name-sign'))===beforeTemplates,'template undo restores exact original sign');
   assert(loadCityMap(JSON.parse(saveMap(signs.data))).signs?.length===1,'sign save/reload');signs.apply({op:'deleteRoad',id:newSignRoad});assert(!signs.getSign('name-sign'),'road deletion removes dependent sign');signs.undo();assert(!!signs.getSign('name-sign'),'sign deletion undo');
   const divided=new CityEditingKernel(newCityMap());divided.apply([{op:'createRoad',id:'pair-a',preset:'frontage2',points:[{x:-300,y:0,z:-10},{x:300,y:0,z:-10}],properties:{travelDirection:'forward',laneCount:2}},{op:'createRoad',id:'pair-b',preset:'frontage2',points:[{x:300,y:0,z:10},{x:-300,y:0,z:10}],properties:{travelDirection:'forward',laneCount:2}}]);
   divided.apply([{op:'setRoadName',id:'pair-a',nameId:'paired',entry:{primaryText:'测试辅路',kind:'urban'}},{op:'setRoadName',id:'pair-b',nameId:'paired',entry:{primaryText:'测试辅路',kind:'urban'}}]);

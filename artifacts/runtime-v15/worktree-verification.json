@@ -1,0 +1,41 @@
+{
+  "head": "e42346815360428daf9d90f4e805f527d6b739f1",
+  "headUnchanged": true,
+  "mapUnchanged": true,
+  "releases": [
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-Performance-Round2-20261109-final/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "4ee75f2135b943a504c07646bd5128637d54362739f839f1f54aaa0965f6217d",
+      "unchanged": true
+    },
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "f2b0b6513e22bc100bdca334c0efe09f3fd9fe7e6c3a6fdc80d4ae60c69c5984",
+      "unchanged": true
+    }
+  ],
+  "changedExistingFiles": [
+    "scripts/check-preload.mjs",
+    "scripts/performance-preload.ts",
+    "scripts/run-runtime-selftests.mjs",
+    "src/game/StreamingShaderWarmup.ts",
+    "src/game/runtime/FixedStepClock.ts",
+    "src/game/runtime/RuntimeCoordinator.selftest.ts",
+    "src/game/runtime/RuntimeCoordinator.ts",
+    "src/game/runtime/RuntimePerformance.ts",
+    "src/game/DrivingGame.ts",
+    "src/world/city/CityGround.ts",
+    "src/world/city/FogVisibility.ts",
+    "src/world/city/RoadSignRenderer.ts",
+    "src/world/city/SectorManager.ts",
+    "src/world/city/VisualStreamingWorker.ts",
+    "src/world/regional/RegionalBackgroundBatches.ts",
+    "src/world/regional/RegionalStreaming.ts"
+  ],
+  "newTaskFiles": [
+    "src/world/regional/RoadStreamCorridor.ts",
+    "src/world/city/RoadVisualCompleteness.ts",
+    "src/game/runtime/RuntimeStreaming.selftest.ts"
+  ],
+  "vehicleFilesUnchanged": true
+}

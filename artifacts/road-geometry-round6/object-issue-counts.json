@@ -1,0 +1,510 @@
+{
+  "coverage": {
+    "roads": 0,
+    "objects": 11505
+  },
+  "counts": {
+    "object.buried": 133,
+    "object.unsupportedOnDeck": 137,
+    "object.tooCloseToObject": 731,
+    "object.floating": 69,
+    "object.intersectsBarrier": 28,
+    "tree.canopyOccludesSign": 1,
+    "tree.canopyNearRoad": 118,
+    "streetlight.tooDense": 6,
+    "object.insideLane": 85,
+    "object.insideJunction": 22,
+    "object.intersectsRoadStructure": 2,
+    "roadSign.insideLane": 15,
+    "roadSign.wrongSide": 8,
+    "roadSign.insideJunction": 1,
+    "roadSign.intersectsStructure": 1,
+    "roadSign.tooCloseToJunction": 2,
+    "object.wrongStructureLevel": 2,
+    "trafficLight.insideCarriageway": 2,
+    "trafficLight.occludedByStructure": 2,
+    "trafficLight.insideJunctionConflict": 12
+  },
+  "examples": [
+    {
+      "id": "object.insideLane::v6-river-bank-69::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-river-bank-69",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v91-ew-0-a-6-section",
+        "distance": 18.381862772956094,
+        "roadHalfWidth": 3.6,
+        "objectRadius": 24.271134605836743
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-river-bank-69",
+        "roadId": "v91-ew-0-a-6-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-14::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-14",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v9-lake-loop-north-split-split-c91",
+        "distance": 28.029277905025502,
+        "roadHalfWidth": 3.2,
+        "objectRadius": 34.00757949491717
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-14",
+        "roadId": "v9-lake-loop-north-split-split-c91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-18::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-18",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v4-north-split-3-split-m91",
+        "distance": 20.356656937956927,
+        "roadHalfWidth": 7.5,
+        "objectRadius": 28.681575575309555
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-18",
+        "roadId": "v4-north-split-3-split-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-20::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-20",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v4-north-split-3-split-m91",
+        "distance": 27.0823977449611,
+        "roadHalfWidth": 7.5,
+        "objectRadius": 23.60150203915127
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-20",
+        "roadId": "v4-north-split-3-split-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-28::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-28",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v4-inner-0-split-split-m91-section",
+        "distance": 6.815404628572115,
+        "roadHalfWidth": 7.5,
+        "objectRadius": 20.251540418242453
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-28",
+        "roadId": "v4-inner-0-split-split-m91-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-38::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-38",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91",
+        "distance": 16.66916794722374,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.497422818908955
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-38",
+        "roadId": "v5-civic-avenue-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-40::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-40",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91",
+        "distance": 15.693885486803424,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.522667841273334
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-40",
+        "roadId": "v5-civic-avenue-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-42::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-42",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91",
+        "distance": 14.775222374877103,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.43839360775687
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-42",
+        "roadId": "v5-civic-avenue-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-44::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-44",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-north-split-m91",
+        "distance": 10.860849531431313,
+        "roadHalfWidth": 7,
+        "objectRadius": 20.023001629350716
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-44",
+        "roadId": "v5-civic-north-split-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-44::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-44",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91-section",
+        "distance": 14.118589579648187,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.249142640836234
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-44",
+        "roadId": "v5-civic-avenue-m91-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-46::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-46",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91-section",
+        "distance": 13.916605253548823,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.03751809687915
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-46",
+        "roadId": "v5-civic-avenue-m91-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-48::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-48",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91-section",
+        "distance": 14.347695562391891,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.413817361007427
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-48",
+        "roadId": "v5-civic-avenue-m91-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-50::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-50",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-m91-section",
+        "distance": 15.560364167075932,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 6.8526305603208595
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-50",
+        "roadId": "v5-civic-avenue-m91-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-52::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-52",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-avenue-split-m91",
+        "distance": 18.490680335634107,
+        "roadHalfWidth": 10.5,
+        "objectRadius": 7.3262089950541895
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-52",
+        "roadId": "v5-civic-avenue-split-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-62::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-62",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v91-ew-0-b-6-section",
+        "distance": 0.6663763742036508,
+        "roadHalfWidth": 3.6,
+        "objectRadius": 20.545891856342358
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-62",
+        "roadId": "v91-ew-0-b-6-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-68::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-68",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v91-ew-0-a-6-section",
+        "distance": 6.097668525347819,
+        "roadHalfWidth": 3.6,
+        "objectRadius": 19.578365497025633
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-68",
+        "roadId": "v91-ew-0-a-6-section",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-84::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-84",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-middle-split-3-c91",
+        "distance": 17.075655074432483,
+        "roadHalfWidth": 3.5,
+        "objectRadius": 21.287154071197786
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-84",
+        "roadId": "v5-civic-middle-split-3-c91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-86::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-86",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-middle-split-3-c91",
+        "distance": 21.142202866521266,
+        "roadHalfWidth": 3.5,
+        "objectRadius": 21.286446721887884
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-86",
+        "roadId": "v5-civic-middle-split-3-c91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-94::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-94",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v6-civic-qinghe-c91",
+        "distance": 8.661163381950919,
+        "roadHalfWidth": 3.5,
+        "objectRadius": 21.00603095897667
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-94",
+        "roadId": "v6-civic-qinghe-c91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-98::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-98",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v4-central-split-3-split-3-split-2-m91",
+        "distance": 10.08406489275228,
+        "roadHalfWidth": 11.25,
+        "objectRadius": 21.236752874448413
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-98",
+        "roadId": "v4-central-split-3-split-3-split-2-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-100::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-100",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v4-central-split-3-split-3-split-2-m91",
+        "distance": 28.495995940739817,
+        "roadHalfWidth": 11.25,
+        "objectRadius": 21.254916134904526
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-100",
+        "roadId": "v4-central-split-3-split-3-split-2-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-112::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-112",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-south-split-2-m91",
+        "distance": 9.133126614626349,
+        "roadHalfWidth": 7,
+        "objectRadius": 20.976213473074495
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-112",
+        "roadId": "v5-civic-south-split-2-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-114::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-114",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v5-civic-south-split-2-m91",
+        "distance": 26.36425991121724,
+        "roadHalfWidth": 7,
+        "objectRadius": 20.880761035199285
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-114",
+        "roadId": "v5-civic-south-split-2-m91",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.insideLane::v6-qinghe-creek-120::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "v6-qinghe-creek-120",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "direction-inner-sw",
+        "distance": 5.999509198238047,
+        "roadHalfWidth": 7.2,
+        "objectRadius": 20.42768408350199
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "v6-qinghe-creek-120",
+        "roadId": "direction-inner-sw",
+        "strategy": "moveOutsideCarriageway"
+      }
+    }
+  ]
+}

@@ -6,11 +6,12 @@ export const SU7_MAX_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '2026 Xiaomi SU7 Max',
   dimensions: d, collisionDimensions: d, vehicleWidth: d.width, vehicleLength: d.length,
   wheelBase: d.wheelBase, trackWidth: d.frontTrackWidth, wheelRadius: d.wheelRadius,
-  driverEyePosition: [-.40, 1.13, .28], steeringWheelPosition: [-.40, .845, -.28],
+  // The taller eye point clears the instrument hood when looking down the road.
+  driverEyePosition: [-.40, 1.21, .28], steeringWheelPosition: [-.40, .845, -.28],
   steeringColumnMountPosition: [-.40, .775, -.54], steeringWheelLockDegrees: 870.4,
   instrumentCluster: { displayStyle: 'su7-digital', featureClass: 'advanced', maximumSpeedKmh: 280,
     maximumRPM: 0, redlineRPM: 0, needleResponse: 14 },
-  // Game adaptation: raise the larger display above the steering rim at the default eye point.
+  // Game adaptation: keep the larger display visible above the steering rim.
   instrumentClusterTransform: { position: [-.40, 1.025, -.55], rotation: [-.08, 0, 0] },
   drivingSceneDisplay: { lanes: true, proximity: true },
   dashboard: { position: [0, .80, -.70], dimensions: [1.74, .14, .32], tiltRadians: 0 },

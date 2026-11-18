@@ -3,22 +3,35 @@ import type { CityMapData, CityPoint } from '../city/CityMapData';
 import { RegionalTerrainClearance } from './RegionalTerrainClearance';
 import { importVisualGeometry, type TerrainVisualData } from '../city/VisualStreamingData';
 import {cityTerrainOffsetAt} from '../city/CityTerrain';
+import { drain } from '../../loading/Loading';
 
 interface EarthworkSegment { a: CityPoint; b: CityPoint; halfWidth: number; tunnel: boolean; bridge:boolean; ramp:boolean }
 const samplerCache=new WeakMap<CityMapData,RegionalTerrainSampler>();
 export function regionalTerrainSampler(map:CityMapData):RegionalTerrainSampler {let sampler=samplerCache.get(map);if(!sampler){sampler=new RegionalTerrainSampler(map);samplerCache.set(map,sampler);}return sampler;}
+export function* prepareRegionalTerrainSamplerSteps(map: CityMapData): Generator<void> {
+  if (samplerCache.has(map)) return;
+  const sampler = new RegionalTerrainSampler(map, true);
+  yield* sampler.initialization;
+  samplerCache.set(map, sampler);
+}
 const blend=(v:number)=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 /** Shared terrain support profile and 100m spatial buckets. No whole-region contact scan. */
 export class RegionalTerrainSampler {
   readonly cityAreas: {minX:number;maxX:number;minZ:number;maxZ:number}[];
   private readonly buckets=new Map<string,EarthworkSegment[]>();
   private readonly westCrossings:CityPoint[];
-  constructor(readonly map:CityMapData) {
+  readonly initialization: Generator<void>;
+  constructor(readonly map:CityMapData, deferred = false) {
     this.cityAreas=[map.regional!.cityBounds,...map.regional!.cityExtensions??[]];
     this.westCrossings=map.regional!.structures.filter(s=>s.kind==='bridge'&&s.routes.includes('S37')).map(s=>s.center).sort((a,b)=>a.z-b.z);
+    this.initialization = this.initialize(map);
+    if (!deferred) drain(this.initialization);
+  }
+  private *initialize(map: CityMapData): Generator<void> {
     for(const road of map.roads) {
       if(!road.id.startsWith('regional:'))continue;
       for(let i=1;i<road.centerline.length;i++) {
+        if (i % 64 === 1) yield;
         const a=road.centerline[i-1]!,b=road.centerline[i]!,s={a,b,halfWidth:road.laneCount*road.laneWidth/2+4,tunnel:road.corridorSection==='TUNNEL',bridge:road.corridorSection==='BRIDGE',ramp:road.corridorSection==='RAMP'};
         for(let x=Math.floor((Math.min(a.x,b.x)-90)/100);x<=Math.floor((Math.max(a.x,b.x)+90)/100);x++)for(let z=Math.floor((Math.min(a.z,b.z)-90)/100);z<=Math.floor((Math.max(a.z,b.z)+90)/100);z++) {
           const key=`${x},${z}`,bucket=this.buckets.get(key)??[];bucket.push(s);this.buckets.set(key,bucket);
@@ -98,10 +111,10 @@ export class RegionalTerrain {
   private readonly origin:Vector2;
   private readonly maskSize:Vector2;
   readonly sampler:RegionalTerrainSampler;
-  private readonly clearance:RegionalTerrainClearance;
-  constructor(readonly map:CityMapData){
+  readonly clearance:RegionalTerrainClearance;
+  constructor(readonly map:CityMapData,clearance?:RegionalTerrainClearance){
     this.sampler=regionalTerrainSampler(map);
-    this.clearance=new RegionalTerrainClearance(map);
+    this.clearance=clearance??new RegionalTerrainClearance(map);
     const b=map.regional!.terrainBounds,size=map.sectorSize;
     this.origin=new Vector2(Math.floor(b.minX/size),Math.floor(b.minZ/size));
     this.maskSize=new Vector2(Math.ceil(b.maxX/size)-this.origin.x,Math.ceil(b.maxZ/size)-this.origin.y);
@@ -134,6 +147,9 @@ export class RegionalTerrain {
     positions.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingSphere();
   }
   build(key:string,tier:'near'|'mid'|'far'):Group {
+    return drain(this.buildSteps(key, tier));
+  }
+  *buildSteps(key:string,tier:'near'|'mid'|'far'):Generator<void, Group> {
     const [sx,sz]=key.split(',').map(Number),size=this.map.sectorSize,x=sx!*size,z=sz!*size;
     const coast=this.map.regional?.coast,shoreA=this.sampler.shoreAt(x),shoreB=this.sampler.shoreAt(x+size);
     const oceanOnly=shoreA!==undefined&&shoreB!==undefined&&z>Math.max(shoreA,shoreB)+coast!.transitionWidth;
@@ -151,6 +167,7 @@ export class RegionalTerrain {
       const color=pz<-2400?[.29,.39,.24]:pz>2500?[.43,.44,.33]:px>3900?field===0?[.58,.59,.34]:field===1?[.46,.55,.29]:[.62,.56,.35]:[.37,.46,.29];colors.push(...color);
     };
     for(let i=0;i<steps;i++)for(let j=0;j<steps;j++){
+      if ((i * steps + j) % 16 === 0) yield;
       const bounds=this.map.regional!.terrainBounds,a=Math.max(bounds.minX,x+i*step),b=Math.max(bounds.minZ,z+j*step),a1=Math.min(bounds.maxX,x+(i+1)*step),b1=Math.min(bounds.maxZ,z+(j+1)*step);
       if(a1<=a||b1<=b)continue;
       // Existing city's flat mesh owns city terrain and authored open cuts.
@@ -181,6 +198,7 @@ export class RegionalTerrain {
     if(water.length){const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(water,3));g.computeVertexNormals();root.add(new Mesh(g,this.materialFor(tier,1,key)));}
     return root;
   }
+  get backgroundMaterials(){return [this.farLand,this.farWater,this.farOcean,this.farRoad];}
   public materialFor(tier: 'near' | 'mid' | 'far', index: number, key?:string) {
     const x=key?Number(key.split(',')[0])*this.map.sectorSize+this.map.sectorSize/2:undefined;
     const ocean=x!==undefined&&this.sampler.shoreAt(x)!==undefined;

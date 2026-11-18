@@ -1,141 +1,130 @@
-import { nextPaint, loadingMark } from '../loading/Loading';
-import { createDrivingGroundAsync } from '../world/DrivingGroundCatalog';
-import { createGameRenderer } from './createGameRenderer';
+import {writeRenderLighting} from './render/RenderLightingState';
+import {exportDebugOverlays} from './render/RenderDebugOverlays';
+import {
+Euler,
+MathUtils,
+PerspectiveCamera,
+Quaternion,
+Raycaster,
+Scene,
+Vector2,
+Vector3,
+WebGLRenderer
+} from 'three';
+import { EngineAudio } from '../audio/EngineAudio';
+import type { VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import { evaluateCabinAcoustics,type CabinAcousticState } from '../audio/VehicleCabinAcoustics';
+import {
+DEFAULT_DRIVER_FOV_DEGREES,
+DEFAULT_DRIVER_HEAD_LOOK,
+DriverCamera,
+MirrorAdjustmentController,
+type AdjustableMirrorSide
+} from '../camera';
+import type { AdaptiveMirrorContext } from '../camera/AdaptiveMirrorRendering';
+import { MirrorGeometryDebug } from '../camera/MirrorGeometryDebug';
+import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
+import { AccelerationTest } from '../experimental/acceleration/AccelerationTest';
+import { AccelerationTestView } from '../experimental/acceleration/AccelerationTestView';
+import { TrajectoryPrediction } from '../experimental/trajectory/TrajectoryPrediction';
+import {
+VehicleInputSystem,
+createNeutralVehicleInputState,
+type VehicleControlMode,
+type VehicleInputSource,
+type VehicleInputState,
+} from '../input';
+import { GamepadHaptics } from '../input/GamepadHaptics';
+import { loadingMark } from '../loading/Loading';
 import { platform } from '../platform';
+import { OnFootController } from '../player/OnFootController';
+import { vehicleControlsForPlayerMode } from '../player/PlayerInput';
+import { PlayerModeController,smoothPlayerTransition } from '../player/PlayerModeController';
+import { EhsControlPanel } from '../ui/EhsControlPanel';
+import { Hud } from '../ui/Hud';
+import { HybridControlPanel } from '../ui/HybridControlPanel';
 import { GameUIController } from '../ui/controller/GameUIController';
 import { GameShell } from '../ui/screens/GameShell';
-import { vehicleViewModel } from './GameUIViewModels';
 import type { UIScreen } from '../ui/state/GameUIState';
-import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
-import { VehiclePhysicsBlackBox, blackBoxFilename } from '../vehicle/diagnostics/VehiclePhysicsBlackBox';
+import { SharedVehicleData } from '../vehicle/SharedVehicleData';
+import {
+DEFAULT_VEHICLE_ID,
+VEHICLE_CATALOG,
+createVehiclePhysicsConfig,
+getNextVehicleId,
+getVehicleDescriptor,
+isVehicleId,
+type VehicleId,
+} from '../vehicle/VehicleCatalog';
+import { VehicleLoadingLifecycle } from '../vehicle/VehicleLoadingLifecycle';
+import { CruiseControlController } from '../vehicle/control';
+import { LANE_ASSIST_LABELS,LaneAssistMode,LaneAssistStateController } from '../vehicle/control/LaneAssistState';
+import { LaneDepartureWarningController } from '../vehicle/control/LaneDepartureWarningController';
+import { LateralAssistController,arbitrateLateralSteering,type LateralAssistContext } from '../vehicle/control/LateralAssistController';
+import { RearParkingProximity } from '../vehicle/control/RearParkingProximity';
+import { VehicleLightingController } from '../vehicle/control/VehicleLightingController';
+import { WiperController } from '../vehicle/control/WiperController';
+import { AdaptiveDriverLayer } from '../vehicle/control/adaptive/AdaptiveDriverLayer';
+import { DriverProfileStore } from '../vehicle/control/adaptive/DriverProfileStore';
 import type { BlackBoxStatus } from '../vehicle/diagnostics/BlackBoxSchema';
+import { VehiclePhysicsBlackBox,blackBoxFilename } from '../vehicle/diagnostics/VehiclePhysicsBlackBox';
+import { VehicleFeedbackSystem } from '../vehicle/feedback/VehicleFeedbackSystem';
+import { VehicleInteractionController } from '../vehicle/interaction/VehicleInteractionController';
+import {
+applyVehicleInteractionVisual,
+type VehicleInteractionDefinition,
+} from '../vehicle/interaction/VehicleInteractionDefinition';
+import {
+VehicleDynamics,
+type VehicleRuntimeSnapshot,
+} from '../vehicle/physics';
+import { VehicleContactSystem } from '../vehicle/physics/VehicleContactSystem';
+import { EhsHybridSystem } from '../vehicle/powertrain/EhsHybridSystem';
+import { ElectricPowertrain } from '../vehicle/powertrain/ElectricPowertrain';
+import { P2HybridPowertrain } from '../vehicle/powertrain/P2HybridPowertrain';
+import type { Powertrain } from '../vehicle/powertrain/Powertrain';
+import {
+type VehicleLightMode
+} from '../vehicle/visual';
+import { DrivingSceneDisplayContext } from '../vehicle/visual/DrivingSceneDisplayContext';
+import { ElectricDisplayContext } from '../vehicle/visual/ElectricDisplayContext';
+import { ExecutiveDisplayContext } from '../vehicle/visual/ExecutiveDisplayContext';
+import { VehicleAssetRegistry } from '../vehicle/visual/VehicleAssetRegistry';
+import {
+DRIVING_GROUND_CATALOG,
+getInitialDrivingGroundId,
+getNextDrivingGroundId,
+isDrivingGroundId,
+prepareDrivingGround,
+type DrivingGround,
+type DrivingGroundId,
+} from '../world';
+import { createDrivingGroundAsync } from '../world/DrivingGroundCatalog';
+import { WEATHER_LABELS,WEATHER_SEQUENCE,WeatherSystem,type EnvironmentTime,type Weather } from '../world/environment/WeatherSystem';
+import { createLaneObservation } from '../world/navigation/LaneObservation';
+import { NavigationController } from '../world/navigation/NavigationController';
+import { ContactDebugView } from './ContactDebugView';
+import { vehicleViewModel } from './GameUIViewModels';
+import { LateralAssistDebugView } from './LateralAssistDebugView';
+import { VehicleVisualDebugView } from './VehicleVisualDebugView';
+import { LapTimer } from './lap/LapTimer';
+import { renderTelemetry } from './render/RenderTelemetry';
+import { R } from './render/RendererProtocol';
+import { RendererWorkerClient } from './render/RendererWorkerClient';
+import { SimulationVehicleRig } from './render/SimulationVehicleRig';
+import { RuntimeCoordinator,type RuntimeTaskHandle } from './runtime/RuntimeCoordinator';
+import { VehicleRenderPose } from './runtime/VehicleRenderPose';
 
 declare const __DRIVERGAME_BUILD_VERSION__: string;
 declare const __CITY_MAIN_RUNTIME_URL__: string;
-import { AdaptiveDriverLayer } from '../vehicle/control/adaptive/AdaptiveDriverLayer';
-import { DriverProfileStore } from '../vehicle/control/adaptive/DriverProfileStore';
-import { LaneAssistMode, LaneAssistStateController, LANE_ASSIST_LABELS } from '../vehicle/control/LaneAssistState';
-import { LaneDepartureWarningController } from '../vehicle/control/LaneDepartureWarningController';
-import { ElectricPowertrain } from '../vehicle/powertrain/ElectricPowertrain';
-import type { Powertrain } from '../vehicle/powertrain/Powertrain';
-import { ParkingCamera } from '../camera/ParkingCamera';
-import { ExecutiveDisplayContext } from '../vehicle/visual/ExecutiveDisplayContext';
-import { ElectricDisplayContext } from '../vehicle/visual/ElectricDisplayContext';
-import { DrivingSceneDisplayContext } from '../vehicle/visual/DrivingSceneDisplayContext';
-import { SharedVehicleData } from '../vehicle/SharedVehicleData';
-import { LateralAssistController, arbitrateLateralSteering, type LateralAssistContext } from '../vehicle/control/LateralAssistController';
-import { createLaneObservation } from '../world/navigation/LaneObservation';
-import { NavigationController } from '../world/navigation/NavigationController';
-import { LateralAssistDebugView } from './LateralAssistDebugView';
-import { TrajectoryPrediction } from '../experimental/trajectory/TrajectoryPrediction';
-import { AccelerationTest } from '../experimental/acceleration/AccelerationTest';
-import { AccelerationTestView } from '../experimental/acceleration/AccelerationTestView';
-import { VehicleAssetRegistry } from '../vehicle/visual/VehicleAssetRegistry';
-import { VehicleLoadingLifecycle } from '../vehicle/VehicleLoadingLifecycle';
-import type { AdaptiveMirrorContext } from '../camera/AdaptiveMirrorRendering';
-import {
-  BackSide,
-  Color,
-  DirectionalLight,
-  Euler,
-  Fog,
-  HemisphereLight,
-  MathUtils,
-  Mesh,
-  Quaternion,
-  Texture,
-  PerspectiveCamera,
-  Raycaster,
-  Scene,
-  ShaderMaterial,
-  SphereGeometry,
-  Vector3,
-  WebGLRenderer,
-  type Camera,
-  Vector2,
-} from 'three';
-import { EngineAudio } from '../audio/EngineAudio';
-import { P2HybridPowertrain } from '../vehicle/powertrain/P2HybridPowertrain';
-import { HybridControlPanel } from '../ui/HybridControlPanel';
-import type { VehicleAudioProfile } from '../audio/VehicleAudioProfile';
-import { evaluateCabinAcoustics, type CabinAcousticState } from '../audio/VehicleCabinAcoustics';
-import {
-  applyVehicleInteractionVisual,
-  type VehicleInteractionDefinition,
-} from '../vehicle/interaction/VehicleInteractionDefinition';
-import { VehicleInteractionController } from '../vehicle/interaction/VehicleInteractionController';
-import { OnFootController } from '../player/OnFootController';
-import { PlayerModeController, smoothPlayerTransition } from '../player/PlayerModeController';
-import { vehicleControlsForPlayerMode } from '../player/PlayerInput';
-import {
-  DEFAULT_DRIVER_FOV_DEGREES,
-  DEFAULT_DRIVER_HEAD_LOOK,
-  DriverCamera,
-  MirrorAdjustmentController,
-  MirrorSystem,
-  type AdjustableMirrorSide,
-} from '../camera';
-import {
-  VehicleInputSystem,
-  createNeutralVehicleInputState,
-  type VehicleControlMode,
-  type VehicleInputSource,
-  type VehicleInputState,
-} from '../input';
-import { Hud } from '../ui/Hud';
-import { LapTimer } from './lap/LapTimer';
-import { MirrorOverlayRenderer } from '../ui/MirrorOverlayRenderer';
-import { WeatherSystem, WEATHER_LABELS, WEATHER_SEQUENCE, type EnvironmentTime, type Weather } from '../world/environment/WeatherSystem';
-import { EnvironmentVisual } from '../world/environment/EnvironmentVisual';
-import { VISUAL_ENVIRONMENT as V } from '../world/environment/VisualEnvironmentConfig';
-import { createStaticEnvironmentMap } from '../world/environment/StaticEnvironmentMap';
-import { WindshieldRain } from '../camera/WindshieldRain';
-import { WiperController } from '../vehicle/control/WiperController';
-import {
-  DEFAULT_VEHICLE_ID,
-  VEHICLE_CATALOG,
-  createVehiclePhysicsConfig,
-  getNextVehicleId,
-  getVehicleDescriptor,
-  isVehicleId,
-  type VehicleId,
-} from '../vehicle/VehicleCatalog';
-import {
-  VehicleDynamics,
-  type VehicleRuntimeSnapshot,
-} from '../vehicle/physics';
-import { CruiseControlController } from '../vehicle/control';
-import { RearParkingProximity } from '../vehicle/control/RearParkingProximity';
-import { VehicleLightingController } from '../vehicle/control/VehicleLightingController';
-import { VehicleFeedbackSystem } from '../vehicle/feedback/VehicleFeedbackSystem';
-import { GamepadHaptics } from '../input/GamepadHaptics';
-import { VehicleContactSystem } from '../vehicle/physics/VehicleContactSystem';
-import { chassisBodyPose } from '../vehicle/physics/WheelPhysicsState';
-import { MirrorGeometryDebug } from '../camera/MirrorGeometryDebug';
-import { ContactDebugView } from './ContactDebugView';
-import { VehicleVisualDebugView } from './VehicleVisualDebugView';
-import {
-  VehicleLighting,
-  VehicleVisual,
-  type VehicleLightMode,
-} from '../vehicle/visual';
-import {
-  DRIVING_GROUND_CATALOG,
-  prepareDrivingGround,
-  getInitialDrivingGroundId,
-  getNextDrivingGroundId,
-  isDrivingGroundId,
-  type DrivingGround,
-  type DrivingGroundId,
-} from '../world';
 
 export interface DrivingGameIntegration {
   ui: GameUIController; renderer?: WebGLRenderer; assets?: VehicleAssetRegistry; vehicleId: VehicleId; groundId: DrivingGroundId;
+  signal?:AbortSignal;
 }
 
 const FIXED_STEP = 1 / 120;
 const MAX_FRAME_TIME = 0.1;
-const MAX_STEPS_PER_FRAME = 16;
 const GAMEPAD_LOOK_YAW_RATE = MathUtils.degToRad(84);
 const GAMEPAD_LOOK_PITCH_RATE = MathUtils.degToRad(62);
 
@@ -153,15 +142,15 @@ export class DrivingGame {
   private readonly blackBoxExportTasks = new Map<VehiclePhysicsBlackBox, ReturnType<typeof setTimeout>>();
   private blackBoxExportError?: VehiclePhysicsBlackBox;
   private readonly scene = new Scene();
-  private readonly renderer: WebGLRenderer;
+  private readonly renderer: RendererWorkerClient;
   private ground: DrivingGround;
-  private vehicleVisual: VehicleVisual;
-  private vehicleLighting: VehicleLighting;
+  private vehicleVisual: SimulationVehicleRig;
+  
   private mirrorAdjustment: MirrorAdjustmentController;
   private dynamics: VehicleDynamics<Powertrain>;
   private readonly driverCamera: DriverCamera;
-  private mirrors: MirrorSystem;
-  private readonly mirrorOverlay: MirrorOverlayRenderer;
+  
+  
   private readonly input = new VehicleInputSystem();
   private readonly hud: Hud;
   private readonly lapTimer = new LapTimer();
@@ -169,12 +158,14 @@ export class DrivingGame {
   private readonly hybridControls = new HybridControlPanel(
     () => this.dynamics?.powertrain instanceof P2HybridPowertrain ? this.dynamics.powertrain : undefined,
     () => this.snapshot?.speed ?? 0, () => this.snapshot?.brake ?? 0);
+  private readonly ehsControls = new EhsControlPanel(
+    () => this.dynamics?.powertrain instanceof EhsHybridSystem ? this.dynamics.powertrain : undefined);
   private executiveDisplay: ExecutiveDisplayContext | null = null;
   private electricDisplay: ElectricDisplayContext | null = null;
   private drivingSceneDisplay: DrivingSceneDisplayContext | null = null;
   private sharedVehicleData: SharedVehicleData | null = null;
-  private readonly vehicleAssets: VehicleAssetRegistry;
-  private pendingVehicleVisual: VehicleVisual | null = null;
+  
+  private pendingVehicleVisual: SimulationVehicleRig | null = null;
   private readonly vehicleLoading = new VehicleLoadingLifecycle(phase => {
     this.hud.setVehicleLoading(phase);
     if (phase === 'Failed') {
@@ -183,7 +174,7 @@ export class DrivingGame {
     }
   });
   private combustionAudioLoad = false;
-  private parkingCamera: ParkingCamera | null = null;
+  
   private readonly cruiseControl = new CruiseControlController();
   private readonly lateralAssist = new LateralAssistController();
   private readonly laneAssistSelection = new LaneAssistStateController();
@@ -202,16 +193,16 @@ export class DrivingGame {
   private readonly lightController = new VehicleLightingController();
   private readonly feedback = new VehicleFeedbackSystem();
   private readonly haptics = new GamepadHaptics({ getGamepad: () => this.input.gamepad?.getActiveGamepad() ?? null });
-  private readonly sun = new DirectionalLight(V.sunColor, V.sunIntensity);
-  private readonly hemisphere = new HemisphereLight(V.ambientSky, V.ambientGround, V.ambientIntensity);
+  
+  
   private readonly environment = new WeatherSystem();
-  private readonly environmentVisual: EnvironmentVisual;
+  
   private readonly wiperController = new WiperController();
-  private windshieldRain: WindshieldRain;
-  private skyGeometry: SphereGeometry | null = null;
-  private skyMaterial: ShaderMaterial | null = null;
-  private skyDome: Mesh | null = null;
-  private environmentMap: ReturnType<typeof createStaticEnvironmentMap> | null = null;
+  
+  
+  
+  
+  
   private readonly contacts: VehicleContactSystem;
   private readonly contactDebug: ContactDebugView;
   private readonly visualDebug: VehicleVisualDebugView;
@@ -221,13 +212,23 @@ export class DrivingGame {
   private groundVisualLoading = true;
   private groundVisualErrorReported = false;
   private readonly mirrorHeadLook = { yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
-  private readonly worldViewCameras: Camera[] = [];
+  
   private readonly mirrorContext: AdaptiveMirrorContext = { speed: 0, road: 'unknown', headYaw: 0, headTargetYaw: 0,
     leftSignal: false, rightSignal: false, selector: 'N', parking: false, steering: 0, lateralActive: false,
     laneChange: false, junction: false, preview: null };
-  private accumulator = 0;
+  private readonly runtime = new RuntimeCoordinator();
+  
+  
+  
+  
+  
+  private readonly renderPose = new VehicleRenderPose();
+  private renderPoseVersion=1;
+  private readonly renderCameraPosition=new Vector3();
+  private readonly renderCameraQuaternion=new Quaternion();
+  private readonly renderBodyInverse=new Quaternion();
   private lastFrameTime = 0;
-  private animationFrame = 0;
+  private resetDrivingClock=false;
   private running = false;
   private draggingLook = false;
   private pointerX = 0;
@@ -266,42 +267,34 @@ export class DrivingGame {
   private activeVehicleId: VehicleId;
   private activeGroundId: DrivingGroundId;
 
-  static async create(host: HTMLElement, integration?: DrivingGameIntegration): Promise<DrivingGame> {
-    const groundId = integration?.groundId ?? DrivingGame.readStoredGroundId();
-    if (integration && !integration.assets) integration.assets = new VehicleAssetRegistry();
-    let visual: VehicleVisual | undefined, ground: DrivingGround | undefined;
-    const vehicleTask = integration ? (async () => {
-      await nextPaint();
-      const descriptor = getVehicleDescriptor(integration.vehicleId);
-      integration.ui.setLoading('loadingVehicle', '正在准备车辆');
-      VehicleVisual.prepareAssets(descriptor.visualConfig, integration.assets!);
-      await nextPaint();
-      visual = new VehicleVisual(descriptor.visualConfig, integration.assets);
-      loadingMark('vehicleReady');
-      integration.ui.setLoading('loadingWorld', '正在准备驾驶场地');
-    })() : Promise.resolve();
-    const worldTask = (async () => {
-      const timing = await prepareDrivingGround(groundId);
-      await nextPaint(); ground = await createDrivingGroundAsync(groundId, timing); loadingMark('worldReady');
-    })();
-    try {
-      await Promise.all([worldTask, vehicleTask]); await nextPaint();
-      return new DrivingGame(host, ground!, groundId, integration, visual);
-    } catch (error) {
-      await Promise.allSettled([worldTask, vehicleTask]); visual?.dispose(); ground?.dispose(); throw error;
-    }
-  }
+  static async create(host:HTMLElement,integration?:DrivingGameIntegration):Promise<DrivingGame>{
+ const groundId=integration?.groundId??DrivingGame.readStoredGroundId();
+ let stored:string|null=null;try{stored=localStorage.getItem('drivergame.vehicle-id.v1');}catch{/* Optional preferences. */}
+ const vehicleId=integration?.vehicleId??(stored&&isVehicleId(stored)?stored:DEFAULT_VEHICLE_ID);
+ integration?.renderer?.forceContextLoss();integration?.renderer?.dispose();integration?.renderer?.domElement.remove();integration?.assets?.dispose();
+ const renderer=new RendererWorkerClient(host,vehicleId,groundId,new URL(__CITY_MAIN_RUNTIME_URL__,document.baseURI).href,integration?.signal);
+ renderer.onProgress=(stage,done,total,resource)=>{if(stage==='region'||stage==='gpu'||stage==='screen')integration?.ui.loadingProgress.update(stage,done,total,resource);};
+ let ground:DrivingGround|undefined;
+ try{
+  const task=(async()=>{const timing=await prepareDrivingGround(groundId,undefined,'simulation');ground=await createDrivingGroundAsync(groundId,timing,integration?.signal,'simulation');})();
+  const [info]=await Promise.all([renderer.vehicleReady,task]);
+  if(integration?.signal?.aborted)throw new DOMException('Loading cancelled','AbortError');
+  return new DrivingGame(host,ground!,groundId,renderer,integration,new SimulationVehicleRig(getVehicleDescriptor(vehicleId).visualConfig,info,renderer));
+ }catch(error){renderer.dispose();ground?.dispose();throw error;}
+}
 
   private constructor(private readonly host: HTMLElement, initialGround: DrivingGround, initialGroundId: DrivingGroundId,
-    private readonly integration?: DrivingGameIntegration, preparedVisual?: VehicleVisual) {
-    this.vehicleAssets = integration?.assets ?? new VehicleAssetRegistry();
+    renderer: RendererWorkerClient,
+    private readonly integration: DrivingGameIntegration|undefined, preparedVisual: SimulationVehicleRig) {
+    
     this.hud = new Hud(host);
+    renderer.onError = () => this.hud.showMessage('独立渲染线程异常 · 请返回主菜单重试', 30);
     this.contactDebug = new ContactDebugView(host);
     this.scene.add(this.contactDebug.root);
     this.visualDebug = new VehicleVisualDebugView(host);
     this.scene.add(this.visualDebug.root);
     this.scene.add(this.mirrorGeometryDebug.root);
-    this.renderer = integration?.renderer ?? createGameRenderer();
+    this.renderer = renderer;
     host.prepend(this.renderer.domElement);
 
     this.activeGroundId = initialGroundId;
@@ -311,31 +304,22 @@ export class DrivingGame {
     this.navigation.configure(DRIVING_GROUND_CATALOG.find(g=>g.id===this.activeGroundId)?.navigation?this.ground.roadNetwork:undefined);
     this.hud.setNavigation(this.navigation);
     this.hud.onMapVisibilityChange=visible=>{
-      this.accumulator=0;this.draggingLook=false;this.input.setEnabled(false);this.haptics.stop();
+      this.runtime.simulation.reset();this.draggingLook=false;this.input.setEnabled(false);this.haptics.stop();
       if(visible){this.cruiseControl.reset();this.laneAssistSelection.cancelCentering();this.laneAssistSelection.applyTo(this.lateralAssist);}
       else this.renderer.domElement.focus();
     };
     this.activeVehicleId = integration?.vehicleId ?? this.readStoredVehicleId();
     const initialVehicle = getVehicleDescriptor(this.activeVehicleId);
     this.vehicleLoading.mark('Static asset prepare');
-    VehicleVisual.prepareAssets(initialVehicle.visualConfig, this.vehicleAssets);
+    
     const colliderIndexStarted = performance.now();
     this.contacts = new VehicleContactSystem(this.ground, initialVehicle.visualConfig.collisionDimensions);
     performance.measure('city:colliderIndex', {start:colliderIndexStarted,end:performance.now()});
     this.vehicleLoading.mark('Instance creation');
-    this.vehicleVisual = preparedVisual ?? new VehicleVisual(initialVehicle.visualConfig, this.vehicleAssets);
-    this.vehicleLighting = new VehicleLighting(this.vehicleVisual);
-    this.windshieldRain = new WindshieldRain(this.vehicleVisual);
+    this.vehicleVisual = preparedVisual;
     this.mirrorAdjustment = this.createMirrorAdjustment(this.vehicleVisual);
 
-    this.scene.background = new Color(V.fogColor);
-    this.scene.fog = new Fog(V.fogColor, V.fogNear, V.fogFar);
-    this.scene.add(this.ground.root, this.vehicleVisual.root);
-    this.addLightingAndSky();
-    this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!,
-      value => { this.renderer.toneMappingExposure = value; });
-    this.environmentVisual.setGround(this.ground);
-
+    this.scene.add(this.vehicleVisual.root);
     const spawn = this.ground.spawnPose;
     this.vehicleLoading.mark('Dynamic state init');
     this.dynamics = new VehicleDynamics<Powertrain>(createVehiclePhysicsConfig(this.activeVehicleId), {
@@ -348,6 +332,7 @@ export class DrivingGame {
       stateOfCharge: this.readStoredSOC(this.activeVehicleId),
     });
     this.snapshot = this.contacts.synchronize(this.dynamics);
+    this.renderPose.reset(this.snapshot, initialVehicle.visualConfig.staticBodyOffsetY);this.renderPoseVersion++;
     this.configureVehicleDisplays();
     this.lapTimer.configure(this.ground.lapCourse, this.activeVehicleId, this.snapshot);
     this.ignitionOn = this.snapshot.vehicleOperational;
@@ -375,9 +360,6 @@ export class DrivingGame {
     this.driverCamera.camera.layers.enableAll();
     this.configureVehicleInteraction(this.vehicleVisual, initialVehicle.audioProfile);
 
-    this.mirrors = this.createMirrorSystem(this.vehicleVisual);
-    this.mirrorOverlay = new MirrorOverlayRenderer(this.mirrors.getHudTexture('right'));
-    this.mirrorOverlay.setView(this.mirrors.getView('right'));
     this.configureVehicleSettings();
     this.configureGroundSelection();
     this.configureVehicleSelection();
@@ -407,6 +389,7 @@ export class DrivingGame {
     if (!integration) { this.gameUI.setHudProfile(this.hud.initialProfile, false); void this.gameUI.loadPreferences(); }
     else this.hud.setProfile(this.gameUI.state.hudProfile);
     this.onUIScreenChanged(this.gameUI.state.screen);
+    this.renderer.setSources(()=>renderTelemetry(this.vehicleVisual.telemetry) as Record<string,unknown>,()=>this.renderContext());
     this.bindEvents();
     this.queueVehicleWarmup();
   }
@@ -415,7 +398,7 @@ export class DrivingGame {
     if (this.running) return;
     this.running = true;
     this.lastFrameTime = performance.now();
-    this.animationFrame = requestAnimationFrame(this.frame);
+    this.runtime.start(time => this.frame(time));
   }
 
   /** Public integration point for examinations, maps or scripted events. */
@@ -429,7 +412,6 @@ export class DrivingGame {
   public setEnvironmentTime(time: EnvironmentTime): void {
     this.environment.setTime(time);
     this.hud.settings.setEnvironment(this.environment.weather, this.environment.time);
-    this.environmentVisual.applyState();
     this.persistEnvironment();
   }
 
@@ -445,7 +427,7 @@ export class DrivingGame {
     this.pendingVehicleVisual?.dispose(); this.pendingVehicleVisual = null;
     this.storeCurrentFuel();
     this.running = false;
-    cancelAnimationFrame(this.animationFrame);
+    this.runtime.dispose();
     this.unbindEvents();
     this.input.dispose();
     this.haptics.dispose();
@@ -458,43 +440,27 @@ export class DrivingGame {
     this.accelerationTestView?.dispose();
     this.visualDebug.dispose();
     this.mirrorGeometryDebug.dispose();
-    this.windshieldRain.dispose();
-    this.environmentVisual.dispose();
-    this.vehicleLighting.dispose();
-    this.mirrors.dispose();
-    this.parkingCamera?.dispose();
+
     this.vehicleVisual.dispose();
-    this.vehicleAssets.dispose();
-    this.mirrorOverlay.dispose();
     this.ground.dispose();
-    this.skyGeometry?.dispose();
-    this.skyMaterial?.dispose();
-    this.skyGeometry = null;
-    this.skyMaterial = null;
-    this.skyDome = null;
-    this.scene.environment = null;
-    this.environmentMap?.dispose();
-    this.environmentMap = null;
+
     this.renderer.dispose();
     this.engineAudio.dispose();
     this.hybridControls.dispose();
+    this.ehsControls.dispose();
     this.electricDisplay?.dispose();
     this.drivingSceneDisplay?.dispose();
     this.sharedVehicleData?.dispose();
     this.renderer.domElement.remove();
   }
 
-  public async prepareDriveFromUI(vehicleId: string, groundId: string, restart: boolean): Promise<void> {
-    if (isDrivingGroundId(groundId) && (groundId !== this.activeGroundId || this.ground.visualLoadingError) && !await this.switchGround(groundId)) throw new Error('Map loading failed');
-    const retryVehicle = this.vehicleLoading.phase === 'Failed';
-    if (retryVehicle) { this.pendingVehicleVisual?.dispose(); this.pendingVehicleVisual = null; this.vehicleLoading.reset(); }
-    if (isVehicleId(vehicleId) && vehicleId !== this.activeVehicleId) this.switchVehicle(vehicleId);
-    else if (retryVehicle) this.queueVehicleWarmup();
-    await this.whenReady();
-    if (restart) this.resetVehicleToGroundStart();
-    this.gameStarted = true; this.hud.setStarted(); void this.engineAudio.start();
-    loadingMark('driveReady');
-  }
+  public async prepareDriveFromUI(vehicleId:string,groundId:string,restart:boolean,signal?:AbortSignal):Promise<void>{
+ if(isDrivingGroundId(groundId)&&groundId!==this.activeGroundId&&!await this.switchGround(groundId,signal))throw Error('Map loading failed');
+ if(isVehicleId(vehicleId)&&vehicleId!==this.activeVehicleId)this.switchVehicle(vehicleId);
+ if(restart)this.resetVehicleToGroundStart();
+ await this.whenReady();await this.prepareFirstScreen(signal);
+ this.ground.finishVisualPreload?.();this.gameUI.loadingProgress.finish();this.gameStarted=true;this.hud.setStarted();void this.engineAudio.start();loadingMark('driveReady');
+}
   public whenReady(): Promise<void> {
     if (this.vehicleLoading.ready && !this.groundVisualLoading) return Promise.resolve();
     return new Promise((resolve, reject) => this.readyWaiters.push({ resolve, reject }));
@@ -514,11 +480,27 @@ export class DrivingGame {
       for (const waiter of this.readyWaiters) waiter.reject(this.vehicleLoading.error ?? this.ground.visualLoadingError); this.readyWaiters = [];
     }
   }
+  private async prepareFirstScreen(signal?:AbortSignal):Promise<void>{
+ const progress=this.gameUI.loadingProgress;
+ this.updateVehicleVisual(0);this.publishRender(this.driverCamera.camera,1);
+ await this.renderer.ready;
+ if(this.renderer.error)throw this.renderer.error;
+ await this.renderer.prepareDrive();
+ this.gameUI.loadingProgress.close('region');this.gameUI.loadingProgress.close('gpu');
+ if(!this.running||signal?.aborted)throw new DOMException('Loading cancelled','AbortError');
+ (this.host.closest<HTMLElement>('#app')??this.host).dataset.loadingHud='true';
+ this.hud.updateMinimap(this.snapshot.x,this.snapshot.z,this.snapshot.yaw,1/20);
+ progress.update('screen',1,1,'独立渲染线程首屏已就绪');progress.close('screen');
+}
 
   private onUIScreenChanged(screen: UIScreen): void {
     const driving = screen === 'driving';
+    // Loading/pause wall time is not simulation debt. Keep the full 120 Hz
+    // cadence after handoff without catching up the final loading render.
+    if(driving)this.resetDrivingClock=true;
+    if(screen!=='loading')delete (this.host.closest<HTMLElement>('#app')??this.host).dataset.loadingHud;
     this.hud.setMenuOpen(!driving);
-    this.accumulator = 0; this.draggingLook = false;
+    this.runtime.simulation.reset(); this.draggingLook = false;
     this.input.setEnabled(driving && this.gameStarted);
     this.haptics.setEnabled(driving && this.gameStarted && this.hud.settings.vibrationEnabled);
     this.engineAudio.setMenuDucked(!driving);
@@ -530,7 +512,7 @@ export class DrivingGame {
     } else this.renderer.domElement.focus();
   }
 
-  private renderMenuBackground(dt: number): void {
+  private renderMenuBackground(_dt: number): void {
     const screen = this.gameUI.state.screen;
     const showroom = screen === 'main' || screen === 'vehicles' || screen === 'maps' || screen === 'training' || !this.gameStarted;
     let camera = this.driverCamera.camera;
@@ -547,11 +529,7 @@ export class DrivingGame {
       this.menuCamera.layers.set(0); this.menuCamera.layers.enable(1); this.menuCamera.layers.enable(2);
       camera = this.menuCamera;
     }
-    this.environmentVisual.update(dt, camera.position);
-    this.renderer.setRenderTarget(null);
-    this.renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-    this.renderer.setScissorTest(false); this.renderer.clear(true, true, true);
-    this.renderer.render(this.scene, camera);
+    this.publishRender(camera,0);
   }
 
   private filterSettingsInput(sample: VehicleInputState): VehicleInputState {
@@ -568,7 +546,7 @@ export class DrivingGame {
   }
 
   /** Binds the vehicle-authored interaction contract into the shared runtime. */
-  private configureVehicleInteraction(visual: VehicleVisual, audioProfile?: VehicleAudioProfile): void {
+  private configureVehicleInteraction(visual: SimulationVehicleRig, audioProfile?: VehicleAudioProfile): void {
     const base = visual.interactionDefinition;
     this.interactionDefinition = base === null
       ? null
@@ -757,47 +735,54 @@ export class DrivingGame {
 
   private readonly frame = (time: number): void => {
     if (!this.running) return;
+    this.runtime.setMode(this.gameUI.state.screen === 'loading' ? 'loading' : document.hidden||this.gameUI.freezesSimulation ? 'suspended' : 'driving');
+    if(this.gameUI.state.screen==='loading'){
+      this.updateWorldVisibility();
+      const region=this.ground.visualLoadingProgress;if(region){this.gameUI.loadingProgress.update('region',region.regionDone,region.regionTotal,region.resource);if(region.regionTotal>0&&region.regionDone===region.regionTotal)this.gameUI.loadingProgress.close('region');}
+    }
     this.syncUIState();
     this.updateBlackBoxUI();
-    const frameDt = Math.min(MAX_FRAME_TIME, Math.max(0, (time - this.lastFrameTime) / 1_000));
+    if(this.resetDrivingClock){this.resetDrivingClock=false;this.lastFrameTime=time;this.runtime.simulation.reset();this.renderPose.reset(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);this.renderPoseVersion++;}
+    const elapsedSeconds = Math.max(0, (time - this.lastFrameTime) / 1_000);
+    const frameDt = Math.min(MAX_FRAME_TIME, elapsedSeconds);
     this.lastFrameTime = time;
     // Presets only move targets; all consumers below read the smoothed values.
     this.environment.update(frameDt);
     const thunderDelay = this.environment.consumeThunderDelay();
     if (thunderDelay !== null) this.engineAudio.playThunder(thunderDelay);
     if (!this.vehicleLoading.ready) {
-      this.input.setEnabled(false); this.haptics.stop(); this.accumulator = 0;
+      this.input.setEnabled(false); this.haptics.stop(); this.runtime.simulation.reset();
       if (this.ground.visualReady === false && !this.ground.visualLoadingError) this.updateGroundVisuals(0);
       this.vehicleLoading.advance();
-      this.animationFrame = requestAnimationFrame(this.frame);
       return;
     }
     if (this.groundVisualLoading && this.ground.visualReady === false) {
-      this.input.setEnabled(false); this.haptics.stop(); this.accumulator = 0;
+      this.input.setEnabled(false); this.haptics.stop(); this.runtime.simulation.reset();
       if (this.ground.visualLoadingError) {
         this.hud.setVehicleLoading('Failed', '地图加载失败，请刷新重试');
       } else {
         this.hud.setVehicleLoading('Visual warmup', '正在准备道路与地形');
         this.updateGroundVisuals(0);
       }
-      this.animationFrame = requestAnimationFrame(this.frame); return;
+      return;
     }
     if (this.groundVisualLoading) { this.groundVisualLoading = false; this.ground.markLoadMilestone?.('playable'); this.hud.setVehicleLoading('Ready'); }
     if (this.ground.visualLoadingError && !this.groundVisualErrorReported) {
       this.groundVisualErrorReported = true; this.hud.showMessage('地图视觉加载失败 · 请刷新重试', 10);
     }
-    if (this.gameUI.freezesSimulation) {
-      this.accumulator = 0; this.input.setEnabled(false); this.haptics.stop();
+    if (this.gameUI.freezesSimulation || document.hidden) {
+      this.runtime.simulation.reset(); this.input.setEnabled(false); this.haptics.stop();
       this.updateGroundVisuals(0);
-      this.renderMenuBackground(frameDt);
-      this.animationFrame = requestAnimationFrame(this.frame); return;
+      if(this.gameUI.state.screen!=='loading')this.renderMenuBackground(frameDt);
+      return;
     }
     this.hud.updateNavigation(frameDt);
     if(this.hud.isMapOpen){
-      this.accumulator=0;this.input.setEnabled(false);this.haptics.stop();
-      this.updateGroundVisuals(0);this.animationFrame=requestAnimationFrame(this.frame);return;
+      this.runtime.simulation.reset();this.input.setEnabled(false);this.haptics.stop();
+      this.updateGroundVisuals(0);return;
     }
-    this.accumulator = Math.min(this.accumulator + frameDt, FIXED_STEP * MAX_STEPS_PER_FRAME);
+    this.runtime.simulation.begin(elapsedSeconds, true);
+    const simulationStarted = performance.now();
     // Shared weather grip feeds the existing contact sampling for every vehicle.
     this.contacts.setWetness(this.environment.wetness);
     this.contacts.setRoadGripMultiplier(this.environment.roadGripMultiplier);
@@ -816,8 +801,7 @@ export class DrivingGame {
     if (this.drivingInputActive) this.updateHeadLookFromInput(frameDt, this.latestInput);
     this.reportInputChanges(this.latestInput);
 
-    let stepIndex = 0;
-    while (this.accumulator >= FIXED_STEP && stepIndex < MAX_STEPS_PER_FRAME) {
+    while (this.runtime.simulation.canStep()) {
       const rawControls = this.input.consumeState();
       this.processVehicleInteractionCommands(rawControls, FIXED_STEP);
       const driverControls = this.drivingInputActive
@@ -873,6 +857,7 @@ export class DrivingGame {
       this.dynamics.vehicleControl.learningAllowed = this.gameStarted && !this.settingsOpen && !document.hidden &&
         this.playerMode.mode === 'Driving' && !this.playerMode.transitioning && !lateralOutput.active && !this.cruiseControl.isActive;
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.renderPose.push(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);
       this.accelerationTest?.update(FIXED_STEP, beforeStep, this.snapshot, driverControls.throttle,
         this.gameStarted && !this.settingsOpen && !document.hidden, this.contacts.collision?.collided ?? false);
       if (this.accelerationTest && this.accelerationDiagnostics) this.accelerationDiagnostics.update(FIXED_STEP,
@@ -918,15 +903,15 @@ export class DrivingGame {
       this.latestRoadRoughness = MathUtils.lerp(
         this.latestRoadRoughness, roughness, 1 - Math.exp(-FIXED_STEP * 9),
       );
-      this.accumulator -= FIXED_STEP;
-      stepIndex += 1;
+      this.runtime.simulation.completeStep();
     }
+    this.runtime.performance.add('simulation', performance.now() - simulationStarted);
+    const sceneStarted = performance.now();
 
     this.reportShiftResult();
     this.reportEngineState();
     this.reportParkingBrakeState();
     this.updateAuxiliaryGauges(frameDt);
-    this.vehicleLighting.applyState(this.lightController.state, this.ignitionOn, frameDt);
     this.haptics.setEnabled(this.gameStarted && !this.settingsOpen && !document.hidden && this.hud.settings.vibrationEnabled);
     this.haptics.update(frameDt, this.feedback.state.continuousRumble);
     this.hud.settings.setDriveSelector(this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.transmission.type);
@@ -938,16 +923,13 @@ export class DrivingGame {
     // Maps with authored ambient animation (for example Subject 3 traffic
     // signals) opt in through an optional update hook.
     this.ground.update?.(frameDt);
-    this.updateGroundVisuals(this.snapshot.speed);
+    this.updateGroundVisuals(this.snapshot.speed, frameDt * 1000);
     this.hud.updateMinimap(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, frameDt);
-    this.updateSun();
+
     this.updateOnFootWalk(frameDt);
     this.updatePlayerCamera(frameDt);
     this.wiperController.update(frameDt, this.environment.rainIntensity);
     if (this.wiperController.sweepStarted) this.engineAudio.playWiperSweep(this.wiperController.effectiveMode);
-    this.windshieldRain.update(frameDt, this.environment.rainIntensity, this.wiperController, this.snapshot.speed);
-    this.environmentVisual.update(frameDt, this.driverCamera.camera.position);
-    this.updateWorldVisibility();
     const acousticsProfile = this.vehicleInteraction.cabinAcoustics;
     this.cabinAcoustics = acousticsProfile !== undefined && this.playerMode.mode === 'Driving'
       ? evaluateCabinAcoustics(acousticsProfile, {
@@ -959,7 +941,7 @@ export class DrivingGame {
     const combustionEngine = this.dynamics.engine;
     if (combustionEngine) this.engineAudio.update(
       this.snapshot.rpm ?? 0,
-      this.snapshot.powertrain.hybrid ? combustionEngine.throttle : this.snapshot.throttle,
+      this.snapshot.powertrain.hybrid || this.snapshot.powertrain.ehs ? combustionEngine.throttle : this.snapshot.throttle,
       this.snapshot.engineRunning ?? false,
       {
         engineCharacter: combustionEngine.config,
@@ -986,11 +968,12 @@ export class DrivingGame {
     );
     const cruiseStatus = this.cruiseControl.status;
     this.hybridControls.update(frameDt, this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode);
-    if ((!combustionEngine || this.snapshot.powertrain.hybrid) && this.snapshot.powertrain.ev) {
+    this.ehsControls.update(frameDt, this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode);
+    if ((!combustionEngine || this.snapshot.powertrain.hybrid || this.snapshot.powertrain.ehs) && this.snapshot.powertrain.ev) {
       const ev = this.snapshot.powertrain.ev;
       const powertrain = this.dynamics.powertrain;
       this.engineAudio.updateElectric(ev.motorRPM, ev.motorTorque, {
-        hybridLayer: this.snapshot.powertrain.hybrid !== undefined,
+        hybridLayer: this.snapshot.powertrain.hybrid !== undefined || this.snapshot.powertrain.ehs !== undefined,
         frontMotorRPM:ev.frontMotorRPM,driveMode:this.snapshot.driveMode,
         cabinAcoustics:this.cabinAcoustics??undefined,
         driverAccess:this.interactionDefinition?{doorOpen:this.vehicleInteraction.driverDoorOpenFraction,
@@ -1029,7 +1012,8 @@ export class DrivingGame {
 
     this.trajectoryPrediction?.update(frameDt, this.snapshot, this.dynamics.config, this.ground, this.gameStarted && !this.hud.immersiveMode);
     if (this.accelerationTest) this.accelerationTestView?.update(frameDt, this.accelerationTest.state, this.gameStarted && !this.settingsOpen && !this.hud.immersiveMode);
-    this.parkingCamera?.update(frameDt, this.snapshot.transmission.selectedMode === 'R');
+
+
     const mirror = this.mirrorContext, head = this.driverCamera.getHeadLook(this.mirrorHeadLook);
     mirror.speed = this.snapshot.speed;
     const mirrorRoad = this.sharedVehicleData?.laneTracker.trackedLane?.road.roadType ?? this.sharedVehicleData?.navigation.currentRoad?.roadType ?? 'unknown';
@@ -1043,23 +1027,15 @@ export class DrivingGame {
     mirror.laneChange = this.lateralAssist.laneChangeOverride;
     mirror.junction = this.sharedVehicleData?.laneObservation.isIntersection ?? false;
     mirror.preview = this.settingsOpen ? this.selectedMirror : null;
-    this.mirrors.renderAdaptive(frameDt, mirror);
-    const showMirrorOverlay = this.playerMode.mode === 'Driving' &&
-      this.mirrors.adaptive.showRightOverlay && !this.hud.immersiveMode;
-    this.hud.setMirrorOverlayVisible(showMirrorOverlay);
-    this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
-    this.windshieldRain.root.visible = this.visualDebug.renderCamera === null &&
-      this.playerMode.mode === 'Driving';
-    this.renderer.setRenderTarget(null);
-    this.renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-    this.renderer.setScissorTest(false);
-    this.renderer.clear(true, true, true);
-    this.renderer.render(this.scene, this.visualDebug.renderCamera ?? this.driverCamera.camera);
-    this.ground.markLoadMilestone?.('firstRender');
-    if (showMirrorOverlay) this.mirrorOverlay.render(this.renderer, this.hud.getMirrorRect());
+    this.runtime.performance.add('scene',performance.now()-sceneStarted);
+    const renderStarted = performance.now();
+    this.publishRender(this.visualDebug.renderCamera??this.driverCamera.camera,1);
 
-    this.animationFrame = requestAnimationFrame(this.frame);
+    this.runtime.performance.add('render',performance.now()-renderStarted);
   };
+
+  
+  
 
   private updateVehicleVisual(dt: number): void {
     const feedbackOffset = this.feedback.state.cockpitOffset;
@@ -1068,34 +1044,21 @@ export class DrivingGame {
     this.vehicleVisual.cockpitRoot.position.set(feedbackOffset.x, feedbackOffset.y, feedbackOffset.z);
     const chassis = this.snapshot.chassis;
     const roadHeight = chassis.groundHeight;
-    const body = chassisBodyPose(chassis, this.vehicleVisual.config.staticBodyOffsetY, this.snapshot.yaw);
+    this.renderPose.sample(dt > 0 ? this.runtime.simulation.interpolation : 1);
+    const body = this.renderPose.body;
     this.vehicleVisual.setWorldPose(
-      this.snapshot.x + body.offsetX,
+      body.x,
       body.y,
-      this.snapshot.z + body.offsetZ,
-      this.snapshot.yaw,
+      body.z,
+      body.yaw,
       body.pitch,
       body.roll,
     );
-    this.vehicleVisual.setWheelWorldPositions({
-      frontLeft: this.snapshot.wheels.frontLeft.worldPosition,
-      frontRight: this.snapshot.wheels.frontRight.worldPosition,
-      rearLeft: this.snapshot.wheels.rearLeft.worldPosition,
-      rearRight: this.snapshot.wheels.rearRight.worldPosition,
-    });
+
     // Physics uses positive=right. Three's local Y/Z rotations are positive
     // counter-clockwise from the driver's view, hence the visual sign change.
-    this.vehicleVisual.setFrontWheelSteeringAngles(
-      -this.snapshot.leftRoadWheelAngle,
-      -this.snapshot.rightRoadWheelAngle,
-    );
-    this.vehicleVisual.setSteeringWheelAngle(-this.snapshot.steeringWheelAngle);
-    this.vehicleVisual.setWheelRotationAngles({
-      frontLeft: this.snapshot.wheels.frontLeft.rotationAngle,
-      frontRight: this.snapshot.wheels.frontRight.rotationAngle,
-      rearLeft: this.snapshot.wheels.rearLeft.rotationAngle,
-      rearRight: this.snapshot.wheels.rearRight.rotationAngle,
-    });
+
+
     const parkingPose = {
       x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw,
       y: roadHeight, width: this.vehicleVisual.config.dimensions.width, length: this.vehicleVisual.config.dimensions.length,
@@ -1131,6 +1094,7 @@ export class DrivingGame {
       rpm: this.snapshot.rpm ?? 0,
       ev: this.snapshot.powertrain.ev,
       hybrid: this.snapshot.powertrain.hybrid,
+      ehs: this.snapshot.powertrain.ehs,
       driveAvailable: this.snapshot.driveAvailable,
       gear: this.snapshot.transmission.type !== 'MANUAL'
         ? this.snapshot.transmission.selectedMode === 'D' && this.snapshot.transmission.currentPhysicalGear !== null ? `D${this.snapshot.transmission.currentPhysicalGear}` : this.snapshot.transmission.selectedMode ?? 'N'
@@ -1181,7 +1145,7 @@ export class DrivingGame {
         escOff: this.snapshot.driverAssists.escOff,
       },
     }, dt);
-    this.vehicleVisual.setWheelAlignment(this.snapshot.wheels);
+
     if (this.interactionDefinition !== null) {
       applyVehicleInteractionVisual(
         this.interactionDefinition,
@@ -1238,7 +1202,6 @@ export class DrivingGame {
     this.electricDisplay = electric ? new ElectricDisplayContext(this.sharedVehicleData ?? undefined) : null;
     this.drivingSceneDisplay = descriptor.visualConfig.drivingSceneDisplay
       ? new DrivingSceneDisplayContext(descriptor.visualConfig.drivingSceneDisplay, this.sharedVehicleData ?? undefined) : null;
-    this.parkingCamera = descriptor.capabilities.parkingCamera ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual, descriptor.capabilities.surroundView) : null;
   }
 
   private restartBlackBox(reason: string): void {
@@ -1383,7 +1346,6 @@ export class DrivingGame {
     const applyEnvironment = () => {
       this.contacts.setWetness(this.environment.wetness);
       this.contacts.setRoadGripMultiplier(this.environment.roadGripMultiplier);
-      this.environmentVisual.applyState();
       settings.setEnvironment(this.environment.weather, this.environment.time);
       this.persistEnvironment();
     };
@@ -1417,7 +1379,6 @@ export class DrivingGame {
     };
     const storedLightMode = this.readStoredLightMode();
     this.lightController.setMainLightMode(storedLightMode);
-    this.vehicleLighting.applyState(this.lightController.state);
     settings.setLightMode(storedLightMode);
     settings.setMirrorSide(this.selectedMirror);
     settings.setMirrorAdjustment(this.mirrorAdjustment.get(this.selectedMirror));
@@ -1448,7 +1409,6 @@ export class DrivingGame {
     settings.setFogLights(this.lightController.state.fogMode);
     settings.onFogToggle = () => {
       const lights = this.lightController.toggleFog();
-      this.vehicleLighting.applyState(lights);
       settings.setLightMode(lights.mainLightMode);
       settings.setFogLights(lights.fogMode);
       this.storeLightMode(lights.mainLightMode);
@@ -1510,17 +1470,19 @@ export class DrivingGame {
   }
 
   private groundLoadRequest = 0;
-  private async switchGround(groundId: DrivingGroundId): Promise<boolean> {
+  private async switchGround(groundId: DrivingGroundId,signal?:AbortSignal): Promise<boolean> {
     const request = ++this.groundLoadRequest;
     if (groundId === this.activeGroundId && !this.ground.visualLoadingError) return true;
     this.hud.showMessage('正在加载地图资源', 10);
     let nextGround: DrivingGround;
     try {
-      const timing = await prepareDrivingGround(groundId);
-      if (request !== this.groundLoadRequest || !this.running) return false;
-      nextGround = await createDrivingGroundAsync(groundId, timing);
+      const timing = await prepareDrivingGround(groundId,undefined,'simulation');
+      if (request !== this.groundLoadRequest || !this.running||signal?.aborted) return false;
+      nextGround = await createDrivingGroundAsync(groundId, timing,signal,'simulation');
+      await this.renderer.prepareGround(groundId);
+      if(request!==this.groundLoadRequest||!this.running||signal?.aborted){nextGround.dispose();return false;}
     } catch (error) {
-      if (request === this.groundLoadRequest) this.hud.showMessage(`地图加载失败：${String(error)}`, 10);
+      if (request === this.groundLoadRequest&&this.running&&!signal?.aborted) this.hud.showMessage(`地图加载失败：${String(error)}`, 10);
       return false;
     }
     const previousGround = this.ground;
@@ -1534,8 +1496,7 @@ export class DrivingGame {
     this.hud.resetNavigationMap();
     this.navigation.configure(DRIVING_GROUND_CATALOG.find(g=>g.id===groundId)?.navigation?nextGround.roadNetwork:undefined);
     this.hud.setNavigationMap(this.navigation.planner?this.sharedVehicleData?.navigation.map:undefined);
-    this.scene.add(nextGround.root);
-    this.environmentVisual.setGround(nextGround);
+
     previousGround.dispose();
 
     this.resetVehicleToGroundStart();
@@ -1592,41 +1553,42 @@ export class DrivingGame {
     this.lastParkingBrakeState = this.snapshot.parkingBrake.state;
     this.lastEmergencyBraking = this.snapshot.parkingBrake.emergencyBraking;
     this.latestRoadRoughness = 0.08;
-    this.accumulator = 0;
+    this.runtime.simulation.reset();
+    this.renderPose.reset(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);this.renderPoseVersion++;
     this.driverCamera.resetHeadLook(true);
     this.updateVehicleVisual(0);
     this.driverCamera.update(this.vehicleVisual.root, 0);
     if (this.visualDebug.enabled) this.mirrorGeometryDebug.anchorVehicle(this.vehicleVisual.root);
   }
 
-  private prepareGroundVisuals(ground: DrivingGround): void {
-    ground.setVisualResourcePreparation?.(texture => this.renderer.initTexture(texture),
-      root => this.renderer.compileAsync(root, this.driverCamera.camera, this.scene));
-    ground.setVisualObserver?.((root, added) => {
-      if (ground !== this.ground) return;
-      if (added) this.environmentVisual.addVisualRoot(root); else this.environmentVisual.removeVisualRoot(root);
+  
+  private streamingTask?:RuntimeTaskHandle;
+  private streamingSpeed=0;
+  private streamingGround?:DrivingGround;
+  private prepareGroundVisuals(ground:DrivingGround):void{ground.setRuntimeCoordinator?.(this.runtime);ground.beginVisualPreload?.();}
+
+  private updateGroundVisuals(speed: number, frameMs?: number): void {
+    this.streamingSpeed=speed;
+    const ground = this.ground;
+    if(this.streamingGround===ground&&this.streamingTask?.state==='queued')return;
+    this.streamingTask?.cancel();
+    this.streamingGround=ground;
+    this.streamingTask=this.runtime.enqueue({
+      id:'world:stream', phase:'streaming', priority:()=> 'visible',
+      valid:()=>this.running&&ground===this.ground,
+      step:()=>{
+        ground.updatePlayerPosition?.(this.snapshot.x,this.snapshot.z,this.snapshot.yaw,this.streamingSpeed,frameMs);
+        return true;
+      },
     });
+    void this.streamingTask.done.catch(error=>{if(this.running)console.error('World streaming failed',error);});
   }
 
-  private updateGroundVisuals(speed: number): void {
-    if (this.ground.updatePlayerPosition?.(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, speed) && !this.ground.setVisualObserver)
-      this.environmentVisual.setGround(this.ground);
-  }
+  private updateWorldVisibility():void{this.publishRender(this.driverCamera.camera,0);}
 
-  private updateWorldVisibility(): void {
-    if (!this.ground.updateVisualVisibility) return;
-    const cameras = this.worldViewCameras; cameras.length = 0;
-    cameras.push(this.driverCamera.camera);
-    // Update off-axis projections before culling, including a newly turned head.
-    this.mirrors.update();
-    for (const side of ['left', 'right'] as const) {
-      const view = this.mirrors.getView(side);
-      if (view.enabled && view.valid) cameras.push(view.camera);
-    }
-    if (this.mirrors.interiorMirror?.update()) cameras.push(this.mirrors.interiorMirror.camera);
-    this.ground.updateVisualVisibility(this.driverCamera.camera.position,
-      this.visualDebug.renderCamera === null && this.scene.fog instanceof Fog ? this.scene.fog.far : Infinity, cameras);
-  }
+  /** City sectors publish frozen world matrices. Update dynamic scene roots once,
+   * rather than recursively revisiting the whole city for every mirror/pass. */
+  
 
   private configureVehicleSelection(): void {
     this.hud.setVehicleOptions(
@@ -1643,21 +1605,15 @@ export class DrivingGame {
     };
   }
 
-  private switchVehicle(vehicleId: VehicleId): void {
-    if (vehicleId === this.activeVehicleId || !this.vehicleLoading.ready) return;
-    this.accelerationTest?.interrupt('切换车辆');
-    const config = getVehicleDescriptor(vehicleId).visualConfig;
-    this.vehicleLoading.mark('Static asset prepare');
-    this.vehicleLoading.enqueue('Static asset prepare', () => VehicleVisual.prepareAssets(config, this.vehicleAssets));
-    this.vehicleLoading.enqueue('Instance creation', () => { this.pendingVehicleVisual = new VehicleVisual(config, this.vehicleAssets); });
-    this.vehicleLoading.enqueue('Dynamic state init', () => {
-      const visual = this.pendingVehicleVisual!;
-      this.installVehicle(vehicleId, visual); this.pendingVehicleVisual = null;
-      this.queueVehicleWarmup();
-    });
-  }
+  private switchVehicle(vehicleId:VehicleId):void{
+ if(vehicleId===this.activeVehicleId||!this.vehicleLoading.ready)return;
+ this.accelerationTest?.interrupt('切换车辆');
+ this.vehicleLoading.mark('Static asset prepare');
+ this.vehicleLoading.enqueue('Static asset prepare',async()=>{const info=await this.renderer.prepareVehicle(vehicleId);this.pendingVehicleVisual=new SimulationVehicleRig(getVehicleDescriptor(vehicleId).visualConfig,info,this.renderer);});
+ this.vehicleLoading.enqueue('Dynamic state init',()=>{this.installVehicle(vehicleId,this.pendingVehicleVisual!);this.pendingVehicleVisual=null;});
+}
 
-  private installVehicle(vehicleId: VehicleId, nextVisual: VehicleVisual): void {
+  private installVehicle(vehicleId: VehicleId, nextVisual: SimulationVehicleRig): void {
     if (vehicleId === this.activeVehicleId) return;
     this.playerMode.reset('Driving');
     this.vehicleInteraction.reset();
@@ -1689,23 +1645,19 @@ export class DrivingGame {
     });
 
     const retainedLightMode = this.lightController.state.mainLightMode;
-    this.parkingCamera?.dispose();
-    this.mirrors.dispose();
-    this.windshieldRain.dispose();
-    this.vehicleLighting.dispose();
+
     this.scene.remove(this.vehicleVisual.root);
     this.vehicleVisual.dispose();
 
     this.vehicleVisual = nextVisual;
     this.configureVehicleInteraction(nextVisual, descriptor.audioProfile);
-    this.vehicleLighting = new VehicleLighting(nextVisual);
-    this.windshieldRain = new WindshieldRain(nextVisual);
-    this.vehicleLighting.applyState(this.lightController.state);
     this.mirrorAdjustment = this.createMirrorAdjustment(nextVisual);
     this.dynamics = nextDynamics;
     this.dynamics.setDriverAssistOptions(this.hud.settings.driverAssistOptions);
     this.contacts.setCollisionDimensions(descriptor.visualConfig.collisionDimensions);
     this.snapshot = this.contacts.synchronize(nextDynamics);
+    this.runtime.simulation.reset();
+    this.renderPose.reset(this.snapshot,nextVisual.config.staticBodyOffsetY);this.renderPoseVersion++;
     this.feedback.setVehicleConfig(nextPhysicsConfig);
     this.feedback.reset(this.snapshot);
     this.haptics.stop();
@@ -1714,8 +1666,6 @@ export class DrivingGame {
       .setDriverEyePosition(descriptor.visualConfig.driverEyePosition)
       .resetHeadLook(true)
       .update(nextVisual.root, 0);
-    this.mirrors = this.createMirrorSystem(nextVisual);
-    this.mirrorOverlay.setView(this.mirrors.getView(this.settingsOpen ? this.selectedMirror : 'right'));
 
     this.activeVehicleId = vehicleId;
     if (this.blackBox) this.restartBlackBox('vehicle changed');
@@ -1724,7 +1674,6 @@ export class DrivingGame {
     this.lapTimer.configure(this.ground.lapCourse, vehicleId, this.snapshot);
     this.hud.setActiveVehicle(vehicleId);
     this.gameUI.setSelection(vehicleId, this.gameUI.state.mapId);
-    this.vehicleAssets.prune();
     this.hud.settings.setLightMode(retainedLightMode);
     this.hud.settings.setFuel(this.snapshot.fuel);
     this.hud.settings.setBattery(this.snapshot.powertrain.ev);
@@ -1742,75 +1691,41 @@ export class DrivingGame {
     this.renderer.domElement.focus();
   }
 
-  private queueVehicleWarmup(): void {
-    if (this.integration) this.gameUI.setLoading('warmingRenderer', '正在准备车辆显示');
-    this.vehicleLoading.mark('Visual warmup');
-    this.vehicleLoading.enqueue('Visual warmup',()=>document.fonts.ready);
-    const textures = new Set<Texture>();
-    this.vehicleVisual.root.traverse(object => {
-      if (!(object instanceof Mesh)) return;
-      for (const material of Array.isArray(object.material) ? object.material : [object.material])
-        for (const value of Object.values(material))
-          if (value instanceof Texture && !value.isRenderTargetTexture) textures.add(value);
-    });
-    const pending = [...textures];
-    for (let i = 0; i < pending.length; i += 4) {
-      const batch = pending.slice(i,i+4);
-      this.vehicleLoading.enqueue('Visual warmup', () => { for (const texture of batch) this.renderer.initTexture(texture); });
-    }
-    this.vehicleLoading.enqueue('Visual warmup', () => this.renderer.compileAsync(this.vehicleVisual.root, this.driverCamera.camera, this.scene));
-    if (this.mirrors.getView('left').enabled) this.vehicleLoading.enqueue('Visual warmup', () => this.mirrors.render('left'));
-    if (this.mirrors.getView('right').enabled) this.vehicleLoading.enqueue('Visual warmup', () => this.mirrors.render('right'));
-    if (this.mirrors.interiorMirror) this.vehicleLoading.enqueue('Visual warmup', () => this.mirrors.interiorMirror?.render());
-    this.vehicleLoading.enqueue('Visual warmup', () => {
-      this.renderer.setRenderTarget(null); this.renderer.render(this.scene, this.driverCamera.camera);
-    });
-  }
+  private queueVehicleWarmup():void{
+ if(this.integration)this.gameUI.setLoading('warmingRenderer','正在准备独立渲染线程');
+ this.vehicleLoading.mark('Visual warmup');this.vehicleLoading.enqueue('Visual warmup',()=>this.renderer.ready);
+}
 
-  private createMirrorAdjustment(vehicle: VehicleVisual): MirrorAdjustmentController {
+  private createMirrorAdjustment(vehicle: SimulationVehicleRig): MirrorAdjustmentController {
     return new MirrorAdjustmentController({
       left: vehicle.getMirrorSurface('left'),
       right: vehicle.getMirrorSurface('right'),
     });
   }
 
-  private createMirrorSystem(vehicle: VehicleVisual): MirrorSystem {
-    const leftMirror = vehicle.getMirrorSurface('left');
-    const rightMirror = vehicle.getMirrorSurface('right');
-    return new MirrorSystem(this.renderer, this.scene, {
-      driverCamera: this.driverCamera,
-      vehicleRoot: vehicle.root,
-      defaultResolution: [640, 336],
-      // Real exterior geometry supplies parking references. Only the cabin
-      // and reflective glass are excluded; never hide the complete car body.
-      hiddenDuringReflection: [vehicle.cockpitRoot, this.windshieldRain.root],
-      autoBindSurfaces: true,
-      interior: vehicle.centerMirrorSurface && vehicle.config.centerMirrorTransform ? {
-        surface: vehicle.centerMirrorSurface, size: vehicle.config.centerMirrorTransform.size,
-        reflectiveRoot: vehicle.mirrorSurfaceRoot, enabled: vehicle.config.mirrorSystem?.interior !== 'static',
-      } : undefined,
-      mirrors: {
-        left: {
-          enabled: vehicle.config.mirrorSystem?.left !== false,
-          surface: leftMirror,
-          size: vehicle.config.leftMirrorTransform.size,
-          resolution: [640, 336],
-          cropToMirror: true,
-          viewportPadding: 0.025,
-          clipBias: 0.003,
-        },
-        right: {
-          enabled: vehicle.config.mirrorSystem?.right !== false,
-          surface: rightMirror,
-          size: vehicle.config.rightMirrorTransform.size,
-          resolution: [640, 336],
-          cropToMirror: true,
-          viewportPadding: 0.025,
-          clipBias: 0.003,
-        },
-      },
-    });
-  }
+  
+
+ private renderContext():Record<string,unknown>{
+  return {debugGeometry:exportDebugOverlays(this.scene),visualDebug:this.visualDebug.enabled,debugContacts:this.visualDebug.enabled?{collision:this.contacts.collision?{vehicleOBB:{corners:this.contacts.collision.vehicleOBB.corners}}:null,wheelContacts:this.contacts.wheelContacts}:undefined,lights:{...this.lightController.state},ignitionOn:this.ignitionOn,mirror:{...this.mirrorContext},reversing:this.snapshot.transmission.selectedMode==='R',cockpit:this.visualDebug.renderCamera===null&&this.playerMode.mode==='Driving',overlay:this.playerMode.mode==='Driving',immersive:this.hud.immersiveMode};
+ }
+ private publishRender(camera:PerspectiveCamera,mode:number):void{
+  this.visualDebug.updateInspectionCamera(this.vehicleVisual.root,this.driverCamera);if(typeof this.renderer.state.debugText==='string')this.visualDebug.receivePresentation(this.renderer.state.debugText);
+  const rect=this.hud.getMirrorRect();
+  this.renderer.publish(data=>{
+   this.renderPose.writeCurrent(data,R.pose);data[R.poseEpoch]=this.renderPoseVersion;data[R.vehicle]=VEHICLE_CATALOG.findIndex(vehicle=>vehicle.id===this.activeVehicleId);data[R.world]=DRIVING_GROUND_CATALOG.findIndex(ground=>ground.id===this.activeGroundId);data[R.signalClock]=this.ground.getRenderClock?.()??0;data[R.roadHeight]=this.ground.getRoadHeightAt(this.snapshot.x,this.snapshot.z);data[R.focus]=this.snapshot.x;data[R.focus+1]=this.snapshot.z;data[R.focus+2]=this.snapshot.yaw;
+   const attached=camera===this.driverCamera.camera&&this.playerMode.mode==='Driving'&&!this.playerMode.transitioning;camera.getWorldPosition(this.renderCameraPosition);camera.getWorldQuaternion(this.renderCameraQuaternion);if(attached){this.vehicleVisual.root.worldToLocal(this.renderCameraPosition);this.vehicleVisual.root.getWorldQuaternion(this.renderBodyInverse).invert();this.renderCameraQuaternion.premultiply(this.renderBodyInverse);}data[R.cameraSpace]=attached?1:0;this.renderCameraPosition.toArray(data,R.cameraPosition);this.renderCameraQuaternion.toArray(data,R.cameraQuaternion);data[R.cameraParams]=camera.fov;data[R.cameraParams+1]=camera.aspect;data[R.cameraParams+2]=camera.near;data[R.cameraParams+3]=camera.far;camera.projectionMatrix.toArray(data,R.cameraProjection);data[R.cameraLayers]=camera.layers.mask;
+   data[R.mode]=mode;data[R.paused]=this.gameUI?.freezesSimulation?1:0;data[R.speed]=this.snapshot.speed;data[R.visible]=document.hidden?0:1;
+   const feedback=this.feedback.state.cockpitOffset;data[R.bodyFeedback]=feedback.x;data[R.bodyFeedback+1]=feedback.y;data[R.bodyFeedback+2]=feedback.z;
+   const wiper=this.wiperController;data[R.wiper]=wiper.angle;data[R.wiper+1]=wiper.previousAngle;data[R.wiper+2]=wiper.sweptMin;data[R.wiper+3]=wiper.sweptMax;data[R.wiper+4]=wiper.sweeping?1:0;
+   data[R.weather]=WEATHER_SEQUENCE.indexOf(this.environment.weather);data[R.weather+1]=['DAY','DUSK','NIGHT'].indexOf(this.environment.time);
+   for(const [i,key]of (['cloudiness','rainIntensity','fogIntensity','wetness','windIntensity','stormIntensity','lightningFlash']as const).entries())data[R.weather+2+i]=this.environment[key];
+   for(const [i,id]of (['frontLeft','frontRight','rearLeft','rearRight']as const).entries()){data[R.alignment+i*2]=this.snapshot.wheels[id].steeringAngle;data[R.alignment+i*2+1]=this.snapshot.wheels[id].camberAngle??0;}
+   data[R.access]=this.vehicleInteraction.driverDoorOpenFraction;data[R.access+1]=this.vehicleInteraction.driverWindowOpenFraction;
+   this.vehicleVisual.getMirrorSurface('left').quaternion.toArray(data,R.mirrorQuaternion);this.vehicleVisual.getMirrorSurface('right').quaternion.toArray(data,R.mirrorQuaternion+4);
+   data[R.overlay]=rect.left;data[R.overlay+1]=rect.top;data[R.overlay+2]=rect.width;data[R.overlay+3]=rect.height;data[R.simTime]=this.runtime.simulation.simulatedSeconds;data[R.rpm]=this.snapshot.rpm??0;data[R.spoiler]=this.snapshot.activeSpoilerDeployment??0;data[R.ignition]=this.ignitionOn?1:0;writeRenderLighting(data,this.lightController.state);
+  });
+  this.hud.setMirrorOverlayVisible(this.renderer.state.overlayVisible===true);
+ }
 
   private readStoredVehicleId(): VehicleId {
     try {
@@ -1874,13 +1789,11 @@ export class DrivingGame {
   }
 
   private showMirrorPreview(side: AdjustableMirrorSide): void {
-    this.mirrorOverlay.setView(this.mirrors.getView(side));
     this.hud.setMirrorPreviewSide(side);
   }
 
   private setLightMode(mode: VehicleLightMode): void {
     this.lightController.setMainLightMode(mode);
-    this.vehicleLighting.applyState(this.lightController.state);
     this.hud.settings.setLightMode(mode);
     this.hud.settings.setFogLights(this.lightController.state.fogMode);
     this.storeLightMode(mode);
@@ -1969,72 +1882,9 @@ export class DrivingGame {
     );
   }
 
-  private addLightingAndSky(): void {
-    this.scene.add(this.hemisphere);
+  
 
-    this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(V.shadowMapSize, V.shadowMapSize);
-    this.sun.shadow.camera.left = -V.shadowHalfExtent;
-    this.sun.shadow.camera.right = V.shadowHalfExtent;
-    this.sun.shadow.camera.top = V.shadowHalfExtent;
-    this.sun.shadow.camera.bottom = -V.shadowHalfExtent;
-    this.sun.shadow.camera.near = 5;
-    this.sun.shadow.camera.far = 320;
-    this.sun.shadow.bias = -0.00007;
-    this.sun.shadow.normalBias = .018;
-    this.scene.add(this.sun, this.sun.target);
-
-    this.skyMaterial = new ShaderMaterial({
-      side: BackSide,
-      depthWrite: false,
-      uniforms: {
-        topColor: { value: new Color(V.skyTop) },
-        horizonColor: { value: new Color(V.skyHorizon) },
-        groundColor: { value: new Color(V.skyGround) },
-      },
-      vertexShader: `
-        varying vec3 vWorldPosition;
-        void main() {
-          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-          vWorldPosition = worldPosition.xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 topColor;
-        uniform vec3 horizonColor;
-        uniform vec3 groundColor;
-        varying vec3 vWorldPosition;
-        void main() {
-          vec3 direction = normalize(vWorldPosition - cameraPosition);
-          float up = smoothstep(-0.08, 0.72, direction.y);
-          vec3 color = mix(horizonColor, topColor, up);
-          color = mix(groundColor, color, smoothstep(-0.18, 0.02, direction.y));
-          gl_FragColor = vec4(color, 1.0);
-          #include <tonemapping_fragment>
-          #include <colorspace_fragment>
-        }
-      `,
-    });
-    this.skyGeometry = new SphereGeometry(1_900, 28, 16);
-    const sky = new Mesh(this.skyGeometry, this.skyMaterial);
-    sky.name = 'Atmospheric sky dome';
-    sky.frustumCulled = false;
-    this.skyDome = sky;
-    this.scene.add(sky);
-    this.environmentMap = createStaticEnvironmentMap(this.renderer);
-    this.scene.environment = this.environmentMap.texture;
-    this.scene.environmentIntensity = V.environmentIntensity;
-  }
-
-  private updateSun(): void {
-    this.skyDome?.position.copy(this.driverCamera.camera.position);
-    const { x, z } = this.snapshot;
-    const y = this.ground.getRoadHeightAt(x, z);
-    this.sun.position.set(x - 95, y + 145, z + 70);
-    this.sun.target.position.set(x, y, z - 25);
-    this.sun.target.updateMatrixWorld();
-  }
+  
 
   private updateHeadLookFromInput(dt: number, input: VehicleInputState): void {
     if (input.controlMode !== 'normal' || dt <= 0) return;
@@ -2311,11 +2161,13 @@ export class DrivingGame {
     if (document.hidden) {
       this.accelerationTest?.interrupt('离开游戏页面', false);
       this.lapTimer.suspend(this.snapshot);
-      this.accumulator = 0;
+      this.runtime.suspend();
       this.cruiseControl.reset();
       this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
       this.haptics.setEnabled(false);
     } else {
+      this.runtime.suspend();
+      this.renderPose.reset(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);this.renderPoseVersion++;
       this.lastFrameTime = performance.now();
     }
   };

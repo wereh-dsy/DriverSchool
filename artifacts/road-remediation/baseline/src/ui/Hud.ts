@@ -1,0 +1,588 @@
+import { TrainingHUD } from './hud/TrainingHUD';
+import type { HudProfile } from './state/GameUIState';
+import type { Texture } from 'three';
+import { Minimap } from './Minimap';
+import { NavigationMapPanel } from './NavigationMapPanel';
+import type { NavigationController } from '../world/navigation/NavigationController';
+import type { LocalRoadMap } from './LocalRoadMap';
+import { PROXIMITY_COLORS, REAR_ZONE_LABELS, type RearParkingState } from '../vehicle/control/RearParkingProximity';
+import { LapHud } from './LapHud';
+import type { LapTimerState } from '../game/lap/LapTimer';
+import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
+import type { GamepadThrottleDiagnostics } from '../input/GamepadInput';
+import type { VehicleFeedbackState } from '../vehicle/feedback/VehicleFeedbackSystem';
+import type { VehicleRuntimeSnapshot } from '../vehicle/physics/VehicleDynamics';
+import type { EngineTurboSnapshot } from '../vehicle/physics/Engine';
+import type { PowertrainTransmissionSnapshot, PowertrainSnapshot } from '../vehicle/powertrain/Powertrain';
+import {
+  ControlSettingsPanel,
+  type DrivingMapOption,
+  type DrivingVehicleOption,
+} from './ControlSettingsPanel';
+
+export interface HudTelemetry {
+  speedLimit?: number | null;
+  steeringInput?: number;
+  driveMode?: import('../vehicle/config').VehicleDriveMode;
+  rearParking?: RearParkingState;
+  speed: number;
+  rpm?: number;
+  gear: string | number | null;
+  throttle: number;
+  brake: number;
+  clutchEngagement?: number;
+  steeringAngle: number;
+  bodySlipAngle?: number;
+  lateralAcceleration?: number;
+  rearLateralGripFactor?: number;
+  idleRPM?: number;
+  redlineRPM?: number;
+  shiftWarningRPM?: number;
+  recommendedUpshiftRPM?: number;
+  upshiftRecommendationAvailable?: boolean;
+  upshiftRecommended?: boolean;
+  redlineWarningRPM?: number;
+  nearRedline?: boolean;
+  onRevLimiter?: boolean;
+  clutchPedal?: number;
+  handbrake?: number;
+  controlMode?: 'normal' | 'manual-clutch';
+  inputSource?: string;
+  cruiseAvailable?: boolean;
+  cruiseActive?: boolean;
+  cruiseTargetSpeedKmh?: number | null;
+  transmission?: PowertrainTransmissionSnapshot; powertrain?: PowertrainSnapshot;
+  drivetrainVibrationIntensity?: number;
+  triggerDiagnostics?: Readonly<GamepadThrottleDiagnostics>;
+  throttleCommand?: number;
+  feedback?: Readonly<VehicleFeedbackState>;
+  forces?: VehicleRuntimeSnapshot['forces'];
+  wheels?: VehicleRuntimeSnapshot['wheels'];
+  differential?: VehicleRuntimeSnapshot['differential'];
+  driverAssists?: VehicleRuntimeSnapshot['driverAssists'];
+  drivetrainLash?: VehicleRuntimeSnapshot['drivetrainLash'];
+  revHang?: VehicleRuntimeSnapshot['revHang'];
+  turbo?: EngineTurboSnapshot;
+}
+
+export class Hud {
+  private navigationMap?: NavigationMapPanel;
+  public get isMapOpen():boolean { return this.navigationMap?.open ?? false; }
+  public onMapVisibilityChange?: (visible:boolean)=>void;
+  public setNavigation(controller:NavigationController):void {
+    this.navigationMap=new NavigationMapPanel(this.host,controller);
+    this.navigationMap.onVisibilityChange=visible=>this.onMapVisibilityChange?.(visible);
+    this.minimap.onExpand=()=>{if(this.started&&!this.menuOpen&&!this.settings.isVisible)this.navigationMap?.show();};
+  }
+  public setNavigationMap(map:LocalRoadMap|undefined):void {this.minimap.setNavigationMap(map);}
+  public resetNavigationMap():void {this.navigationMap?.reset();}
+  public updateNavigation(dt:number):void {this.navigationMap?.update(dt,this.started&&!this.menuOpen&&!this.immersiveMode);}
+  private readonly minimap: Minimap;
+  readonly rightMirrorViewport: HTMLElement;
+  readonly settings: ControlSettingsPanel;
+  private readonly speedValue: HTMLElement;
+  private readonly gearValue: HTMLElement;
+  private readonly rpmNeedle: HTMLElement;
+  private readonly rpmValue: HTMLElement;
+  private readonly rpmStrip: HTMLElement;
+  private readonly cruiseStatus: HTMLElement;
+  private readonly driveReadout: HTMLElement;
+  private readonly parkingReadout: HTMLElement;
+  private readonly parkingZones: HTMLElement[];
+  private readonly parkingDistance: HTMLElement;
+  private readonly clutchMeter: HTMLElement;
+  private readonly clutchValue: HTMLElement;
+  private readonly clutchModeLabel: HTMLElement;
+  private readonly debugPanel: HTMLElement;
+  private readonly transmissionDebug: HTMLElement;
+  private readonly feedbackDebug: HTMLElement;
+  private readonly throttleDebug: HTMLElement;
+  private readonly mechanicalDebug: HTMLElement;
+  private automaticTransmission = false;
+  private readonly debugValues: {
+    speed: HTMLElement;
+    rpm: HTMLElement;
+    gear: HTMLElement;
+    throttle: HTMLElement;
+    brake: HTMLElement;
+    clutch: HTMLElement;
+    steering: HTMLElement;
+    slip: HTMLElement;
+    lateralG: HTMLElement;
+    rearGrip: HTMLElement;
+    pedal: HTMLElement;
+    handbrake: HTMLElement;
+    mode: HTMLElement;
+    input: HTMLElement;
+    shiftTarget: HTMLElement;
+  };
+  private readonly trainingHUD: TrainingHUD;
+  private menuOpen = true;
+  private telemetryElapsed = 0;
+  private gearFeedback = 0;
+  public onLoadingChange?: (loading: boolean) => void;
+  private readonly toast: HTMLElement;
+  private readonly mirrorSideBadge: HTMLElement;
+  private readonly mirrorSideLabel: HTMLElement;
+  private toastTimer = 0;
+  private readonly lapHud: LapHud;
+  private debugVisible = false;
+  private started = false;
+  private immersiveEnabled = this.readImmersivePreference();
+  public onImmersiveModeChange?: (enabled: boolean) => void;
+  public onProfileRequest?: (profile: HudProfile) => void;
+  public get initialProfile(): HudProfile { return this.immersiveEnabled ? 'off' : 'standard'; }
+
+  constructor(private readonly host: HTMLElement) {
+    host.innerHTML = `
+      <div class="game-ui" aria-label="驾驶界面">
+        <section class="mirror-pod" aria-label="右侧后视镜画面">
+          <div class="mirror-label"><span data-mirror-side-badge>R</span><b data-mirror-side-label>右后视镜</b></div>
+          <div class="mirror-viewport" data-mirror-viewport></div>
+          <div class="mirror-glare"></div>
+        </section>
+        <section class="drive-readout" data-drive-readout aria-label="行驶信息">
+          <div class="gear-readout" data-gear>N</div>
+          <div class="speed-readout"><strong data-speed>0</strong><span>km/h</span></div>
+          <div class="rpm-meta"><span data-rpm-value>0.8</span><small data-energy-unit>×1000 RPM</small><em data-cruise-status hidden>CRUISE</em></div>
+          <div class="rpm-strip" data-rpm-strip><i data-rpm-needle></i></div>
+          <div class="rear-parking" data-rear-parking hidden aria-label="Rear parking proximity">
+            <small>车尾</small><div data-parking-zones><b>↙</b><b>L</b><b>C</b><b>R</b><b>↘</b></div>
+            <span data-parking-distance></span>
+          </div>
+        </section>
+        <section
+          class="clutch-meter"
+          data-clutch-meter
+          role="meter"
+          aria-label="离合踏板幅度"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
+          <header>
+            <span><i></i>离合踏板 <small data-clutch-mode-label>自动</small></span>
+            <strong data-clutch-value>0%</strong>
+          </header>
+          <div class="clutch-track" aria-hidden="true">
+            <i class="clutch-fill"></i>
+            <span class="clutch-bite-zone"><em>半联动参考</em></span>
+            <b class="clutch-position"></b>
+          </div>
+          <footer><span>结合 · 0</span><span>100 · 踩下</span></footer>
+        </section>
+        <section class="debug-panel" data-debug hidden>
+          <header><span>VEHICLE TELEMETRY</span><kbd>F2</kbd></header>
+          <dl>
+            <div><dt>SPEED</dt><dd data-debug-speed>0.0 km/h</dd></div>
+            <div><dt>ENGINE</dt><dd data-debug-rpm>850 rpm</dd></div>
+            <div><dt>SHIFT TARGET</dt><dd data-debug-shift-target>—</dd></div>
+            <div><dt>GEAR</dt><dd data-debug-gear>N</dd></div>
+            <div><dt>THROTTLE</dt><dd data-debug-throttle>0%</dd></div>
+            <div><dt>BRAKE</dt><dd data-debug-brake>0%</dd></div>
+            <div><dt>CLUTCH ENG.</dt><dd data-debug-clutch>0%</dd></div>
+            <div><dt>CLUTCH PEDAL</dt><dd data-debug-pedal>0%</dd></div>
+            <div><dt>HANDBRAKE</dt><dd data-debug-handbrake>0%</dd></div>
+            <div><dt>STEERING</dt><dd data-debug-steering>0.0°</dd></div>
+            <div><dt>BODY SLIP</dt><dd data-debug-slip>0.0°</dd></div>
+            <div><dt>LATERAL</dt><dd data-debug-lateral-g>0.00 g</dd></div>
+            <div><dt>REAR GRIP</dt><dd data-debug-rear-grip>100%</dd></div>
+            <div><dt>CONTROL</dt><dd data-debug-mode>AUTO CLUTCH</dd></div>
+            <div><dt>INPUT</dt><dd data-debug-input>KEYBOARD</dd></div>
+            <div class="transmission-debug"><dt>TRANSMISSION</dt><dd data-debug-transmission>MANUAL</dd></div>
+            <div class="transmission-debug"><dt>TRIGGER / THROTTLE</dt><dd data-debug-throttle-chain>—</dd></div>
+            <div class="transmission-debug"><dt>MECHANICAL FEEDBACK</dt><dd data-debug-feedback>0%</dd></div>
+            <div class="transmission-debug"><dt>MECHANICS / TURBO</dt><dd data-debug-mechanical>—</dd></div>
+          </dl>
+        </section>
+        <div class="control-ribbon" aria-label="界面快捷键"><span><kbd>F1</kbd> 沉浸模式</span></div>
+        <div class="toast" data-toast role="status"></div>
+      </div>`;
+
+    this.rightMirrorViewport = this.require('[data-mirror-viewport]');
+    this.speedValue = this.require('[data-speed]');
+    this.gearValue = this.require('[data-gear]');
+    this.rpmNeedle = this.require('[data-rpm-needle]');
+    this.rpmValue = this.require('[data-rpm-value]');
+    this.rpmStrip = this.require('[data-rpm-strip]');
+    this.cruiseStatus = this.require('[data-cruise-status]');
+    this.driveReadout = this.require('[data-drive-readout]');
+    this.parkingReadout = this.require('[data-rear-parking]');
+    this.parkingZones = Array.from(this.require('[data-parking-zones]').children) as HTMLElement[];
+    this.parkingDistance = this.require('[data-parking-distance]');
+    this.clutchMeter = this.require('[data-clutch-meter]');
+    this.clutchValue = this.require('[data-clutch-value]');
+    this.clutchModeLabel = this.require('[data-clutch-mode-label]');
+    this.debugPanel = this.require('[data-debug]');
+    this.transmissionDebug = this.require('[data-debug-transmission]');
+    this.feedbackDebug = this.require('[data-debug-feedback]');
+    this.throttleDebug = this.require('[data-debug-throttle-chain]');
+    this.mechanicalDebug = this.require('[data-debug-mechanical]');
+    this.toast = this.require('[data-toast]');
+    this.mirrorSideBadge = this.require('[data-mirror-side-badge]');
+    this.mirrorSideLabel = this.require('[data-mirror-side-label]');
+    this.debugValues = {
+      speed: this.require('[data-debug-speed]'),
+      rpm: this.require('[data-debug-rpm]'),
+      gear: this.require('[data-debug-gear]'),
+      throttle: this.require('[data-debug-throttle]'),
+      brake: this.require('[data-debug-brake]'),
+      clutch: this.require('[data-debug-clutch]'),
+      steering: this.require('[data-debug-steering]'),
+      slip: this.require('[data-debug-slip]'),
+      lateralG: this.require('[data-debug-lateral-g]'),
+      rearGrip: this.require('[data-debug-rear-grip]'),
+      pedal: this.require('[data-debug-pedal]'),
+      handbrake: this.require('[data-debug-handbrake]'),
+      mode: this.require('[data-debug-mode]'),
+      input: this.require('[data-debug-input]'),
+      shiftTarget: this.require('[data-debug-shift-target]'),
+    };
+
+    this.trainingHUD = new TrainingHUD(this.require('.game-ui'));
+    this.settings = new ControlSettingsPanel(host);
+    this.settings.setImmersiveMode(this.immersiveEnabled);
+    this.settings.onImmersiveModeChange = enabled => this.onProfileRequest?.(enabled ? 'off' : 'standard');
+    this.minimap = new Minimap(this.require('.game-ui'));
+    this.lapHud = new LapHud(this.require('.game-ui'));
+    this.minimap.setPosition(this.settings.minimapPosition);
+    this.settings.onMinimapPositionChange = position => this.minimap.setPosition(position);
+    this.settings.onMapChange = (mapId) => this.onMapChange?.(mapId);
+    this.settings.onVehicleChange = (vehicleId) => this.onVehicleChange?.(vehicleId);
+
+    window.addEventListener('keydown', this.onKeyDown);
+  }
+
+  private vehicleLoading = false;
+  private loadingPhase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase | undefined;
+  private loadingLabel: string | undefined;
+  private readonly loadingStatus = document.createElement('div');
+  public setVehicleLoading(phase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase, label?: string): void {
+    if (phase === this.loadingPhase && label === this.loadingLabel) return;
+    this.loadingPhase = phase; this.loadingLabel = label;
+    this.vehicleLoading = phase !== 'Ready';
+    const labels = { 'Static asset prepare': '正在准备车辆资源', 'Instance creation': '正在创建车辆',
+      'Dynamic state init': '正在初始化车辆状态', 'Visual warmup': '正在准备车辆显示', Ready: '', Failed: '车辆加载失败，请刷新重试' };
+    this.loadingStatus.textContent = label ?? labels[phase];
+    this.loadingStatus.style.cssText = 'position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:1000;padding:10px 18px;background:#101820;color:#eef2ed;border-radius:8px;pointer-events:none';
+    this.loadingStatus.hidden = !this.vehicleLoading;
+    if (!this.loadingStatus.isConnected) this.host.append(this.loadingStatus);
+    this.onLoadingChange?.(this.vehicleLoading);
+  }
+  onMapChange?: (mapId: string) => void;
+  onVehicleChange?: (vehicleId: string) => void;
+
+  setRoadNetwork(network: RoadNetworkData | undefined): void { this.minimap.setNetwork(network); }
+
+  updateLap(state: Readonly<LapTimerState> | null): void {
+    this.lapHud.update(state?.phase === 'WAITING_FOR_START' ? null : state);
+  }
+
+  updateMinimap(x: number, z: number, yaw: number, dt: number): void {
+    this.minimap.update(x, z, yaw, dt);
+  }
+
+  setMapOptions(options: readonly DrivingMapOption[], activeMapId: string): void {
+    this.settings.setMapOptions(options, activeMapId);
+  }
+
+  setActiveMap(mapId: string): void { this.settings.setActiveMap(mapId); }
+  setVehicleOptions(options: readonly DrivingVehicleOption[], activeVehicleId: string): void {
+    this.settings.setVehicleOptions(options, activeVehicleId);
+  }
+  setActiveVehicle(vehicleId: string): void { this.settings.setActiveVehicle(vehicleId); }
+
+  update(data: HudTelemetry, dt: number): void {
+    if (!this.started || this.menuOpen) return;
+    this.telemetryElapsed += dt;
+    if (this.telemetryElapsed < 1 / 20) return;
+    dt = this.telemetryElapsed; this.telemetryElapsed = 0;
+    this.trainingHUD.update({ speedKmh: Math.abs(data.speed) * 3.6, gear: String(data.gear),
+      throttle: data.throttle, brake: data.brake,
+      clutch: data.transmission?.type !== 'MANUAL' ? null : data.clutchPedal ?? null,
+      steering: data.steeringInput ?? 0, abs: data.driverAssists?.absActive ?? false,
+      tcs: data.driverAssists?.tcsActive ?? false, esc: data.driverAssists?.escActive ?? false,
+      speedLimit: data.speedLimit ?? null }, dt);
+    const rpm = data.rpm ?? 0, clutchEngagement = data.clutchEngagement ?? 0;
+    const speedKmh = Math.abs(data.speed) * 3.6;
+    const transmission = data.transmission;
+    this.automaticTransmission = transmission !== undefined && transmission.type !== 'MANUAL';
+    const gearLabel = this.automaticTransmission && transmission
+      ? transmission.selectedMode === 'D' && transmission.currentPhysicalGear !== null ? `D${transmission.currentPhysicalGear}` : String(transmission.selectedMode)
+      : String(data.gear);
+    const speedLabel=Math.round(speedKmh).toString().padStart(2,'0');
+    if(this.speedValue.textContent!==speedLabel)this.speedValue.textContent=speedLabel;
+    this.gearFeedback=Math.max(0,this.gearFeedback-dt);
+    if(this.gearValue.textContent!==gearLabel) {this.gearValue.textContent=gearLabel;this.gearFeedback=.18;}
+    this.gearValue.classList.toggle('shifting',this.gearFeedback>0);
+    const redlineRPM = data.redlineRPM ?? 6_100;
+    const recommendedUpshiftRPM = data.recommendedUpshiftRPM ?? data.shiftWarningRPM ?? 2_200;
+    const redlineWarningRPM = data.redlineWarningRPM ?? redlineRPM - 450;
+    const rpmFraction = Math.min(1, Math.max(0, rpm / Math.max(1, redlineRPM)));
+    const recommendationAvailable = data.upshiftRecommendationAvailable ??
+      (typeof data.gear === 'number' && data.gear >= 1 && data.gear < 5);
+    const critical = data.nearRedline ?? rpm >= redlineWarningRPM;
+    this.rpmNeedle.style.setProperty('--rpm', rpmFraction.toFixed(3));
+    this.rpmStrip.style.setProperty(
+      '--redline-warning',
+      `${(Math.min(1, Math.max(0, redlineWarningRPM / Math.max(1, redlineRPM))) * 100).toFixed(1)}%`,
+    );
+    this.rpmValue.textContent = (rpm / 1_000).toFixed(1);
+    this.rpmStrip.classList.toggle('critical', critical);
+    const cruiseAvailable = data.cruiseAvailable === true;
+    const parking = data.rearParking;
+    this.parkingReadout.hidden = !parking?.active;
+    if (parking?.active) {
+      parking.zones.forEach((zone, i) => {
+        const element = this.parkingZones[i]!;
+        element.style.color = PROXIMITY_COLORS[zone.severity];
+        element.style.background = zone.detected && zone.severity !== 'NONE' ? `${PROXIMITY_COLORS[zone.severity]}33` : 'transparent';
+        element.title = `${REAR_ZONE_LABELS[zone.zone]} ${zone.distanceM?.toFixed(2) ?? '--'} m`;
+      });
+      const nearest = parking.zones.find(zone => zone.zone === parking.nearestZone);
+      const labels = { LEFT_CORNER: '左后角', LEFT: '左后', CENTER: '正后', RIGHT: '右后', RIGHT_CORNER: '右后角' };
+      this.parkingDistance.textContent = parking.nearestZone === null ? '后方无近距障碍'
+        : `${labels[parking.nearestZone]} ${parking.nearestDistanceM!.toFixed(2)} m`;
+      this.parkingDistance.style.color = PROXIMITY_COLORS[nearest?.severity ?? 'NONE'];
+    }
+    const cruiseActive = data.cruiseActive === true;
+    this.cruiseStatus.hidden = !cruiseAvailable || !cruiseActive;
+    this.cruiseStatus.classList.toggle('active', cruiseActive);
+    this.cruiseStatus.textContent = cruiseActive
+      ? `巡航 ${Math.round(data.cruiseTargetSpeedKmh ?? speedKmh)}`
+      : 'X · CRUISE';
+    this.debugValues.speed.textContent = `${speedKmh.toFixed(1)} km/h`;
+    this.debugValues.rpm.textContent = `${Math.round(rpm)} rpm`;
+    this.debugValues.shiftTarget.textContent = recommendationAvailable
+      ? `${Math.round(recommendedUpshiftRPM)} rpm`
+      : '—';
+    this.debugValues.gear.textContent = gearLabel;
+    this.clutchMeter.hidden = this.automaticTransmission;
+    // Developer diagnostics stay inside the initially hidden F2 panel.
+    if (this.debugVisible) {
+      const percent = (value: number): string => `${(value * 100).toFixed(1)}%`;
+      const trigger = data.triggerDiagnostics;
+      this.throttleDebug.textContent = [
+        `RT RAW ${trigger ? percent(trigger.rtRaw) : '—'}`,
+        `RT NORMALIZED ${trigger ? percent(trigger.rtNormalized) : '—'}`,
+        `RT COMMAND ${trigger ? percent(trigger.throttleCommand) : '—'}`,
+        `THROTTLE COMMAND ${percent(data.throttleCommand ?? data.throttle)}`,
+        `ACTUAL PROPULSION DEMAND ${percent(data.throttle)}`,
+      ].join('\n');
+      const feedback = data.feedback;
+      const factors = feedback?.factors;
+      this.feedbackDebug.textContent = [
+        `CLUTCH ENGAGEMENT ${percent(clutchEngagement)}`,
+        `CLUTCH SLIP ${((data.forces?.clutchSlipAngularVelocity ?? 0) * 60 / (2 * Math.PI)).toFixed(0)} rpm`,
+        `CLUTCH LOAD ${(data.forces?.clutchTorque ?? transmission?.engineLoadTorque ?? 0).toFixed(1)} Nm`,
+        ...(factors ? [
+          `PARTIAL ${percent(factors.partialClutchFactor)} · SLIP ${percent(factors.slipFactor)}`,
+          `LOAD ${percent(factors.clutchLoadFactor)} · LOW RPM ${percent(factors.lowRPMFactor)}`,
+          `NEAR STALL FACTOR ${percent(factors.nearStallFactor)}`,
+        ] : []),
+        `JUDDER ${percent(feedback?.clutchJudderIntensity ?? 0)} · NEAR STALL ${percent(feedback?.nearStallVibrationIntensity ?? 0)}`,
+        `SHARED VIBRATION ${percent(data.drivetrainVibrationIntensity ?? 0)} · JOLT ${percent(feedback?.drivetrainJoltIntensity ?? 0)}`,
+        `HAPTIC WEAK ${percent(feedback?.continuousRumble.weak ?? 0)} · STRONG ${percent(feedback?.continuousRumble.strong ?? 0)}`,
+      ].join('\n');
+      const lash = data.drivetrainLash;
+      const hang = data.revHang;
+      const wheels = data.wheels;
+      const differential = data.differential;
+      const aids = data.driverAssists;
+      const turbo = data.turbo?.enabled ? data.turbo : undefined;
+      this.mechanicalDebug.textContent = [
+        ...(aids ? [`ABS ${aids.absEnabled ? aids.absActive ? 'ACTIVE' : 'ON' : 'OFF'} · EBD ${aids.ebdEnabled ? 'ON' : 'OFF'} ${Math.round(aids.frontBrakeBias * 100)}% FRONT · TCS ${aids.tractionControlEnabled ? aids.tcsActive ? 'ACTIVE' : 'ON' : 'OFF'} · TORQUE ${percent(aids.engineTorqueFactor)}`] : []),
+        ...(turbo ? [
+          `TURBO ${percent(turbo.turboSpeed)} · BOOST ${turbo.boostPressureBar.toFixed(2)} bar · MANIFOLD ${turbo.manifoldPressureBar.toFixed(2)} bar abs`,
+          `WASTEGATE ${percent(turbo.wastegateOpening)} · BASE ${turbo.baseTorquePotential.toFixed(1)} Nm · AIR LIMITED ${turbo.availableTorque.toFixed(1)} Nm`,
+        ] : []),
+        ...(lash ? [`LASH ${lash.state.toFixed(2)} → ${lash.target} · TORQUE FACTOR ${lash.effectiveTorqueFactor.toFixed(2)}`] : []),
+        ...(hang ? [`REV HANG ${hang.active ? 'ACTIVE' : 'OFF'} · ${hang.residualTorque.toFixed(1)} Nm · ${percent(hang.factor)}`] : []),
+        ...(wheels ? [
+          `DRIVE FL ${wheels.frontLeft.driveTorque.toFixed(1)} · FR ${wheels.frontRight.driveTorque.toFixed(1)} Nm`,
+          `DRIVE RL ${wheels.rearLeft.driveTorque.toFixed(1)} · RR ${wheels.rearRight.driveTorque.toFixed(1)} Nm`,
+          ...(['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const).map((id, index) => {
+            const w = wheels[id];
+            return `${['FL', 'FR', 'RL', 'RR'][index]} SLIP ${w.slipRatio.toFixed(3)} · α ${(w.slipAngle * 180 / Math.PI).toFixed(1)}° · ω ${w.angularVelocity.toFixed(1)} rad/s\n` +
+              `   CAMBER ${((w.camberAngle ?? 0) * 180 / Math.PI).toFixed(2)}° · TOE ${((w.toeAngle ?? 0) * 180 / Math.PI).toFixed(2)}°\n` +
+              `   Fx ${w.longitudinalForce.toFixed(0)} · Fy ${w.lateralForce.toFixed(0)} · Fz ${w.normalLoad.toFixed(0)} N · GRIP ${percent(w.gripUsage)}`;
+          }),
+        ] : []),
+        ...(differential ? [
+          `OPEN DIFF ${differential.axle.toUpperCase()} · CARRIER ${differential.carrierAngularVelocity.toFixed(1)} rad/s`,
+          `L / R ${differential.leftAngularVelocity.toFixed(1)} / ${differential.rightAngularVelocity.toFixed(1)} rad/s · TORQUE ${differential.leftTorque.toFixed(1)} / ${differential.rightTorque.toFixed(1)} Nm`,
+        ] : []),
+      ].join('\n') || '—';
+    }
+    if (transmission) {
+      const tc = transmission.torqueConverter;
+      const dct = transmission.dct;
+      this.transmissionDebug.textContent = [
+        transmission.type,
+        `SELECTOR ${transmission.selectedMode ?? '—'} · GEAR ${transmission.currentPhysicalGear ?? 'CONTINUOUS'}`,
+        ...(transmission.cvt ? [`RATIO ${transmission.cvt.ratio.toFixed(3)} → ${transmission.cvt.targetRatio.toFixed(3)} · TARGET ${Math.round(transmission.cvt.targetRPM)} rpm`] : []),
+        `${transmission.shiftState} · LOAD ${(transmission.engineLoadTorque ?? 0).toFixed(1)} Nm`,
+        ...(tc ? [`SLIP ${Math.round(tc.slipRPM)} rpm · RATIO ${tc.torqueRatio.toFixed(2)} · LOCK ${Math.round(tc.lockupEngagement * 100)}%`] : []),
+        ...(dct ? [`A ${Math.round(dct.clutchAEngagement * 100)}% · B ${Math.round(dct.clutchBEngagement * 100)}%`, `SHAFT ${dct.activeShaft ?? '—'} · PRESELECT ${dct.preselectedGear ?? '—'}`] : []),
+        ...(transmission.selectorRejectedReason ? [`BLOCKED · ${transmission.selectorRejectedReason}`] : []),
+      ].join('\n');
+    } else this.transmissionDebug.textContent = 'MANUAL';
+    this.debugValues.throttle.textContent = `${Math.round(data.throttle * 100)}%`;
+    this.debugValues.brake.textContent = `${Math.round(data.brake * 100)}%`;
+    this.debugValues.clutch.textContent = `${Math.round(clutchEngagement * 100)}%`;
+    this.debugValues.pedal.textContent = `${Math.round((data.clutchPedal ?? 1 - clutchEngagement) * 100)}%`;
+    this.debugValues.handbrake.textContent = `${Math.round((data.handbrake ?? 0) * 100)}%`;
+    this.debugValues.steering.textContent = `${(data.steeringAngle * 180 / Math.PI).toFixed(1)}°`;
+    this.debugValues.slip.textContent = `${((data.bodySlipAngle ?? 0) * 180 / Math.PI).toFixed(1)}°`;
+    this.debugValues.lateralG.textContent = `${((data.lateralAcceleration ?? 0) / 9.81).toFixed(2)} g`;
+    this.debugValues.rearGrip.textContent = `${Math.round((data.rearLateralGripFactor ?? 1) * 100)}%`;
+    this.debugValues.mode.textContent = this.automaticTransmission ? 'AUTOMATIC' : data.controlMode === 'manual-clutch' ? 'MANUAL CLUTCH' : 'AUTO CLUTCH';
+    this.debugValues.input.textContent = (data.inputSource ?? 'keyboard').toUpperCase();
+
+    const clutchPedal = Math.min(1, Math.max(0, data.clutchPedal ?? 1 - clutchEngagement));
+    const manualClutch = data.controlMode === 'manual-clutch';
+    const clutchPercent = Math.round(clutchPedal * 100);
+    this.clutchMeter.style.setProperty('--clutch-pedal', `${(clutchPedal * 100).toFixed(1)}%`);
+    this.clutchMeter.setAttribute('aria-valuenow', String(clutchPercent));
+    this.clutchMeter.setAttribute(
+      'aria-valuetext',
+      `${manualClutch ? '手动' : '自动'}离合，踏板${clutchPercent}%`,
+    );
+    this.clutchMeter.classList.toggle('manual', manualClutch);
+    this.clutchValue.textContent = `${clutchPercent}%`;
+    this.clutchModeLabel.textContent = manualClutch ? '手动' : '自动';
+
+    const ev = data.powertrain?.ev;
+    this.rpmStrip.hidden = !!ev;
+    const energyUnit = this.driveReadout.querySelector<HTMLElement>('[data-energy-unit]')!;
+    energyUnit.textContent = ev ? `% · ${Math.round(ev.estimatedRangeKm)} km · ${ev.batteryPowerKw.toFixed(0)} kW` : '×1000 RPM';
+    if (ev) this.rpmValue.textContent = (ev.stateOfCharge * 100).toFixed(0);
+    this.debugValues.rpm.previousElementSibling!.textContent = ev ? 'MOTOR' : 'ENGINE';
+    this.mechanicalDebug.previousElementSibling!.textContent = ev ? 'ENERGY / CHASSIS' : 'MECHANICS / TURBO';
+    for (const field of [this.debugValues.clutch, this.debugValues.pedal, this.debugValues.shiftTarget]) field.parentElement!.hidden = !!ev;
+    if (ev) {
+      this.debugValues.rpm.textContent = `${ev.motorRPM.toFixed(0)} rpm · ${ev.motorTorque.toFixed(1)} Nm`;
+      this.debugValues.mode.textContent = data.driveMode ?? 'ELECTRIC';
+      this.transmissionDebug.textContent = `${transmission?.type} · ${transmission?.selectedMode}${transmission?.currentPhysicalGear ?? ''}\nRATIO ${transmission?.currentRatio.toFixed(3)}${transmission?.selectorRejectedReason ? `\nBLOCKED · ${transmission.selectorRejectedReason}` : ''}`;
+      this.feedbackDebug.textContent = `CHASSIS / COLLISION · HAPTIC ${Math.round((data.feedback?.continuousRumble.strong ?? 0) * 100)}%`;
+      if (this.debugVisible) this.mechanicalDebug.textContent = [
+        `SOC ${(ev.stateOfCharge * 100).toFixed(2)}% · ${ev.remainingEnergyKWh.toFixed(3)} kWh`,
+        `BATTERY ${ev.batteryPowerKw.toFixed(1)} kW · DRIVE ${ev.drivePowerKw.toFixed(1)} · REGEN ${ev.regenPowerKw.toFixed(1)} kW`,
+        `REGEN LIMIT ${ev.regenLimitReason ?? 'NONE'} · TOTAL BRAKE ${ev.requestedBrakeTorque.toFixed(1)} · MOTOR BRAKE ${ev.regenerativeBrakeTorque.toFixed(1)} Nm`,
+        `TRIP USED ${ev.tripEnergyConsumedKWh.toFixed(3)} · RECOVERED ${ev.tripEnergyRecoveredKWh.toFixed(3)} kWh`,
+        `CONSUMPTION ${ev.averageConsumptionKWhPer100km?.toFixed(1) ?? 'REFERENCE'} kWh/100 km · RANGE ${ev.estimatedRangeKm.toFixed(0)} km`,
+        `TEMP BAT ${ev.batteryTemperature?.toFixed(1)}°C · REAR MOTOR ${ev.rearMotorTemperature?.toFixed(1)}°C · INVERTER ${ev.rearInverterTemperature?.toFixed(1)}°C`,
+        ...(ev.frontMotorTemperature === undefined ? [] : [`FRONT MOTOR ${ev.frontMotorTemperature.toFixed(1)}°C · INVERTER ${ev.frontInverterTemperature?.toFixed(1)}°C`]),
+        `POWER LIMIT ${((ev.availableDischargePower ?? 0) / 1000).toFixed(0)} kW · DERATE ${((ev.thermalDerateFraction ?? 0) * 100).toFixed(0)}%${ev.launchState ? ` · LAUNCH ${ev.launchState}` : ''}`,
+        this.mechanicalDebug.textContent,
+      ].join('\n');
+    }
+
+    if (this.toastTimer > 0) {
+      this.toastTimer -= dt;
+      if (this.toastTimer <= 0) this.toast.classList.remove('visible');
+    }
+  }
+
+  showMessage(message: string, duration = 2): void {
+    if (this.immersiveMode) return;
+    this.toast.textContent = message;
+    this.toast.classList.add('visible');
+    this.toastTimer = duration;
+  }
+
+  getMirrorRect(): DOMRect {
+    return this.rightMirrorViewport.getBoundingClientRect();
+  }
+  setMirrorOverlayVisible(visible: boolean): void {
+    const frame = this.rightMirrorViewport.closest<HTMLElement>('.mirror-pod')!;
+    if (frame.hidden === visible) frame.hidden = !visible;
+  }
+
+  setMirrorPreviewSide(side: 'left' | 'right'): void {
+    const left = side === 'left';
+    this.mirrorSideBadge.textContent = left ? 'L' : 'R';
+    this.mirrorSideLabel.textContent = left ? '左后视镜' : '右后视镜';
+  }
+
+  dispose(): void {
+    this.navigationMap?.dispose();
+    this.host.classList.remove('driving-immersive');
+    this.loadingStatus.remove();
+    this.minimap.dispose();
+    window.removeEventListener('keydown', this.onKeyDown);
+    this.settings.dispose();
+  }
+
+  public setStarted(): void { this.started = true; this.applyImmersiveMode(); }
+  public setMenuOpen(open: boolean): void {
+    this.menuOpen = open;
+    (this.host.closest<HTMLElement>('#app') ?? this.host).dataset.menuOpen = String(open);
+    this.require('.game-ui').inert = open || this.immersiveMode;
+  }
+  public setProfile(profile: HudProfile): void {
+    (this.host.closest<HTMLElement>('#app') ?? this.host).dataset.hudProfile = profile;
+    this.setImmersiveMode(profile === 'off');
+  }
+
+  /** Allows optional engine diagnostics to allocate only while F2 is open. */
+  public get isDebugOpen(): boolean { return this.debugVisible && !this.immersiveMode; }
+
+  public get immersiveMode(): boolean { return this.started && this.immersiveEnabled; }
+
+  public setImmersiveMode(enabled: boolean): void {
+    this.immersiveEnabled = enabled;
+    this.settings.setImmersiveMode(enabled);
+    try { localStorage.setItem('drivergame.immersive-mode.v1', String(enabled)); } catch { /* Optional preference. */ }
+    this.applyImmersiveMode();
+  }
+
+  private applyImmersiveMode(): void {
+    const immersive = this.immersiveMode;
+    this.host.classList.toggle('driving-immersive', immersive);
+    this.require('.game-ui').inert = immersive || this.menuOpen;
+    if (immersive) {
+      this.setDebugVisible(false);
+      this.toastTimer = 0;
+      this.toast.classList.remove('visible');
+    }
+    this.onImmersiveModeChange?.(immersive);
+  }
+
+  private readImmersivePreference(): boolean {
+    try { return localStorage.getItem('drivergame.immersive-mode.v1') === 'true'; }
+    catch { return false; }
+  }
+
+  private setDebugVisible(visible: boolean): void {
+    this.debugVisible = visible;
+    this.debugPanel.hidden = !visible;
+    this.driveReadout.classList.toggle('debug-open', visible);
+    this.clutchMeter.classList.toggle('debug-open', visible);
+  }
+
+  private readonly onKeyDown = (event: KeyboardEvent): void => {
+    if(event.code==='F10'&&!event.repeat&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&this.started&&!this.menuOpen&&!this.settings.isVisible&&!this.vehicleLoading){event.preventDefault();this.navigationMap?.show();return;}
+    if (this.menuOpen) return;
+    if (event.code === 'F1' && !event.repeat && this.started) {
+      event.preventDefault();
+      this.onProfileRequest?.(this.immersiveEnabled ? 'standard' : 'off');
+      if (this.immersiveMode) this.settings.setVisible(false);
+      return;
+    }
+    if (event.code === 'F2' && !event.repeat && !this.immersiveMode) {
+      event.preventDefault();
+      this.setDebugVisible(!this.debugVisible);
+    }
+  };
+
+  private require<T extends HTMLElement = HTMLElement>(selector: string): T {
+    const element = this.host.querySelector<T>(selector);
+    if (!element) throw new Error(`HUD element not found: ${selector}`);
+    return element;
+  }
+}
+
+// Keeps the type import live in generated declarations and documents the data
+// source expected by the WebGL overlay without coupling HUD DOM to Three.js.
+export type MirrorTexture = Texture;

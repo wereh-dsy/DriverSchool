@@ -1,0 +1,576 @@
+import {
+  DEFAULT_GAMEPAD_INPUT_CONFIG,
+  type GamepadInputConfig,
+} from './GamepadInput';
+import { VehicleInputSystem } from './VehicleInputSystem';
+import { applyTriggerCurve } from './inputMath';
+import { LaneAssistMode, LaneAssistStateController } from '../vehicle/control/LaneAssistState';
+
+export interface VehicleInputSystemSelfTestResult {
+  passed: true;
+  assertions: number;
+}
+
+interface MutableMockGamepad {
+  axes: number[];
+  buttons: GamepadButton[];
+  connected: boolean;
+  id: string;
+  index: number;
+  mapping: GamepadMappingType;
+  timestamp: number;
+}
+
+/**
+ * Framework-free deterministic checks for the browser Gamepad adapter and the
+ * manual-clutch transition owned by VehicleInputSystem. Throws on failure.
+ */
+export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResult {
+  let assertions = 0;
+  const assert = (condition: boolean, message: string): void => {
+    assertions += 1;
+    if (!condition) throw new Error(`VehicleInputSystem self-test failed: ${message}`);
+  };
+  const assertNear = (
+    actual: number,
+    expected: number,
+    tolerance: number,
+    message: string,
+  ): void => {
+    assert(Math.abs(actual - expected) <= tolerance, `${message}: ${actual} vs ${expected}`);
+  };
+
+  let gamepad: MutableMockGamepad | null = createMockGamepad();
+  const gamepads: Array<Gamepad | null> = [];
+  const navigatorMock: Pick<Navigator, 'getGamepads'> = {
+    getGamepads: () => {
+      gamepads[0] = gamepad as Gamepad | null;
+      return gamepads as Gamepad[];
+    },
+  };
+  const input = new VehicleInputSystem({
+    keyboard: false,
+    gamepad: { target: null, navigator: navigatorMock },
+  });
+  const actualEngagement = 0.63;
+
+  try {
+    // First connected sample synchronises held buttons without creating edges.
+    input.update(1 / 60, actualEngagement);
+    let state = input.consumeState();
+    assert(state.controlMode === 'normal', 'initial mode is normal');
+    assert(state.source === 'gamepad', 'connected gamepad is reported');
+    assert(input.gamepad?.getActiveGamepad() === gamepad as unknown as Gamepad,
+      'haptics receives the current real selected browser object');
+
+    const connectedPad = requireGamepad(gamepad);
+    connectedPad.axes[0] = 0.05;
+    setButton(connectedPad, 7, 0.64); // RT
+    setButton(connectedPad, 6, 0.31); // LT
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    const config: Readonly<GamepadInputConfig> = DEFAULT_GAMEPAD_INPUT_CONFIG;
+    assertNear(
+      state.throttle,
+      applyTriggerCurve(0.64, config.throttleDeadzone, config.throttleResponseExponent),
+      1e-10,
+      'RT remains analog and follows its independent mild response curve',
+    );
+    assertNear(
+      state.brake,
+      applyTriggerCurve(0.31, config.triggerDeadzone, config.triggerResponseExponent),
+      1e-10,
+      'LT remains analog and follows its response curve',
+    );
+    assert(state.throttle > 0 && state.throttle < 1, 'RT is not reduced to a button');
+    assert(state.brake > 0 && state.brake < 1, 'LT is not reduced to a button');
+    assert(state.steering === 0, 'left-stick noise inside deadzone is removed');
+    assert(config.triggerResponseExponent === 1.55, 'LT retains its original response exponent');
+    const rtDiagnostics = input.gamepad?.getThrottleDiagnostics();
+    assert(rtDiagnostics?.rtRaw === 0.64, 'diagnostics expose the browser RT raw value');
+    assertNear(
+      rtDiagnostics?.rtNormalized ?? -1,
+      (0.64 - 0.03) / 0.97,
+      1e-10,
+      'RT normalization rescales the deadzone before the curve',
+    );
+    assertNear(rtDiagnostics?.throttleCommand ?? -1, state.throttle, 1e-10,
+      'diagnostics expose the command before engine response filtering');
+
+    let previousThrottle = 0;
+    for (const [raw, minimum, maximum] of [
+      [0, 0, 0], [0.02, 0, 0], [0.03, 0, 0],
+      [0.1, 0.018, 0.025], [0.2, 0.07, 0.09], [0.3, 0.14, 0.16],
+      [0.4, 0.23, 0.25], [0.5, 0.33, 0.36], [0.6, 0.44, 0.46],
+      [0.7, 0.57, 0.60], [0.8, 0.70, 0.72], [0.9, 0.84, 0.86],
+      [0.99, 0.98, 1], [1, 1, 1],
+    ] as const) {
+      setButton(connectedPad, 7, raw);
+      advance(connectedPad);
+      input.update(1 / 60, actualEngagement);
+      state = input.consumeState();
+      assert(state.throttle >= minimum && state.throttle <= maximum,
+        `RT ${raw} gives fine low-pedal control and full travel`);
+      assert(state.throttle >= previousThrottle && state.throttle - previousThrottle < 0.15,
+        'RT increases continuously without a late-travel surge');
+      assertNear(state.brake,
+        applyTriggerCurve(0.31, config.triggerDeadzone, config.triggerResponseExponent), 1e-10,
+        'RT tuning leaves the LT brake command unchanged');
+      previousThrottle = state.throttle;
+    }
+    assert(rtDiagnostics?.rtRaw === 0.64, 'previous diagnostics are stable snapshots');
+    setButton(connectedPad, 7, 0.64);
+
+    connectedPad.axes[0] = 0.5;
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.steering > 0, 'steering survives outside the deadzone');
+    assert(state.steering < 0.5, 'steering response curve gives finer mid-stick control');
+
+    setButton(connectedPad, 0, 1); // A
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.handbrake === 1, 'A rising edge latches the handbrake on');
+
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.handbrake === 1, 'holding A does not toggle the handbrake repeatedly');
+
+    setButton(connectedPad, 0, 0);
+    setButton(connectedPad, 14, 1); // D-pad Left
+    setButton(connectedPad, 12, 1); // D-pad Up
+    setButton(connectedPad, 9, 1); // Start
+    setButton(connectedPad, 2, 1); // X
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.leftIndicator, 'D-pad Left emits a left-indicator toggle request');
+    assert(!state.cycleLights && !state.fogToggle, 'D-pad Up waits to distinguish short and long press');
+    assert(state.engineStart, 'Start emits an engine-start request');
+    assert(state.cruiseToggle, 'X emits a cruise-control toggle request');
+
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(
+      !state.leftIndicator && !state.cycleLights && !state.engineStart &&
+        !state.cruiseToggle,
+      'held accessory buttons emit only one edge',
+    );
+
+    setButton(connectedPad, 14, 0);
+    setButton(connectedPad, 12, 0);
+    setButton(connectedPad, 9, 0);
+    setButton(connectedPad, 2, 0);
+    setButton(connectedPad, 15, 1); // D-pad Right
+    setButton(connectedPad, 13, 1); // D-pad Down
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.rightIndicator, 'D-pad Right emits a right-indicator toggle request');
+    assert(state.hazard, 'D-pad Down emits a hazard-light toggle request');
+    assert(state.cycleLights && !state.fogToggle, 'short D-pad Up cycles main lights once on release');
+
+    // Long Up must not also cycle main lights; Down remains an ordinary edge.
+    setButton(connectedPad, 12, 1);
+    input.update(1 / 60, actualEngagement); input.consumeState();
+    input.update(.64, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'before hold threshold there is no lamp command');
+    input.update(.02, actualEngagement); state = input.consumeState();
+    assert(state.fogToggle === true && !state.cycleLights && !state.hazard, 'long Up emits fog only, held Down does not repeat');
+    input.update(2, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'holding Up/Down never repeats either action');
+    setButton(connectedPad, 12, 0);
+    input.update(1 / 60, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights, 'long Up release does not synthesize short action');
+
+    setButton(connectedPad, 15, 0);
+    setButton(connectedPad, 13, 0);
+
+    setButton(connectedPad, 3, 1); // Y
+    setButton(connectedPad, 1, 1); // B drive mode
+    setButton(connectedPad, 10, 1); // L3 hold
+    setButton(connectedPad, 11, 1); // R3 horn
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.cycleLaneAssist === true && !state.fogToggle, 'Y selects Lane Assist without a fog request');
+    assert(!state.cruiseToggle && !state.cycleLights, 'Y does not trigger cruise or main lights');
+    assert(state.cycleDriveMode === true, 'B emits one independent drive-mode edge');
+    assert(state.directGear === undefined, 'Y/B do not request Neutral or Reverse');
+    assert(state.highBeamFlash === true && state.hornPressed === true, 'L3/R3 provide independent held flash/horn');
+    assert(state.controlMode === 'normal', 'R3 is no longer a manual-clutch shortcut');
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.cycleDriveMode === false, 'held B does not repeat its drive-mode command');
+    assert(state.cycleLaneAssist === false && !state.fogToggle && state.highBeamFlash === true && state.hornPressed === true,
+      'Lane Assist consumes its edge while flash/horn remain held');
+    setButton(connectedPad, 3, 0);
+    setButton(connectedPad, 1, 0);
+    setButton(connectedPad, 10, 0);
+    setButton(connectedPad, 11, 0);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.highBeamFlash === false && state.hornPressed === false, 'flash/horn immediately release');
+
+    const selection = new LaneAssistStateController();
+    for (const expected of [LaneAssistMode.WARNING_ONLY, LaneAssistMode.KEEP_ASSIST, LaneAssistMode.CENTERING_ASSIST, LaneAssistMode.OFF]) {
+      setButton(connectedPad, 3, 1); input.update(1 / 240, actualEngagement);
+      input.update(1 / 240, actualEngagement); state = input.consumeState();
+      if (state.cycleLaneAssist) selection.cycleMode();
+      assert(selection.state.mode === expected, `queued Y edge selects ${expected} once`);
+      assert(!input.consumeState().cycleLaneAssist && !state.fogToggle, 'additional physics steps cannot repeat Y or request fog');
+      setButton(connectedPad, 3, 0); input.update(1 / 60, actualEngagement); input.consumeState();
+    }
+
+    const pedalBeforeToggle = state.clutchPedal;
+    input.setControlMode('manual-clutch', actualEngagement);
+    state = input.peekState();
+    assert(state.controlMode === 'manual-clutch', 'explicit/keyboard mode selection enters manual mode');
+    assertNear(
+      state.clutchPedal,
+      1 - actualEngagement,
+      1e-12,
+      'manual controller takes over actual clutch engagement',
+    );
+    assertNear(
+      state.clutchPedal,
+      pedalBeforeToggle,
+      1e-12,
+      'normal-to-manual takeover is continuous',
+    );
+
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.controlMode === 'manual-clutch', 'manual mode remains selected while gamepad driving');
+
+    connectedPad.axes[2] = 0.9;
+    connectedPad.axes[3] = 0.45;
+    advance(connectedPad);
+    const pedalBeforeRateInput = state.clutchPedal;
+    input.update(0.1, actualEngagement);
+    state = input.consumeState();
+    assert(state.lookX === 0 && state.lookY === 0, 'manual mode disables right-stick look');
+    assert(state.clutchPedal > pedalBeforeRateInput, 'right-stick down presses clutch by rate');
+    assert(state.clutchPedal < 1, 'rate input does not map directly to pedal position');
+
+    connectedPad.axes[3] = 0;
+    advance(connectedPad);
+    const heldPedal = state.clutchPedal;
+    input.update(0.1, actualEngagement);
+    state = input.consumeState();
+    assertNear(state.clutchPedal, heldPedal, 1e-12, 'centred stick holds clutch position');
+    assert(state.lookX === 0, 'manual mode ignores right-stick X even while deflected');
+
+    connectedPad.connected = false;
+    gamepad = null;
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(
+      state.throttle === 0 && state.brake === 0 && state.steering === 0 &&
+        state.handbrake === 1,
+      'disconnect clears driving axes but preserves the handbrake latch',
+    );
+    assert(state.sourceMetadata.connected.length === 0, 'disconnect clears device metadata');
+    assert(input.gamepad?.getActiveGamepad() === null, 'disconnect clears the haptics pad reference');
+    assert(!state.highBeamFlash && !state.hornPressed, 'disconnect releases momentary accessory controls');
+    const disconnectedDiagnostics = input.gamepad?.getThrottleDiagnostics();
+    assert(disconnectedDiagnostics?.rtRaw === 0 && disconnectedDiagnostics.rtNormalized === 0 &&
+      disconnectedDiagnostics.throttleCommand === 0, 'disconnect clears every RT diagnostics stage');
+
+    const reconnectedPad = createMockGamepad();
+    setButton(reconnectedPad, 11, 1);
+    setButton(reconnectedPad, 0, 1);
+    setButton(reconnectedPad, 2, 1);
+    setButton(reconnectedPad, 3, 1);
+    setButton(reconnectedPad, 12, 1);
+    gamepad = reconnectedPad;
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.source === 'gamepad', 'reconnected gamepad is discovered by polling');
+    assert(
+      state.controlMode === 'manual-clutch',
+      'button already held during reconnect does not synthesize an edge',
+    );
+    assert(state.handbrake === 1, 'held A during reconnect does not change the latch');
+    assert(!state.cruiseToggle, 'held X during reconnect does not synthesize cruise toggle');
+    assert(!state.cycleLaneAssist && !state.fogToggle && !state.cycleLights, 'held Y/Up during reconnect do not synthesize accessory commands');
+    input.update(1, actualEngagement); state = input.consumeState();
+    assert(!state.cycleLaneAssist && !state.fogToggle && !state.cycleLights, 'reconnected held Up cannot start a long press');
+    setButton(reconnectedPad, 12, 0);
+    setButton(reconnectedPad, 3, 0);
+    input.update(1 / 60, actualEngagement); state = input.consumeState();
+    assert(!state.cycleLights, 'release of Up held before reconnect cannot start a short action');
+
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.controlMode === 'manual-clutch', 'held R3 remains stable after reconnect');
+
+    setButton(reconnectedPad, 2, 0);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    input.consumeState();
+    setButton(reconnectedPad, 2, 1);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.cruiseToggle, 'fresh X edge resumes after reconnect');
+
+    setButton(reconnectedPad, 11, 0);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    input.consumeState();
+    setButton(reconnectedPad, 11, 1);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.controlMode === 'manual-clutch' && state.hornPressed === true,
+      'fresh R3 after reconnect is horn, not a clutch toggle');
+    input.setControlMode('normal', actualEngagement);
+
+    setButton(reconnectedPad, 0, 0);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    input.consumeState();
+    setButton(reconnectedPad, 0, 1);
+    advance(reconnectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.handbrake === 0, 'a fresh A edge releases the latched handbrake');
+
+    setButton(reconnectedPad, 7, 0.4);
+    input.update(1 / 60, actualEngagement);
+    assert((input.gamepad?.getThrottleDiagnostics().throttleCommand ?? 0) > 0,
+      'RT diagnostics resume after reconnect');
+    input.setEnabled(false);
+    const disabledDiagnostics = input.gamepad?.getThrottleDiagnostics();
+    assert(disabledDiagnostics?.rtRaw === 0 && disabledDiagnostics.rtNormalized === 0 &&
+      disabledDiagnostics.throttleCommand === 0, 'input suspension clears RT diagnostics immediately');
+    assert(input.peekState().throttle === 0, 'input suspension clears the throttle command');
+    input.setEnabled(true);
+
+    const keyboardTarget = new EventTarget() as unknown as Window;
+    const storedPreferences = new Map<string, string>();
+    const keyboardInput = new VehicleInputSystem({
+      gamepad: false,
+      keyboard: {
+        target: keyboardTarget,
+        storage: {
+        getItem: (key) => storedPreferences.get(key) ?? null,
+        setItem: (key, value) => { storedPreferences.set(key, value); },
+        removeItem: (key) => { storedPreferences.delete(key); },
+        },
+      },
+    });
+    const keyboard = keyboardInput.keyboard;
+    if (keyboard === null) throw new Error('Keyboard adapter was not created');
+    try {
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyI');
+      keyboardInput.update(1 / 240, 0);
+      const ignition = keyboardInput.consumeState();
+      assert(ignition.engineStart && !ignition.lccToggle, 'I only requests ignition');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyI');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyG');
+      keyboardInput.update(1 / 240, 0);
+      const centering = keyboardInput.consumeState();
+      assert(centering.lccToggle === true && !centering.engineStart, 'G only requests LCC through unified input');
+      assert(!keyboardInput.consumeState().lccToggle, 'extra fixed steps never repeat LCC');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyG');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyG');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().lccToggle === true, 'LCC command is pending before opening a menu');
+      keyboardInput.setEnabled(false); keyboardInput.setEnabled(true);
+      assert(!keyboardInput.consumeState().lccToggle, 'menus flush a pending LCC command');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyG');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyT');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().cycleDriveMode === true, 'T drive mode edge survives between render and physics');
+      assert(keyboardInput.consumeState().cycleDriveMode === true, 'T emits one drive mode command');
+      assert(keyboardInput.consumeState().cycleDriveMode === false, 'additional fixed steps consume no repeated mode edge');
+      keyboardInput.update(1 / 60, 0);
+      assert(keyboardInput.consumeState().cycleDriveMode === false, 'held T never repeats');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyT');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyB');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().cycleWipers === true, 'B is latched before the next physics step');
+      assert(keyboardInput.consumeState().cycleWipers === true, 'B emits one wiper command');
+      assert(keyboardInput.consumeState().cycleWipers === false, 'additional fixed steps do not repeat the wiper command');
+      keyboardInput.update(1 / 60, 0);
+      assert(keyboardInput.consumeState().cycleWipers === false, 'holding B does not repeat');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyB');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyW');
+      keyboardInput.update(0.5, 0);
+      let keyboardState = keyboardInput.consumeState();
+      assert(
+        keyboardState.throttle > 0.4 && keyboardState.throttle < 0.5,
+        'keyboard throttle rises progressively instead of jumping to full',
+      );
+      keyboardInput.update(0.7, 0);
+      keyboardState = keyboardInput.consumeState();
+      assertNear(keyboardState.throttle, 1, 1e-12, 'held keyboard throttle reaches full');
+
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyW');
+      keyboardInput.update(0.2, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(
+        keyboardState.throttle < 0.5,
+        'keyboard throttle releases faster than it builds',
+      );
+
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'Space');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.handbrake === 1, 'Space latches the handbrake on');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.handbrake === 1, 'held Space leaves the latch unchanged');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'Space');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.handbrake === 1, 'releasing Space does not release the handbrake');
+      keyboardInput.setEnabled(false);
+      assert(
+        keyboardInput.peekState().handbrake === 1,
+        'disabling input preserves the handbrake latch',
+      );
+      keyboardInput.setEnabled(true);
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(
+        keyboardState.handbrake === 1,
+        're-enabling input preserves the handbrake latch',
+      );
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'Space');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.handbrake === 0, 'a second Space edge releases the handbrake');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'Space');
+
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyM');
+      keyboardInput.update(1 / 60, actualEngagement);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.controlMode === 'manual-clutch', 'keyboard M remains the manual-clutch toggle');
+      assertNear(keyboardState.clutchPedal, 1 - actualEngagement, 1e-12, 'keyboard M takes over actual clutch smoothly');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyM');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyF');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'ShiftLeft');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyO');
+      keyboardInput.update(1 / 60, actualEngagement);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.fogToggle === true && keyboardState.highBeamFlash === true && keyboardState.hornPressed === true,
+        'keyboard has independent fog, held flash and horn bindings');
+      keyboardInput.update(1 / 60, actualEngagement);
+      keyboardState = keyboardInput.consumeState();
+      assert(!keyboardState.fogToggle && keyboardState.highBeamFlash === true && keyboardState.hornPressed === true,
+        'keyboard held fog does not repeat while flash/horn remain active');
+      for (const code of ['KeyF', 'ShiftLeft', 'KeyO']) dispatchKeyboardKey(keyboardTarget, 'keyup', code);
+      for (const [code, selector] of [
+        ['KeyP', 'P'], ['BracketLeft', 'R'], ['Backslash', 'N'], ['BracketRight', 'D'],
+      ] as const) {
+        dispatchKeyboardKey(keyboardTarget, 'keydown', code);
+        keyboardInput.update(1 / 60, actualEngagement);
+        keyboardState = keyboardInput.consumeState();
+        assert(keyboardState.driveSelector === selector && keyboardState.directGear === undefined,
+          `keyboard ${code} sends independent AT selector ${selector}`);
+        keyboardInput.update(1 / 60, actualEngagement);
+        assert(keyboardInput.consumeState().driveSelector === undefined, 'held selector emits only one request');
+        dispatchKeyboardKey(keyboardTarget, 'keyup', code);
+      }
+      for (const code of ['KeyJ', 'KeyK', 'KeyH', 'KeyL', 'KeyI']) {
+        dispatchKeyboardKey(keyboardTarget, 'keydown', code);
+      }
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.leftIndicator, 'J requests the left indicator');
+      assert(keyboardState.rightIndicator, 'K requests the right indicator');
+      assert(keyboardState.hazard, 'H requests hazard lights');
+      assert(keyboardState.cycleLights, 'L requests a light cycle');
+      assert(keyboardState.engineStart, 'I requests engine start');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(
+        !keyboardState.leftIndicator && !keyboardState.rightIndicator &&
+          !keyboardState.hazard && !keyboardState.cycleLights &&
+          !keyboardState.engineStart,
+        'held keyboard accessory keys emit only one edge',
+      );
+      for (const code of ['KeyJ', 'KeyK', 'KeyH', 'KeyL', 'KeyI']) {
+        dispatchKeyboardKey(keyboardTarget, 'keyup', code);
+      }
+
+      keyboard.setBinding('throttle', 'KeyL');
+      const swapped = keyboard.getBindings();
+      assert(
+        swapped.throttle === 'KeyL' && swapped.cycleLights === 'KeyW',
+        'rebinding can swap with the rebindable light key',
+      );
+      keyboard.setBinding('throttle', 'KeyC');
+      assert(
+        keyboard.getBindings().throttle === 'KeyL',
+        'reserved game key cannot replace a driving binding',
+      );
+      assert(storedPreferences.size > 0, 'custom keyboard bindings are persisted');
+    } finally {
+      keyboardInput.dispose();
+    }
+
+    return { passed: true, assertions };
+  } finally {
+    input.dispose();
+  }
+}
+
+function dispatchKeyboardKey(
+  target: Window,
+  type: 'keydown' | 'keyup',
+  code: string,
+): void {
+  const event = new Event(type, { cancelable: true });
+  Object.defineProperties(event, {
+    code: { value: code },
+    ctrlKey: { value: false },
+    metaKey: { value: false },
+    altKey: { value: false },
+    repeat: { value: false },
+  });
+  target.dispatchEvent(event);
+}
+
+function createMockGamepad(): MutableMockGamepad {
+  return {
+    axes: [0, 0, 0, 0],
+    buttons: Array.from({ length: 16 }, () => createButton(0)),
+    connected: true,
+    id: 'Mock Standard Gamepad',
+    index: 0,
+    mapping: 'standard',
+    timestamp: 1,
+  };
+}
+
+function createButton(value: number): GamepadButton {
+  return {
+    pressed: value > 0.5,
+    touched: value > 0,
+    value,
+  };
+}
+
+function setButton(gamepad: MutableMockGamepad, index: number, value: number): void {
+  gamepad.buttons[index] = createButton(value);
+}
+
+function advance(gamepad: MutableMockGamepad): void {
+  gamepad.timestamp += 1;
+}
+
+function requireGamepad(gamepad: MutableMockGamepad | null): MutableMockGamepad {
+  if (gamepad === null) throw new Error('VehicleInputSystem self-test setup lost gamepad');
+  return gamepad;
+}

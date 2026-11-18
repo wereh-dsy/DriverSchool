@@ -4,6 +4,7 @@ import type { CityMapData } from './CityMapData';
 import { roadEdgeChains } from './RoadEdgeChain';
 import type { CityPoint } from './CityMapData';
 import {cityTerrainOffsetAt} from './CityTerrain';
+import type {RegionalTerrainClearance} from '../regional/RegionalTerrainClearance';
 
 /** Default support plane; optional authored landforms add local relief. */
 export const CITY_GROUND_HEIGHT = -0.04;
@@ -12,8 +13,9 @@ const openingCache = new WeakMap<CityMapData, Map<string, CityPoint[][]>>();
 
 /** The same authored ground surface and open cuts, optionally scoped to a sector. */
 export function cityGroundGeometry(map: CityMapData, bounds = map.bounds): BufferGeometry { return drain(cityGroundGeometrySteps(map, bounds)); }
-export function* cityGroundGeometrySteps(map: CityMapData, bounds = map.bounds, cacheOpenings=false, cellSize=20): Generator<void, BufferGeometry> {
+export function* cityGroundGeometrySteps(map: CityMapData, bounds = map.bounds, cacheOpenings=false, cellSize=20,visualClearance?:RegionalTerrainClearance): Generator<void, BufferGeometry> {
   let work = 0;
+  const excavation=visualClearance&&visualClearance.statistics.selectedPlanes>0?visualClearance:undefined;
   const hasArea=(polygon:CityPoint[])=>polygon.length>=3&&Math.abs(polygon.reduce((sum,p,i)=>{const q=polygon[(i+1)%polygon.length]!;return sum+p.x*q.z-q.x*p.z;},0))>1e-6;
   const open=map.roads.filter(r=>r.structure?.enclosure?.kind==='cutting'),chains=roadEdgeChains(map);
   let cells=cacheOpenings?openingCache.get(map):undefined;
@@ -42,7 +44,7 @@ export function* cityGroundGeometrySteps(map: CityMapData, bounds = map.bounds, 
   if(cacheOpenings) openingCache.set(map,cells);
   }
   const positions:number[]=[],b=bounds;
-  const step=open.length||map.environment.landforms?.length?cellSize:Math.max(b.maxX-b.minX,b.maxZ-b.minZ);
+  const step=excavation||open.length||map.environment.landforms?.length?cellSize:Math.max(b.maxX-b.minX,b.maxZ-b.minZ);
   for(let x=b.minX;x<b.maxX;x+=step)for(let z=b.minZ;z<b.maxZ;z+=step) {
     if (++work % 64 === 0) yield;
     const x1=Math.min(b.maxX,x+step),z1=Math.min(b.maxZ,z+step);
@@ -58,19 +60,24 @@ export function* cityGroundGeometrySteps(map: CityMapData, bounds = map.bounds, 
         }
       }pieces=next;
     }
-    for(const piece of pieces)for(let k=1;k+1<piece.length;k++)for(const p of [piece[0]!,piece[k+1]!,piece[k]!])positions.push(p.x,CITY_GROUND_HEIGHT+cityTerrainOffsetAt(map.environment.landforms,p.x,p.z),p.z);
+    for(const piece of pieces)for(let k=1;k+1<piece.length;k++){
+      // Keep the default renderer's allocation path unchanged.
+      if(!excavation){for(const p of [piece[0]!,piece[k+1]!,piece[k]!])positions.push(p.x,CITY_GROUND_HEIGHT+cityTerrainOffsetAt(map.environment.landforms,p.x,p.z),p.z);continue;}
+      const triangle=[piece[0]!,piece[k+1]!,piece[k]!].map(p=>({x:p.x,y:CITY_GROUND_HEIGHT+cityTerrainOffsetAt(map.environment.landforms,p.x,p.z),z:p.z}));
+      for(const polygon of excavation.clip(triangle,true))for(let n=1;n+1<polygon.length;n++)for(const p of [polygon[0]!,polygon[n]!,polygon[n+1]!])positions.push(p.x,p.y??0,p.z);
+    }
   }
   const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(positions,3));geometry.computeVertexNormals();return geometry;
 }
 
 /** SectorManager/VisualStreaming own selection and residency; no extra scheduler. */
-export function* cityGroundSectorGeometrySteps(map: CityMapData, key: string, cellSize=20): Generator<void, BufferGeometry[]> {
+export function* cityGroundSectorGeometrySteps(map: CityMapData, key: string, cellSize=20,visualClearance?:RegionalTerrainClearance): Generator<void, BufferGeometry[]> {
   const [sx,sz]=key.split(',').map(Number),size=map.sectorSize,result:BufferGeometry[]=[];
   const areas=map.regional?[map.regional.cityBounds,...map.regional.cityExtensions??[]]:[map.bounds];
   for(const area of areas) {
     const bounds={minX:Math.max(area.minX,sx!*size),maxX:Math.min(area.maxX,(sx!+1)*size),
       minZ:Math.max(area.minZ,sz!*size),maxZ:Math.min(area.maxZ,(sz!+1)*size)};
-    if(bounds.minX<bounds.maxX&&bounds.minZ<bounds.maxZ) result.push(yield* cityGroundGeometrySteps(map,bounds,true,cellSize));
+    if(bounds.minX<bounds.maxX&&bounds.minZ<bounds.maxZ) result.push(yield* cityGroundGeometrySteps(map,bounds,true,cellSize,visualClearance));
   }
   return result;
 }

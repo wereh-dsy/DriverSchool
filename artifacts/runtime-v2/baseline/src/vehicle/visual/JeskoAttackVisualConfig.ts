@@ -1,0 +1,40 @@
+import { JESKO_ATTACK_DIMENSIONS as dimensions } from '../VehicleDimensions';
+import type { VehicleVisualConfig } from './VehicleVisualConfig';
+
+const rad = (d: number) => d * Math.PI / 180;
+export const JESKO_ATTACK_VISUAL_CONFIG: VehicleVisualConfig = {
+  name: 'Koenigsegg Jesko Attack', dimensions, collisionDimensions: { ...dimensions, groundClearance: .09 },
+  vehicleWidth: dimensions.width, vehicleLength: dimensions.length, wheelBase: dimensions.wheelBase,
+  trackWidth: dimensions.frontTrackWidth, wheelRadius: dimensions.wheelRadius,
+  driverAccess: {
+    side: 'left', doorFrontZ: -.91, doorRearZ: .60,
+    openAngleRadians: rad(-22), openRotationRadians: [rad(-72),rad(-22),rad(-5)],
+    openPositionOffset: [-.10,.08,-.02], openSeconds: 1.1, closeSeconds: 1.2,
+    windowTravelSeconds: 2.2, windowTravelDirection: [-.371390676,-.928476691,0],
+    windowTravelDistance: .51,
+    driverEntryPoint: [-1.55,0,.20], driverExitPoint: [-1.55,0,.20],
+    driverInteractionZone: {centerLocal:[-1.55,.20],radius:1.15,minLocalZ:-.75,maxLocalZ:1.0,sideLimitLocalX:-1.05},
+    doorMountedPartNames: ['Left door card','Left door upper rail','Left door armrest','Left door handle','Jesko driver door pull locator'],
+    stationarySpeedEpsilon: .25,
+  },
+  driverEyePosition: [-.37, .975, .14],
+  instrumentCluster: { displayStyle: 'jesko-digital', featureClass: 'advanced', maximumRPM: 9000,
+    redlineRPM: 8500, maximumSpeedKmh: 450, needleResponse: 24 },
+  instrumentClusterTransform: { position: [-.37, .635 + .108 * Math.cos(rad(-13)) - .040 * Math.sin(rad(-13)), -.55 + .108 * Math.sin(rad(-13)) + .040 * Math.cos(rad(-13))], rotation: [rad(-13), 0, 0], scale: 1 },
+  steeringWheelPosition: [-.37, .635, -.55], steeringColumnMountPosition: [-.37, .635 - .25 * Math.tan(rad(13)), -.80],
+  steeringWheelRotation: [rad(-13), 0, 0], steeringWheelRadius: .172, steeringWheelRimTubeRadius: .016,
+  steeringWheelLockDegrees: 1044, gearLeverPosition: [.06, .43, .10], gearLeverRotation: [0, 0, 0],
+  leftMirrorTransform: { position: [-1.08, .78, -.93], mountPosition: [-.92, .70, -.96],
+    rotation: [rad(-5), rad(17), 0], size: [.18, .09], housingDepth: .035 },
+  rightMirrorTransform: { position: [1.08, .78, -.93], mountPosition: [.92, .70, -.96],
+    rotation: [rad(-3), rad(-28), 0], size: [.18, .09], housingDepth: .035 },
+  dashboard: { position: [0, .61, -.82], dimensions: [1.42, .045, .23], tiltRadians: rad(-5) },
+  cabin: { width: 1.44, dashboardTopY: .66, windshieldBottomY: .71, windshieldTopY: 1.16,
+    windshieldBottomZ: -1.06, windshieldTopZ: -.40, roofY: 1.19 },
+  lampLayout: { frontHeight: .55, frontIndicatorHeight: .54, frontLateral: .78,
+    rearTailHeight: .64, rearBrakeHeight: .65, rearIndicatorHeight: .63, rearReverseHeight: .45 },
+  body: { profile: 'sport-coupe', design: 'jesko-attack', groundClearance: .09, wheelArchClearance: .028,
+    wheelArchCenterY: .36, sillY: .23, hoodTopY: .60, hoodLength: 1.1, trunkDeckY: .73, trunkLength: 1.06,
+    roofWidth: 1.15, roofLength: .96, roofCenterZ: .02, color: 0xdce8df,
+    trimColor: 0x14191b, interiorColor: 0x1b2023 },
+};

@@ -44,12 +44,15 @@ export class HybridEnergyManagement {
     this.engineTorqueRequest = this.generationPowerRequest = 0;
     if (!s.operational || s.connected) { this.engineRequested = false; this.state = 'OFF'; this.startTime = this.stopTime = 0; return; }
     const power = s.demandTorque * Math.max(80, Math.abs(s.shaftOmega));
-    const sport = this.mode === 'SPORT' || s.driveMode === 'SPORT';
+    // Explicit EV stays electric even with a sporty chassis/pedal calibration.
+    const sport = this.mode === 'SPORT' || this.mode !== 'EV' && s.driveMode === 'SPORT';
     const target = this.mode === 'CHARGE' ? c.chargeTargetSOC : this.mode === 'CHARGE_HOLD' ? this.holdSOC : this.lowSOC ? c.restartSOC : 0;
     const deficit = target - s.soc;
     const insufficient = s.demandTorque > s.motorTorqueCapacity * .95 || power > s.dischargePower * .85;
     const kickdown = (s.pedal ?? 0) >= (c.startDemand ?? 1) && s.demandTorque > 20;
-    const wantsEngine = this.lowSOC || deficit > .008 || sport && s.demandTorque > 20 ||
+    // Sport prepares the ICE while READY, paying real idle fuel before launch.
+    // Waiting for wheel torque demand defeats its response advantage at a stop.
+    const wantsEngine = this.lowSOC || deficit > .008 || sport ||
       this.mode !== 'EV' && (power > c.engineStartPower || Math.abs(s.speed) > c.engineStartSpeed || insufficient || kickdown);
     this.startTime = wantsEngine ? this.startTime + s.dt : 0;
     this.stopTime = !wantsEngine && power < c.engineStopPower ? this.stopTime + s.dt : 0;

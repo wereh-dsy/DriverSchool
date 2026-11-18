@@ -1,0 +1,27 @@
+import {build} from 'esbuild';
+import {spawnSync} from 'node:child_process';
+import {resolve} from 'node:path';
+await build({stdin:{resolveDir:resolve('.'),loader:'ts',contents:`
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {RoadVisualCompiler} from './src/world/city/RoadVisualCompiler';
+import {compileCityRuntimeData} from './src/world/city/CityRuntimeData';
+import {createSubject3Materials} from './src/world/subject3/materials';
+import {MeshBasicMaterial} from 'three';
+import {round2Selection} from './scripts/road-geometry-round2-data';
+import {visualTransfers} from './src/world/city/VisualStreamingData';
+import {runVisualStreamingLifecycleSelfTest} from './src/world/city/VisualStreamingLifecycle.selftest';
+const map=compileCityRuntimeData(JSON.parse(await readFile('src/world/regional/regional-main.json','utf8'))).map;
+const materials={...createSubject3Materials(),tunnelLight:new MeshBasicMaterial()},compiler=new RoadVisualCompiler(map,materials,round2Selection(map));let assertions=0;
+const check=(ok:boolean,message:string)=>{assertions++;if(!ok)throw new Error(message);};
+const digest=(d:ReturnType<RoadVisualCompiler['compile']>)=>{const h=createHash('sha256');for(const p of d.surfaces)for(const a of [p.geometry.position,p.geometry.normal,p.geometry.uv])if(a)h.update(Buffer.from(a.buffer,a.byteOffset,a.byteLength));return h.digest('hex');};
+const first=compiler.compile('ew-wb-split'),before=digest(first),buffers=visualTransfers(first);
+check(first.instances.some(i=>i.geometry),'shared template exercised');
+check(new Set(buffers).size===buffers.length,'unique transferable ownership');
+const received=structuredClone(first,{transfer:buffers});check(first.surfaces.every(p=>p.geometry.position.byteLength===0),'sending buffers detached by real structured transfer');check(received.surfaces.every(p=>p.geometry.position.byteLength>0),'receiver owns the buffers');
+const shared=(compiler as any).builder.sharedGeometry as Map<string,import('three').BufferGeometry>;check([...shared.values()].every(g=>g.getAttribute('position').array.byteLength>0),'reusable templates were not detached');
+const second=compiler.compile('ew-wb-split');check(digest(second)===before,'cached pavement reload after transfer is byte-identical');check(second.instances.every(i=>!i.geometry),'templates are sent only once');
+const lifecycle=await runVisualStreamingLifecycleSelfTest();Object.values(materials).forEach(m=>m.dispose());
+const result={assertions,lifecycle,cache:compiler.cacheStatistics,transferBuffers:buffers.length,passed:true};await writeFile('artifacts/road-geometry-round3/transfer-lifecycle-checks.json',JSON.stringify(result,null,2)+'\\n');console.log(JSON.stringify(result));
+`},bundle:true,platform:'node',format:'esm',outfile:'.tmp-road-round3-checks.mjs',define:{'import.meta.env.DEV':'false'},logLevel:'warning'});
+const run=spawnSync(process.execPath,['.tmp-road-round3-checks.mjs'],{stdio:'inherit'});process.exitCode=run.status??1;

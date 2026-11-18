@@ -3,6 +3,7 @@ import type { VehicleVisualConfig, Vector3Tuple } from './VehicleVisualConfig';
 // Geometry calibration only. Each family keeps its own cross-section, stack
 // angle and passenger volume; these are not uniformly scaled cabin meshes.
 const STRUCTURES = {
+  'qin-plus': { upperRise: .015, thickness: .045, cowlDepth: .14, consoleWidth: .31, consoleFrontZ: -.18, shoulder: .07, recessLip: .08, pillarRadius: .022 },
   'maybach-z223': { upperRise: .03, thickness: .065, cowlDepth: .22, consoleWidth: .31, consoleFrontZ: -.18, shoulder: .10, recessLip: .11, pillarRadius: .025 },
   'jesko-attack': { upperRise: .010, thickness: .034, cowlDepth: .12, consoleWidth: .22, consoleFrontZ: -.20, shoulder: .05, recessLip: .105, pillarRadius: .017 },
   'golf-gti': { upperRise: .02, thickness: .05, cowlDepth: .14, consoleWidth: .34, consoleFrontZ: -.25, shoulder: .08, recessLip: .11, pillarRadius: .022 },

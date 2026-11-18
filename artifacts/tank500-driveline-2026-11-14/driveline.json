@@ -1,0 +1,349 @@
+{
+  "assertions": 47449,
+  "results": {
+    "transmission": {
+      "ratios": {
+        "1": 5.288,
+        "2": 3.505,
+        "3": 2.457,
+        "4": 1.886,
+        "5": 1.527,
+        "6": 1.2,
+        "7": 1,
+        "8": 0.814,
+        "9": 0.657
+      },
+      "up": [
+        {
+          "gear": 2,
+          "speedKmh": 16.821168136676157,
+          "rpm": 1581.1531384111265
+        },
+        {
+          "gear": 3,
+          "speedKmh": 24.43169664560039,
+          "rpm": 1609.6918803978087
+        },
+        {
+          "gear": 4,
+          "speedKmh": 33.93235641363984,
+          "rpm": 1715.8158952940191
+        },
+        {
+          "gear": 5,
+          "speedKmh": 44.05305924022502,
+          "rpm": 1803.4012838780254
+        },
+        {
+          "gear": 6,
+          "speedKmh": 54.30377109521494,
+          "rpm": 1747.066146073073
+        },
+        {
+          "gear": 7,
+          "speedKmh": 68.96478922147371,
+          "rpm": 1848.7794674443574
+        },
+        {
+          "gear": 8,
+          "speedKmh": 82.65573998194319,
+          "rpm": 1803.7278380726566
+        },
+        {
+          "gear": 9,
+          "speedKmh": 101.43704423918328,
+          "rpm": 1786.6577745627346
+        }
+      ],
+      "down": [
+        {
+          "gear": 8,
+          "speedKmh": 87.54607958886034,
+          "rpm": 1909.412337676991
+        },
+        {
+          "gear": 7,
+          "speedKmh": 70.5649003403014,
+          "rpm": 1890.7372649230222
+        },
+        {
+          "gear": 6,
+          "speedKmh": 57.35398291548024,
+          "rpm": 1844.1577303422825
+        },
+        {
+          "gear": 5,
+          "speedKmh": 47.71331342454337,
+          "rpm": 1952.1148559703713
+        },
+        {
+          "gear": 4,
+          "speedKmh": 37.392596708104726,
+          "rpm": 1889.5889432878064
+        },
+        {
+          "gear": 3,
+          "speedKmh": 30.18209597888743,
+          "rpm": 1986.8776480416122
+        },
+        {
+          "gear": 2,
+          "speedKmh": 23.0516008056115,
+          "rpm": 2164.554528134044
+        },
+        {
+          "gear": 1,
+          "speedKmh": 16.01111188276964,
+          "rpm": 2268.146277107799
+        }
+      ],
+      "kickGear": 4,
+      "kickRatioStep": 0.01634260557988476,
+      "queuedKickGear": 3
+    },
+    "lockEnergy": {
+      "maximumResidualJ": 1.3642420526593924e-12,
+      "momentumError": -5.684341886080802e-14,
+      "center": {
+        "installed": true,
+        "engaged": false,
+        "relativeSpeed": 0,
+        "twistRad": 0,
+        "reactionTorqueNm": 0,
+        "storedEnergyJ": 0,
+        "dissipatedJ": 0.9843749999999979,
+        "energyResidualJ": 0
+      },
+      "rear": {
+        "installed": true,
+        "engaged": false,
+        "relativeSpeed": 0,
+        "twistRad": 0,
+        "reactionTorqueNm": 0,
+        "storedEnergyJ": 0,
+        "dissipatedJ": 1640.25,
+        "energyResidualJ": 0
+      }
+    },
+    "2H/wet-asphalt": {
+      "speedKmh": 14.173239444877277,
+      "maximumCenterReactionNm": 0,
+      "maxRearDifferenceRadS": 52.728630428620924,
+      "maxFrontDifferenceRadS": 0.04016142223182717,
+      "locks": {
+        "mode": "2H",
+        "ratio": 1,
+        "frontShare": 0,
+        "rearShare": 1,
+        "centerCoupling": "VARIABLE",
+        "centerLock": {
+          "installed": true,
+          "engaged": false,
+          "relativeSpeed": -25.102153034300652,
+          "twistRad": 0,
+          "reactionTorqueNm": 0,
+          "storedEnergyJ": 0,
+          "dissipatedJ": 0,
+          "energyResidualJ": 0
+        },
+        "rearLock": {
+          "installed": true,
+          "engaged": false,
+          "relativeSpeed": 50.00193867410647,
+          "twistRad": 0,
+          "reactionTorqueNm": 0,
+          "storedEnergyJ": 0,
+          "dissipatedJ": 0,
+          "energyResidualJ": 0
+        },
+        "axleOutputTorques": {
+          "front": 0,
+          "rear": 363.52265841145214
+        },
+        "rejectedReason": null,
+        "axleLocks": "CONFIGURED_DOG_LOCKS"
+      }
+    },
+    "4H/asphalt": {
+      "speedKmh": 58.393448015271936,
+      "maximumCenterReactionNm": 209.01803155965084,
+      "maxRearDifferenceRadS": 1.1317043323328129,
+      "maxFrontDifferenceRadS": 1.0875836640125947,
+      "locks": {
+        "mode": "4H",
+        "ratio": 1,
+        "frontShare": 0.5,
+        "rearShare": 0.5,
+        "centerCoupling": "COMPLIANT_LOCK",
+        "centerLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": -0.001150952916921369,
+          "twistRad": 0.003697035001232293,
+          "reactionTorqueNm": 66.02870120956665,
+          "storedEnergyJ": 0.12301261020302993,
+          "dissipatedJ": 40.24470910457303,
+          "energyResidualJ": 0
+        },
+        "rearLock": {
+          "installed": true,
+          "engaged": false,
+          "relativeSpeed": 0.3841880968247864,
+          "twistRad": 0,
+          "reactionTorqueNm": 0,
+          "storedEnergyJ": 0,
+          "dissipatedJ": 0,
+          "energyResidualJ": 0
+        },
+        "axleOutputTorques": {
+          "front": 1177.0419722895947,
+          "rear": 1309.099374708728
+        },
+        "rejectedReason": null,
+        "axleLocks": "CONFIGURED_DOG_LOCKS"
+      }
+    },
+    "4H/wet-asphalt": {
+      "speedKmh": 50.02815840318912,
+      "maximumCenterReactionNm": 625.2060069346563,
+      "maxRearDifferenceRadS": 7.249283399968316,
+      "maxFrontDifferenceRadS": 3.1165486771110444,
+      "locks": {
+        "mode": "4H",
+        "ratio": 1,
+        "frontShare": 0.5,
+        "rearShare": 0.5,
+        "centerCoupling": "COMPLIANT_LOCK",
+        "centerLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": 0.003015149848077825,
+          "twistRad": -0.02643640001050401,
+          "reactionTorqueNm": -474.49838275743707,
+          "storedEnergyJ": 6.289949209638388,
+          "dissipatedJ": 985.4219605585309,
+          "energyResidualJ": 0
+        },
+        "rearLock": {
+          "installed": true,
+          "engaged": false,
+          "relativeSpeed": 4.962757796043817,
+          "twistRad": 0,
+          "reactionTorqueNm": 0,
+          "storedEnergyJ": 0,
+          "dissipatedJ": 0,
+          "energyResidualJ": 0
+        },
+        "axleOutputTorques": {
+          "front": 1346.5890263888937,
+          "rear": 397.59226087401964
+        },
+        "rejectedReason": null,
+        "axleLocks": "CONFIGURED_DOG_LOCKS"
+      }
+    },
+    "4L/mud": {
+      "speedKmh": 5.32573581239683,
+      "maximumCenterReactionNm": 89.7009474769869,
+      "maxRearDifferenceRadS": 0.03240645331250103,
+      "maxFrontDifferenceRadS": 0.03823120864576168,
+      "locks": {
+        "mode": "4L",
+        "ratio": 2.64,
+        "frontShare": 0.5,
+        "rearShare": 0.5,
+        "centerCoupling": "COMPLIANT_LOCK",
+        "centerLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": -0.000005171092653061867,
+          "twistRad": -0.0029961593720374967,
+          "reactionTorqueNm": -53.933195688368826,
+          "storedEnergyJ": 0.08079273884383315,
+          "dissipatedJ": 1.0729351052613652,
+          "energyResidualJ": 0
+        },
+        "rearLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": 0.0000034650447344984625,
+          "twistRad": 0.006322148738877234,
+          "reactionTorqueNm": 75.86689368084186,
+          "storedEnergyJ": 0.23981738805892203,
+          "dissipatedJ": 4.111835195423806,
+          "energyResidualJ": 0
+        },
+        "axleOutputTorques": {
+          "front": 697.9840537040192,
+          "rear": 590.1176623272814
+        },
+        "rejectedReason": null,
+        "axleLocks": "CONFIGURED_DOG_LOCKS"
+      }
+    },
+    "4L/sand": {
+      "speedKmh": 4.542863284159238,
+      "maximumCenterReactionNm": 139.3864947597123,
+      "maxRearDifferenceRadS": 0.03450944088968633,
+      "maxFrontDifferenceRadS": 0.030636850763096746,
+      "locks": {
+        "mode": "4L",
+        "ratio": 2.64,
+        "frontShare": 0.5,
+        "rearShare": 0.5,
+        "centerCoupling": "COMPLIANT_LOCK",
+        "centerLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": 0.00003071049949731567,
+          "twistRad": -0.007528190193212241,
+          "reactionTorqueNm": -135.49360375304656,
+          "storedEnergyJ": 0.5100628282665927,
+          "dissipatedJ": 4.392851515393545,
+          "energyResidualJ": 0
+        },
+        "rearLock": {
+          "installed": true,
+          "engaged": true,
+          "relativeSpeed": -0.00009205123290492376,
+          "twistRad": 0.01784768836723563,
+          "reactionTorqueNm": 214.14280401229797,
+          "storedEnergyJ": 1.9112398803237485,
+          "dissipatedJ": 21.6294670791177,
+          "energyResidualJ": 0
+        },
+        "axleOutputTorques": {
+          "front": 1175.9279978825662,
+          "rear": 904.9407903764732
+        },
+        "rejectedReason": null,
+        "axleLocks": "CONFIGURED_DOG_LOCKS"
+      }
+    },
+    "rearLockComparison": [
+      {
+        "locked": false,
+        "speedKmh": 39.30031272689419,
+        "rearDifference": 3.927749795740418,
+        "reactionNm": 0
+      },
+      {
+        "locked": true,
+        "speedKmh": 39.3003193972338,
+        "rearDifference": 0.38491880579053017,
+        "reactionNm": 714.9125180454668,
+        "afterUnlockDifference": 0.16659437982015035
+      }
+    ],
+    "lockedCrossAxle": {
+      "seconds": 60,
+      "speedKmh": 14.69840382114801,
+      "rearReactionNm": 12000,
+      "soc": 0.07444784005177224
+    },
+    "shiftFill": {
+      "fillSamples": 218,
+      "maximumWheelTorqueStepNm": 37.6152893184958
+    }
+  }
+}

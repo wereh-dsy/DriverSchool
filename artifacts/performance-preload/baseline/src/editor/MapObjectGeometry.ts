@@ -1,0 +1,7 @@
+import type { CityObject } from '../world/city/CityMapData';
+import { bounds } from './EditorGeometry';
+
+/** Conservative kit envelopes; no mesh construction in the authoring CLI. */
+const dimensions:Record<string,[number,number,number]>={residential_low:[20,9.4,16],residential_mid:[26,23.4,20],office:[26,38.4,22],commercial:[42,9.4,30],industrial:[46,11.4,30],school:[42,14.4,18],garage:[22,5.4,16],tree:[.5,6.8,.5],streetlight:[.24,7.5,.24],streetlight_dual:[.3,10,.3],streetlight_highway:[.3,12,.3],streetlight_small:[.3,5,.3],guardrail:[10,1.1,.2],noise_barrier:[20,3.5,.3],stadium:[132,12.1,92],parking:[30,0,24],water:[20,.04,20],waterway:[12,.04,20],railway_track:[10,.25,40],station_platform:[8.5,4.8,20],sports_field:[100,.05,60],traffic_sign:[.16,2.85,.16],bus_stop:[6.4,2.8,2.6],green_strip:[20,.04,8],hardscape:[40,.04,30],embankment:[20,3,10],guide_sign:[5.8,5.4,.2],parked_car:[1.8,1.7,4.3]};
+export function objectSize(object:CityObject){const [w,h,d]=dimensions[object.prefabId]??[10,10,10],s=object.scale??{x:1,y:1,z:1};return {width:w*s.x,height:h*s.y,depth:d*s.z,approximate:true,...(object.prefabId==='tree'?{trunkRadius:.25*Math.max(s.x,s.z),canopyRadius:2.1*Math.max(s.x,s.z)}:{})};}
+export function objectBounds(object:CityObject){const size=objectSize(object),c=Math.abs(Math.cos(object.rotation)),s=Math.abs(Math.sin(object.rotation)),extent=Math.max(c*size.width+s*size.depth,s*size.width+c*size.depth)/2;return bounds([object.position],extent);}

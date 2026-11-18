@@ -26,9 +26,7 @@ import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWD
 import type { ChassisPhysicsState, WheelGeometryState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { ICEPowertrain } from '../powertrain/ICEPowertrain';
-import { P2HybridPowertrain } from '../powertrain/P2HybridPowertrain';
-import { isP2HybridConfig } from '../config/P2HybridConfig';
-import { ElectricPowertrain } from '../powertrain/ElectricPowertrain';
+import { createVehiclePowertrain } from '../powertrain/createVehiclePowertrain';
 import { isElectricConfig } from '../config/ElectricVehiclePhysicsConfig';
 import { TripComputer, type TripComputerSnapshot } from '../control/TripComputer';
 import type { Powertrain, PowertrainSnapshot, PowertrainInitialState, PowertrainUpdateContext, ICEVehicleTelemetry, PowertrainTransmissionSnapshot, ShiftRejectionReason } from '../powertrain/Powertrain';
@@ -366,8 +364,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.aerodynamics=new VehicleAerodynamics(config.aero);
     this.centerOfMassLocalZ = centerOfMassOffsetZ(config);
     if (injectedPowertrain === undefined && !('engine' in config) && !isElectricConfig(config)) throw new Error('A non-ICE chassis requires a Powertrain');
-    this.powertrain = injectedPowertrain ?? ((isElectricConfig(config) ? new ElectricPowertrain(config)
-      : isP2HybridConfig(config) ? new P2HybridPowertrain(config) : new ICEPowertrain(config as VehiclePhysicsConfig)) as unknown as TPowertrain);
+    this.powertrain = injectedPowertrain ?? (createVehiclePowertrain(config) as TPowertrain);
     if (config.transmission && (config.transmission.type ?? 'MANUAL') !== this.powertrain.transmission.type) throw new Error('Powertrain transmission disagrees with config');
     if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT' && this.powertrain.transmission.type !== 'LST') throw new Error('Manual selection requires a stepped automatic transmission');
     if (config.transmission && (config.transmission.supportsManualSelection === true) !== this.powertrain.supportsManualSelection) throw new Error('Powertrain manual selection disagrees with config');
@@ -1191,6 +1188,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       : this.differential.axle === 'front'
       ? [this.differential.leftTorque, this.differential.rightTorque, 0, 0]
       : [0, 0, this.differential.leftTorque, this.differential.rightTorque];
+    if (this.powertrain.wheelCouplings) this.wheelRotation.integrateShaftCouplings(dt, this.powertrain.wheelCouplings,
+      this.powertrain.wheelInertiaForAxle?.(true) ?? 0, this.powertrain.wheelInertiaForAxle?.(false) ?? 0);
     const rollingMagnitudes = loads.map((load, i) =>
       this.config.tires.rollingResistance * load * rolling[i]! *
       this.wheelRotation.tyres.states[WHEEL_IDS[i]!].rollingResistanceFactor) as FourWheelValues;
@@ -1316,7 +1315,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         tyreLateral, rotation.lateralSpeed);
       // Torque-derived diagnostics close exactly with wheel inertia. Only the
       // actual slip-derived Fx enters the chassis: never sum the demands twice.
-      const driveForce = requestedDrive[i] / this.config.wheelRadius;
+      const driveForce = (requestedDrive[i] + this.wheelRotation.getCouplingTorque(id)) / this.config.wheelRadius;
       const serviceForce = -rotation.brakeReactionTorque / this.config.wheelRadius;
       const handbrakeForce = -rotation.handbrakeReactionTorque / this.config.wheelRadius;
       driveBody[i] = driveForce * cosine;

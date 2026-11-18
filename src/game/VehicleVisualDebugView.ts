@@ -15,14 +15,15 @@ export class VehicleVisualDebugView {
   private readonly positions = new Float32BufferAttribute(new Float32Array(2048 * 3), 3).setUsage(DynamicDrawUsage);
   private readonly colors = new Float32BufferAttribute(new Float32Array(2048 * 3), 3).setUsage(DynamicDrawUsage);
   private readonly material = new LineBasicMaterial({ vertexColors: true, depthTest: false, toneMapped: false });
-  private readonly panel: HTMLPreElement;
+  private readonly panel: Pick<HTMLPreElement,'hidden'|'textContent'|'remove'>;
   private shown = false;
   private inspectionIndex = -1;
   private readonly eye = new Vector3();
   private readonly bounds = new Box3();
 
-  public constructor(host: HTMLElement) {
+  public constructor(host?: HTMLElement) {
     this.root.name = 'F7 vehicle dimensions and mirror geometry';
+    this.root.userData.rendererOwned=true;
     this.geometry.setAttribute('position', this.positions);
     this.geometry.setAttribute('color', this.colors);
     const lines = new LineSegments(this.geometry, this.material);
@@ -32,11 +33,8 @@ export class VehicleVisualDebugView {
     this.root.add(lines);
     this.root.visible = false;
     this.inspectionCamera.layers.enableAll();
-    this.panel = document.createElement('pre');
-    this.panel.className = 'visual-debug-panel';
-    this.panel.setAttribute('aria-label', '车辆尺寸与镜面几何调试');
-    this.panel.hidden = true;
-    host.append(this.panel);
+    if(host){const panel=document.createElement('pre');panel.className='visual-debug-panel';panel.setAttribute('aria-label','车辆尺寸与镜面几何调试');panel.hidden=true;host.append(panel);this.panel=panel;}
+    else this.panel={hidden:true,textContent:'',remove(){}};
   }
 
   public get enabled(): boolean { return this.shown; }
@@ -53,8 +51,16 @@ export class VehicleVisualDebugView {
   public cycleInspectionView(): void {
     if (this.shown) this.inspectionIndex = (this.inspectionIndex + 2) % 9 - 1;
   }
+  public setPresentation(enabled:boolean):void{if(enabled!==this.shown)this.toggle();}
+  public get presentationText():string{return this.panel.textContent??'';}
+  public receivePresentation(text:string):void{this.panel.textContent=text;}
+  public updateInspectionCamera(root:import('three').Object3D,driver:DriverCamera):void{
+    if(this.inspectionIndex<0)return;
+    const angle=this.inspectionIndex*Math.PI/4,offset=new Vector3(-Math.sin(angle)*7,2.9,-Math.cos(angle)*7).applyAxisAngle(new Vector3(0,1,0),root.rotation.y);
+    this.inspectionCamera.position.copy(root.position).add(offset);this.inspectionCamera.lookAt(root.position.clone().add(new Vector3(0,.8,0)));this.inspectionCamera.aspect=driver.camera.aspect;this.inspectionCamera.updateProjectionMatrix();this.inspectionCamera.updateMatrixWorld(true);
+  }
 
-  public update(vehicle: VehicleVisual, contacts: VehicleContactSystem, driver: DriverCamera, mirrors: MirrorSystem): void {
+  public update(vehicle: VehicleVisual, contacts: Pick<VehicleContactSystem,'collision'|'wheelContacts'>, driver: DriverCamera, mirrors: MirrorSystem): void {
     if (!this.shown) return;
     const vertices: number[] = [];
     const colors: number[] = [];

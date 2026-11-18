@@ -1,0 +1,161 @@
+import { runRegionalReleaseBaselineSelfTest } from '../src/world/regional/RegionalReleaseBaseline.selftest';
+import {runCityRuntimeSharingSelfTest} from '../src/world/city/CityRuntimeData.selftest';
+import { runRecentVehicleSystemsSelfTest } from '../src/vehicle/RecentVehicleSystems.selftest';
+import { runCityRoadModelSelfTest } from '../src/world/city/CityRoadModel.selftest';
+import { prepareDrivingGround } from '../src/world/DrivingGroundCatalog';
+import { compileCityRuntimeData } from '../src/world/city/CityRuntimeData';
+import { runSuspensionKinematicsSelfTest } from '../src/vehicle/physics/SuspensionKinematics.selftest';
+import { runRoadEdgeChainSelfTest } from '../src/world/city/RoadEdgeChain.selftest';
+import { runCityMainV5SelfTest } from '../src/world/city/CityMainV5.selftest';
+import cityMain from '../src/world/city/maps/city-main.json';
+import regionalMain from '../src/world/regional/regional-main.json';
+import type { CityMapData } from '../src/world/city/CityMapData';
+import { runFastRoadSignPlacementSelfTest } from '../src/world/regional/FastRoadSignPlacement.selftest';
+import cityV41 from '../artifacts/city-main-v5/v41-base.json';
+import { runTeslaExperienceSelfTest } from '../src/vehicle/visual/TeslaExperience.selftest';
+import { runElectricPowertrainSelfTest } from '../src/vehicle/powertrain/ElectricPowertrain.selftest';
+import { runTeslaModel3VisualSelfTest } from '../src/vehicle/visual/TeslaModel3Visual.selftest';
+import { runFerrari458SelfTest } from '../src/vehicle/physics/Ferrari458.selftest';
+import { runFerrari458VisualSelfTest } from '../src/vehicle/visual/Ferrari458Visual.selftest';
+import { runVehicleLayoutSelfTest } from '../src/vehicle/physics/VehicleLayout.selftest';
+import { runPowertrainBoundarySelfTest } from '../src/vehicle/powertrain/Powertrain.selftest';
+import { runVehicleExperienceSelfTest, runCruiseVehicleExperienceSelfTest } from '../src/vehicle/physics/VehicleExperience.selftest';
+import { runVehiclePlatformSelfTest } from '../src/vehicle/physics/VehiclePlatform.selftest';
+import { runPowertrainLayoutSelfTest } from '../src/vehicle/PowertrainLayout.selftest';
+import { runExecutivePolishSelfTest } from '../src/vehicle/physics/ExecutivePolish.selftest';
+import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan.selftest';
+import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
+import { runAdaptiveMirrorSelfTest } from '../src/camera/AdaptiveMirrorRendering.selftest';
+import { runVisualStreamingSelfTest } from '../src/world/city/VisualStreaming.selftest';
+import { runVisualStreamingLifecycleSelfTest } from '../src/world/city/VisualStreamingLifecycle.selftest';
+import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
+import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftest';
+import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/CruiseControlController.selftest';
+import { runRearParkingProximitySelfTest } from '../src/vehicle/control/RearParkingProximity.selftest';
+import { runVehicleDynamicsSelfTest } from '../src/vehicle/physics/VehicleDynamics.selftest';
+import { runMechanicalDetailsSelfTest } from '../src/vehicle/physics/MechanicalDetails.selftest';
+import { runEngineTorqueSelfTest } from '../src/vehicle/physics/EngineTorque.selftest';
+import { runEngineTurboSelfTest } from '../src/vehicle/physics/EngineTurbo.selftest';
+import { runWheelRotationSelfTest } from '../src/vehicle/physics/WheelRotationSystem.selftest';
+import { runTyreDifferentialSelfTest } from '../src/vehicle/physics/TyreDifferential.selftest';
+import { runDriverAssistSelfTest } from '../src/vehicle/physics/DriverAssistSystem.selftest';
+import { runESCAWDSelfTest } from '../src/vehicle/physics/ESCAWD.selftest';
+import { runCVTSelfTest } from '../src/vehicle/transmission/cvt/CVTTransmission.selftest';
+import { runVehicleStructureSelfTest } from '../src/vehicle/visual/VehicleStructure.selftest';
+import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
+import { runSuspensionStanceSelfTest } from '../src/vehicle/visual/SuspensionStance.selftest';
+import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.selftest';
+import { runCollisionSystemSelfTest } from '../src/vehicle/physics/CollisionSystem.selftest';
+import { runContactDynamicsSelfTest } from '../src/vehicle/physics/ContactDynamics.selftest';
+import { runFourWheelPhysicsSelfTest } from '../src/vehicle/physics/FourWheelPhysics.selftest';
+import { runVerticalDynamicsSelfTest } from '../src/vehicle/physics/VerticalDynamics.selftest';
+import { runVehicleContactSystemSelfTest } from '../src/vehicle/physics/VehicleContactSystem.selftest';
+import { runInstrumentClusterLayoutSelfTest } from '../src/vehicle/visual/InstrumentCluster.selftest';
+import { runDriverViewSelfTest } from '../src/vehicle/visual/DriverView.selftest';
+import { runVehicleExteriorSelfTest } from '../src/vehicle/visual/VehicleExterior.selftest';
+import { runVehicleVisualDimensionsSelfTest } from '../src/vehicle/visual/VehicleVisualDimensions.selftest';
+import { runDrivingTestTrackSelfTest } from '../src/world/DrivingTestTrack.selftest';
+import { runDrivingGroundCatalogSelfTest } from '../src/world/DrivingGroundCatalog.selftest';
+import { runMountainProvingGroundSelfTest } from '../src/world/mountain/MountainProvingGround.selftest';
+import { runCircuitGroundSelfTest } from '../src/world/circuit/CircuitGround.selftest';
+import { runTsukubaGroundSelfTest } from '../src/world/tsukuba/TsukubaGround.selftest';
+import { runLapTimerSelfTest } from '../src/game/lap/LapTimer.selftest';
+import { runSubject2GroundSelfTest } from '../src/world/subject2/Subject2Ground.selftest';
+import { runSubject3GroundSelfTest } from '../src/world/subject3/Subject3Ground.selftest';
+import { runVehicleFeedbackSelfTest } from '../src/vehicle/feedback/VehicleFeedbackSystem.selftest';
+import { runGamepadHapticsSelfTest } from '../src/input/GamepadHaptics.selftest';
+import { runSteeringReturnSelfTest } from '../src/vehicle/physics/SteeringSystem.selftest';
+import { runTransmissionBackendSelfTest, runTransmissionVehicleSelfTest, runTransmissionShiftSelfTest } from '../src/vehicle/transmission/Transmission.selftest';
+import { runAutomaticGroundSelfTest } from '../src/vehicle/transmission/AutomaticGround.selftest';
+import { runAutomaticSelectorInputSelfTest } from '../src/vehicle/transmission/AutomaticSelectorInput.selftest';
+import { runVehicleLightingSelfTest } from '../src/vehicle/visual/VehicleLighting.selftest';
+import { runEnvironmentSelfTest } from '../src/world/environment/Environment.selftest';
+import { runCityMapSelfTest } from '../src/world/city/CityMap.selftest';
+import { runMarkingOwnershipSelfTest } from '../src/world/city/MarkingOwnership.selftest';
+import { runCityMainV3SelfTest,runRoadSignSelfTest } from '../src/world/city/CityMainV3.selftest';
+import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToolchain.selftest';
+
+import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
+
+await prepareDrivingGround('city-main', compileCityRuntimeData(regionalMain));
+
+const results = {
+  regionalBaseline: runRegionalReleaseBaselineSelfTest(regionalMain as CityMapData),
+  runtimeSharing:runCityRuntimeSharingSelfTest(),
+  recentVehicles: runRecentVehicleSystemsSelfTest(),
+  cityRoadModel: runCityRoadModelSelfTest(),
+  roadEdgeChains: runRoadEdgeChainSelfTest(),
+  cityV5: runCityMainV5SelfTest(cityMain, cityV41),
+  roadSignPlacement: runFastRoadSignPlacementSelfTest([regionalMain as CityMapData, cityMain as CityMapData]),
+  teslaExperience: runTeslaExperienceSelfTest(),
+  suspensionKinematics: runSuspensionKinematicsSelfTest(),
+  electricPowertrain: runElectricPowertrainSelfTest(),
+  teslaModel3Visual: runTeslaModel3VisualSelfTest(),
+  ferrari458: runFerrari458SelfTest(),
+  ferrari458Visual: runFerrari458VisualSelfTest(),
+  vehicleLayout: runVehicleLayoutSelfTest(),
+  vehicleExperience: runVehicleExperienceSelfTest(),
+  cruiseVehicleExperience: runCruiseVehicleExperienceSelfTest(),
+  powertrainBoundary: runPowertrainBoundarySelfTest(),
+  vehiclePlatform: runVehiclePlatformSelfTest(),
+  powertrainLayout: runPowertrainLayoutSelfTest(),
+  fuel: runFuelSystemSelfTest(),
+  cityToolchain: validateAuthoringAPI(),
+  cityPresets: validatePresets(),
+  cityMap: runCityMapSelfTest(),
+  cityMarkings:runMarkingOwnershipSelfTest(),
+  cityV3:runCityMainV3SelfTest(),
+  citySigns:runRoadSignSelfTest(),
+  executiveSedan: runExecutiveSedanSelfTest(),
+  executivePolish: runExecutivePolishSelfTest(),
+  suspensionStance: runSuspensionStanceSelfTest(),
+  environment: runEnvironmentSelfTest(),
+  input: runVehicleInputSystemSelfTest(),
+  feedback: runVehicleFeedbackSelfTest(),
+  haptics: await runGamepadHapticsSelfTest(),
+  steeringReturn: runSteeringReturnSelfTest(),
+  transmissionBackend: runTransmissionBackendSelfTest(),
+  transmissionDriving: runTransmissionVehicleSelfTest(),
+  transmissionShifts: runTransmissionShiftSelfTest(),
+  automaticGround: runAutomaticGroundSelfTest(),
+  automaticSelectorInput: runAutomaticSelectorInputSelfTest(),
+  lighting: runVehicleLightingSelfTest(),
+  physics: runVehicleDynamicsSelfTest(),
+  mechanicalDetails: runMechanicalDetailsSelfTest(),
+  engineTorque: runEngineTorqueSelfTest(),
+  engineTurbo: runEngineTurboSelfTest(),
+  wheelRotation: runWheelRotationSelfTest(),
+  tyreDifferential: runTyreDifferentialSelfTest(),
+  driverAssists: runDriverAssistSelfTest(),
+  escAWD: runESCAWDSelfTest(),
+  cvt: runCVTSelfTest(),
+  vehicleStructure: runVehicleStructureSelfTest(),
+  suspensionMechanics: runSuspensionMechanicsSelfTest(),
+  wheelContact: runWheelContactSelfTest(),
+  staticCollision: runCollisionSystemSelfTest(),
+  contactDynamics: runContactDynamicsSelfTest(),
+  fourWheelPhysics: runFourWheelPhysicsSelfTest(),
+  verticalDynamics: runVerticalDynamicsSelfTest(),
+  mapContactAcceptance: runVehicleContactSystemSelfTest(),
+  vehicleCatalog: runVehicleCatalogSelfTest(),
+  cruiseControl: runCruiseControlControllerSelfTest(),
+  rearParkingProximity: runRearParkingProximitySelfTest(),
+  mirrors: runMirrorGeometrySelfTest(),
+  adaptiveMirrors: runAdaptiveMirrorSelfTest(),
+  visualStreaming: runVisualStreamingSelfTest(),
+  visualStreamingLifecycle: await runVisualStreamingLifecycleSelfTest(),
+  instruments: runInstrumentClusterLayoutSelfTest(),
+  driverView: runDriverViewSelfTest(),
+  vehicleExteriors: runVehicleExteriorSelfTest(),
+  visualDimensions: runVehicleVisualDimensionsSelfTest(),
+  roadCourse: runDrivingTestTrackSelfTest(),
+  groundCatalog: runDrivingGroundCatalogSelfTest(),
+  circuit: runCircuitGroundSelfTest(),
+  tsukuba: runTsukubaGroundSelfTest(),
+  mountain: runMountainProvingGroundSelfTest(),
+  lapTimer: runLapTimerSelfTest(),
+  subject2: runSubject2GroundSelfTest(),
+  subject3: runSubject3GroundSelfTest(),
+};
+
+console.log(JSON.stringify(results, null, 2));

@@ -256,7 +256,7 @@ export class Hud {
   private vehicleLoading = false;
   private loadingPhase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase | undefined;
   private loadingLabel: string | undefined;
-  private readonly loadingStatus = document.createElement('div');
+  private readonly loadingStatus = Object.assign(document.createElement('div'),{className:'ds-runtime-loading'});
   public setVehicleLoading(phase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase, label?: string): void {
     if (phase === this.loadingPhase && label === this.loadingLabel) return;
     this.loadingPhase = phase; this.loadingLabel = label;

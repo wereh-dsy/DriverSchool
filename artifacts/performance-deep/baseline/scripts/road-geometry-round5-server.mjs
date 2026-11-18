@@ -1,0 +1,6 @@
+import {createServer} from 'vite';
+import {writeFile,mkdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+const output=resolve('artifacts/road-geometry-round5');await mkdir(output,{recursive:true});
+const server=await createServer({server:{host:'127.0.0.1',port:5196,strictPort:true,hmr:false,watch:{ignored:['**/artifacts/**','**/.tmp-*/**','**/.checkpoint-builds/**']}},plugins:[{name:'round5-review',configureServer(s){s.middlewares.use('/__road_r5_save',async(req,res)=>{if(req.method!=='POST'||req.headers.origin!=='http://127.0.0.1:5196'){res.statusCode=403;res.end();return;}try{const chunks=[];let size=0;for await(const chunk of req){size+=chunk.length;if(size>12_000_000)throw new Error('Artifact too large');chunks.push(chunk);}const d=JSON.parse(Buffer.concat(chunks).toString());if(!/^[a-z0-9_-]+$/.test(d.name))throw new Error('Invalid name');if(d.kind==='image'&&d.image?.startsWith('data:image/jpeg;base64,'))await writeFile(resolve(output,d.name+'.jpg'),Buffer.from(d.image.slice(23),'base64'));else if(d.kind==='report')await writeFile(resolve(output,d.name+'.json'),JSON.stringify(d.report,null,2)+'\n');else throw new Error('Invalid artifact');res.end('saved');}catch(e){res.statusCode=400;res.end(String(e));}});}}]});
+await server.listen();console.log('Round 5: http://127.0.0.1:5196/scripts/road-geometry-round5.html?run=1');

@@ -1,0 +1,116 @@
+private addLightingAndSky(): void {
+    this.scene.add(this.hemisphere);
+
+    this.sun.castShadow = true;
+    this.sun.shadow.mapSize.set(V.shadowMapSize, V.shadowMapSize);
+    this.sun.shadow.camera.left = -V.shadowHalfExtent;
+    this.sun.shadow.camera.right = V.shadowHalfExtent;
+    this.sun.shadow.camera.top = V.shadowHalfExtent;
+    this.sun.shadow.camera.bottom = -V.shadowHalfExtent;
+    this.sun.shadow.camera.near = 5;
+    this.sun.shadow.camera.far = 320;
+    this.sun.shadow.bias = -0.00007;
+    this.sun.shadow.normalBias = .018;
+    this.scene.add(this.sun, this.sun.target);
+
+    this.skyMaterial = new ShaderMaterial({
+      side: BackSide,
+      depthWrite: false,
+      uniforms: {
+        topColor: { value: new Color(V.skyTop) },
+        horizonColor: { value: new Color(V.skyHorizon) },
+        groundColor: { value: new Color(V.skyGround) },
+      },
+      vertexShader: `
+        varying vec3 vWorldPosition;
+        void main() {
+          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+          vWorldPosition = worldPosition.xyz;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 topColor;
+        uniform vec3 horizonColor;
+        uniform vec3 groundColor;
+        varying vec3 vWorldPosition;
+        void main() {
+          vec3 direction = normalize(vWorldPosition - cameraPosition);
+          float up = smoothstep(-0.08, 0.72, direction.y);
+          vec3 color = mix(horizonColor, topColor, up);
+          color = mix(groundColor, color, smoothstep(-0.18, 0.02, direction.y));
+          gl_FragColor = vec4(color, 1.0);
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+        }
+      `,
+    });
+    this.skyGeometry = new SphereGeometry(1_900, 28, 16);
+    const sky = new Mesh(this.skyGeometry, this.skyMaterial);
+    sky.name = 'Atmospheric sky dome';
+    sky.frustumCulled = false;
+    this.skyDome = sky;
+    this.scene.add(sky);
+    this.scene.environment = this.environmentMap!.texture;
+    this.scene.environmentIntensity = V.environmentIntensity;
+  }
+private createMirrorSystem(vehicle: VehicleVisual): MirrorSystem {
+    const leftMirror = vehicle.getMirrorSurface('left');
+    const rightMirror = vehicle.getMirrorSurface('right');
+    return new MirrorSystem(this.renderer, this.scene, {
+      driverCamera: this.driverCamera,
+      vehicleRoot: vehicle.root,
+      defaultResolution: [640, 336],
+      // Real exterior geometry supplies parking references. Only the cabin
+      // and reflective glass are excluded; never hide the complete car body.
+      hiddenDuringReflection: [vehicle.cockpitRoot, this.windshieldRain.root],
+      autoBindSurfaces: true,
+      interior: vehicle.centerMirrorSurface && vehicle.config.centerMirrorTransform ? {
+        surface: vehicle.centerMirrorSurface, size: vehicle.config.centerMirrorTransform.size,
+        reflectiveRoot: vehicle.mirrorSurfaceRoot, enabled: vehicle.config.mirrorSystem?.interior !== 'static',
+      } : undefined,
+      mirrors: {
+        left: {
+          enabled: vehicle.config.mirrorSystem?.left !== false,
+          surface: leftMirror,
+          size: vehicle.config.leftMirrorTransform.size,
+          resolution: [640, 336],
+          cropToMirror: true,
+          viewportPadding: 0.025,
+          clipBias: 0.003,
+        },
+        right: {
+          enabled: vehicle.config.mirrorSystem?.right !== false,
+          surface: rightMirror,
+          size: vehicle.config.rightMirrorTransform.size,
+          resolution: [640, 336],
+          cropToMirror: true,
+          viewportPadding: 0.025,
+          clipBias: 0.003,
+        },
+      },
+    });
+  }
+private prepareRenderMatrices():void {
+    if(!this.ground.root.userData.staticWorldTransforms||false){this.scene.matrixWorldAutoUpdate=true;return;}
+    this.scene.updateWorldMatrix(false,false);
+    this.ground.root.updateWorldMatrix(false,false);
+    for(const child of this.scene.children)if(child!==this.ground.root)child.updateMatrixWorld();
+    this.scene.matrixWorldAutoUpdate=false;
+  }
+private updateWorldVisibility(): void {
+    if (!this.ground.updateVisualVisibility) return;
+    const cameras = this.worldViewCameras; cameras.length = 0;
+    cameras.push(this.driverCamera.camera);
+    // Update off-axis projections before culling, including a newly turned head.
+    this.mirrors.update();
+    for (const side of ['left', 'right'] as const) {
+      const view = this.mirrors.getView(side);
+      if (view.enabled && view.valid) cameras.push(view.camera);
+    }
+    if (this.mirrors.interiorMirror?.update()) cameras.push(this.mirrors.interiorMirror.camera);
+    const shadows=this.worldShadowCameras;shadows.length=0;
+    if(this.sun.castShadow){this.sun.updateWorldMatrix(true,false);this.sun.shadow.updateMatrices(this.sun);shadows.push(this.sun.shadow.camera);}
+    this.ground.updateVisualVisibility(this.driverCamera.camera.position,
+      true && this.scene.fog instanceof Fog ? this.scene.fog.far : Infinity, cameras,shadows);
+  }

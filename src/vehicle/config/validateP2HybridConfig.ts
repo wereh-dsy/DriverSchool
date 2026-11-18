@@ -26,9 +26,15 @@ export function validateP2HybridConfig(c: P2HybridVehiclePhysicsConfig): void {
     t.highShiftMaximumSpeed > t.lowShiftMaximumSpeed && positive(t.lowMaximumSpeed) && positive(t.couplingResponse), 'transfer modes/ratio/shares');
   require(h.regen.minimumSpeed >= 0 && h.regen.fullSpeed > h.regen.minimumSpeed, 'regen fade');
   if (h.driveability) require(Object.values(h.driveability).every(positive), 'driveability acceleration/speed calibration');
+  if (h.driveability?.fullPowerPedalStart !== undefined) require(h.driveability.fullPowerPedalStart < 1, 'full-power pedal transition');
   if (e.startDelay !== undefined) require(e.startDelay >= 0 && (e.stopDelay ?? 0) >= 0 && fraction(e.startDemand ?? 1), 'EMS demand dwell');
   for (const thermal of [b.thermal, m.thermal]) if (thermal) require(positive(thermal.thermalCapacity) &&
     positive(thermal.coolingRate) && thermal.airflowCooling >= 0 && thermal.criticalTemperature > thermal.derateStartTemperature &&
     thermal.minimumCapability >= 0 && thermal.minimumCapability <= 1, 'thermal calibration');
   if (b.electrical) require(Object.values(b.electrical).every(positive), 'pack electrical calibration');
+  for (const lock of [t.centerLock, t.frontLock, t.rearLock]) if (lock) require(Object.values(lock).every(positive), 'shaft lock stiffness/damping/capacity');
+  if (t.frontLock || t.rearLock) require(!!t.centerLock && positive(t.lockMaximumSpeed ?? 0) && positive(t.lockMaximumSlip ?? 0), 'axle lock engagement gates');
+  const cooling = h.engineCooling;
+  if (cooling) require(fraction(cooling.coolantWasteFraction) && cooling.thermostatFullC > cooling.thermostatStartC &&
+    cooling.fanFullC > cooling.fanStartC && positive(cooling.bypassWPerK) && fraction(cooling.minimumFanFraction), 'P2 fuel/thermostat cooling');
 }

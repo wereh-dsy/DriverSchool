@@ -1,0 +1,65 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 3290,
+    "roadsTotal": 3290,
+    "intersectionsChecked": 306,
+    "intersectionsTotal": 306
+  },
+  "counts": {
+    "total": 6143,
+    "error": 9,
+    "warning": 628,
+    "info": 5506,
+    "bySeverity": {
+      "error": 9,
+      "warning": 628,
+      "info": 5506
+    },
+    "byCode": {
+      "topology.expresswayCrossing": 9,
+      "geometry.sharpBend": 1,
+      "geometry.shortSegments": 360,
+      "intersection.acuteApproach": 53,
+      "intersection.approachKink": 32,
+      "intersection.shortApproach": 13,
+      "intersection.stalePortAngle": 57,
+      "marking.crosswalkOverlap": 10,
+      "marking.stopLineDisplaced": 41,
+      "topology.deadEnd": 105,
+      "topology.lowClearance": 6,
+      "topology.tinyFragment": 11,
+      "vertical.rampReversal": 61,
+      "vertical.steepGrade": 9,
+      "geometry.redundantControlPoints": 2619,
+      "topology.shortConnector": 40,
+      "vertical.gradeReversals": 22,
+      "vertical.redundantElevationPoints": 2688,
+      "vertical.constraintDrivenExtremum": 6
+    }
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126",
+      "message": "Controlled-access crossing with regional:xichuan:N-to-E-turbine:acceleration has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:acceleration"
+      },
+      "corridorId": "corridor:S37:expressway-2",
+      "id": "topology.expresswayCrossing:regional:S37:in:split108:split126:::regional:xichuan:N-to-E-turbine:acceleration:"
+    }
+  ],
+  "truncated": true,
+  "mapDigest": "f7136826ccbf94426c0527d97f066e9fd6fbd5cff966053e692bac5878afd236",
+  "pagination": {
+    "offset": 0,
+    "limit": 1,
+    "total": 6143,
+    "returned": 1,
+    "nextOffset": 1
+  },
+  "detailsFile": "D:\\dsy\\drivergame\\artifacts\\road-remediation\\road-diagnosis-before.json"
+}

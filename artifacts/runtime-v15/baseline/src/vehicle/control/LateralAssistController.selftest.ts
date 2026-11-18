@@ -1,0 +1,108 @@
+import { createLaneObservation } from '../../world/navigation/LaneObservation';
+import { createLateralAssistConfig, LateralAssistController, arbitrateLateralSteering, type LateralAssistContext } from './LateralAssistController';
+import { createDefaultVehiclePhysicsConfig } from '../config/defaultVehiclePhysicsConfig';
+
+export function runLateralAssistControllerSelfTest(): string[] {
+  const checks: string[] = [], check = (ok: boolean, name: string) => { if (!ok) throw new Error(name); checks.push(name); };
+  const config = createLateralAssistConfig(), vehicle = createDefaultVehiclePhysicsConfig();
+  const controller = new LateralAssistController();
+  const lane = { ...createLaneObservation(), valid: true, laneId: 'road:lane:1', laneWidth: 3.5,
+    distanceToLeftBoundary: 1.75, distanceToRightBoundary: 1.75, confidence: 1,
+    leftBoundaryType: 'dashed' as const, rightBoundaryType: 'dashed' as const, lookAheadDistance: 32 };
+  const context: LateralAssistContext = { speed: 30, lateralVelocity: 0, yawRate: 0, driverSteering: 0,
+    operational: true, forwardGear: true, suspended: false, leftSignal: false, rightSignal: false };
+  const reset = () => { controller.configure(config,vehicle.steering,vehicle.wheelBase); controller.setPreferences(true,true); };
+  const run = (seconds=1) => { for(let i=0;i<seconds*120;i++)controller.update(1/120,lane,context); return controller.output.steeringAssist; };
+  reset(); check(Math.abs(run())<.0001,'LKA central zone has no centering correction');
+  lane.lateralOffset=.95;lane.distanceToRightBoundary=.8;lane.distanceToLeftBoundary=2.7;
+  lane.headingError=.06;lane.lookAheadLateralOffset=2.8;
+  check(run()<-.005,'LKA predicts departure before proximity threshold');
+  lane.lateralOffset = -1.3; lane.distanceToLeftBoundary=.45; lane.distanceToRightBoundary=3.05;
+  lane.headingError=-.03; lane.lookAheadLateralOffset=-2.2;
+  check(run()>0,'LKA left departure pushes right');
+  context.leftSignal=true; check(Math.abs(run(2))<.0001,'left indicator suppresses only left departure');
+  lane.lateralOffset=1.3; lane.distanceToLeftBoundary=3.05; lane.distanceToRightBoundary=.45;
+  lane.headingError=.03; lane.lookAheadLateralOffset=2.2;
+  check(run() < 0,'left indicator retains right boundary protection');
+  context.leftSignal=false; context.rightSignal=true; check(Math.abs(run(2))<.0001,'right indicator suppresses right departure');
+  context.rightSignal=false; context.driverSteering=.8;
+  check(arbitrateLateralSteering(.8,controller.update(1/120,lane,context))===.8,'strong input immediately wins arbitration');
+  context.driverSteering=0; context.speed=10; check(!controller.update(1/120,lane,context).active,'low speed inactive');
+  context.speed=30; lane.isIntersection=true; check(!controller.update(1/120,lane,context).active,'intersection inactive');
+  lane.isIntersection=false; lane.valid=false; check(!controller.update(1/120,lane,context).active,'invalid lane disabled');
+  lane.valid=true; lane.curvature=NaN; check(!controller.update(1/120,lane,context).active && Number.isFinite(controller.output.steeringAssist),'NaN fails safe');
+  lane.curvature=0; reset(); context.speed=30;
+  run(); const beforeLoss=Math.abs(controller.output.steeringAssist);lane.valid=false;
+  controller.update(1/120,lane,context);
+  check(!controller.output.active&&Math.abs(controller.output.steeringAssist)<beforeLoss&&Math.abs(controller.output.steeringAssist)>0,'observation loss fades actual residual demand');
+  run(2);check(Math.abs(arbitrateLateralSteering(0,controller.output))<.0001,'invalid observation finishes fade to zero');
+  lane.valid=true;context.forwardGear=false;check(!controller.update(1/120,lane,context).active,'P / R / N forward-gear gate');context.forwardGear=true;
+  lane.curvature=0; lane.lateralOffset=.6; lane.headingError=0; lane.lookAheadLateralOffset=.6;
+  lane.distanceToLeftBoundary=2.35; lane.distanceToRightBoundary=1.15;
+  reset(); check(controller.display.lccState==='OFF' && !controller.lccRequested,'LCC does not activate at startup');
+  controller.toggleLCC(); check(run(3)<0 && controller.display.lccState==='ACTIVE' && controller.output.controller==='LCC','LCC centres with exclusive bounded output');
+  const fullAuthority=controller.output.authority;context.driverSteering=.2;controller.update(1/120,lane,context);
+  check(controller.output.authority<fullAuthority&&controller.output.authority>0,'moderate driver steering continuously reduces LCC authority');context.driverSteering=0;
+  lane.lateralOffset=0; lane.lookAheadLateralOffset=-.0015*32*32*.5; lane.curvature=.0015; lane.lookAheadHeadingError=-.048;
+  check(run(2)>0,'LCC curve feed-forward anticipates right bend');
+  context.driverSteering=.8; controller.update(1/120,lane,context);
+  check(controller.display.lccState==='DRIVER_OVERRIDE' && arbitrateLateralSteering(.8,controller.output)===.8,'LCC strong driver override');
+  context.driverSteering=0; run(.4); check(controller.display.lccState==='DRIVER_OVERRIDE','release delay prevents immediate takeover');
+  run(2); check(controller.display.lccState==='ACTIVE','smooth delayed re-engagement');
+  context.rightSignal=true; context.driverSteering=.2; controller.update(1/120,lane,context);
+  check(controller.display.lccState==='LANE_CHANGE_OVERRIDE' && controller.output.authority===0,'signal plus intent stops centering');
+  context.driverSteering=0; lane.laneId='road:lane:2'; lane.curvature=0; lane.lookAheadHeadingError=0; lane.lookAheadLateralOffset=0;
+  run(.3); check(controller.display.lccState==='LANE_CHANGE_OVERRIDE','new lane requires stable confirmation');
+  run(2); check(controller.display.lccState==='ACTIVE','new lane reacquires with ramp');
+  controller.reset(); check(!controller.lccRequested && controller.output.steeringAssist===0,'respawn/reset clears runtime request and output');
+  const unsupported = new LateralAssistController();unsupported.configure(undefined,vehicle.steering,vehicle.wheelBase);
+  unsupported.toggleLCC();check(!unsupported.lccRequested&&!unsupported.update(1/120,lane,context).active,'unsupported vehicle cannot activate');
+  lane.laneId='road:lane:1';lane.lateralOffset=0;lane.headingError=lane.lookAheadHeadingError=0;
+  lane.lookAheadLateralOffset=0;lane.distanceToLeftBoundary=lane.distanceToRightBoundary=1.75;
+  context.rightSignal=context.leftSignal=false;context.speed=120/3.6;context.driverSteering=0;
+  context.lateralVelocity=context.yawRate=0;
+  reset();check(Math.abs(run(2))<.0001,'new LKA still leaves safe central placement alone');
+  lane.lateralOffset=.55;lane.distanceToRightBoundary=1.2;lane.distanceToLeftBoundary=2.3;
+  lane.headingError=lane.lookAheadHeadingError=.015;lane.lookAheadLateralOffset=.55+32*Math.sin(.015);
+  check(run(.3)<-.005,'LKA engages while centre still 1.2 m from boundary');
+  lane.lateralOffset=.85;lane.distanceToRightBoundary=.90;lane.distanceToLeftBoundary=2.6;
+  lane.headingError=lane.lookAheadHeadingError=-.006;lane.lookAheadLateralOffset=.85-32*Math.sin(.006);
+  context.yawRate=.02;
+  check(run(.7)>0,'LKA damps inward recovery before it becomes cross-lane overshoot');
+  check(controller.display.correctingSide==='right','recovery countersteer keeps the original boundary highlight');
+  lane.lateralOffset=.52;lane.headingError=lane.lookAheadHeadingError=0;lane.lookAheadLateralOffset=.52;
+  lane.distanceToRightBoundary=1.23;lane.distanceToLeftBoundary=2.27;context.yawRate=0;
+  check(Math.abs(run(2))<.0001,'LKA releases at a settled inner guard without demanding lane centre');
+  reset();controller.toggleLCC();run(2);
+  lane.lateralOffset=lane.lookAheadLateralOffset=.05;
+  check(run(.5)<-.0001,'LCC provides small correction inside the former 8 cm deadzone');
+  lane.lateralOffset=lane.lookAheadLateralOffset=0;
+  context.lateralVelocity=.3;
+  const rightDrift=run(.6);check(rightDrift<-.001,'LCC damps rightward velocity while centred');
+  context.lateralVelocity=-.3;
+  check(run(.6)>.001,'LCC damps leftward velocity with consistent sign');
+  context.lateralVelocity=0;lane.lookAheadHeadingError=-.035;lane.curvature=.035/32;
+  lane.lookAheadLateralOffset=-.5*lane.curvature*32*32;
+  check(run(1)>.001,'LCC follows the previewed bend before current heading or offset changes');
+  lane.curvature=0;lane.lookAheadHeadingError=0;lane.lookAheadLateralOffset=0;
+  context.driverSteering=.8;controller.update(1/120,lane,context);
+  check(controller.output.authority===0,'trend damping cannot bypass driver override');
+  context.driverSteering=0;run(.5);check(controller.output.authority===0,'override release delay gates residual output');
+  run(2);check(controller.display.lccState==='ACTIVE','trend damping retains smooth reacquisition');
+  lane.lateralOffset=lane.lookAheadLateralOffset=1;
+  let previous=controller.output.steeringAssist, bounded=true;
+  for(let i=0;i<240;i++) {
+    if(i===120)lane.lateralOffset=lane.lookAheadLateralOffset=-1;
+    const out=controller.update(1/120,lane,context);
+    bounded &&= Math.abs(out.steeringAssist)<=config.lcc.maxAuthority && Math.abs(out.steeringAssist-previous)<=config.lcc.rateLimit/120+1e-9;
+    previous=out.steeringAssist;
+  }
+  check(bounded,'large alternating errors remain clamped and slew limited');
+  const highSpeedCorrection=(speed:number) => {
+    context.speed=speed;lane.lateralOffset=lane.lookAheadLateralOffset=.4;
+    reset();controller.toggleLCC();return Math.abs(run(3));
+  };
+  const low=highSpeedCorrection(60/3.6),high=highSpeedCorrection(120/3.6);
+  check(low>0&&high>0&&config.lcc.highSpeedGain>config.lcc.lowSpeedGain,'bounded speed gain scheduling preserves correction at both speeds');
+  return checks;
+}

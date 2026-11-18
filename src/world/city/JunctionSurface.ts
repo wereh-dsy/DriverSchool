@@ -1,7 +1,7 @@
 import type { CityIntersection, CityMapData, CityPoint } from './CityMapData';
 import { junctionExtent, polylineLength, portDirection, roadEdges, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { sampleRibbonPolyline } from '../subject3/geometry';
-import { BufferGeometry, Float32BufferAttribute } from 'three';
+import { BufferGeometry, Float32BufferAttribute,ShapeUtils,Vector2 } from 'three';
 import type { CityRoad } from './CityMapData';
 import type { IntersectionPort } from './CityMapData';
 import { roadEdgeChains } from './RoadEdgeChain';
@@ -149,19 +149,53 @@ export function junctionSurfaceHeight(j: CityIntersection, p: CityPoint): number
     return base;
 }
 /** Trim connected approach triangles at the authoritative outline, including skewed mouths. */
+type SurfaceVertex={x:number;y:number;z:number;u:number;v:number};
+export interface PavementExclusion {outline:CityPoint[];heightAt:(x:number,z:number)=>number;tolerance:number;minHeight?:number;maxHeight?:number}
+function clipSurfacePolygon(polygon:SurfaceVertex[],side:(p:SurfaceVertex)=>number):SurfaceVertex[]{
+    const result:SurfaceVertex[]=[];
+    for(let i=0;i<polygon.length;i++){const p=polygon[i]!,q=polygon[(i+1)%polygon.length]!,sp=side(p),sq=side(q),inside=sp>=0;if(inside)result.push(p);if(inside!==(sq>=0)){const t=sp/(sp-sq);result.push({x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t,z:p.z+(q.z-p.z)*t,u:p.u+(q.u-p.u)*t,v:p.v+(q.v-p.v)*t});}}
+    return result;
+}
+function convexMasks(mask:PavementExclusion):PavementExclusion[]{
+    const points=mask.outline,area=points.reduce((sum,p,i)=>{const q=points[(i+1)%points.length]!;return sum+p.x*q.z-q.x*p.z;},0),outline=area<0?[...points].reverse():points;
+    const convex=outline.every((b,i)=>{const a=outline[(i+outline.length-1)%outline.length]!,c=outline[(i+1)%outline.length]!;return (b.x-a.x)*(c.z-b.z)-(b.z-a.z)*(c.x-b.x)>=-1e-8;});
+    return convex?[{...mask,outline}]:ShapeUtils.triangulateShape(outline.map(p=>new Vector2(p.x,p.z)),[]).map(face=>({...mask,outline:face.map(i=>outline[i]!)}));
+}
+/** Preserve the original contact fan's planes/order. A concave outline clips
+ * that fan into disjoint ears instead of paving its concave exterior twice. */
+export function junctionPavementGeometry(j:CityIntersection,map:CityMapData):BufferGeometry{
+    const h=junctionExtent(j,map),outline=j.pavementFootprint??[{x:-h,z:-h},{x:h,z:-h},{x:h,z:h},{x:-h,z:h}],centre:SurfaceVertex={x:0,y:.024,z:0,u:0,v:0};
+    const fan=outline.map((p,i)=>[centre,{x:p.x,y:(p.y??0)+.024,z:p.z,u:p.x,v:p.z},{x:outline[(i+1)%outline.length]!.x,y:(outline[(i+1)%outline.length]!.y??0)+.024,z:outline[(i+1)%outline.length]!.z,u:outline[(i+1)%outline.length]!.x,v:outline[(i+1)%outline.length]!.z}]);
+    const cross=(a:CityPoint,b:CityPoint,c:CityPoint)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
+    const signs=fan.map(t=>cross(t[0]!,t[1]!,t[2]!)).filter(a=>Math.abs(a)>1e-8),star=signs.every(s=>s>0)||signs.every(s=>s<0);
+    let pieces=fan.filter(t=>Math.abs(cross(t[0]!,t[1]!,t[2]!))>1e-8);
+    if(!star){
+        const ears=convexMasks({outline,heightAt:()=>0,tolerance:Infinity}),prior:PavementExclusion[]=[];pieces=[];
+        for(const triangle of fan){if(Math.abs(cross(triangle[0]!,triangle[1]!,triangle[2]!))<1e-8)continue;const clipped:SurfaceVertex[][]=[];
+            for(const ear of ears){let polygon=triangle;for(let i=0;i<ear.outline.length&&polygon.length>=3;i++){const a=ear.outline[i]!,b=ear.outline[(i+1)%ear.outline.length]!;polygon=clipSurfacePolygon(polygon,p=>(b.x-a.x)*(p.z-a.z)-(b.z-a.z)*(p.x-a.x));}for(let i=1;i+1<polygon.length;i++)clipped.push([polygon[0]!,polygon[i]!,polygon[i+1]!]);}
+            const source=surfaceGeometry(clipped),owned=prior.length?clipSurfaceTriangles(source,clipped,prior,.024):source;pieces.push(...surfaceTriangles(owned));owned.dispose();prior.push({outline:triangle.map(p=>({x:p.x,z:p.z})),heightAt:()=>0,tolerance:Infinity});
+        }
+    }
+    return surfaceGeometry(pieces);
+}
+function surfaceGeometry(triangles:SurfaceVertex[][]):BufferGeometry{
+    const positions:number[]=[],uv:number[]=[];
+    for(const triangle of triangles){const [a,b,c]=triangle as [SurfaceVertex,SurfaceVertex,SurfaceVertex],area=(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);if(Math.abs(area)<1e-8)continue;for(const p of area<0?triangle:[a,c,b]){positions.push(p.x,p.y,p.z);uv.push(p.u,p.v);}}
+    const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(positions,3));g.setAttribute('uv',new Float32BufferAttribute(uv,2));g.computeVertexNormals();return g;
+}
+function surfaceTriangles(geometry:BufferGeometry):SurfaceVertex[][]{
+    const attribute=geometry.getAttribute('position'),uv=geometry.getAttribute('uv'),index=geometry.index,triangles:SurfaceVertex[][]=[];
+    for(let i=0;i<(index?.count??attribute.count);i+=3)triangles.push(Array.from({length:3},(_,k)=>{const n=index?index.getX(i+k):i+k;return {x:attribute.getX(n),y:attribute.getY(n),z:attribute.getZ(n),u:uv?.getX(n)??0,v:uv?.getY(n)??0};}));
+    return triangles;
+}
+/** The existing exact pavement subtraction, also used for static island voids.
+ * It interpolates height/UV and never changes logical or physical surfaces. */
+export function excludePavement(geometry:BufferGeometry,masks:readonly PavementExclusion[],surfaceOffset=.024):BufferGeometry{
+    return masks.length?clipSurfaceTriangles(geometry,surfaceTriangles(geometry),masks,surfaceOffset):geometry;
+}
 export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoad, map: CityMapData, surfaceOffset = 0.024, sidewalk = false): BufferGeometry {
     const junctions = map.intersections.filter(j => j.pavementFootprint && j.connections.some(c => c.roadId === road.id));
-    type Vertex = {
-        x: number;
-        y: number;
-        z: number;
-        u: number;
-        v: number;
-    };
-    const attribute = geometry.getAttribute('position'), uv = geometry.getAttribute('uv'), index = geometry.index;
-    const triangles: Vertex[][] = [];
-    for (let i = 0; i < (index?.count ?? attribute.count); i += 3)
-        triangles.push(Array.from({ length: 3 }, (_, k) => { const n = index ? index.getX(i + k) : i + k; return { x: attribute.getX(n), y: attribute.getY(n), z: attribute.getZ(n), u: uv?.getX(n) ?? 0, v: uv?.getY(n) ?? 0 }; }));
+    const triangles=surfaceTriangles(geometry);
     let pieces = triangles;
     const masks=junctions.map(j=>({outline:j.pavementFootprint!.map(p=>{const q=rotatePoint(p,j.rotation);return {x:j.position.x+q.x,z:j.position.z+q.z};}),heightAt:(x:number,z:number)=>junctionSurfaceHeight(j,{x,z}),tolerance:.5}));
     if(!sidewalk){
@@ -203,8 +237,11 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
             }
         }
     }
-    for (const mask of masks) {
-        const outline=mask.outline,next: Vertex[][] = [];
+    return clipSurfaceTriangles(geometry,pieces,masks,surfaceOffset);
+}
+function clipSurfaceTriangles(geometry:BufferGeometry,pieces:SurfaceVertex[][],masks:readonly PavementExclusion[],surfaceOffset:number):BufferGeometry{
+    for (const mask of masks.flatMap(convexMasks)) {
+        const outline=mask.outline,next: SurfaceVertex[][] = [];
         const minX = Math.min(...outline.map(p => p.x)), maxX = Math.max(...outline.map(p => p.x)), minZ = Math.min(...outline.map(p => p.z)), maxZ = Math.max(...outline.map(p => p.z));
         for (const triangle of pieces) {
             if (triangle.every(p => p.x < minX) || triangle.every(p => p.x > maxX) || triangle.every(p => p.z < minZ) || triangle.every(p => p.z > maxZ)) {
@@ -213,11 +250,11 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
             }
             const center={x:(triangle[0]!.x+triangle[1]!.x+triangle[2]!.x)/3,z:(triangle[0]!.z+triangle[1]!.z+triangle[2]!.z)/3};
             const height=(triangle[0]!.y+triangle[1]!.y+triangle[2]!.y)/3-surfaceOffset;
-            if(Math.abs(height-mask.heightAt(center.x,center.z))>mask.tolerance||mask.tolerance<.1&&triangle.some(p=>Math.abs(p.y-surfaceOffset-mask.heightAt(p.x,p.z))>mask.tolerance)){next.push(triangle);continue;}
+            if(mask.minHeight===undefined&&mask.maxHeight===undefined&&(Math.abs(height-mask.heightAt(center.x,center.z))>mask.tolerance||mask.tolerance<.1&&triangle.some(p=>Math.abs(p.y-surfaceOffset-mask.heightAt(p.x,p.z))>mask.tolerance))){next.push(triangle);continue;}
             let remaining = triangle;
             for (let edge = 0; edge < outline.length && remaining.length >= 3; edge++) {
-                const a = outline[edge]!, b = outline[(edge + 1) % outline.length]!, side = (p: Vertex) => (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);
-                const cut = (inside: boolean) => { const polygon: Vertex[] = []; for (let i = 0; i < remaining.length; i++) {
+                const a = outline[edge]!, b = outline[(edge + 1) % outline.length]!, side = (p: SurfaceVertex) => (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);
+                const cut = (inside: boolean) => { const polygon: SurfaceVertex[] = []; for (let i = 0; i < remaining.length; i++) {
                     const p = remaining[i]!, q = remaining[(i + 1) % remaining.length]!, sp = side(p), sq = side(q), pin = inside ? sp >= 0 : sp <= 0, qin = inside ? sq >= 0 : sq <= 0;
                     if (pin)
                         polygon.push(p);
@@ -234,6 +271,9 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
                 }
                 remaining = cut(true);
             }
+            // A sloped pavement only loses the portion inside the unchanged
+            // island collider's vertical slab; another support level survives.
+            for(const polygon of [mask.minHeight===undefined?[]:clipSurfacePolygon(remaining,p=>mask.minHeight!-p.y),mask.maxHeight===undefined?[]:clipSurfacePolygon(remaining,p=>p.y-mask.maxHeight!)])for(let i=1;i+1<polygon.length;i++)next.push([polygon[0]!,polygon[i]!,polygon[i+1]!]);
         }
         pieces = next;
     }

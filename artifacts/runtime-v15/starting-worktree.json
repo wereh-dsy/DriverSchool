@@ -1,0 +1,4584 @@
+{
+  "head": "e42346815360428daf9d90f4e805f527d6b739f1",
+  "status": " M scripts/build-checkpoint.ps1\n M scripts/run-core-selftests.ts\n M src/camera/AdaptiveMirrorRendering.selftest.ts\n M src/camera/AdaptiveMirrorRendering.ts\n M src/editor/CityEditingKernel.selftest.ts\n M src/editor/CityEditingKernel.ts\n M src/game/DrivingGame.ts\n M src/game/startup/StartupApplication.ts\n M src/loading/Loading.ts\n M src/ui/Hud.ts\n M src/ui/HybridControlPanel.ts\n M src/ui/Minimap.ts\n M src/ui/controller/GameUIController.ts\n M src/ui/design/system.css\n M src/ui/screens/GameShell.ts\n M src/ui/state/GameUIState.ts\n M src/vehicle/VehicleCatalog.ts\n M src/vehicle/config/P2HybridConfig.ts\n M src/vehicle/config/tank500Hi4TPhysicsConfig.ts\n M src/vehicle/config/validateP2HybridConfig.ts\n M src/vehicle/config/validateVehiclePlatformConfig.ts\n M src/vehicle/physics/VehicleDynamics.ts\n M src/vehicle/physics/WheelRotationSystem.ts\n M src/vehicle/powertrain/HybridBattery.ts\n M src/vehicle/powertrain/HybridEnergyManagement.ts\n M src/vehicle/powertrain/ICEHeatState.ts\n M src/vehicle/powertrain/ICEPowertrain.ts\n M src/vehicle/powertrain/MechanicalTransferCase.ts\n M src/vehicle/powertrain/P2HybridPowertrain.ts\n M src/vehicle/powertrain/Powertrain.ts\n M src/vehicle/transmission/P2HybridTransmission.ts\n M src/vehicle/transmission/TransmissionSystem.ts\n M src/vehicle/transmission/automatic/AutomaticShiftController.ts\n M src/vehicle/visual/Cockpit.ts\n M src/vehicle/visual/CockpitLayout.ts\n M src/vehicle/visual/InstrumentCluster.ts\n M src/vehicle/visual/Tank500BodyExterior.ts\n M src/vehicle/visual/Tank500Displays.ts\n M src/vehicle/visual/VehicleStaticAssets.ts\n M src/vehicle/visual/VehicleVisual.ts\n M src/vehicle/visual/VehicleVisualConfig.ts\n M src/vehicle/visual/su7MaxVisualConfig.ts\n M src/world/DrivingGround.ts\n M src/world/DrivingGroundCatalog.ts\n M src/world/circuit/CircuitGround.selftest.ts\n M src/world/city/CityGround.ts\n M src/world/city/CityGroundGeometry.ts\n M src/world/city/CityMainResource.ts\n M src/world/city/CityMapData.ts\n M src/world/city/CityMapValidation.ts\n M src/world/city/CityPhysicsSectors.ts\n M src/world/city/CityRuntimeData.ts\n M src/world/city/CityTrafficSignals.ts\n M src/world/city/FogVisibility.ts\n M src/world/city/IntersectionBuilder.ts\n M src/world/city/JunctionSurface.ts\n M src/world/city/MarkingOwnership.ts\n M src/world/city/MidRoadVisual.ts\n M src/world/city/PrefabRegistry.ts\n M src/world/city/RoadBuilder.ts\n M src/world/city/RoadCarriageway.ts\n M src/world/city/RoadClearance.ts\n M src/world/city/RoadEdgeChain.ts\n M src/world/city/RoadInfrastructure.ts\n M src/world/city/RoadVisualCompiler.ts\n M src/world/city/SectorManager.ts\n M src/world/city/VisualStreaming.selftest.ts\n M src/world/city/VisualStreaming.worker.ts\n M src/world/city/VisualStreamingData.ts\n M src/world/city/VisualStreamingWorker.ts\n M src/world/environment/EnvironmentVisual.ts\n M src/world/regional/FastRoadSignPlacement.selftest.ts\n M src/world/regional/FastRoadSignPlacement.ts\n M src/world/regional/RegionalBackgroundBatches.ts\n M src/world/regional/RegionalReleaseBaseline.selftest.ts\n M src/world/regional/RegionalStreaming.ts\n M src/world/regional/RegionalTerrain.ts\n M src/world/regional/RegionalTerrainClearance.ts\n M src/world/regional/regional-main.json\n?? artifacts/p2-launch-fix-2026-11-13/\n?? artifacts/performance-deep/\n?? artifacts/performance-preload/\n?? artifacts/performance-round2/\n?? artifacts/qin-plus-ehs/\n?? artifacts/regional-world/approved-baseline.json\n?? artifacts/regional-world/baseline-approvals.json\n?? artifacts/regional-world/v505-regression-baseline.json\n?? artifacts/regional-world/v506-regression-baseline.json\n?? artifacts/regional-world/v507-regression-baseline.json\n?? artifacts/road-geometry-round2/\n?? artifacts/road-geometry-round3/\n?? artifacts/road-geometry-round4/\n?? artifacts/road-geometry-round5/\n?? artifacts/road-geometry-round6/\n?? artifacts/road-geometry-trial/\n?? artifacts/road-remediation/\n?? artifacts/runtime-v15/\n?? artifacts/runtime-v2/\n?? artifacts/su7-driver-view-2026-11-09/\n?? artifacts/tank500-driveline-2026-11-14/\n?? docs/P2_LAUNCH_FIX_2026-11-13.md\n?? docs/PERFORMANCE_DEEP_2026-11-07.md\n?? docs/PERFORMANCE_PRELOAD_2026-11-08.md\n?? docs/PERFORMANCE_ROUND2_2026-11-09.md\n?? docs/QIN_PLUS_EHS.md\n?? docs/QIN_PLUS_EHS_REVIEW_2026-11-14.md\n?? docs/REGIONAL_BASELINE_APPROVAL.md\n?? docs/ROAD_GEOMETRY_ROUND2_2026-11-06.md\n?? docs/ROAD_GEOMETRY_ROUND3_2026-11-06.md\n?? docs/ROAD_GEOMETRY_ROUND4_2026-11-06.md\n?? docs/ROAD_GEOMETRY_ROUND5_2026-11-07.md\n?? docs/ROAD_GEOMETRY_ROUND6_2026-11-07.md\n?? docs/ROAD_GEOMETRY_TRIAL_2026-11-06.md\n?? docs/ROAD_REMEDIATION_2026-11-07.md\n?? docs/RUNTIME_V2_PHASE1_2026-11-14.md\n?? scripts/approve-regional-baseline.mjs\n?? scripts/audit-qin-ehs.ts\n?? scripts/check-preload.mjs\n?? scripts/check-road-geometry-round3.mjs\n?? scripts/check-road-geometry-round4.mjs\n?? scripts/check-road-geometry-round5-terrain.mjs\n?? scripts/check-road-geometry-round5.mjs\n?? scripts/check-road-geometry-round5.ts\n?? scripts/check-road-geometry-round6.ts\n?? scripts/inspect-road-geometry-round4.mjs\n?? scripts/inspect-road-geometry-round5-piers.mjs\n?? scripts/performance-deep-electron.cjs\n?? scripts/performance-deep-instrument.ts\n?? scripts/performance-deep.html\n?? scripts/performance-deep.ts\n?? scripts/performance-preload.html\n?? scripts/performance-preload.ts\n?? scripts/prepare-road-geometry-round3.mjs\n?? scripts/prepare-road-geometry-round5.mjs\n?? scripts/prepare-road-geometry-round6.mjs\n?? scripts/profile-road-geometry-round3.mjs\n?? scripts/qin-runtime-audit.cjs\n?? scripts/qin-runtime-audit.html\n?? scripts/qin-runtime-audit.ts\n?? scripts/qin-runtime-server.mjs\n?? scripts/road-geometry-round1-projection.fixture.ts\n?? scripts/road-geometry-round2-data.ts\n?? scripts/road-geometry-round2-server.mjs\n?? scripts/road-geometry-round2.html\n?? scripts/road-geometry-round2.ts\n?? scripts/road-geometry-round2.tsconfig.json\n?? scripts/road-geometry-round3-node-worker.mjs\n?? scripts/road-geometry-round3-server.mjs\n?? scripts/road-geometry-round3.html\n?? scripts/road-geometry-round3.ts\n?? scripts/road-geometry-round3.tsconfig.json\n?? scripts/road-geometry-round4-data.ts\n?? scripts/road-geometry-round4-server.mjs\n?? scripts/road-geometry-round4.html\n?? scripts/road-geometry-round4.ts\n?? scripts/road-geometry-round4.tsconfig.json\n?? scripts/road-geometry-round5-cpu.mjs\n?? scripts/road-geometry-round5-electron.cjs\n?? scripts/road-geometry-round5-game.html\n?? scripts/road-geometry-round5-game.ts\n?? scripts/road-geometry-round5-server.mjs\n?? scripts/road-geometry-round5.html\n?? scripts/road-geometry-round5.ts\n?? scripts/road-geometry-round5.tsconfig.json\n?? scripts/road-geometry-round6-electron.cjs\n?? scripts/road-geometry-round6-server.mjs\n?? scripts/road-geometry-round6.html\n?? scripts/road-geometry-round6.ts\n?? scripts/road-geometry-round6.tsconfig.json\n?? scripts/road-geometry-trial-data.ts\n?? scripts/road-geometry-trial-server.mjs\n?? scripts/road-geometry-trial.html\n?? scripts/road-geometry-trial.ts\n?? scripts/road-geometry-trial.tsconfig.json\n?? scripts/road-remediation-electron.cjs\n?? scripts/road-remediation-map.mjs\n?? scripts/road-remediation-objects.mjs\n?? scripts/road-remediation-preview.cjs\n?? scripts/road-remediation-preview.html\n?? scripts/road-remediation-preview.mjs\n?? scripts/road-remediation-preview.ts\n?? scripts/road-remediation-server.mjs\n?? scripts/road-remediation.html\n?? scripts/road-remediation.ts\n?? scripts/run-ehs-selftests.ts\n?? scripts/run-p2-launch-selftests.ts\n?? scripts/run-road-geometry-round2.mjs\n?? scripts/run-road-geometry-round2.ts\n?? scripts/run-road-geometry-round3.mjs\n?? scripts/run-road-geometry-trial.mjs\n?? scripts/run-road-geometry-trial.ts\n?? scripts/run-runtime-selftests.mjs\n?? scripts/run-tank500-driveline-selftests.ts\n?? scripts/smoke-p2-launch.cjs\n?? scripts/smoke-road-geometry-round5-release.mjs\n?? scripts/smoke-road-remediation-release.mjs\n?? scripts/smoke-tank500-driveline-release.mjs\n?? scripts/smoke-tank500-driveline.cjs\n?? scripts/summarize-road-geometry-round2.mjs\n?? scripts/summarize-road-geometry-round3.mjs\n?? scripts/summarize-road-geometry-round5.mjs\n?? scripts/validate-qin-release.ts\n?? src/audio/QinPlusAudioProfile.ts\n?? src/game/StreamingShaderWarmup.ts\n?? src/game/runtime/\n?? src/loading/LoadingProgress.selftest.ts\n?? src/loading/LoadingProgress.ts\n?? src/ui/EhsControlPanel.ts\n?? src/vehicle/EhsHybrid.selftest.ts\n?? src/vehicle/EhsVehicle.selftest.ts\n?? src/vehicle/P2HybridLaunch.selftest.ts\n?? src/vehicle/Tank500Driveline.selftest.ts\n?? src/vehicle/Tank500HybridControl.selftest.ts\n?? src/vehicle/Tank500PowerThermal.selftest.ts\n?? src/vehicle/config/EhsHybridConfig.ts\n?? src/vehicle/config/HybridBatteryConfig.ts\n?? src/vehicle/config/qinPlusDmiPhysicsConfig.ts\n?? src/vehicle/config/validateEhsHybridConfig.ts\n?? src/vehicle/physics/CompliantShaftCoupling.ts\n?? src/vehicle/powertrain/EhsEnergyManagement.ts\n?? src/vehicle/powertrain/EhsHybridSystem.ts\n?? src/vehicle/powertrain/P2ThermalBudget.ts\n?? src/vehicle/powertrain/createVehiclePowertrain.ts\n?? src/vehicle/transmission/EhsTransmission.ts\n?? src/vehicle/visual/QinPlusCabin.ts\n?? src/vehicle/visual/QinPlusDisplays.ts\n?? src/vehicle/visual/QinPlusExterior.ts\n?? src/vehicle/visual/QinPlusVisual.selftest.ts\n?? src/vehicle/visual/QinPlusVisualConfig.ts\n?? src/vehicle/visual/QinPlusWheels.ts\n?? src/world/city/CityRuntimeData.selftest.ts\n?? src/world/city/ContinuousRoadGeometry.selftest.ts\n?? src/world/city/ContinuousRoadGeometry.ts\n?? src/world/city/PavementProjection.ts\n?? src/world/city/RoadCompileSampling.ts\n?? src/world/city/RoadGeometry.ts\n?? src/world/city/RoadGeometryTrial.ts\n?? src/world/city/RoadGeometryTrialCache.ts\n?? src/world/regional/RegionalBaselineData.ts\n",
+  "files": [
+    {
+      "path": "docs/P2_LAUNCH_FIX_2026-11-13.md",
+      "sha256": "13983cbcbb5ec5e1191e41b50743e4f67e140bc581fa204b3738899ed97cedea"
+    },
+    {
+      "path": "docs/PERFORMANCE_DEEP_2026-11-07.md",
+      "sha256": "117692eeb537a1ffe8f1e5d4f7c099982d0c60789e1422802d82c000a02f5474"
+    },
+    {
+      "path": "docs/PERFORMANCE_PRELOAD_2026-11-08.md",
+      "sha256": "1e3a22e2eeb7176f38de2aa39ee30a6eea4aee23ba05608bb49ed3af995dd9f7"
+    },
+    {
+      "path": "docs/PERFORMANCE_ROUND2_2026-11-09.md",
+      "sha256": "80e425128919dfca9c2ea21303cbcd1b5be9f98362dc0ffdb9f4854f2194d116"
+    },
+    {
+      "path": "docs/QIN_PLUS_EHS.md",
+      "sha256": "7c2b9e70aad5e8e9007d07afb21f0b2e9b15d2c3477d21b916074e73b589f3ac"
+    },
+    {
+      "path": "docs/QIN_PLUS_EHS_REVIEW_2026-11-14.md",
+      "sha256": "9e50d8aec700e186ca1651a1395a77f384ff6f2e4e3ab5db289bea4f5b4ee69e"
+    },
+    {
+      "path": "docs/REGIONAL_BASELINE_APPROVAL.md",
+      "sha256": "fa546689760cd860cfd13ad818073c3438f5243436a4e4102735b00c906a9904"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_ROUND2_2026-11-06.md",
+      "sha256": "17b075fc5da3eaa2e9642c1231716eb03876f9b73e8ef0ed5d73fa78931b0edd"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_ROUND3_2026-11-06.md",
+      "sha256": "eb5091746c9ecca8a0815b5083bc0f904899cb7076ff14cfd7c3bf5c9e40529e"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_ROUND4_2026-11-06.md",
+      "sha256": "0521bcfdb871e3903bce2500b20c9e2ba77694fc2f1aefa2f2a1cd41eeb52e2e"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_ROUND5_2026-11-07.md",
+      "sha256": "09fdd76133a0e119d47ba6ce4c177af5a0745a8db2c275dfcba2d27972c1b8a1"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_ROUND6_2026-11-07.md",
+      "sha256": "12df2f319df7cdfff2ee4f2f1c5a9dcc22ce2cb4c65d1148132342d3cf1d223d"
+    },
+    {
+      "path": "docs/ROAD_GEOMETRY_TRIAL_2026-11-06.md",
+      "sha256": "2914f1167a004a296bd25f168c5e5e0dfbf2e658181804ed9c13949feb7035f2"
+    },
+    {
+      "path": "docs/ROAD_REMEDIATION_2026-11-07.md",
+      "sha256": "f545e8fc07281ef2ec03f9e56992f842d0508718dcd0b610827e430764c9f64b"
+    },
+    {
+      "path": "docs/RUNTIME_V2_PHASE1_2026-11-14.md",
+      "sha256": "61f284ce17579f7e7d05f1d842155d700de9fd5a165145dbf6ab7b5f9ee8bbaa"
+    },
+    {
+      "path": "scripts/approve-regional-baseline.mjs",
+      "sha256": "f36d9787ec6f8d0153e6335f90f5a3d5f4f0f7666be60e44590cd80941c449e9"
+    },
+    {
+      "path": "scripts/audit-qin-ehs.ts",
+      "sha256": "ad045b6d3f2019aba0ed778665b7e276583ce9b95ffd4977c5b13bcdcfa19f88"
+    },
+    {
+      "path": "scripts/check-preload.mjs",
+      "sha256": "35af4378cfe0180a410eba5c9f3555134542b4beb217690398cf46ff01a829de"
+    },
+    {
+      "path": "scripts/check-road-geometry-round3.mjs",
+      "sha256": "62a186a3af8a01edf6495c69a35b1d0e90a0581fed8ea8bf9bde9539b107a019"
+    },
+    {
+      "path": "scripts/check-road-geometry-round4.mjs",
+      "sha256": "c07f11146c4513e6e975fa9b7e8395dbd9509c7e177a9f682104fe7169ed19e2"
+    },
+    {
+      "path": "scripts/check-road-geometry-round5-terrain.mjs",
+      "sha256": "c83b2ae886dbd8949ba4dc097dcd6327a382cec4561c2303e6d9096f8c597c07"
+    },
+    {
+      "path": "scripts/check-road-geometry-round5.mjs",
+      "sha256": "1b8114657ba810444f1949430780f7e90f3c1fea200d1f7c36b6e8eb8a6e75ea"
+    },
+    {
+      "path": "scripts/check-road-geometry-round5.ts",
+      "sha256": "0ab0bc8fb979c4442c5f7c5ba05b5a9a1b15e2e6387b27079c83ff3a0f7c74c3"
+    },
+    {
+      "path": "scripts/check-road-geometry-round6.ts",
+      "sha256": "0e2303df443c989ee45fc9e85de4f5e2f32cb8fcb46deeb8eb82eda1e88f004a"
+    },
+    {
+      "path": "scripts/inspect-road-geometry-round4.mjs",
+      "sha256": "4ff671dba1234bd6230721bbd0feb783030d94f7c401c528b6db1830923af4d5"
+    },
+    {
+      "path": "scripts/inspect-road-geometry-round5-piers.mjs",
+      "sha256": "36ecfdd85d142c1676c32c1e7ca566ee2cdbc190be37a28d8ce8f6ad65b91c2a"
+    },
+    {
+      "path": "scripts/performance-deep-electron.cjs",
+      "sha256": "ad0093ea9e405651b1df755b9be068fc511c5b70091baeef04f7e6cc47610bfa"
+    },
+    {
+      "path": "scripts/performance-deep-instrument.ts",
+      "sha256": "bea09416e62ef5786323d582034dca42e7c53f32f9875db163682e03005c0eca"
+    },
+    {
+      "path": "scripts/performance-deep.html",
+      "sha256": "b39bdf19c388f5d02822e6a3d9d139e063f0fd4d0f33c2735e3109536a8d8d86"
+    },
+    {
+      "path": "scripts/performance-deep.ts",
+      "sha256": "6d21e0ef6f0a4b753bf67e6201a6a6d5adc1b68cbe4cf4fb4a91b4c1d0400872"
+    },
+    {
+      "path": "scripts/performance-preload.html",
+      "sha256": "d2761f5f8f40fda5c44994a060b5f3557e3cf8d3dc644fb7e274883c09331d62"
+    },
+    {
+      "path": "scripts/performance-preload.ts",
+      "sha256": "7ac6e7a66e9d98f67cc97fcdf7fe1220daa5e9e365133b9991629e3ba58deca4"
+    },
+    {
+      "path": "scripts/prepare-road-geometry-round3.mjs",
+      "sha256": "88cc2634c56a5c8dca7b7cc8be15f5e9f92f66d9f7ce68532bd7c62f0e7f707e"
+    },
+    {
+      "path": "scripts/prepare-road-geometry-round5.mjs",
+      "sha256": "dc3d0f13c580ce12eb6d0e6a63cce959c07d593346a5283aebf7e2913ee4318c"
+    },
+    {
+      "path": "scripts/prepare-road-geometry-round6.mjs",
+      "sha256": "df18232e7c725643d8fbe8054abd812940e0ea2d859cf9e20d22c023b3e7a7f2"
+    },
+    {
+      "path": "scripts/profile-road-geometry-round3.mjs",
+      "sha256": "952ae8d68250d668752de9339b646ccb4f8fdfc1f90aae4ab209f0902a6e9235"
+    },
+    {
+      "path": "scripts/qin-runtime-audit.cjs",
+      "sha256": "aa61641b49dc943ed3bae80b774f44f89e7d817f513f10b93dc88ec04e20a498"
+    },
+    {
+      "path": "scripts/qin-runtime-audit.html",
+      "sha256": "0ad67017d738adb1ad71b8ff5ed55adc388a0bd151fcf8982f28ce9bc4946546"
+    },
+    {
+      "path": "scripts/qin-runtime-audit.ts",
+      "sha256": "909785e31f84c5aacabd70b85fbd512b7c50a5782f16e38069bceeb87258d6b2"
+    },
+    {
+      "path": "scripts/qin-runtime-server.mjs",
+      "sha256": "e5c5de28aebfe6b0a4fcc6d74f0dc1215d3588fe2bf73598ed9d0ac20068a96b"
+    },
+    {
+      "path": "scripts/road-geometry-round1-projection.fixture.ts",
+      "sha256": "d2c3715e30cc446948c90532fa0b724d444268ebf6726e942a929fa2a8cb754d"
+    },
+    {
+      "path": "scripts/road-geometry-round2-data.ts",
+      "sha256": "7c4a70a38fa3f20fe77f987829c70bbdb77ca83706be87adbbf2d6c18cda6188"
+    },
+    {
+      "path": "scripts/road-geometry-round2-server.mjs",
+      "sha256": "62e30b21d7731e862e0371e5222551c47c3bec456c2b3dc6fb6999942e2f3d0a"
+    },
+    {
+      "path": "scripts/road-geometry-round2.html",
+      "sha256": "e57f35deb54af3bccd630f9a085e88aad355cdb175b2ee1849b759bc106ca0cf"
+    },
+    {
+      "path": "scripts/road-geometry-round2.ts",
+      "sha256": "5e241ecaa584eb48f4319c624eb261bef28b802784cf2735ae0c630b85a91b53"
+    },
+    {
+      "path": "scripts/road-geometry-round2.tsconfig.json",
+      "sha256": "f5c6c5da4d397433a910c7aad0b158e75cb358c3446b27d4e313a800cc5e3103"
+    },
+    {
+      "path": "scripts/road-geometry-round3-node-worker.mjs",
+      "sha256": "9fbac559a2b1a183d538f547f5fea5bae99f16a6a3f9e455d44f40c09bc66965"
+    },
+    {
+      "path": "scripts/road-geometry-round3-server.mjs",
+      "sha256": "cebd92475738f687b260e8dbba216f1f408b86d9b723cf51e9b8900f8a71c921"
+    },
+    {
+      "path": "scripts/road-geometry-round3.html",
+      "sha256": "dc41caf626cd4e55a9f4c6904a5261e17e92e694ec37670f29881a9b9c515ada"
+    },
+    {
+      "path": "scripts/road-geometry-round3.ts",
+      "sha256": "c3c185ccd085aad492f5264036a1cb1c3a196b6f7ac0a968cdffca8972653d32"
+    },
+    {
+      "path": "scripts/road-geometry-round3.tsconfig.json",
+      "sha256": "01f244c0efd1a36f1fca0c20d132af6e0fc60ebe3a34790910b7f3f3ddd9f98d"
+    },
+    {
+      "path": "scripts/road-geometry-round4-data.ts",
+      "sha256": "29cc66af77096b69e3a6879ab8365d45805927014970bdea7213cbcd2b3da847"
+    },
+    {
+      "path": "scripts/road-geometry-round4-server.mjs",
+      "sha256": "097cdc25dbdcf28be59a3142ad00b2ebc705c49d18f46b8bb38563108d3bb1fd"
+    },
+    {
+      "path": "scripts/road-geometry-round4.html",
+      "sha256": "463b891263ac0b0ae72490f33beead4223c24ec1cb0a93103b55d154e4ffa003"
+    },
+    {
+      "path": "scripts/road-geometry-round4.ts",
+      "sha256": "b30ae8b5f846736160db922fd9f71d8b6059d20ff4f223ee1d80a6860acb9642"
+    },
+    {
+      "path": "scripts/road-geometry-round4.tsconfig.json",
+      "sha256": "9b183b141c9836d1233f48e5dbfd219d549be347c5a3560aba932147dd04788f"
+    },
+    {
+      "path": "scripts/road-geometry-round5-cpu.mjs",
+      "sha256": "1c9953698d66d92e8306046e7f73e1e8442e87f76bf71df0c05bdef70e22a3e0"
+    },
+    {
+      "path": "scripts/road-geometry-round5-electron.cjs",
+      "sha256": "9e6571477012eeda209d4642f5055f377d1f419bb7da6cb232f224a350b41034"
+    },
+    {
+      "path": "scripts/road-geometry-round5-game.html",
+      "sha256": "b4017a154a74d39a7786886f7197d92bc1ef26432c66e6fb582b326c969f342b"
+    },
+    {
+      "path": "scripts/road-geometry-round5-game.ts",
+      "sha256": "36ca2dd439b19dae7b22ad7cd3a7cabd268a4d8620c275674d551eb1502c1a9f"
+    },
+    {
+      "path": "scripts/road-geometry-round5-server.mjs",
+      "sha256": "d7174256f739cc3b9d2d85c14a28d0a974248ed8f39028e549d54546471e1ed7"
+    },
+    {
+      "path": "scripts/road-geometry-round5.html",
+      "sha256": "1a09a43fca8d0ebe31f34416e5126477179622a86e1f0a2041fba6c2d0116949"
+    },
+    {
+      "path": "scripts/road-geometry-round5.ts",
+      "sha256": "2f8b3ba0be2b959bc41f95dd1b492981d7c5292b0baf27e5a632dc429c52d2d8"
+    },
+    {
+      "path": "scripts/road-geometry-round5.tsconfig.json",
+      "sha256": "34e967a2ad2f24a930499b46b5b723e21ce2625c080bae0b11eb9b43fc145aa1"
+    },
+    {
+      "path": "scripts/road-geometry-round6-electron.cjs",
+      "sha256": "4fb29b04f64f1ba611cc89104c693707e46212e0097ea096f6bd9dd6b2c2629b"
+    },
+    {
+      "path": "scripts/road-geometry-round6-server.mjs",
+      "sha256": "a3931d972fe802e92c608f359e4543baa2e2f6b9e4b37015b409dd3727dc49d3"
+    },
+    {
+      "path": "scripts/road-geometry-round6.html",
+      "sha256": "a9fa27cb8590276ac6497c3d17d4fbcd83cec7d615aeaeeb39d0e545c219ff4e"
+    },
+    {
+      "path": "scripts/road-geometry-round6.ts",
+      "sha256": "554b1d4a785a5671a827ff6e43f65df1e7f1eba1a500956986e421fd57452740"
+    },
+    {
+      "path": "scripts/road-geometry-round6.tsconfig.json",
+      "sha256": "bb2415bf7b8bd2151c3cca30fa0c473e4d9e0d19d66c1eaa7435b721083a7333"
+    },
+    {
+      "path": "scripts/road-geometry-trial-data.ts",
+      "sha256": "640d48ec44f656ff127246c836f9c656ab8d477d50893118f0d05136924806ef"
+    },
+    {
+      "path": "scripts/road-geometry-trial-server.mjs",
+      "sha256": "241509c8b2ef2501d30f2e4fc7a6ab6209e9d7d51fac4231f65ac3ddb3026f7e"
+    },
+    {
+      "path": "scripts/road-geometry-trial.html",
+      "sha256": "89cfc2fd37e5cc0c0a916b33ec4222e373659a3182203a9beb644b24d11ad413"
+    },
+    {
+      "path": "scripts/road-geometry-trial.ts",
+      "sha256": "f95b8f01fa1cd97a0354371f4b251130c1b32e1fd20bf8aa6457d81d182cd0e7"
+    },
+    {
+      "path": "scripts/road-geometry-trial.tsconfig.json",
+      "sha256": "8586a18d5f5f09ae373b0dd9486622fed15d90d28a138db2d5782a0c938f0fe9"
+    },
+    {
+      "path": "scripts/road-remediation-electron.cjs",
+      "sha256": "d3af9de170120d6fea145956fea8ef2897190f78ef6b5ebc185bdd1985363f45"
+    },
+    {
+      "path": "scripts/road-remediation-map.mjs",
+      "sha256": "7ae620a7556ef4a799e221be1d12a57b249b61a538bf2198d71ed96b31f1403e"
+    },
+    {
+      "path": "scripts/road-remediation-objects.mjs",
+      "sha256": "fae212176b3b573abd0d80fbb6074f73e14cdcdc4b5724d5481d5d93bb319af2"
+    },
+    {
+      "path": "scripts/road-remediation-preview.cjs",
+      "sha256": "f8c4b182684dce3a684651947167a814dd96d353308c015ec077125a371773f8"
+    },
+    {
+      "path": "scripts/road-remediation-preview.html",
+      "sha256": "f3c8453aebcae717579d72eb57b4bbba6357ee67786efcb92e0bc4f75d4844e0"
+    },
+    {
+      "path": "scripts/road-remediation-preview.mjs",
+      "sha256": "916b1b123d5b9811f340b68efe265757736ade07382fd87afbfe49aef6da5588"
+    },
+    {
+      "path": "scripts/road-remediation-preview.ts",
+      "sha256": "c8bdca22337ab97cd667972d5d565ccb187a225665013f197c29793697be1e55"
+    },
+    {
+      "path": "scripts/road-remediation-server.mjs",
+      "sha256": "22b65ebda92e5ba9c6e974d4d32c50c2656eee7adb77b2876316fcc2e26cfa6c"
+    },
+    {
+      "path": "scripts/road-remediation.html",
+      "sha256": "dfe73a9ff50e7d844a6379a592680df218fb63e891d1557eb451e847a5f1b08b"
+    },
+    {
+      "path": "scripts/road-remediation.ts",
+      "sha256": "3771323776d7db05e307a180041679411ec39576d6dfcc8bd39fab894c6058fe"
+    },
+    {
+      "path": "scripts/run-ehs-selftests.ts",
+      "sha256": "ed0312e8c57460cf07ff4dbfed9e4f57a2410371d6f10dd52b5ca5039b1345c3"
+    },
+    {
+      "path": "scripts/run-p2-launch-selftests.ts",
+      "sha256": "44ffd8985ffaf76f19591d96dd6581753ef35df44d99f375348884c84c64c903"
+    },
+    {
+      "path": "scripts/run-road-geometry-round2.mjs",
+      "sha256": "fbbf574aeb83330566787c39f6a075135eae15cbcfbb11d7c480f5ef57ad1125"
+    },
+    {
+      "path": "scripts/run-road-geometry-round2.ts",
+      "sha256": "949fbd423d5305a2e0c88de1d665c32ce2f08c8540b7b8a474646910bdf047be"
+    },
+    {
+      "path": "scripts/run-road-geometry-round3.mjs",
+      "sha256": "62fea73729d6cdc74b5f5afa700a6f9cbc00bb3318f1e1c4f413a58682451d20"
+    },
+    {
+      "path": "scripts/run-road-geometry-trial.mjs",
+      "sha256": "f70f08732511c97395206da66067e144c702d6b70e96db93fd206395f3903333"
+    },
+    {
+      "path": "scripts/run-road-geometry-trial.ts",
+      "sha256": "ef31d60302dae7eeedf82a1a69eb864ce05db182647d4743e12d2bc48c7e109c"
+    },
+    {
+      "path": "scripts/run-runtime-selftests.mjs",
+      "sha256": "654f6e02c10109023b43df4c4bf67f45a154267f2af6cf68fef05c3eb124a59b"
+    },
+    {
+      "path": "scripts/run-tank500-driveline-selftests.ts",
+      "sha256": "3e5affc5e6203dceee1adc8ddda8b3161b523ea948f8ad894259759dcccfba8f"
+    },
+    {
+      "path": "scripts/smoke-p2-launch.cjs",
+      "sha256": "df9285d9c414ed1dc1113e61e50504ebb112a5e59a6303b903fe2b94ad409b6a"
+    },
+    {
+      "path": "scripts/smoke-road-geometry-round5-release.mjs",
+      "sha256": "2bcd67ae816c5de51c66941831d6c6cc1a270a96ab3216d1d296deddadcb2604"
+    },
+    {
+      "path": "scripts/smoke-road-remediation-release.mjs",
+      "sha256": "ad5801c74818b2aaa8b9f96f1e599c24e69fc9d3907a6f360328444745b0bc45"
+    },
+    {
+      "path": "scripts/smoke-tank500-driveline-release.mjs",
+      "sha256": "f8c44ca0ab4250518f1817c63fb5fbc579b9fffa286d8ccd2d69ac44939db992"
+    },
+    {
+      "path": "scripts/smoke-tank500-driveline.cjs",
+      "sha256": "0019791af9fa2ded522bed502de246e9ee91dbea7030ac8747a6397007576f64"
+    },
+    {
+      "path": "scripts/summarize-road-geometry-round2.mjs",
+      "sha256": "6838910a328b4a22a1346267ce48c8e73bb07766cb87cb7016ab964ca0b7661c"
+    },
+    {
+      "path": "scripts/summarize-road-geometry-round3.mjs",
+      "sha256": "9d94d9e0b3842450774868fcedcd2fa6acb2a35deb08c04fd6802bb68f8832cb"
+    },
+    {
+      "path": "scripts/summarize-road-geometry-round5.mjs",
+      "sha256": "bfac6d52c606589092c37db53936b7ccc38dc80a57bca29a87ac09592c7b7d77"
+    },
+    {
+      "path": "scripts/validate-qin-release.ts",
+      "sha256": "c2094d70b138b6bb409d1b900822cd6e4c29d40997b05b8ec37f7b601b270169"
+    },
+    {
+      "path": "src/audio/QinPlusAudioProfile.ts",
+      "sha256": "39cac2f176394a9293a9f6c652324a124bdc8627eac534ba5c4df86f27674861"
+    },
+    {
+      "path": "src/game/StreamingShaderWarmup.ts",
+      "sha256": "60bb5087595a93cbb96b19cc6918a92813942ec16e1654fe5b89fca2c9f99bac"
+    },
+    {
+      "path": "src/game/runtime/FixedStepClock.ts",
+      "sha256": "e42b6fe573e4fa81c3a01e049bdd44f656eedc032cf8e620f528d8ec6f1f4896"
+    },
+    {
+      "path": "src/game/runtime/RuntimeCoordinator.selftest.ts",
+      "sha256": "a3e2cfdca3c77cd7b21207530657b326d19bba8c80ad8397dcd1e5de7ae5a633"
+    },
+    {
+      "path": "src/game/runtime/RuntimeCoordinator.ts",
+      "sha256": "d2d5f6cae8322f698cc1c4a4d1795b3975b873660aea2a1cbfe91755405568c2"
+    },
+    {
+      "path": "src/game/runtime/RuntimePerformance.ts",
+      "sha256": "be24ec33458ea8316904cf74faa7b7606ef08b5362bfb11e7a43d7657277c64c"
+    },
+    {
+      "path": "src/game/runtime/VehicleRenderPose.ts",
+      "sha256": "8582ba3cf3d6addf663d16006da5e7e11c1a74d1f88f8bd81b0262668bb91f58"
+    },
+    {
+      "path": "src/loading/LoadingProgress.selftest.ts",
+      "sha256": "bb78d30d690525e27e449b8e21fd75827fce29b58b034e4e61f10ef309dcaa6d"
+    },
+    {
+      "path": "src/loading/LoadingProgress.ts",
+      "sha256": "d951d109925ac5240e7aa116afc98052648eee8d60b7afe9b75a46931ba8679f"
+    },
+    {
+      "path": "src/ui/EhsControlPanel.ts",
+      "sha256": "4df865ecfe685d568069447949ecc8e0618ce1c6c973c70259d8fae710a0da23"
+    },
+    {
+      "path": "src/vehicle/EhsHybrid.selftest.ts",
+      "sha256": "448b9ce6f864588207d69506197a737bc1c571bd34c2d2e869c0c88f76b7861e"
+    },
+    {
+      "path": "src/vehicle/EhsVehicle.selftest.ts",
+      "sha256": "de15eb060da6fcf635197e948b40daaf5beb50ec153e1063726ae49e307fcf4c"
+    },
+    {
+      "path": "src/vehicle/P2HybridLaunch.selftest.ts",
+      "sha256": "c7ece04bba517dc41ac75c0a3c030fcd9001e0e416169aa22cbd84813389f78c"
+    },
+    {
+      "path": "src/vehicle/Tank500Driveline.selftest.ts",
+      "sha256": "636e70bd2c7cd9579e656b8abb5e43f965a43fd2099083e4de7fc5d6504d5513"
+    },
+    {
+      "path": "src/vehicle/Tank500HybridControl.selftest.ts",
+      "sha256": "cc5d5baa71b11badf9c1232ee1e36db880fa0afde96da454bff5028c49737e45"
+    },
+    {
+      "path": "src/vehicle/Tank500PowerThermal.selftest.ts",
+      "sha256": "923716cb6d763754210553a239091d8b5d69aaf1292271d100ed222ce0891f04"
+    },
+    {
+      "path": "src/vehicle/config/EhsHybridConfig.ts",
+      "sha256": "87c7403e004ea439ff73f1bc0217c553ec1749a061f237a05cd4b79fd22127d7"
+    },
+    {
+      "path": "src/vehicle/config/HybridBatteryConfig.ts",
+      "sha256": "a1907fe8366495347ace6a34f07753813a903586dcbb5eb5d92b91606c27af3e"
+    },
+    {
+      "path": "src/vehicle/config/qinPlusDmiPhysicsConfig.ts",
+      "sha256": "8e9a9f14f1b0d4629955960293207a48cf407ab9a437ea3bb7f5b8ab1417d773"
+    },
+    {
+      "path": "src/vehicle/config/validateEhsHybridConfig.ts",
+      "sha256": "2a30e97c118782ca17b68f44f57feb8cdba612cad796974c96d66a49e506819e"
+    },
+    {
+      "path": "src/vehicle/physics/CompliantShaftCoupling.ts",
+      "sha256": "3df16b355525c67de10f4b4d9d255f189f8674cfd7a1b97fb38366d1b3407dd4"
+    },
+    {
+      "path": "src/vehicle/powertrain/EhsEnergyManagement.ts",
+      "sha256": "f5cfaa5d1cca86aaf512ba83d926e9d982ac9cbe3ad21544962b3a3729dc1126"
+    },
+    {
+      "path": "src/vehicle/powertrain/EhsHybridSystem.ts",
+      "sha256": "1270915554df7a3e3842659213cbfea6131637cae55aeae916ed1cd71ef02b57"
+    },
+    {
+      "path": "src/vehicle/powertrain/P2ThermalBudget.ts",
+      "sha256": "f66108c3eebfffd6faff40231fd957e18b06e5881ee1167b213a68519bd83ce6"
+    },
+    {
+      "path": "src/vehicle/powertrain/createVehiclePowertrain.ts",
+      "sha256": "332352566df83e3073a3ca7506ab325174478070c78eb4df015c4f0b18548a15"
+    },
+    {
+      "path": "src/vehicle/transmission/EhsTransmission.ts",
+      "sha256": "6eb056a4595b76efce193fccb026d48e64977551abf99d3066f328dcbd9b92c0"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusCabin.ts",
+      "sha256": "1c5a43a7b92c611c39c8d7b04644bd0b3616ca9e9443399e3cea702935c3dd68"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusDisplays.ts",
+      "sha256": "35f11d390edd6817dd99b0b62bd9b2727831e92bb8eabf37a1c8e3226c89ea25"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusExterior.ts",
+      "sha256": "3840237038f5ee50a61787390e2ca808009abba384edcb005dd3974570696c12"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusVisual.selftest.ts",
+      "sha256": "71938c74049169ae9730d0fe3f1fd2127d5a3dbda21f639c4ec4e80f7479fe63"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusVisualConfig.ts",
+      "sha256": "4aaa3ce85d143865a874eca081caed8650589786c25d7a6fb9fe66e6dccd8c09"
+    },
+    {
+      "path": "src/vehicle/visual/QinPlusWheels.ts",
+      "sha256": "92f22c34e4f5a7a686082de45027d88e889d26b82949a2e3310be34b85617d07"
+    },
+    {
+      "path": "src/world/city/CityRuntimeData.selftest.ts",
+      "sha256": "dc8ccbaef5c9d667f9205ed42d28d90366095834bd9aaed87c5f749a4d925617"
+    },
+    {
+      "path": "src/world/city/ContinuousRoadGeometry.selftest.ts",
+      "sha256": "d4e9b8cfd24ac0944353c3bd0d34d08fa1369b11de1289062c0004f6dc2b5230"
+    },
+    {
+      "path": "src/world/city/ContinuousRoadGeometry.ts",
+      "sha256": "893cb8b91674c029753fbf72534f5575ae967367d5aaa1ea38db32dc7416908c"
+    },
+    {
+      "path": "src/world/city/PavementProjection.ts",
+      "sha256": "f0b007233dae4c2b574a9c1c8e61f188d9c6c76c7382c067a421466a737de439"
+    },
+    {
+      "path": "src/world/city/RoadCompileSampling.ts",
+      "sha256": "0c494a0aaaf2a1ead9dcf83c3422a53e3f2477b2c862db24b85608eaefdd720d"
+    },
+    {
+      "path": "src/world/city/RoadGeometry.ts",
+      "sha256": "e51acd3ed0715e4da7a9c86a3420efafc92dc349187ebe71d973badc1eee8df6"
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrial.ts",
+      "sha256": "ae2b45e8c416b619db21ac159fdbd4e62dad0cf476c2b34563acd58280b23815"
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrialCache.ts",
+      "sha256": "9407353a783399c3b8c065d06ff5f980a868cbfa9352a25475723b0539f03361"
+    },
+    {
+      "path": "src/world/regional/RegionalBaselineData.ts",
+      "sha256": "fb4ca770ee1638798ef8d64cb7158b5a9864951f657977fdad842576d61e9c19"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "94fb96b6ac0ca4d14a08aefdc88c09a8d34da0fb299bf16e1cf1446642b36403"
+    },
+    {
+      "path": "docs/CHAT_HANDOFF.md",
+      "sha256": "91b3c1ffeaa4a435612420dac1cc846c5044c7644a1f665423f244ff3ae67af9"
+    },
+    {
+      "path": "docs/CIRCUIT_FIXES_2026-10-13.md",
+      "sha256": "a6c2bcea036f3d7028350e7d676ebf0a61fc940ad6c98fdd461b4021648f3f7f"
+    },
+    {
+      "path": "docs/CITY_GEOMETRY_REVIEW_2026-10-13.md",
+      "sha256": "dd1cc5c63fa2426d23ec479c991888f011fadaddee8046b2e542e873924d44ec"
+    },
+    {
+      "path": "docs/CITY_INTENT_EDITOR.md",
+      "sha256": "a2dfcd5a298ef30283f209089c4888da7e02d353c82bf263c381a98eae5f9fa6"
+    },
+    {
+      "path": "docs/CITY_MODEL_LOADING_2026-10-18.md",
+      "sha256": "2335808108a878a0370dfbfad54dbe9c890887f7bf1cca525936d85f2d970103"
+    },
+    {
+      "path": "docs/CITY_V61_2026-10-17.md",
+      "sha256": "92cce6b197f74c104d560d8a9995b02e292805ace6fb0fc767347b35473d9d42"
+    },
+    {
+      "path": "docs/CITY_V62_2026-10-17.md",
+      "sha256": "c60ca805eb491e9d8ec0b4e17a4adb267a048118735dbff1aba475287210c60b"
+    },
+    {
+      "path": "docs/CITY_V6_2026-10-17.md",
+      "sha256": "073fc6f9276560f2c79abc1221c9992e8445a05fd8fcd077a0960ba535901a2f"
+    },
+    {
+      "path": "docs/CITY_V7_2026-10-18.md",
+      "sha256": "71cb27acdff50361fa4c03aa64c45a7fd94ce6b63f897310f996a76df637b72d"
+    },
+    {
+      "path": "docs/CITY_V8_2026-10-18.md",
+      "sha256": "4d507bf057554772d14fd467b8935917e0921a50d56d9742fb72e36ab145446f"
+    },
+    {
+      "path": "docs/CITY_V9_2026-10-18.md",
+      "sha256": "8a724c5a26273890a6eecb86dff32a477aa3018a57af95fb8f90b7b954f22520"
+    },
+    {
+      "path": "docs/CODE_REVIEW_2026-10-12.md",
+      "sha256": "9c134db57f4ec44c27a60f20a55218afdd22d6eb5592710ae85f9ec66e172d17"
+    },
+    {
+      "path": "docs/CURRENT_CODE_CONTEXT.md",
+      "sha256": "2165c2a6a367c0b5178fbc4055673df08c53e1fc49af5bb070d526ec1a979b3d"
+    },
+    {
+      "path": "docs/DESKTOP_UI_PHASE1.md",
+      "sha256": "b71a37a0a6186905401dd062bff044e131426db9e19c48978c50ef1e9625a4d9"
+    },
+    {
+      "path": "docs/FINAL_RAMP_CLEANUP_2026-10-24.md",
+      "sha256": "9f6aeb0aa0a6b4bba51ea86f20592f72ebf8c7b04f6c055051f45b95181bcced"
+    },
+    {
+      "path": "docs/FIXES_2026-10-13.md",
+      "sha256": "e12ccce5be68a781b4bb0d619bd1663ecd6eb6566cb00a1d24999640c81b478f"
+    },
+    {
+      "path": "docs/FLEET_CALIBRATION_2026-10-22.md",
+      "sha256": "d4809d9fae551524a36e350db7283701bd2572dd36a58e4fe865492610a9cbab"
+    },
+    {
+      "path": "docs/GOLF_GTI_2026-10-14.md",
+      "sha256": "33b8454c4e90b1b6dfa3595828888fd311cf68e1fa5866734af20defea2ce319"
+    },
+    {
+      "path": "docs/GOLF_GTI_2026-11-04.md",
+      "sha256": "6e05c2a546e7a5aeb4b950f40d8c767e87f655f80e45e55e2e3df00da7114a71"
+    },
+    {
+      "path": "docs/GOLF_GTI_BODY_TANK_MENU_2026-11-05.md",
+      "sha256": "b576e6bd4d0178ae6f998abf9e9fa9abeda4f195c7251cc98a719cdd68cdbf13"
+    },
+    {
+      "path": "docs/GOLF_GTI_COMPACT_BODY_2026-11-05.md",
+      "sha256": "7444e7bf4663c7f814850e373ae643c3875c2153f83cdaf1772cb69a19358e00"
+    },
+    {
+      "path": "docs/GOLF_GTI_FRONT_COCKPIT_2026-10-15.md",
+      "sha256": "0a4ffa2367efa03e0937e3fac7f1439aa39d2fa3d1002756c72dd332864f44e9"
+    },
+    {
+      "path": "docs/GROUND_STREAMING_UI_PHASE4.md",
+      "sha256": "581f95ae1f70606fdd21091eda7df63ed6878de83e262840692a13a239c651cf"
+    },
+    {
+      "path": "docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md",
+      "sha256": "fe4abb7fecf8265b84711e8b90c85b9fb820fe2604bc2f5e6fbd8eb5d2ee4341"
+    },
+    {
+      "path": "docs/INTERCHANGE_REPAIR_2026-10-23.md",
+      "sha256": "c8eb067f0dbaa5264b216237aee2105e5ec3ce2371397c6f6b9c5e5e003f6317"
+    },
+    {
+      "path": "docs/JESKO_ATTACK_2026-10-29.md",
+      "sha256": "6ae63d185ca8050250296e662779fc87dfe713ea4f65f278ce24b5c4d6a23e18"
+    },
+    {
+      "path": "docs/JESKO_CANOPY_RELEASE_2026-10-30.md",
+      "sha256": "28721eefdde726b19a4d06aae419e639e336baa9d4dd28416c04e0fe3f1d20d0"
+    },
+    {
+      "path": "docs/JESKO_COCKPIT_2026-10-30.md",
+      "sha256": "5d54ec22d8cd08dd8a2663f65291fc7eecfca143bd9a34dc21d7881d34554c74"
+    },
+    {
+      "path": "docs/JESKO_MODES_STARTUP_2026-10-30.md",
+      "sha256": "cb3d86ec51b70c63de9b884d446cb6918d3a5d2c6fa424911efb2fd77585cd56"
+    },
+    {
+      "path": "docs/LOADING_PERFORMANCE_PHASE2.md",
+      "sha256": "a7fa73b10e88d8c5f5b0ff33d03d15e52b4f4bec480acf17ceea434ce7c285b0"
+    },
+    {
+      "path": "docs/MAPCTL_ENGINEERING.md",
+      "sha256": "14c935c1e087e3ba6e81e842585b5ebc01a8f41c963ad4e05cc2738e4b8c61c7"
+    },
+    {
+      "path": "docs/MAYBACH_S680.md",
+      "sha256": "3a42af19e162e5d9dc7d4ce66b62f761a5c369cb6d06b8f7ce55ae4d022abc15"
+    },
+    {
+      "path": "docs/NAVIGATION.md",
+      "sha256": "76155511537120bff890370595a67e88603e0d5c16685b63ffc942f18aaa4816"
+    },
+    {
+      "path": "docs/PERFORMANCE_TCS_2026-10-15.md",
+      "sha256": "507abdc250b3cc6b2ab39318887943ad05f411491013657390a5590e364e0a94"
+    },
+    {
+      "path": "docs/PHYSICS_SECTORS_HUD_PHASE3.md",
+      "sha256": "7ad976730bed217df489a26ceb116d1ff9fb5afe16b08abb0cae6a9c5d8d4970"
+    },
+    {
+      "path": "docs/REVIEW_FIXES_2026-11-05.md",
+      "sha256": "3e0bf7a45e3224651ff603fb375c344f87f0ba14c7468c3905cc1f9c73a758f5"
+    },
+    {
+      "path": "docs/ROAD_SIGNS_2026-10-16.md",
+      "sha256": "8bb0f7e7800a6b920b045523693bb4eebd40104e573b3527d51ae10d9898fead"
+    },
+    {
+      "path": "docs/RUNTIME_CLEANUP_2026-10-15.md",
+      "sha256": "6a9e6af02f3599e3774c930c4af74a6e05121ee9cee3df06c49512c785c5a76c"
+    },
+    {
+      "path": "docs/RUNTIME_HITCH_OPTIMIZATION_2026-10-13.md",
+      "sha256": "ea59afd43a537e14960e4a155e7764d9ea3fbed7d6cfb169d7a2bd8d0b166878"
+    },
+    {
+      "path": "docs/STEERING_REVIEW_2026-10-13.md",
+      "sha256": "ce450bac6435352795284f952c287b4c91628bd3af38d1cf38c6a33ff30ec70d"
+    },
+    {
+      "path": "docs/SU7_AERODYNAMICS_RELEASE_2026-10-29.md",
+      "sha256": "76d950956ba00075346f65894ebfc01aad7837741fab6ddcc7ba42b231ad6c36"
+    },
+    {
+      "path": "docs/SU7_CABIN_INTEGRATION_2026-11-02.md",
+      "sha256": "6af20ae1fabae08b004a7f54a4ea6805b53a70884c767e239a137a7bdc274dfa"
+    },
+    {
+      "path": "docs/SU7_COCKPIT_READABILITY_2026-11-01.md",
+      "sha256": "07d99177c12f494738b90ab33cf84c2996ede6f39b20397659b3402ebfbc69ad"
+    },
+    {
+      "path": "docs/SU7_EXTERIOR_GREEN_2026-11-05.md",
+      "sha256": "1d608cb5e5e4ea82ae516759beb1774a35f308b899cee83cc14980cbbf92be54"
+    },
+    {
+      "path": "docs/SU7_INSTRUMENTS_OEM_2026-11-05.md",
+      "sha256": "c3ccd8437246849705dca8fdd82fcf56f7d7ce31118d5e6f08918c8a0c0d8128"
+    },
+    {
+      "path": "docs/SU7_MAX_2026.md",
+      "sha256": "1ede73482abed2e54361d5d9ffb2ac3d110e6d6f9e746e76fb00fe8d5c8dd4a7"
+    },
+    {
+      "path": "docs/SU7_PRESENTATION_RELEASE_2026-11-01.md",
+      "sha256": "54e01d4756cdf728d391463296acff37c7d31b0afc57644e96db4dd3ebc8f98a"
+    },
+    {
+      "path": "docs/SURFACE_INTERACTION_V1.md",
+      "sha256": "6f19c02f0be2944c22ac81af2e0940e69bc0b46eed34ddfd9fca499d5408544f"
+    },
+    {
+      "path": "docs/TANK500_HI4T.md",
+      "sha256": "ecbb144a44864172e939f9b2c3cad4df6482e5bcfb273df6677efa439e880a4a"
+    },
+    {
+      "path": "docs/TANK500_REFINEMENT_2026-11-06.md",
+      "sha256": "46e0f61770144692493b623a486174059f483c811f8a4ce8c706e80ce89f4af2"
+    },
+    {
+      "path": "docs/TSUKUBA_TC2000.md",
+      "sha256": "f2200b8ad4172656d174883549709d2cef45603e0a099091b0ad4acab86ee2b1"
+    },
+    {
+      "path": "package.json",
+      "sha256": "747b473246b1faf8b2aac83de3ec52da8bc1dfdd31bcaf848335cc4a088bd578"
+    },
+    {
+      "path": "scripts/InterchangeAssets.ts",
+      "sha256": "f446700c784c7a97887443b4467fc4848fab945a430646e8bcd7997a6961cfa9"
+    },
+    {
+      "path": "scripts/InterchangeDesign.ts",
+      "sha256": "f9806bc996a9ed692b6d2e617a66265a3f4f97f77ee0bae78813803a6eee8c48"
+    },
+    {
+      "path": "scripts/RoadSignGeometryAudit.ts",
+      "sha256": "d6d1b8209ea0deb6e55c2377b38c7e73224e3308d531d76523ad737904ead7e7"
+    },
+    {
+      "path": "scripts/adapt-global-road-signs.mjs",
+      "sha256": "501943ae2453de42e5fc0b7b461f2fe3e3aa06369006f6857475ad6f5e1a17a4"
+    },
+    {
+      "path": "scripts/adapt-global-road-signs.ts",
+      "sha256": "d1f5b0ef2f29529094309250a41d938839898657dec0c35400b8c46ba94f7711"
+    },
+    {
+      "path": "scripts/adapt-median-reserve-assets.mjs",
+      "sha256": "96f85ec6c6acfb585090be68adf864f33ad238ca43d214db601744041d34237c"
+    },
+    {
+      "path": "scripts/adapt-median-reserve-assets.ts",
+      "sha256": "d7c3e9300e1da18620628380080c2bd23471a5b44c623ac8d9373d5bb815f969"
+    },
+    {
+      "path": "scripts/adapt-residual-surface-assets.mjs",
+      "sha256": "e7318ae40385e2ebee212d5bcb007a6e5cfd60fbca53f418871a9d60edc8f1ef"
+    },
+    {
+      "path": "scripts/adapt-residual-surface-assets.ts",
+      "sha256": "ab0cf593bb19feaf00c6eaf12be77a4132b3b555c046641b87e3b8a0c860148d"
+    },
+    {
+      "path": "scripts/adapt-wheeltrace-repair-assets.mjs",
+      "sha256": "e817c8150c6f149e9e7bd08b7109fac850848b436041c70ef90f8d93e9e16c3d"
+    },
+    {
+      "path": "scripts/adapt-wheeltrace-repair-assets.ts",
+      "sha256": "a5642d0376b50b7d56d97153e3d9f8a15c483dc45a0d2d0f5981f3d73a7b4484"
+    },
+    {
+      "path": "scripts/audit-adjacent-support-boundaries.mjs",
+      "sha256": "6c85c59af72aa345425a3de6aa3c3f6f952c7f088b11c94d2c0aaceb0c2dff1a"
+    },
+    {
+      "path": "scripts/audit-adjacent-support-boundaries.ts",
+      "sha256": "7eb938f5365dbb7002a066c42eb75d3e8e19aa7e4c390b263408a1a866a7b179"
+    },
+    {
+      "path": "scripts/audit-baselines/MarkingOwnership-v487.ts",
+      "sha256": "92b67bda63e285cf1066436388ee24195d003b85d52dd713758e3af4f3134321"
+    },
+    {
+      "path": "scripts/audit-baselines/RoadInfrastructure-v487.ts",
+      "sha256": "1c1c3ce35ab174ea9f4c2ddd87d8f5f73b4c021f4efb1bd8f8c7c28460e3dc3b"
+    },
+    {
+      "path": "scripts/audit-ramp-profile-repairs.mjs",
+      "sha256": "4271082fac6bc54688bd66c9e7275d056e3fcccda6f707093052174bdbd6a45b"
+    },
+    {
+      "path": "scripts/audit-ramp-profile-repairs.ts",
+      "sha256": "8eb7511135acc7990f65ad4cf4d48b4a015a767559e649027e6191051b93a298"
+    },
+    {
+      "path": "scripts/audit-road-integrity.mjs",
+      "sha256": "ac957859bbf95358f77a330bccab804a367f0fdf1b261ed1041d634a9a45e8e5"
+    },
+    {
+      "path": "scripts/audit-road-integrity.ts",
+      "sha256": "fc5fe36e9113a2847158bbe9ac840353a0f91738a3d2b584bb0495ba42a5a7e2"
+    },
+    {
+      "path": "scripts/audit-road-surfaces.mjs",
+      "sha256": "4e6b7bfebbf8d52da59085b3e09fa588ee7c9f8cdaffa6f39255f0c9e277adfc"
+    },
+    {
+      "path": "scripts/audit-road-surfaces.ts",
+      "sha256": "9c9aef39709f2dfd1c1426e8dc03b6c97df62d4782b970250533c3854784bb67"
+    },
+    {
+      "path": "scripts/audit-sign-rendered-geometry.mjs",
+      "sha256": "04a0c0051e8695a213d627aacb635357f10e00036f065dd67406e2425c41bb9e"
+    },
+    {
+      "path": "scripts/audit-sign-rendered-geometry.ts",
+      "sha256": "220da4dd5b8278827f9e1d270f430112c52a2bba498c8406b2a6dfacd47f0bdb"
+    },
+    {
+      "path": "scripts/bmw-530li-preview-server.mjs",
+      "sha256": "79fd0f614860902663af8634a491c260376695b7753eb321d3969da92b46bbc2"
+    },
+    {
+      "path": "scripts/bmw-530li-preview.ts",
+      "sha256": "8d7821bea3f55b1774d4d0eb0b846eddfeec7520059aeff8bd2f7c3994a83da0"
+    },
+    {
+      "path": "scripts/build-checkpoint.ps1",
+      "sha256": "17451c9e61ab60ae1b345ebedea97863798faf1451fb711cede102f1d3f93d14"
+    },
+    {
+      "path": "scripts/build-city-main-v3.mjs",
+      "sha256": "3d19df039e4515bd2750dbcaea8c306c795fcf8201be04ccd18873c6e481b3e0"
+    },
+    {
+      "path": "scripts/build-city-main-v4.mjs",
+      "sha256": "6380dd8b54c94c999d38b328269eaaaf8994645ba3b4fda3fb83b92388747545"
+    },
+    {
+      "path": "scripts/build-city-main-v41.mjs",
+      "sha256": "f345bfa5c04f85d653ec6357c2cacb1cd2c6f487457e0592d554438a1645df68"
+    },
+    {
+      "path": "scripts/build-city-main-v5.mjs",
+      "sha256": "e5a7741d9eefb07624e80cdd9221fa7f47a864c1d7b92a8d3a9548077038a4df"
+    },
+    {
+      "path": "scripts/build-city-main.mjs",
+      "sha256": "d0d60d8fba21252de61680e0ba1fc64b4ce61ba8855395d5c64aa6298cc3c0ea"
+    },
+    {
+      "path": "scripts/build-city-main.ts",
+      "sha256": "e781360f06c32279bfcb0c4b8d1df4fcbf4376da512923bbcf2345d2f4e8cf17"
+    },
+    {
+      "path": "scripts/build-preset-showcase.mjs",
+      "sha256": "44cd0d26c11b3fe0718b7f307cd8aba2e6d8e1238e80d6bb47eef134712596e7"
+    },
+    {
+      "path": "scripts/build-preset-showcase.ts",
+      "sha256": "cae921fe0265ab51fc6c2513b9765bdfc32a10798cb47951da9d5edb6ee4ca41"
+    },
+    {
+      "path": "scripts/build-regional-world.mjs",
+      "sha256": "0e013c15b0ccf2db02314e4829fe07954dd0bcc970439165cce9f626ca702392"
+    },
+    {
+      "path": "scripts/check-legacy-ground-baseline.mjs",
+      "sha256": "5050c49844f57f3e87e9b81ec955b48c41528d94265ab173447b09ae0eac5063"
+    },
+    {
+      "path": "scripts/check-vehicle-exterior-integration.ts",
+      "sha256": "8ee7a0d0ff3f9659d20a48fe6d372d88a8db3fdc7b320b560766c6f8ec711755"
+    },
+    {
+      "path": "scripts/check-vehicle-exteriors.ts",
+      "sha256": "a0f27ab280f8dc38156b2cf71dafec07891a6f5bb13a7fe7dc33a593e4d19e12"
+    },
+    {
+      "path": "scripts/clean-generated.mjs",
+      "sha256": "3f9198e490a65ee5990fd5bc06c1a483e77ec36f11424557c06b573fff3947b3"
+    },
+    {
+      "path": "scripts/compare-ramp-audits.mjs",
+      "sha256": "65df24c7d187488ebf0feb00eb01abb84ecc50dff45d6b82ca05718cd2dd60d5"
+    },
+    {
+      "path": "scripts/desktop-build.mjs",
+      "sha256": "1950066c6828568335c9fbef0a7ebfeb7647c3d47ab3f67539cae9401832ad69"
+    },
+    {
+      "path": "scripts/desktop-dev.mjs",
+      "sha256": "3ec58b58f18447168f4ba2a9d441cf6fc91f4e0d61c3842ad0b1d8f83b49c817"
+    },
+    {
+      "path": "scripts/desktop-package.mjs",
+      "sha256": "ec5b32ed5c059d321f72b94c86a7797187e50442c28d64a9767374b9585991f4"
+    },
+    {
+      "path": "scripts/desktop-smoke.cjs",
+      "sha256": "ec342ddb4f7e388adb8a486a509e866fe6d49e4478e9a92e5566ea2fd0bcd7d7"
+    },
+    {
+      "path": "scripts/diagnose-remaining-lamps.mjs",
+      "sha256": "1b5a64498514f292e01c927526cff516ecbad5f6453f75528ad6134dae7e929a"
+    },
+    {
+      "path": "scripts/diagnose-remaining-lamps.ts",
+      "sha256": "06dabca0e8cff1c184314324f3c1d7d602e94cc3567bed7a0c58965c06e01d87"
+    },
+    {
+      "path": "scripts/diagnose-road-surfaces.mjs",
+      "sha256": "b0795ebcbc2b873e3065923fe09172ad81a92b3ac384331879091b3a7635f89c"
+    },
+    {
+      "path": "scripts/diagnose-road-surfaces.ts",
+      "sha256": "a242998e1157ba272c5814bfbfa5e8e0b6b50ff77746713d9b2c82598dea4760"
+    },
+    {
+      "path": "scripts/driving-validation.ts",
+      "sha256": "8a0467abfb06c1e47d4a474badd6079bfab0dd41bd18a794bba63857e0230c2c"
+    },
+    {
+      "path": "scripts/expand-city-main-v7.mjs",
+      "sha256": "5a8db16eb1c52f3222c6534042bd05b42967ebf453ca1e92bb3fc73a0513dd6d"
+    },
+    {
+      "path": "scripts/export-city-v8-map.mjs",
+      "sha256": "5497d1957a32de75f6e75f3144de0eb935fd410ab007d76d48fdd22525723081"
+    },
+    {
+      "path": "scripts/extend-city-alpha-v2.ts",
+      "sha256": "d05bf87613ad02443ebdf304a8c59ba065cde766507372549cd2f0a6755b8637"
+    },
+    {
+      "path": "scripts/finalize-interchange-integrated.mjs",
+      "sha256": "946293df50490f4e8781f73a1339bafacf9c8e4ae94c048e3b73bf1c7613123d"
+    },
+    {
+      "path": "scripts/finalize-interchange-integrated.ts",
+      "sha256": "98e804fc7ef6460783d4008cd6664ed5f4ed6fa073a96cf987e7fab97be5dfba"
+    },
+    {
+      "path": "scripts/finalize-ramp-corridors-v2.mjs",
+      "sha256": "32bb5399307c6a749e72c73d232570243f6fcd38a1f4b3d307b53bc6116edfb2"
+    },
+    {
+      "path": "scripts/finalize-ramp-corridors-v2.ts",
+      "sha256": "d6a219b2be4317473b6afdcf88ac5cef1a43382d98f99cc9cd4e347e95296361"
+    },
+    {
+      "path": "scripts/finalize-ramp-profile-audit.mjs",
+      "sha256": "05fe94176a2a9227bacdb3e94baae3ae71cd27219973f923eee355e95a28f0aa"
+    },
+    {
+      "path": "scripts/finalize-road-integrity.mjs",
+      "sha256": "31a83ed21fd0df632ea8fb6f7df0d603f29fe81946d53e6c01a90739c880b54f"
+    },
+    {
+      "path": "scripts/finalize-road-integrity.ts",
+      "sha256": "a965e1c16c0a3daa8cfc75507faf41d9efdcc33decdf3e8462a5942f7a91aa18"
+    },
+    {
+      "path": "scripts/fix-city-ground-elevation.mjs",
+      "sha256": "ea944755d0c419127ea4556d99c5ea821312e9efb7bb55b71d3e2af0d7a63a0f"
+    },
+    {
+      "path": "scripts/inspect-city-main-v5.mjs",
+      "sha256": "1f55d2ccfdbea79d188e2010c7ec3daf85400373abddb13cdeb38566a56d1aed"
+    },
+    {
+      "path": "scripts/inspect-regional-geometry.mjs",
+      "sha256": "6707f1e7011998d0d04c67d5d67b05aa267402eb965ec647c0b044e16d77d94d"
+    },
+    {
+      "path": "scripts/interchange-integrated.mjs",
+      "sha256": "2b699ace45095f64adef9d29c83934a87482a9f87c5317f26b37d4822e61e863"
+    },
+    {
+      "path": "scripts/interchange-integrated.ts",
+      "sha256": "f89ab3a949171c9ce8ea83426e205eee82747339163be07e733f115fde22e9c4"
+    },
+    {
+      "path": "scripts/jesko-cockpit-checks.ts",
+      "sha256": "0b50d537772c361f8f712544f8fec54be03c0a0c06c936c6df33a2619deb8d86"
+    },
+    {
+      "path": "scripts/jesko-cockpit-preview.ts",
+      "sha256": "57713ebd54ae602b61eaa3985f86a24918d3d84b0634d32c50972155d91c898a"
+    },
+    {
+      "path": "scripts/loading-selftests.ts",
+      "sha256": "855e17e7c24df08e5e0762ebcde3f6ea245024d51cc1f67e2e1212f4a4829fa5"
+    },
+    {
+      "path": "scripts/map-cli.mjs",
+      "sha256": "192b65780eb93d5e02e66b3dce09e68dacbb6b9ffe41bf30cee0392ce030a9af"
+    },
+    {
+      "path": "scripts/map-cli.ts",
+      "sha256": "8f711784abc42a5ad34847bc56d03d27e224b19f83e118eb8ab3ffe197047ad6"
+    },
+    {
+      "path": "scripts/mapctl-elevation-seams.ts",
+      "sha256": "b6b8bbca49890da80d5268db8d0e07ba424df9a5e670ea203d2622692c40017a"
+    },
+    {
+      "path": "scripts/mapctl-engineering.ts",
+      "sha256": "2369960130bf1e6ea370c43ae2d0df58d036fa13bd3e9ba888dd8992457ba60a"
+    },
+    {
+      "path": "scripts/mapctl-ramp-profiles.ts",
+      "sha256": "f64e607dfb5ec322f838ca44fce4f79795607c0bb229a6062e6dfa3c745c6380"
+    },
+    {
+      "path": "scripts/mapctl-support.ts",
+      "sha256": "759529f6e662c8847ff450b8ec5cdf3df99f5f8c8be60123e9c1419ba256b79e"
+    },
+    {
+      "path": "scripts/mapctl.mjs",
+      "sha256": "9bfbb49fb5b9f72279aaf6d8e63bf79527f694a9baf1d3cb2931736b2f9032ee"
+    },
+    {
+      "path": "scripts/mapctl.ts",
+      "sha256": "34641580103bb3365ea9568918797f9e6a6d1a27a174e732f815689f4168e8e7"
+    },
+    {
+      "path": "scripts/measure-startup.cjs",
+      "sha256": "f53e7eb17c36fc272c3d4cf2fff01de6d8e7f9cdafb2f69f170a5946dbbb17a9"
+    },
+    {
+      "path": "scripts/measure-su7-aerodynamics.ts",
+      "sha256": "afde47ef21f4e9f7e93753c43ded91cac00554f4a0d8b79ea97a46bab5e717e0"
+    },
+    {
+      "path": "scripts/migrate-city-road-model.mjs",
+      "sha256": "3a3e06f68fd76009e1f9d4d0546a9e3d782ebcf85cb8af6cf996cbe5674f1f77"
+    },
+    {
+      "path": "scripts/navigation-map-selftest.html",
+      "sha256": "a3bc5af7d0a7f9cbb73d1917259c3f0e77c7fe4b4dec9f96ee89d8a8de6224d8"
+    },
+    {
+      "path": "scripts/navigation-map-selftest.ts",
+      "sha256": "352312e0b7cc841dbe90a3ce502857f5656da0bdc51e2a930839340bec5b51a9"
+    },
+    {
+      "path": "scripts/optimize-road-signs.mjs",
+      "sha256": "f4f4b97dec676db33f671b798763477f300839e15ef26fe86b051f166afcf759"
+    },
+    {
+      "path": "scripts/physics-sector-selftests.ts",
+      "sha256": "7418407353bcab9e9f23f867c5bebd055224a3131a3f832c52f22c4aa0b20e4e"
+    },
+    {
+      "path": "scripts/prepare-median-replays.mjs",
+      "sha256": "11f23086043f46174656e01e43d7abab4f465570c918c8d0edf02650a860955b"
+    },
+    {
+      "path": "scripts/prepare-median-replays.ts",
+      "sha256": "9a9972231478ffb470534609fdc23909f5c5cec1cc795374d7c8ca36833692bf"
+    },
+    {
+      "path": "scripts/prepare-surface-replays.mjs",
+      "sha256": "623e408f043dbd83839a42dcec880f233a6770f293d867c94785ebd9a3af364e"
+    },
+    {
+      "path": "scripts/prepare-surface-replays.ts",
+      "sha256": "abee2a79a6d21eff4ba7dbe19fbf877fbfa431d67b167187d62c0243c5ba3a46"
+    },
+    {
+      "path": "scripts/probe-preset.ts",
+      "sha256": "cfe82c7d02a49965ec310447493b34ccca4b451786ec715c15c9c362d9c5c280"
+    },
+    {
+      "path": "scripts/profile-city-startup.mjs",
+      "sha256": "b27c13b7ba33711f23aa75bb2484c143b5a7578eea169739086a266181977714"
+    },
+    {
+      "path": "scripts/refine-city-main-v6.mjs",
+      "sha256": "e711897c5f549d72f88eae149fa068c4e0abc7d9e1be589992b5223e53e652cd"
+    },
+    {
+      "path": "scripts/refine-city-v6-details.mjs",
+      "sha256": "24466d23c820f63f9de39364cf57c3e21fe34798a9bede3209a395650cb6d061"
+    },
+    {
+      "path": "scripts/render-golf-gti.cjs",
+      "sha256": "256ecc4c193e7edde3eef9d43537b824921459fe52964d6d2947ae9498544c63"
+    },
+    {
+      "path": "scripts/render-jesko-cockpit.cjs",
+      "sha256": "7cc491cdbfc5263d559ed0d45f43b630467a3583e91d2f82b3cc9153bc75225b"
+    },
+    {
+      "path": "scripts/render-tank500.cjs",
+      "sha256": "be7ad598e9e12b98fa264eb6da1f4735b3f6a81e1980e6fa01469eebff028d4f"
+    },
+    {
+      "path": "scripts/render-vehicle-exteriors.cjs",
+      "sha256": "c1310b0f3f9b8c25e495ffa6ce619e4fe90f71a59c41351012cbd862686369d5"
+    },
+    {
+      "path": "scripts/repair-carriageway-reserve.mjs",
+      "sha256": "33582013c2aa2fd01a7e84d7fa28c0f689b74f867aeb8a17a1e782143ff85ff4"
+    },
+    {
+      "path": "scripts/repair-carriageway-reserve.ts",
+      "sha256": "a008ec44d9e486f8dc897672c6bdebafdde5dfb235d35e94f6ff17e278256517"
+    },
+    {
+      "path": "scripts/repair-ramp-alignments-v2.mjs",
+      "sha256": "f1f62aa83362195a5e28845bc12f5957bcd3dbd27e22fb6e5e115aaae45421b8"
+    },
+    {
+      "path": "scripts/repair-ramp-alignments-v2.ts",
+      "sha256": "951906f4b1bf649bc8c32c40f72963e3319d54de6949d6f9ce686646130d0a97"
+    },
+    {
+      "path": "scripts/repair-ramp-context-followups-v2.mjs",
+      "sha256": "3917b80e0428261f5add4a10e122e6dac62aa8d49e2da00b6cd9e7343f67f71e"
+    },
+    {
+      "path": "scripts/repair-ramp-context-followups-v2.ts",
+      "sha256": "c776b20ae1f6f785ebeb5bb9270c034183b56b38d03d8523cd0fba79ccce17fe"
+    },
+    {
+      "path": "scripts/repair-ramp-corridors-v2.mjs",
+      "sha256": "e7adaa2fc6dbec83282321c2b37fec60fd93d368f436d4ad318d4ad224b1597c"
+    },
+    {
+      "path": "scripts/repair-ramp-corridors-v2.ts",
+      "sha256": "6c9d1d7775cc37cac4855c89acd45d205ba63e373afd5ca8e8699db81aae4b20"
+    },
+    {
+      "path": "scripts/repair-ramp-groups-v2.mjs",
+      "sha256": "c2ba0a16021c871c4f0d9d6ab0f682b2793f4a342365adf0d63f7430d66da893"
+    },
+    {
+      "path": "scripts/repair-ramp-groups-v2.ts",
+      "sha256": "a64ff5f7c6f2147d5e0d438bf70ae2738db2dfdba07b8afb84ba44b77571dc01"
+    },
+    {
+      "path": "scripts/repair-remaining-sign-mounts.mjs",
+      "sha256": "9ffc962cd70e7db432adfe85252c592c0a23f99957620a1a943e65fd43c1433e"
+    },
+    {
+      "path": "scripts/repair-remaining-sign-mounts.ts",
+      "sha256": "404a67af070bee95084865fc2391e628678b2704a633e3455ad9d5adf1c41dfd"
+    },
+    {
+      "path": "scripts/repair-road-surfaces.mjs",
+      "sha256": "6ede0f5f056692896d5e37a036cd4e9c683222aed1594db005f3f0d006048764"
+    },
+    {
+      "path": "scripts/repair-road-surfaces.ts",
+      "sha256": "c44e413d602b54db5da97afc378883ccd40cdd362664c9cf9294e2fbc277c300"
+    },
+    {
+      "path": "scripts/repair-sign-rendered-conflicts.mjs",
+      "sha256": "91c277f23ae6f88d594d9fa5cc2270308d4186a0dd70632752754f656a5e7715"
+    },
+    {
+      "path": "scripts/repair-sign-rendered-conflicts.ts",
+      "sha256": "685b921e09f75ce7d714568e8ea1e90541e9f74fb90ee3d332ea2f0e20184d05"
+    },
+    {
+      "path": "scripts/repair-surface-residuals.mjs",
+      "sha256": "a29b168edae04cce88a0b583920c8cfaf2da4695fa50b55d094cca0f47361883"
+    },
+    {
+      "path": "scripts/repair-surface-residuals.ts",
+      "sha256": "28b9ce0adb979595bdc41a09820d684228b7e35e3872ca0902ab75a2bc1bf2ea"
+    },
+    {
+      "path": "scripts/repair-terrain-lamp-foundations.mjs",
+      "sha256": "c543101dae5a610ad624fa4bf148d5523bc4bedd411b4718935e45b46274804b"
+    },
+    {
+      "path": "scripts/repair-terrain-lamp-foundations.ts",
+      "sha256": "209e5f46b170eaeef97b250612ce8dbf93e9561cf7b2e0f11c2f2b50638c16c5"
+    },
+    {
+      "path": "scripts/repair-wheeltrace-kink.mjs",
+      "sha256": "9a9af7e8ca8f71e34f02bf241e8d61d5ab3f6eefcc850ac0701401ac9b7f172a"
+    },
+    {
+      "path": "scripts/repair-wheeltrace-kink.ts",
+      "sha256": "9f8b92b61063822e4ff16611a76dbaa5a3e63fa1ea24c5dcf604eb55e4b2c964"
+    },
+    {
+      "path": "scripts/restructure-city-main-v8.mjs",
+      "sha256": "1163cda4cad3b0ce332138c067d44289c10498c39dc48202f188f2023e38c336"
+    },
+    {
+      "path": "scripts/revise-city-main-v9.mjs",
+      "sha256": "bfe2113c2e935da373cfdb1dace04fa3467d8ee1c24bd38b5f58d5cae6c0e1bd"
+    },
+    {
+      "path": "scripts/revise-regional-double-c.mjs",
+      "sha256": "688e01333a832bc08d85f6818e34eb234d52a809ec5fbdb44fb2d6bc7b9b13fc"
+    },
+    {
+      "path": "scripts/revise-regional-highways.mjs",
+      "sha256": "025e09f55d565130f8db8188e0f31e577209d8d95cc318072fa089df9fe47de3"
+    },
+    {
+      "path": "scripts/run-acceleration-test-selftests.ts",
+      "sha256": "41e7ec8c7504a5cf8c425b3414415cf78e92f314fae2e2bf47ea125bcb7572f4"
+    },
+    {
+      "path": "scripts/run-adas-controller-selftests.ts",
+      "sha256": "b09ea8ad5d1970157ad3a199f433bebea4a56baa7c4b0f14e94ac286b2bf7ffd"
+    },
+    {
+      "path": "scripts/run-assist-shortcut-selftests.ts",
+      "sha256": "e3b38585759e3872eaa730f8792fb487c77c2e7e926ec4f0745a29212e69469e"
+    },
+    {
+      "path": "scripts/run-bmw-530li-front-cabin-selftest.ts",
+      "sha256": "9775abaff18f567cdcddc3894ceef4fbce0aca3c34be84fd9dda5d1027f9dc37"
+    },
+    {
+      "path": "scripts/run-bmw-530li-selftest.ts",
+      "sha256": "bfea1364d72c599a3b8b9b4271200d8911a9d08c4cf7f171a6e12666ebd84ea4"
+    },
+    {
+      "path": "scripts/run-city-main-selftests.mjs",
+      "sha256": "383c87bc4fd1847d123156146a63ec51ba82b9a64ef78cd3dedb72d8653bd8f8"
+    },
+    {
+      "path": "scripts/run-city-v3-selftests.mjs",
+      "sha256": "7620c5431e821484f02dea70dd24f2ff4a2f9cd719d640789ea56fdb13ca1c41"
+    },
+    {
+      "path": "scripts/run-core-selftests.ts",
+      "sha256": "d65c685fa2431857b58820895ee055280bec5479db87c3f690c51f003a1f923a"
+    },
+    {
+      "path": "scripts/run-cruise-parking-selftests.ts",
+      "sha256": "66ea356c632722a5e9f5ddd517bed644c9fa7b6f54240186378626a6a87b0346"
+    },
+    {
+      "path": "scripts/run-east-interchange-contact-selftest.mjs",
+      "sha256": "84b1e36249ab103d3946334b7b861b6c6e7cbc525c87d26ffe4f66c3f5154643"
+    },
+    {
+      "path": "scripts/run-east-interchange-contact-selftest.ts",
+      "sha256": "7d3434b1d201fa0e4f61bd7032955f0c6ea44421e6dbb009056df898f0f2c477"
+    },
+    {
+      "path": "scripts/run-editor-selftests.mjs",
+      "sha256": "417cdecba5071f900eb6737fae96750d5bd5ea665581e8f61c18e033ce282ba1"
+    },
+    {
+      "path": "scripts/run-electric-selftests.ts",
+      "sha256": "abe3df3d073f104663941834c3843b2279670b33cd486e2b20c4e63a3523b448"
+    },
+    {
+      "path": "scripts/run-electrified-powertrain-selftests.ts",
+      "sha256": "0b086afda559d5a064e654642033947fd0ce1c4d1d5cd01545394857e0ebf9e0"
+    },
+    {
+      "path": "scripts/run-elevation-seam-fixture.mjs",
+      "sha256": "05697cc62cb8fd559a1b1a9f40d25e421115ff78261c6a0e174ee3479e10a43d"
+    },
+    {
+      "path": "scripts/run-elevation-seam-fixture.ts",
+      "sha256": "a785e8d21142a40f4c185b4e51b69da477115371b0a74b0a45864ab2b51554b3"
+    },
+    {
+      "path": "scripts/run-elevation-seam-selftests.mjs",
+      "sha256": "2c4da0a6da2f736447c88edb806132031dcd0627ded1763ed95992bfb78d8c47"
+    },
+    {
+      "path": "scripts/run-elevation-seam-selftests.ts",
+      "sha256": "96bb2219854e4989974c3130eb1306cc9e2ceabc79ea307b3522dbe687b3309a"
+    },
+    {
+      "path": "scripts/run-ev-platform-v2-selftests.ts",
+      "sha256": "03fff5c0f61bd4ca4d155a6dc681d7489e8f5174bebd2d157020a92856226d90"
+    },
+    {
+      "path": "scripts/run-executive-cabin-selftest.ts",
+      "sha256": "ef9fcf4994664d8867d481839490a9690a8e8ff46f1759e28ed155e703c3044e"
+    },
+    {
+      "path": "scripts/run-executive-exterior-selftest.ts",
+      "sha256": "00b4aab233278ee3492d1945a088e4b011f4998fc6099b04163a6f28c074aff2"
+    },
+    {
+      "path": "scripts/run-fleet-calibration-selftests.mjs",
+      "sha256": "3cbcfcd7f0e26fc29d9a2b106da5ae8fc3c07629faf58813833dc5533b8a4754"
+    },
+    {
+      "path": "scripts/run-g17-continuity-regression.mjs",
+      "sha256": "ae81b1af4caf036f25d0f43462c9de9fa05d9443df9a251c680d0d6632d87779"
+    },
+    {
+      "path": "scripts/run-golf-gti-selftests.ts",
+      "sha256": "cab38d1256091a3a703b67f875a9c14e6cfad437c5598c84d36a03ccfa02cbee"
+    },
+    {
+      "path": "scripts/run-ground-catalog-selftest.ts",
+      "sha256": "f9ef95fd287e1d54ef82bc7a79517eeb76997f57813f2483e31ceeb9dd74ecf9"
+    },
+    {
+      "path": "scripts/run-instrument-cluster-selftest.ts",
+      "sha256": "929c589b73057963075eda89b907de2ecb2a8d9f63b96f529b4ec8ca642c1212"
+    },
+    {
+      "path": "scripts/run-interchange-integrated-selftests.mjs",
+      "sha256": "01d27096dabd4b0b34416c5116717938d333fbe1d97a9c875d82e239d096b31c"
+    },
+    {
+      "path": "scripts/run-interchange-integrated-selftests.ts",
+      "sha256": "241625da8c133e360066cd7974ec0fe482f6a5dcbabf7fdc9c52b02c97066dff"
+    },
+    {
+      "path": "scripts/run-jesko-attack-selftests.ts",
+      "sha256": "5a403ac539f40038832527fdf659e415fe2f5a7e5b7b69b242849f8d85ffd524"
+    },
+    {
+      "path": "scripts/run-jesko-cockpit-selftests.ts",
+      "sha256": "96cc4ebb1a45c04c2314b574f989535e968a839fd54558ca7457ad8019da1bfc"
+    },
+    {
+      "path": "scripts/run-jesko-mode-selftests.ts",
+      "sha256": "7b31ac4f6a4a4e68d51a6b2d714df850713e0f3fae699b0bc68257a880520627"
+    },
+    {
+      "path": "scripts/run-lateral-assist-selftests.ts",
+      "sha256": "035a9d0e82c1836cd2a0388c6b1b23d224ea21e64fa818ecadb49293ce011b9e"
+    },
+    {
+      "path": "scripts/run-loading-selftests.mjs",
+      "sha256": "767ba6df357c830094617183253c07cec511e06686edf1f1075cd374f1737e61"
+    },
+    {
+      "path": "scripts/run-mapctl-selftests.mjs",
+      "sha256": "5854b848dd14ac018d22f137e5249d8d241e04beb0223cbd9d1c0146016afb63"
+    },
+    {
+      "path": "scripts/run-maybach-s680-access-selftests.ts",
+      "sha256": "e6dab18b55599deeeb780340c5aa59ac5521ca1f637e4fc8373dfb3beb5227be"
+    },
+    {
+      "path": "scripts/run-maybach-s680-selftests.ts",
+      "sha256": "89d1d78f123f8c8429023a643c6c02fc4fd4c9e061d9a42e4cad89e2a0f5f515"
+    },
+    {
+      "path": "scripts/run-mercedes-e300l-selftests.ts",
+      "sha256": "1fd6d98063b2e5a5209c63a1d652d3ef75941a52892a83440f381c9bf231da0d"
+    },
+    {
+      "path": "scripts/run-mountain-contact-selftest.mjs",
+      "sha256": "90c498dbf26cd1b096b0523b4571d52068232c1368df7a71bf1b80dd505cae6f"
+    },
+    {
+      "path": "scripts/run-mountain-contact-selftest.ts",
+      "sha256": "bb87bc150ffa381c081f14c7801d8072de19f03aeddaaa036297ca83b7e86d60"
+    },
+    {
+      "path": "scripts/run-navigation-selftests.ts",
+      "sha256": "91adb26a1fc1b789fe943ffcd63fb9e771bbf3ecc3292d56d944cef25e105817"
+    },
+    {
+      "path": "scripts/run-navigation-waypoint-selftests.mjs",
+      "sha256": "690a983399dab70f3cbaf4e5e1b0384871e4a0a714b7b92d53e9ebbea59c6826"
+    },
+    {
+      "path": "scripts/run-p2-hybrid-selftests.ts",
+      "sha256": "ea22cea1ae93a6e37792b4e475c7d6741fb6723c72d2dc4c9fc5b7fc11a3b6fc"
+    },
+    {
+      "path": "scripts/run-pavement-profile-regression.mjs",
+      "sha256": "22beeadb7bc5e13bfea463c9f76fd2fec85b6fcf5d7cf54b19e6226602899ff1"
+    },
+    {
+      "path": "scripts/run-pavement-profile-regression.ts",
+      "sha256": "f94ffc814353fe37ee379b1a4c88b166e430011fd85e782af8ca1dc09d21aff5"
+    },
+    {
+      "path": "scripts/run-performance-benchmark.ts",
+      "sha256": "acee1cafd37ba38e274be7408d198ef70897116b2a007242740ddae3f6465445"
+    },
+    {
+      "path": "scripts/run-performance-targeted-selftests.ts",
+      "sha256": "7b1a5083a1aaadc376a72444265aa42045da072519951f09429628240823ab5a"
+    },
+    {
+      "path": "scripts/run-physics-sector-selftests.mjs",
+      "sha256": "9598b5cf467c25f094c8709a01e0cb2d3e8e864feaf243402a8e7c1c9965907e"
+    },
+    {
+      "path": "scripts/run-ramp-profile-runtime.mjs",
+      "sha256": "ad5dd730030212e9bea8dd44629b8d642359ab40ab9eaffa8953cbe5d4da9abe"
+    },
+    {
+      "path": "scripts/run-ramp-profile-runtime.ts",
+      "sha256": "daa98bc306c745c620958dc01d5015e5a19f43d641aa920a0abc2064583f21b5"
+    },
+    {
+      "path": "scripts/run-ramp-profile-selftests.mjs",
+      "sha256": "ac83e57dd6d769a0b1bca44569279a1ecc3fee4f605d62ff7c153e8a69718716"
+    },
+    {
+      "path": "scripts/run-ramp-profile-selftests.ts",
+      "sha256": "71cf1df35ab44f369770ddc7cd1fa10c6cab6687a1c7ff133f505935ae389980"
+    },
+    {
+      "path": "scripts/run-road-integrity-selftests.mjs",
+      "sha256": "2373c416d2d2f7a02ead5f9157f94ecd9cd2a3f321caace5ee6b312a3c941d8a"
+    },
+    {
+      "path": "scripts/run-road-integrity-selftests.ts",
+      "sha256": "1b3cb567378970790932f19190d7122bf7d16db28bf496d546a4687cc578ae3c"
+    },
+    {
+      "path": "scripts/run-road-quality-selftests.mjs",
+      "sha256": "76addfdbbe09b7184b3727649bc10fea9f0238510eb9351bb9c830ed87ba181c"
+    },
+    {
+      "path": "scripts/run-runtime-rendering-selftests.ts",
+      "sha256": "c8c0b049905e96069ab475765da959beb1910b0d32aed048814107a8198a8446"
+    },
+    {
+      "path": "scripts/run-su7-aerodynamics-selftests.ts",
+      "sha256": "e79a13d9370ca6888126a3b22ed81b9735d3b354b974ac56e7a98150592692f0"
+    },
+    {
+      "path": "scripts/run-su7-exterior-selftest.ts",
+      "sha256": "2021a8922cfa91df53a02e6e2c1f0b7195f9db1008444a7fddf85f29bfc70dc1"
+    },
+    {
+      "path": "scripts/run-su7-max-selftests.ts",
+      "sha256": "bcd54ee5faaa71b2365d62b092a59ef287134b466f34f0df503a1f54e59a7718"
+    },
+    {
+      "path": "scripts/run-su7-presentation-selftest.ts",
+      "sha256": "a14b9d02a0badf165c1125b9cd0acd5970015696dca130a1e46c6b1b72c9163e"
+    },
+    {
+      "path": "scripts/run-surface-interaction-selftests.ts",
+      "sha256": "f6b0df2f14b7b8de962fe189d7521ed3b10a0bccce35fda27019e5ddda599b6e"
+    },
+    {
+      "path": "scripts/run-system-selftests.ts",
+      "sha256": "cd412aaec249ed7e0dac9b966fce40f3b944f6e5da58738c91d61dcc3255619a"
+    },
+    {
+      "path": "scripts/run-tank500-refinement-selftests.ts",
+      "sha256": "5e2ed094adc52eec85423f3ce146d001880021dab252a5412ac9d6c087109549"
+    },
+    {
+      "path": "scripts/run-tank500-startup-smoke.cjs",
+      "sha256": "08b7fd0a6104f50b38e97890d979bb54c45658d9abdc9c182361002babe5ab38"
+    },
+    {
+      "path": "scripts/run-taycan-hmi-selftests.ts",
+      "sha256": "7ad631d0b5ebdab4606d4f9354debb39e8dc6fb9dde8775855fa5b4a917039f5"
+    },
+    {
+      "path": "scripts/run-taycan-runtime-diagnostic.ts",
+      "sha256": "fb19cf074b883e0108589f036392d1444af588e5ba7988016f0691ecc91c0440"
+    },
+    {
+      "path": "scripts/run-taycan-selector-benchmark.ts",
+      "sha256": "29163c8057899648eb8d19cb695f17fe8363d576071cc14382c8be6ec91b7085"
+    },
+    {
+      "path": "scripts/run-tesla-experience-selftests.ts",
+      "sha256": "315f1119086e27c551e6e2e892d8859b4bf0106c75aa314ab4fbc33eacb2574c"
+    },
+    {
+      "path": "scripts/run-trajectory-prediction-selftests.ts",
+      "sha256": "f7d1602a9fc7016e027d9b13bcff54e1ecfb4ca2b5c06adcae02fae4e5814f3b"
+    },
+    {
+      "path": "scripts/run-transmission-demand-selftests.ts",
+      "sha256": "6c415591e39458bfe4e44b4242eb068b99210e3eac7fdfae30af4cd14cd98231"
+    },
+    {
+      "path": "scripts/run-tsukuba-selftests.ts",
+      "sha256": "3ea18e3aa8a9af22718949868c51cfca8b3b7e36718778ddd3748f26892ca306"
+    },
+    {
+      "path": "scripts/run-tyre-thermal-pressure-selftests.ts",
+      "sha256": "056acf333545c51f9d8f5387ec3cf40db610eae1b02d94be357c5351a3137352"
+    },
+    {
+      "path": "scripts/run-ui-selftests.mjs",
+      "sha256": "3c90cfa68f09f2be70190b2f5176174343d57fc72e94b82090e88c6fe3c40f79"
+    },
+    {
+      "path": "scripts/run-unsprung-selftest.mjs",
+      "sha256": "43493e3f9e69ba496a53b6c3b60246f35813559f197d491971a6ccc15b682b8d"
+    },
+    {
+      "path": "scripts/run-v488-rollback-regression.mjs",
+      "sha256": "7f2831bbb10a53d4c81f5a21810112653107ec8082a980fe124be6f387c55e9e"
+    },
+    {
+      "path": "scripts/run-v488-rollback-regression.ts",
+      "sha256": "b4fe2d472dd3ef159f525a283bd360b2c380b2f5b4f15b53390f7f087187770f"
+    },
+    {
+      "path": "scripts/run-vehicle-blackbox-selftests.mjs",
+      "sha256": "368077b3b954166149864564c31a4eb79cf5c215c1613d6c1285b674393c7baf"
+    },
+    {
+      "path": "scripts/run-vehicle-blackbox-selftests.ts",
+      "sha256": "8ee91698eced13cc8102cfc6406e08521a36393e7e8e7eb9ea94601b3c893e9f"
+    },
+    {
+      "path": "scripts/run-vehicle-catalog-selftest.ts",
+      "sha256": "b5ff9ceb6ac4a65dbf97cfb85af0e4d05dcc57c78f02f04b9bb493361ef83b38"
+    },
+    {
+      "path": "scripts/run-vehicle-experience-selftests.ts",
+      "sha256": "b684764ff2df13ccf990792b3384d786cb8aa7db878e94c19e43b28049a5453c"
+    },
+    {
+      "path": "scripts/run-vehicle-interaction-selftests.ts",
+      "sha256": "e651c703fe28533863d127dd3853e86a83bec37ebb34866b513beeef85c58bad"
+    },
+    {
+      "path": "scripts/run-vehicle-loading-selftests.ts",
+      "sha256": "3e78c0943400dae445f73b165f7d14590978916a1a2b2005ddfb0b68229d065a"
+    },
+    {
+      "path": "scripts/run-vehicle-physics-calibration.mjs",
+      "sha256": "76fd343da8cde30016880ff89e5058b972fcb623f5081a02b760074ffd6a63b1"
+    },
+    {
+      "path": "scripts/run-vehicle-physics-calibration.ts",
+      "sha256": "44964f9b053da7ac9e22ef00b798a3595f386fa1973e20acd5f230d7743b0e39"
+    },
+    {
+      "path": "scripts/run-vehicle-platform-foundation-selftests.ts",
+      "sha256": "f26fbb6630232f2711abba2be5cc0f1547bca7e243c733661ae8e8bb7a4fb68a"
+    },
+    {
+      "path": "scripts/run-vehicle-selection-smoke.cjs",
+      "sha256": "8834a1eb7cf8f5f3e27dd6f34819898c4cc7c10f7420e5809ae97a35754a5fa5"
+    },
+    {
+      "path": "scripts/run-wheel-support-v2.mjs",
+      "sha256": "41066a9c0bcbc9ffd30f2dc097fdd5cf6f75599f2303f0760616bb94202addb8"
+    },
+    {
+      "path": "scripts/run-wheel-support-v2.ts",
+      "sha256": "30af7d5782c4c94670f5cf2168e5b08a22286aeed957aa7083b9e189eb059890"
+    },
+    {
+      "path": "scripts/scan-ramp-corridors-v2.mjs",
+      "sha256": "17eee87fdc9279b5d9d6218ac3b1f0d08396bb9abb5e90980024df64503dd042"
+    },
+    {
+      "path": "scripts/scan-ramp-corridors-v2.ts",
+      "sha256": "d7f85df75960a216c9755201ddfcf37c0794ab2b40d0285004ebc059fbea55d8"
+    },
+    {
+      "path": "scripts/serve-built-game.ps1",
+      "sha256": "eee245c3124258980c714417e08668c18fcf8b9335566b6223e8e167083d23c3"
+    },
+    {
+      "path": "scripts/smoke-mapctl-engineering.mjs",
+      "sha256": "c693a3b33d4ca8f22ae90aad1e3785a654b74e31a42a0e179dcbc17d8ed02381"
+    },
+    {
+      "path": "scripts/start-editor.mjs",
+      "sha256": "12f94a63b42f5e1797e155235db4a481b31b14b303078d39539b1e12764c451a"
+    },
+    {
+      "path": "scripts/start-editor.ps1",
+      "sha256": "3f94880d0530326d7377dc08a2e34058a6cbef0056b6e9fdd2657e91199ae00a"
+    },
+    {
+      "path": "scripts/start-game.ps1",
+      "sha256": "939d29f3012d65876103a2668b0df57cde56d2ae91ee742a760263ba28bf051e"
+    },
+    {
+      "path": "scripts/taycan-hmi-preview-server.mjs",
+      "sha256": "b32111c029898a6349b0d90c162ca2b5218706aa8837f2598938d6a60a3e5b94"
+    },
+    {
+      "path": "scripts/taycan-hmi-preview.ts",
+      "sha256": "fdbad6c40dc92451392af5289fe63317be10bb34dac366fc090bfdf9a59aa090"
+    },
+    {
+      "path": "scripts/test-city-ground-elevation.mjs",
+      "sha256": "da89fb80991ef4501dcb47f49898e87a67dc44e5398a68e2292bb950babd7e61"
+    },
+    {
+      "path": "scripts/test-city-main-v4.mjs",
+      "sha256": "59e47dc99363214d161115b4a9dcd6c0680a23598f6cdbfbaf7ddf4e54847bec"
+    },
+    {
+      "path": "scripts/test-city-main-v41.mjs",
+      "sha256": "d75bcd7657d8f483ec3c0c68091c9eb3a3abe0f2490aeeea022ea025e378f759"
+    },
+    {
+      "path": "scripts/test-city-main-v5.mjs",
+      "sha256": "e5f56e9db89f0e5453f9d8003d3af442a33680ae7ebfbc598c02bb33d3ada592"
+    },
+    {
+      "path": "scripts/test-city-main-v6.mjs",
+      "sha256": "41d0dc2c39e0d8b01357fc71e3b1ac94e79ef31b79068fd0434aa403abab4476"
+    },
+    {
+      "path": "scripts/test-city-main-v7.mjs",
+      "sha256": "b54531e3285106712b4a001e5608c603d7ee78bf9be9b4c046ec720cb793de1f"
+    },
+    {
+      "path": "scripts/test-city-main-v8.mjs",
+      "sha256": "7a6d69034f22df8a688e75654b5ce5cadd3e8b6587911429921c80d31982db3a"
+    },
+    {
+      "path": "scripts/test-city-main-v9.mjs",
+      "sha256": "061eab54c74b45c2b8d088eb296ccb7dcc834f604a7ffe873a2b2f185bad0bdd"
+    },
+    {
+      "path": "scripts/test-highway-system.mjs",
+      "sha256": "f5af8dcb3afd85c3c62025837343ef2d729a272d0b529938b88099e2e1e0ae4b"
+    },
+    {
+      "path": "scripts/test-regional-world.mjs",
+      "sha256": "7fae6e5468a5b02974aeedc440401dc1a4d4468ebcdc31617255ab538a7dbc10"
+    },
+    {
+      "path": "scripts/test-road-signs.mjs",
+      "sha256": "2146f9b34ca4dbfed623d9a69f078911ed60c0f5f436f3d225beaed71e2fb7d8"
+    },
+    {
+      "path": "scripts/transmission-review.validation.ts",
+      "sha256": "c3accb61c658a07bbd1ff4e9d1657d35d1703daa86e49606b9a7cd941b6427d7"
+    },
+    {
+      "path": "scripts/ui-selftests.ts",
+      "sha256": "5160be34533ac7bc6daf2711eee9b3965c02f2e914411c0cc6427a350c6d23ca"
+    },
+    {
+      "path": "scripts/upgrade-regional-highways.mjs",
+      "sha256": "e12d88991980e05b5c416e08af55d5a660916c0cafc2e48d297eaa13717d79a5"
+    },
+    {
+      "path": "scripts/validate-city-toolchain.mjs",
+      "sha256": "c4670c0ef81e4deda692da13b7cacaa2f3999a17649298e7aa37b080724e385b"
+    },
+    {
+      "path": "scripts/validate-diagnose-coverage.mjs",
+      "sha256": "4d6ec3bd26ac2e01569b1f98fa6cb1ef7a12920cc35a1d5b8355185200dc232a"
+    },
+    {
+      "path": "scripts/validate-editor-cli.mjs",
+      "sha256": "622774de82af6402c04fd7d738e0ea161151a4d426037ff482730ebf6271d7fa"
+    },
+    {
+      "path": "scripts/validate-interchange-integrated.mjs",
+      "sha256": "d9ca8eb9d025161b8bced07a3477108402bb3b14edabb95412bc9a8f8e78df52"
+    },
+    {
+      "path": "scripts/validate-interchange-integrated.ts",
+      "sha256": "04cc7955fc6f9b046be08b0417a15899c1139339161d8476bcb57c430eab2b44"
+    },
+    {
+      "path": "scripts/validate-mapctl-engineering.mjs",
+      "sha256": "36aca4eeb5122abdef5366be74fbb598721d7d0ba57b4a87114e014e9ea86ec0"
+    },
+    {
+      "path": "scripts/validate-median-footings.mjs",
+      "sha256": "c149ba8d77d6bca6e9c3559fa9e32940ee83f2841eed442a81b3043409dd220f"
+    },
+    {
+      "path": "scripts/validate-median-footings.ts",
+      "sha256": "8e3367f263a2f317c823bc4f334730d10848e2740d7a47300bfd5a0bc09155fe"
+    },
+    {
+      "path": "scripts/validate-ramp-corridors-v2.mjs",
+      "sha256": "fc686f9c60900f991bff40f4ba7a1c44628a03d76a467fea9531ef255238d3e3"
+    },
+    {
+      "path": "scripts/validate-ramp-corridors-v2.ts",
+      "sha256": "c25f66fd6a59d63245ae8310eb4d8088331a1edc282bbbe50da15f04e0f28da7"
+    },
+    {
+      "path": "scripts/validate-ramp-profile-changes.mjs",
+      "sha256": "886889589fbc3dad81b90c9cb53798dd837e2b01726aa98093fcb8ef4692cc0e"
+    },
+    {
+      "path": "scripts/validate-ramp-profile-changes.ts",
+      "sha256": "2e93d29a5df5fcfdd516fa4286cfa1051ee710a131c85915058aa2f1aadf2bde"
+    },
+    {
+      "path": "scripts/validate-regional-double-c.mjs",
+      "sha256": "1d39d0852ce4cd00d2da6b5c45b129d7d40a8ab4bd29861fc5bb6656accc1975"
+    },
+    {
+      "path": "scripts/validate-road-surface-changes.mjs",
+      "sha256": "2c4a8679bbceefcfa0bc30de399e6687354bae3d7b0f8f4d408778f80982de62"
+    },
+    {
+      "path": "scripts/validate-road-surface-changes.ts",
+      "sha256": "37db688bba05d458eb801719551ac0b5b4102dba037bde72777c2228721737ca"
+    },
+    {
+      "path": "scripts/vehicle-exterior-measurements.ts",
+      "sha256": "81d6ea2601af22b24a8002145d3de4ca37aace92217b067cee40c2d4ddf89380"
+    },
+    {
+      "path": "scripts/vehicle-exterior-preview.ts",
+      "sha256": "66000d40e351fc9578ceff14bf06093a989f44f320e5887defd744e899d41359"
+    },
+    {
+      "path": "scripts/write-vehicle-exterior-performance-report.mjs",
+      "sha256": "c99a718506808e8b413d68d75372843b004fb2dca921f4c59a4e3bb1a2da269c"
+    },
+    {
+      "path": "scripts/write-vehicle-exterior-report.mjs",
+      "sha256": "cb834dd606970d3acb72f70c5e82237e1b7585e21fa9b01ea4e620a1a7ca1d50"
+    },
+    {
+      "path": "src/audio/ElectricAudioMix.ts",
+      "sha256": "66c1d2eb2c3e4a4bae0cd96acfe6a2615b9cb337e766706697ee7a3972a46b33"
+    },
+    {
+      "path": "src/audio/EngineAudio.ts",
+      "sha256": "12d983af43fb97afe2d1edad9650e95406a26fc242063271d233249f12cefe3a"
+    },
+    {
+      "path": "src/audio/JeskoAttackAudioProfile.ts",
+      "sha256": "9be29b4e7a4cb1e3a9ed4b1ba040b77f7fb3ad33985536a0052cadb78de4a7a6"
+    },
+    {
+      "path": "src/audio/LaneDepartureWarningSound.selftest.ts",
+      "sha256": "fe08602243aadbe1fcd942936a18205b38ab49aa7f80f92e41c65d91c84878b9"
+    },
+    {
+      "path": "src/audio/LaneDepartureWarningSound.ts",
+      "sha256": "14d67b09d403b753dc10c2a7a5a454cac77f084f160822a0ee53c423aadda35c"
+    },
+    {
+      "path": "src/audio/MaybachS680AudioProfile.ts",
+      "sha256": "505e4d259f098df4b7fcc255de29588621e500cb23a78219355d5b169aa9df08"
+    },
+    {
+      "path": "src/audio/SU7MaxAudioProfile.ts",
+      "sha256": "8dd1aeb9165df0c982f0268efbb520439bbb4dc396425872377aae54b648ea11"
+    },
+    {
+      "path": "src/audio/Tank500AudioProfile.ts",
+      "sha256": "e3d4ffedfb3766a51e1a5f51f59f4dc63c14a71abd387a80eade6c2af04703d0"
+    },
+    {
+      "path": "src/audio/VehicleAudioProfile.ts",
+      "sha256": "467885d231104282b87d8c236c86d728eb846ff8ac4214c2a4ab4d6d93a299d9"
+    },
+    {
+      "path": "src/audio/VehicleCabinAcoustics.ts",
+      "sha256": "412a4ff96fb0b0bdf4b028dcbb1814399612be1e986c36d6fb6e6799774d1360"
+    },
+    {
+      "path": "src/audio/WeatherAudioMix.selftest.ts",
+      "sha256": "cd4772abc70f69f89dcda2d6bc88358bf4589df41c831e48a8c16fee6cc11db2"
+    },
+    {
+      "path": "src/audio/WeatherAudioMix.ts",
+      "sha256": "88be16542c09fc5fa50ecddd69f9bb89a6fd3b6c87cde6fa07bed610519e03ff"
+    },
+    {
+      "path": "src/camera/AdaptiveMirrorRendering.selftest.ts",
+      "sha256": "7d2bcd209a10c41763b560ea3342dbb4f6b68c43a42c7afe16312b32eec11b3e"
+    },
+    {
+      "path": "src/camera/AdaptiveMirrorRendering.ts",
+      "sha256": "0b20c364f2c99dafa26103d32bf5d348d3806794a47a8aa61aa3d6c23e5298fe"
+    },
+    {
+      "path": "src/camera/DriverCamera.ts",
+      "sha256": "43bb41cde5fed0633f3ca535e370e4170068be4d1cfcf769b942da110daadc95"
+    },
+    {
+      "path": "src/camera/InteriorMirror.ts",
+      "sha256": "73692b5d03842f1e2612510414b9422b9cf45ed1c3afc77f8a1b496179bee8ea"
+    },
+    {
+      "path": "src/camera/MirrorAdjustmentController.ts",
+      "sha256": "5b7718cfaa55df8077fcd153077b5c3bf02284b930708e0b7d10f4d2ef2d4c30"
+    },
+    {
+      "path": "src/camera/MirrorGeometryDebug.ts",
+      "sha256": "4612fa3bfd57dd87bcd25f42828adcb3a9f57ce4989fe318777a24a89faacd98"
+    },
+    {
+      "path": "src/camera/MirrorMath.ts",
+      "sha256": "ba2edc34306fbf98f335c6dfd060cf2fc57b6847e8b8873f96ea338dbfd0e2d2"
+    },
+    {
+      "path": "src/camera/MirrorReflection.selftest.ts",
+      "sha256": "243b23f609e16c7a09f81013075c9f0a96b3629947c442c64714077c758bdd09"
+    },
+    {
+      "path": "src/camera/MirrorSystem.selftest.ts",
+      "sha256": "8cd0d103edae94c52c5f69e4156139729f4896d39db9cf6c5c081deda5fcce52"
+    },
+    {
+      "path": "src/camera/MirrorSystem.ts",
+      "sha256": "e844c56c64a7e11e119ccf44b363de25b1d5f7dc30534befc739941e127d5a08"
+    },
+    {
+      "path": "src/camera/ParkingCamera.ts",
+      "sha256": "c2dc85df7c0d2f267ef85d91b1449a70d647f2e786d40cdcf3f311ad205e020e"
+    },
+    {
+      "path": "src/camera/WindshieldRain.ts",
+      "sha256": "8289b5dbd69d54c9c0577dd05ffeb1de66043090936a851daa7b35fcf955cabf"
+    },
+    {
+      "path": "src/camera/index.ts",
+      "sha256": "e3b8ec4a0afe7b785b8c00cadd0db777dee4d734243eecd2dbad2300732924c5"
+    },
+    {
+      "path": "src/camera/types.ts",
+      "sha256": "56e195c07aca6fb623654a818329d643fa674ae7747b18062fff93d4f6932e14"
+    },
+    {
+      "path": "src/editor/CityEditingKernel.selftest.ts",
+      "sha256": "5686b31a9f517c90ce1c925dbb4363ed4d36eea5e33512720cadcf0ecd2d34d4"
+    },
+    {
+      "path": "src/editor/CityEditingKernel.ts",
+      "sha256": "cf1ad65ba987cbbbe6f11d14e85c29700558a72dcd44812aee229e983e98da7a"
+    },
+    {
+      "path": "src/editor/CityEditorHistory.ts",
+      "sha256": "d5c52662580d54d7c02348e791988c8df3414d249580be7c287274881b696c01"
+    },
+    {
+      "path": "src/editor/CityEditorScene.ts",
+      "sha256": "9cdd73faadcf8f4981f1f94b0eb3775165cd03172761b6d4e73f247c8dc496c7"
+    },
+    {
+      "path": "src/editor/CityIntentEditor.ts",
+      "sha256": "fdcb58c9b9b7135fd77f0b860b997b0c3bdb31138a17696e5a9e5fa7814616b4"
+    },
+    {
+      "path": "src/editor/CityMapEditor.ts",
+      "sha256": "c48fa1b518b3e8e3de565263794d0cf46032033d86c06725325c975648590cf1"
+    },
+    {
+      "path": "src/editor/EditorCommands.ts",
+      "sha256": "23754b1d6d4d6aa0d930b858a4a16e6d17765486e08ddf18f409586c31f6e627"
+    },
+    {
+      "path": "src/editor/EditorGeometry.ts",
+      "sha256": "58aa7814739537a1d0e265328bad467b8d38e24a8c688b369781d9537eecb540"
+    },
+    {
+      "path": "src/editor/EditorMapMetadata.ts",
+      "sha256": "4536a6b56d5481db28de1582cdfdee212720bff09c07594223af1c474233de04"
+    },
+    {
+      "path": "src/editor/EditorSnap.ts",
+      "sha256": "73ad73c371e1c89e037473763b7c10b11e59d11fcfcbf5e58d2f8bf806d88d62"
+    },
+    {
+      "path": "src/editor/ElevationSeamClusters.ts",
+      "sha256": "4a6bd8b471ddf37297f61d379476246183fcdf4642e245ae6ac6d16b991a9517"
+    },
+    {
+      "path": "src/editor/ElevationSeams.ts",
+      "sha256": "64cb8c06d30d7c7a309456eacf638dee603596df15f7c21397a5b1fa5dcc45b7"
+    },
+    {
+      "path": "src/editor/MapAnalysis.ts",
+      "sha256": "608076b5f20e381e9ba5fee023743e03afdd832056903caef0d86728bc158d6a"
+    },
+    {
+      "path": "src/editor/MapEngineering.selftest.ts",
+      "sha256": "5d31b44f16485f409e47c8e516bf94f56475113396ad6533a1ee3085109f9499"
+    },
+    {
+      "path": "src/editor/MapObjectGeometry.ts",
+      "sha256": "6499ef8814b019a1e2aaf8875c74054663e2d65de3ac82139a03f1dda458eb41"
+    },
+    {
+      "path": "src/editor/MapReview.ts",
+      "sha256": "996c597b595519399dc96650e7f087afa4ea256549b17e5f0720c0b059121b84"
+    },
+    {
+      "path": "src/editor/ObjectAnalysis.ts",
+      "sha256": "cc28d79d9b1ea8814b037be9b87df6488471ecac2d66b8500d25166bcfc124f9"
+    },
+    {
+      "path": "src/editor/PlacementBrush.ts",
+      "sha256": "8e658c3a809d6b684e65419299cff7c5d394baca1c14eb82a59aca28064aac5c"
+    },
+    {
+      "path": "src/editor/PlacementBrushPanel.ts",
+      "sha256": "a331f22ef3080e1f335215e7cf17df31152b8da036dda6662b5bd3ab381bdf26"
+    },
+    {
+      "path": "src/editor/RampAnalysis.ts",
+      "sha256": "3061772aa709e1a1ae7f0659f66a2cf0dd1a82dc58534b56301d9e50d8afcf2f"
+    },
+    {
+      "path": "src/editor/RampCorridorRepair.ts",
+      "sha256": "61c39092ca494c9c3525e5c46beb8a3be78659edee41e447987933a196a76f8b"
+    },
+    {
+      "path": "src/editor/RampProfileAudit.ts",
+      "sha256": "c16c77ccb0f98a94eacd25f2ff35b442568f272fcf11c053628e584b92a11fe3"
+    },
+    {
+      "path": "src/editor/RoadDiagnostics.ts",
+      "sha256": "cd7a38e41f378218221afc8f8628881abbbfb487549ee8ea7b09f139ddc2fc3e"
+    },
+    {
+      "path": "src/editor/RoadProfileAnalysis.ts",
+      "sha256": "382dca699e2614acfdaee33fc3ec998a84cc782ccbdc238fe04025220b50cea8"
+    },
+    {
+      "path": "src/editor/RoadRepair.ts",
+      "sha256": "9b4e0194ba875ce60e28ff47ce58efb1b5c4ed6234a0abc2a5dad4f3dd15aa41"
+    },
+    {
+      "path": "src/editor/StructureAnalysis.ts",
+      "sha256": "0aa89f7ade8e609e7044da9731aaf8bcb012f73e6aa6ba14d7de2955381c9cb9"
+    },
+    {
+      "path": "src/editor/city-editor.css",
+      "sha256": "9e0503e208d3be6681dcd65c184ca857b902c8ce2521126f5149c1db04c081af"
+    },
+    {
+      "path": "src/editor/maps/editor-test.json",
+      "sha256": "30f70b99f30c946c6985153a4f98c77094fc7173653c90c7a379b563d7a3afc4"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationRunDiagnostics.selftest.ts",
+      "sha256": "e7409a6e587aabc02c9cd5aa90a757ecfc3d0748c9988eda5a7a8a5402147728"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationRunDiagnostics.ts",
+      "sha256": "0cac9d0f26ba3137282c13c5aebe739d46f106c45daa0792e3485d28a042391b"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationTest.selftest.ts",
+      "sha256": "ff272ebd3e7418902550b617cfa303727d78a0bc83cf00e1ff5acc4b3334929c"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationTest.ts",
+      "sha256": "665e26a2532cc3bde9ff6063b350c7e268b1fc4c190cb070fcc6ba28e6b9e2cf"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationTestView.css",
+      "sha256": "5c581e56923ed3103b5409fe7fd3ebfc2ebb717847b414970213c97feb52ad2e"
+    },
+    {
+      "path": "src/experimental/acceleration/AccelerationTestView.ts",
+      "sha256": "3be7e26c5752b198f323528d40e0ff06db930876f6067e56ae76ed005cd69949"
+    },
+    {
+      "path": "src/experimental/trajectory/TrajectoryPrediction.selftest.ts",
+      "sha256": "f82ec4c457c183e309ed33efbdc1387a4ff8d0e740df474d45b8f0257c5631d8"
+    },
+    {
+      "path": "src/experimental/trajectory/TrajectoryPrediction.ts",
+      "sha256": "eeb4d844792d469bfce8f0cef5641726c7e227e38093c13a85dd039ad54eef9e"
+    },
+    {
+      "path": "src/experimental/trajectory/TrajectoryPredictionView.ts",
+      "sha256": "f1042a881990e2fc81b1a61298bf64d6d4284744109d09f577e5b9caa6994c1e"
+    },
+    {
+      "path": "src/experimental/trajectory/TrajectoryPredictor.ts",
+      "sha256": "d0422db7c8e29f792a318c1214f367ba5ba0df115bf3efdd078e9fe05c5e2fc9"
+    },
+    {
+      "path": "src/game/ContactDebugView.ts",
+      "sha256": "63fae3ed4e53341789be83e50ba5b69c40dea11480c3e8ab71515399eca85651"
+    },
+    {
+      "path": "src/game/DrivingGame.ts",
+      "sha256": "7c452e5c14555f9ac5d627e467c9f75605929eca0280d8b163fda74e6d8cdc49"
+    },
+    {
+      "path": "src/game/GameUIViewModels.ts",
+      "sha256": "78662fc4f7c3d30905192934339a9565c0a13e8084c17e7b29fbc2313bd8e54c"
+    },
+    {
+      "path": "src/game/LateralAssistDebugView.ts",
+      "sha256": "c8db92c371d443788b373d304266dd6850a80fcccb8f382245b043c36b04e292"
+    },
+    {
+      "path": "src/game/VehicleVisualDebugView.ts",
+      "sha256": "30ec5c8f9869d6efa702eaec02f93e3abd95bcbe2f5ef07f04d78586a472a11e"
+    },
+    {
+      "path": "src/game/createGameRenderer.ts",
+      "sha256": "a7d388fa0a2607fc63a3c4809b7645be02f0c03f902b4d1b7b10d4a10e9e900b"
+    },
+    {
+      "path": "src/game/lap/LapCourseDefinition.ts",
+      "sha256": "3b12bf7413a543735ede850eedc242f964cee9c47bb6444b11480fd710237e29"
+    },
+    {
+      "path": "src/game/lap/LapTimer.selftest.ts",
+      "sha256": "4ff593d06ca54e05ecef5f18b10bdb606a905fd01cd6a4fabf4005ac33b43eee"
+    },
+    {
+      "path": "src/game/lap/LapTimer.ts",
+      "sha256": "e52035de58b942ac5ce58d190278d6cbe2ed3791e4327ab85f648e449610a454"
+    },
+    {
+      "path": "src/game/startup/MenuScene.ts",
+      "sha256": "8333635d1f9253197972fbe8d685f444320c301b8b2265e76761dc19b96458de"
+    },
+    {
+      "path": "src/game/startup/StartupApplication.ts",
+      "sha256": "fa3295b0d1889f144b13fd4a74b3cf84381a91c88e32dcea37c029e463cf9947"
+    },
+    {
+      "path": "src/input/GamepadHaptics.selftest.ts",
+      "sha256": "0aa51f6dd6e9f53d6bd53d142ec27ef0be22ede8045ed86df6d483ddcdb7c986"
+    },
+    {
+      "path": "src/input/GamepadHaptics.ts",
+      "sha256": "b3039b897720800a61027a765a08fe985a6a038b6c481935d46131d2ddecb7b4"
+    },
+    {
+      "path": "src/input/GamepadInput.ts",
+      "sha256": "827809d92f36eaedf884a59f83dc7f5b813b8416d3dac94290ea7a6888908cb7"
+    },
+    {
+      "path": "src/input/KeyboardBindings.ts",
+      "sha256": "bed595b1a7d043a4c436442bba6b079e2fadb86ad384b8bc603b79268eebd2f0"
+    },
+    {
+      "path": "src/input/KeyboardInput.ts",
+      "sha256": "4b9a2152652ff223da2074220a3f4b35f8c3b3166f47dc1fd4b2be8bca24cfd4"
+    },
+    {
+      "path": "src/input/ManualClutchController.ts",
+      "sha256": "59c7d8ef5383d7ecee7c883f0c5916b2b602d3e5ba9e36d5d354828f5b930235"
+    },
+    {
+      "path": "src/input/VehicleInputDevice.ts",
+      "sha256": "040e1dd54b41a0b06b72385387dfafbe1bca04edffd3f958f26610eda3420020"
+    },
+    {
+      "path": "src/input/VehicleInputState.ts",
+      "sha256": "fcd477c7ef246610a562810fbf6c2b860f123f9c8af057f879d20fc446cd20e6"
+    },
+    {
+      "path": "src/input/VehicleInputSystem.selftest.ts",
+      "sha256": "f92609bb9e4fa717a2ef8c0554236ffa690a6bf8866da6e23489ba6fe1d8f697"
+    },
+    {
+      "path": "src/input/VehicleInputSystem.ts",
+      "sha256": "83d424c752fe073aa5594637d09da5ba0edc2d94e0379c01f4aaebe97a75f4b7"
+    },
+    {
+      "path": "src/input/index.ts",
+      "sha256": "54d0996ca3abf61f91ce2f31c58255ae8ce0898747c988cc9a2ca038902c00ce"
+    },
+    {
+      "path": "src/input/inputMath.ts",
+      "sha256": "0825017f469052062d0bb19510ae93cd2c4eddf7f561847811b4e0046f6b112a"
+    },
+    {
+      "path": "src/loading/Loading.ts",
+      "sha256": "2405c743d4794559466fd9883980f9751066e65936d0a7fc9cadd6eaa4d47614"
+    },
+    {
+      "path": "src/main.ts",
+      "sha256": "13d02a1ff59681720bbd54f60aa205f2b96ecdc72bcf94ff07e65e2b7568c545"
+    },
+    {
+      "path": "src/platform/Platform.ts",
+      "sha256": "5b9ef0b50694c3305f69159854018ad05804ee40a817643e39639f0d15e99001"
+    },
+    {
+      "path": "src/platform/browser/BrowserPlatform.ts",
+      "sha256": "6f0d5307ee7d938c731db5f61f2ac7fc34504151fcf11dc92200cd4bfe42e005"
+    },
+    {
+      "path": "src/platform/electron/ElectronPlatform.ts",
+      "sha256": "cdf709e3f22e6ffa64ade204d64d8997226784b3c56325641923173e99a19720"
+    },
+    {
+      "path": "src/platform/index.ts",
+      "sha256": "73cd5c9e81f2a8361ddf927e3c0d4a404041e57a42cfa7361b134001fffd980a"
+    },
+    {
+      "path": "src/player/DriverEntryZone.ts",
+      "sha256": "a4307b5a95782ab81eba6e2544ad0479e3a69016670a65fa65bb6c8d072646a7"
+    },
+    {
+      "path": "src/player/OnFootController.ts",
+      "sha256": "28b6b6d8dbc0bb53906d16a8e23eba3f5f2eb1cf9805cf3f5a0904838c16fb0b"
+    },
+    {
+      "path": "src/player/PlayerInput.ts",
+      "sha256": "06452a215656f61cfb37bc065af586cdae074bedb12e6aa3cc33c391985044fd"
+    },
+    {
+      "path": "src/player/PlayerModeController.ts",
+      "sha256": "3041ef8f84729a2094a3d73f39392cbde44f30ff1bedeab9d78f4135a424b0d4"
+    },
+    {
+      "path": "src/styles.css",
+      "sha256": "af76e59a8abac0ecd616831c910a6cbf052edffeb8abd8722eb7422f9422d4b2"
+    },
+    {
+      "path": "src/ui/ControlSettingsPanel.ts",
+      "sha256": "74e303fe6b952f1745f50e678fba1281387e2e42910aed885bd04fc13526f5f6"
+    },
+    {
+      "path": "src/ui/Hud.ts",
+      "sha256": "29218d4e14825b518ffafb1be50e5c289a89779604c6e4b8f3566990d88b7eca"
+    },
+    {
+      "path": "src/ui/HudVehicleLoading.selftest.ts",
+      "sha256": "2b656a0aad1d1b7c7f88bf27df0f883908d8fc5eaa803391a18eb81f1e0d19a5"
+    },
+    {
+      "path": "src/ui/HybridControlPanel.ts",
+      "sha256": "99a4f43410201b45062155d4a4b2052bbce8a5a382f98ee13f77a1b43e309461"
+    },
+    {
+      "path": "src/ui/LapHud.ts",
+      "sha256": "ff0ff9dcbb9111c751ae3139b46ab3ae9ebea3673eb9f5d0d12a1ac2e5e8df4d"
+    },
+    {
+      "path": "src/ui/LocalRoadMap.ts",
+      "sha256": "7d0e623bc3728480096bb315fd1a73616cf1ff1d6d7ac973138df8a0564b0201"
+    },
+    {
+      "path": "src/ui/LogicalRoadMapGeometry.selftest.ts",
+      "sha256": "90158b275dfb3a80c91afff50e88d1f06255dc15a9ced1fda6818821c149efe7"
+    },
+    {
+      "path": "src/ui/LogicalRoadMapGeometry.ts",
+      "sha256": "ac363da5a02bc9074769c7670175304ce4fc39f843fb4f670b27b11ee4776363"
+    },
+    {
+      "path": "src/ui/Minimap.ts",
+      "sha256": "0f8fdb06df0fd0cf307c8c4a9246cd162eebbfd45e92ec51d740dd16973a9309"
+    },
+    {
+      "path": "src/ui/MirrorOverlayRenderer.ts",
+      "sha256": "ec387730090d2a18f7fff7d88d2899108046ae3f320f792a72e45c5f3fb1146a"
+    },
+    {
+      "path": "src/ui/NavigationDisplay.ts",
+      "sha256": "299a9b336396d148f9a660e4a5ee8735aec8e52d28ed1602ea3a9c7d7f0977ef"
+    },
+    {
+      "path": "src/ui/NavigationMapPanel.ts",
+      "sha256": "0356d8a973286092e76688a732fcde5aa7064fed9504d7a5e4beb06ce8cd3e37"
+    },
+    {
+      "path": "src/ui/controller/GameUIController.ts",
+      "sha256": "d0ab9cc20944657f7a7313df9c0324276321c9506b91ea7a18d67eb01f2a9885"
+    },
+    {
+      "path": "src/ui/design/system.css",
+      "sha256": "10e2dbd56aa1ee7a58d74334b19db19a32d19fb640edd48b68259f807b0f721e"
+    },
+    {
+      "path": "src/ui/hud/TrainingHUD.ts",
+      "sha256": "3e5be053bc2ea8a3e75ee08cc1098211fae386812eefbb7bd4d0a1d6fd5564fe"
+    },
+    {
+      "path": "src/ui/screens/GameShell.ts",
+      "sha256": "4bbdad2f910de1c72f0d2d07d73565baf114c61d169adfe8c6ad9d4caff2c4d1"
+    },
+    {
+      "path": "src/ui/state/GameUIState.ts",
+      "sha256": "0a31a73754dc1a6792bfd6f66df771b0c09ce8d9b3d5b25e235151122bfa36f7"
+    },
+    {
+      "path": "src/vehicle/MaybachS680.selftest.ts",
+      "sha256": "079dd81cf925be2df3c70e6f7e68ebbe8fdb9f560c8fed6c9971001f943b43f2"
+    },
+    {
+      "path": "src/vehicle/MaybachS680Access.selftest.ts",
+      "sha256": "edd43f5c06efd3c967352315d5c9d62a4feaae5140a560c3fd1ddf333acd4c5b"
+    },
+    {
+      "path": "src/vehicle/P2Hybrid.selftest.ts",
+      "sha256": "600984a416c69bc55bff77a1e8a12d0d63f8924e6451b507338be9007f75bfdb"
+    },
+    {
+      "path": "src/vehicle/PowertrainLayout.selftest.ts",
+      "sha256": "57458585fb8284dd4de8f8512b027b55ba51f671f17b1696eb339871c5eaee73"
+    },
+    {
+      "path": "src/vehicle/RecentVehicleSystems.selftest.ts",
+      "sha256": "c9a0327e8bef70b6199ee5fe4bf1f80cda890bdbce4738eb1621b2baa0fd79d5"
+    },
+    {
+      "path": "src/vehicle/SU7Max.selftest.ts",
+      "sha256": "8282d67a0e0cb2d708d12732a20d42a8bd9452000136ea97a1ec112d4844b73e"
+    },
+    {
+      "path": "src/vehicle/SU7Presentation.selftest.ts",
+      "sha256": "07d7d008094fd7c04ba67616ea459bb35f474e466365f078b12d67e1f94c7228"
+    },
+    {
+      "path": "src/vehicle/SharedVehicleData.ts",
+      "sha256": "e15b369405f88631716748fa146db3ba56446242efca1b8badda45843ea8338b"
+    },
+    {
+      "path": "src/vehicle/TPMSState.ts",
+      "sha256": "1619b71f2f7d11a87f2ce4464faa9ec7a05b2a0366407022dfab72881d7357b2"
+    },
+    {
+      "path": "src/vehicle/Tank500Driveability.selftest.ts",
+      "sha256": "f38b027cef4ca9f8e018d7588989ce281d96059c325dd256e29bf51cc819332e"
+    },
+    {
+      "path": "src/vehicle/VehicleCapabilities.ts",
+      "sha256": "703d5e6ac9ca497d721e46c26b6f16d4eb1f704eb60faa67a2efd9bb3d28ca3c"
+    },
+    {
+      "path": "src/vehicle/VehicleCatalog.selftest.ts",
+      "sha256": "062778710cf9c625429a15e73c32d7bc43e8cb84330ff3f2662e565a9c528953"
+    },
+    {
+      "path": "src/vehicle/VehicleCatalog.ts",
+      "sha256": "e2422adfe15425e1dcda3278ff9a69849c7701a48f134a90f08eacbc0c5a6aac"
+    },
+    {
+      "path": "src/vehicle/VehicleDimensions.ts",
+      "sha256": "5fc03fdfb49b97b3c0e64e54c05d6e1fdd0bd96aaa899ce88a95267d14c07b61"
+    },
+    {
+      "path": "src/vehicle/VehicleLoadingLifecycle.ts",
+      "sha256": "09a1aadbef23514ac4b0bcb549a5f6f96886e2152e58c7b97b61766fbd52c239"
+    },
+    {
+      "path": "src/vehicle/VehiclePlatformFoundation.selftest.ts",
+      "sha256": "b1611140b1e3458ae648ac0d542f297dd40a60469d83ce75fb4f383fb28b9c43"
+    },
+    {
+      "path": "src/vehicle/config/ElectricVehiclePhysicsConfig.ts",
+      "sha256": "029eb712d1f0824fe6946b4de751d4573b2af1c17a3f723710f49263a94b3031"
+    },
+    {
+      "path": "src/vehicle/config/MildHybridConfig.ts",
+      "sha256": "1b376b1fe30c7a32f048d4a1038605d3efe4b9ae71b4320044470d6e74e6b1f0"
+    },
+    {
+      "path": "src/vehicle/config/P2HybridConfig.ts",
+      "sha256": "67d1aba49b6201e8a95a2aae3f354f211e9a3565c363e8a6ddf7cd3f1ed11d41"
+    },
+    {
+      "path": "src/vehicle/config/TyreCalibration.ts",
+      "sha256": "8bca689d7516e68121a299cd201086ae9143baf9e6abba343abf7a4045d3f0ec"
+    },
+    {
+      "path": "src/vehicle/config/TyreThermalPressureConfig.ts",
+      "sha256": "bc5cab3d0c68fa6b9388b4e875731a79f98f5b019b035ce365601c25e80aa06e"
+    },
+    {
+      "path": "src/vehicle/config/VehiclePhysicsConfig.ts",
+      "sha256": "4ca0baa07318d359479925643f4f96761978f3f780862c83b88e7c3c3481d7f0"
+    },
+    {
+      "path": "src/vehicle/config/VehiclePlatformConfig.ts",
+      "sha256": "42a1ef51def0270f73f69709fa1d44d11aa996c71c86c9f8be1db30f1e3fae8f"
+    },
+    {
+      "path": "src/vehicle/config/bmw530LiPhysicsConfig.ts",
+      "sha256": "c8a8f40b6801441a3d9ac88164049758422af54d97c868e49de9941cb32e3f28"
+    },
+    {
+      "path": "src/vehicle/config/cvtSedanPhysicsConfig.ts",
+      "sha256": "627d782c3b1c4ccdb22072d676683a3951b8bcdd0d35d5a19164576751e241dc"
+    },
+    {
+      "path": "src/vehicle/config/defaultVehiclePhysicsConfig.ts",
+      "sha256": "b338e6ee30c8982c5fd25626b8dc3a8307cee2ed96988a912398646f24ade1b5"
+    },
+    {
+      "path": "src/vehicle/config/executiveSedanPhysicsConfig.ts",
+      "sha256": "fbb9efeab281f641e9a7d15a501dcb44a237bc8dbc30795f73778561fd7dd595"
+    },
+    {
+      "path": "src/vehicle/config/ferrari458PhysicsConfig.ts",
+      "sha256": "43d814ad6b341f6aaae46c8eb54d9bfe6c198bd0c70d725100115c90b92b322a"
+    },
+    {
+      "path": "src/vehicle/config/golfGTIPhysicsConfig.ts",
+      "sha256": "f1e9ef28e0e814e4fcf4a83e9fd0d7ff79e742b732443e6d6c3ea93d5d360721"
+    },
+    {
+      "path": "src/vehicle/config/index.ts",
+      "sha256": "450b9bade137998b50aa59da04f85e4b239b108900f4c82694a2b9245572fbb1"
+    },
+    {
+      "path": "src/vehicle/config/jeskoAttackPhysicsConfig.ts",
+      "sha256": "94eb6ea858879e65374da5ee059d077d3b762d9e964a62ade1c5d1ca058da90c"
+    },
+    {
+      "path": "src/vehicle/config/maybachS680PhysicsConfig.ts",
+      "sha256": "6e4d94085e270476b205838b65110792dc7008a530401f321f13ed71647fa972"
+    },
+    {
+      "path": "src/vehicle/config/mercedesE300LPhysicsConfig.ts",
+      "sha256": "69c30f4d17c862e97382cfe30b6c01856195635b7587e861d85838a071ffc610"
+    },
+    {
+      "path": "src/vehicle/config/roadSUVPhysicsConfig.ts",
+      "sha256": "574cf8d9cf069eb9a9ff538ebf5cb879d83b32f745957adb85bd05cfadf164e4"
+    },
+    {
+      "path": "src/vehicle/config/sportsCoupePhysicsConfig.ts",
+      "sha256": "bed657c0f1fd5db743734076850e2daded7d22acb6c40f4b856dd8cae403a8d9"
+    },
+    {
+      "path": "src/vehicle/config/su7MaxPhysicsConfig.ts",
+      "sha256": "809360d11782f57d3c2a59c45b8e7c660a3622bac8bd20a4a7f929b5b811a4a4"
+    },
+    {
+      "path": "src/vehicle/config/tank500Hi4TPhysicsConfig.ts",
+      "sha256": "6349df598c0ef1e7e34ad1d40d6087d4b77afc52bec7be84597678a18a81d6cd"
+    },
+    {
+      "path": "src/vehicle/config/taycan4SPhysicsConfig.ts",
+      "sha256": "8c55f5f341279d91aa6a4df39c33a187eef0733645ed3bf9f0a8a0cefdf35a5a"
+    },
+    {
+      "path": "src/vehicle/config/teslaModel3PhysicsConfig.ts",
+      "sha256": "f8798e42be104dd9d9cb0f9ef214a8dfbf76c74f180f01f1aac30a589519bc2d"
+    },
+    {
+      "path": "src/vehicle/config/transmissionTestVehicleConfigs.ts",
+      "sha256": "484e5cfc6efcd3a9767e38d6371e6c68d5d4dd5925a497dc7dbd6301e00495aa"
+    },
+    {
+      "path": "src/vehicle/config/validateEVPlatformConfig.ts",
+      "sha256": "0d99a066d9e5de95f5a10c807b5ec172120a3041bd896145286226a8e689a402"
+    },
+    {
+      "path": "src/vehicle/config/validateP2HybridConfig.ts",
+      "sha256": "a31c57e8ed5edef1f2375baa4bd42e48d676a9a3866946a436ff67ee14b38e74"
+    },
+    {
+      "path": "src/vehicle/config/validateVehiclePlatformConfig.ts",
+      "sha256": "45ffd9620e86fb450f8424c7dcc2ef9128d5512a9f0434355d7d7a28e8a5b8ab"
+    },
+    {
+      "path": "src/vehicle/control/AWDController.ts",
+      "sha256": "4adc261ffaba65c9101ae2bcfa53263a37a9664fc3344c4348582338fe64d1da"
+    },
+    {
+      "path": "src/vehicle/control/AutoHoldController.ts",
+      "sha256": "c6b05233a80c061a330647c75095602b72eb2b36a5507c343e4a4f68ee47b370"
+    },
+    {
+      "path": "src/vehicle/control/BaseControlCalibration.ts",
+      "sha256": "ef030b17753b9b9888198dc68a34f19ac58c79f5d8efe81a36f844e3b5b15d44"
+    },
+    {
+      "path": "src/vehicle/control/ControlArbitrator.ts",
+      "sha256": "62b81057bfe15003662aa0752d7a54a065fc78573243c7fb439d52926efc9d4a"
+    },
+    {
+      "path": "src/vehicle/control/ControlContactAdaptation.selftest.ts",
+      "sha256": "bb7abdf3a754bc26adb03b0cc74a8637426af611296ad07470bff58d3c4b7aa4"
+    },
+    {
+      "path": "src/vehicle/control/CruiseControlController.selftest.ts",
+      "sha256": "d95444384351637e75268472b29208199a77ce01dabbf058d470eebb93af7166"
+    },
+    {
+      "path": "src/vehicle/control/CruiseControlController.ts",
+      "sha256": "c1441c00062dfce6f74cc64660896d91fbe602df9f84ef11dc762104b5c6da34"
+    },
+    {
+      "path": "src/vehicle/control/ElectronicParkingBrake.ts",
+      "sha256": "0f1a7bcabaf9a9c57a1648f3818402dd1996c326aaed5f1ec92d7d0658f434ab"
+    },
+    {
+      "path": "src/vehicle/control/LaneAssistState.selftest.ts",
+      "sha256": "74f92f572f232754d7e686fca4772814b0712663ff8d70771a90c1c638932a31"
+    },
+    {
+      "path": "src/vehicle/control/LaneAssistState.ts",
+      "sha256": "8e84fddb7884bbbf3cc354671e613bbd8ffb3bf8ce260ac9d9d2aaf1fad1a702"
+    },
+    {
+      "path": "src/vehicle/control/LaneDepartureWarningController.selftest.ts",
+      "sha256": "3fccbe0f4ea516fd510f803130a67978f0cdd2126be616e9c8069f6b695dcc96"
+    },
+    {
+      "path": "src/vehicle/control/LaneDepartureWarningController.ts",
+      "sha256": "87552b2a964b3406794b1beb730af6a3adf13f0c3330275fb3d52690bc4ab0c7"
+    },
+    {
+      "path": "src/vehicle/control/LateralAssistController.selftest.ts",
+      "sha256": "cdf9faa54990b0e0310624e260fa57ae34e61e11ff1fddc8d3b45eac9a58343c"
+    },
+    {
+      "path": "src/vehicle/control/LateralAssistController.ts",
+      "sha256": "918576d14f6820936825e16ebb1a85cf085c349371efd79292805f97bac5071f"
+    },
+    {
+      "path": "src/vehicle/control/LateralAssistDriving.selftest.ts",
+      "sha256": "ebc6bb24d683dd0e04fe21793f122660f926a0d163df693c057c77fc0b9a513e"
+    },
+    {
+      "path": "src/vehicle/control/LocalVehicleProximity.ts",
+      "sha256": "ea79d462020657c2290414e3cad69121f1f017bb3ac2a4352505196eb558debc"
+    },
+    {
+      "path": "src/vehicle/control/RearParkingProximity.selftest.ts",
+      "sha256": "9beb9c93d102fc6b9cc2d040f5eb5dabfe49275623e229ae6744c12b5d185ce1"
+    },
+    {
+      "path": "src/vehicle/control/RearParkingProximity.ts",
+      "sha256": "d5bf42b4ef0804cf2a60a41043adaa929bb6fca7089cfdfe04152c06e68f1fa0"
+    },
+    {
+      "path": "src/vehicle/control/TripComputer.ts",
+      "sha256": "e9624d8dfa2b590776fd2453bf8d66ef5ba3c785470f14154b223458dcb9684a"
+    },
+    {
+      "path": "src/vehicle/control/VehicleActuatorRequest.ts",
+      "sha256": "d8cf8b63a00ab2ca6e17fdc5f9d6bd2459428dfcb57079df00926b09f9fa0058"
+    },
+    {
+      "path": "src/vehicle/control/VehicleControlCalibration.selftest.ts",
+      "sha256": "2401b9cb9109e2ff6e2e70876ac0f95ee32129b921dbcba5f9e965fd73e04810"
+    },
+    {
+      "path": "src/vehicle/control/VehicleControlCalibration.ts",
+      "sha256": "49d4a671e902b5fd49655179c9e778d574d3538a4d087e9042bdd4c8a18c03e3"
+    },
+    {
+      "path": "src/vehicle/control/VehicleControlPresets.ts",
+      "sha256": "df4416b8a0e0e809f75e3f22229fb08d005ab5c2e96922eb7bd412559123f72e"
+    },
+    {
+      "path": "src/vehicle/control/VehicleControlSystem.selftest.ts",
+      "sha256": "b472474693d54ee0aad24900af427a50184b8114cf91ceeb6ab4916551dd0aa8"
+    },
+    {
+      "path": "src/vehicle/control/VehicleControlSystem.ts",
+      "sha256": "108c9b7abbc928eb0813124dadc7582e998fa7db8131fc2a0ffc2e5fadbf0a6c"
+    },
+    {
+      "path": "src/vehicle/control/VehicleLightingController.ts",
+      "sha256": "a528899aee5fd66a43912901abc16a5194ace08bf711c74249d624b129893db0"
+    },
+    {
+      "path": "src/vehicle/control/VehicleStateEstimator.ts",
+      "sha256": "5088fe4fffcef40413db43cdb4f913077217ba78a70aa537f4a202c6475e73e0"
+    },
+    {
+      "path": "src/vehicle/control/WiperController.ts",
+      "sha256": "f7ac9bbe9c260aa43f2acba18f1f07b86638f9baaab7ed3e03ad5b6f7e2a7ed1"
+    },
+    {
+      "path": "src/vehicle/control/adaptive/AdaptiveCalibration.ts",
+      "sha256": "9e74233ca135b164937d4bad22750e11b6a6be6d8018f9b28133aa6835cea7b6"
+    },
+    {
+      "path": "src/vehicle/control/adaptive/AdaptiveDriverLayer.ts",
+      "sha256": "2c0b93e22fa221bbb8e9eaa2b70759ccd1e182f36f529a133dfe387e6a7ddf4f"
+    },
+    {
+      "path": "src/vehicle/control/adaptive/DriverBehaviorMonitor.ts",
+      "sha256": "03eb7cfedab1c91b85234606dd57e53525934cca1beff175fbb05f4688c8582d"
+    },
+    {
+      "path": "src/vehicle/control/adaptive/DriverProfile.ts",
+      "sha256": "f3459b948b30db6dda72ad6c945192ab105e0be53bd29f5bbc3e0fb53159c4b6"
+    },
+    {
+      "path": "src/vehicle/control/adaptive/DriverProfileStore.ts",
+      "sha256": "7f758d0b535e3cc9437730dce1b6ce841587991d600915b788706127948334f7"
+    },
+    {
+      "path": "src/vehicle/control/braking/ABSController.ts",
+      "sha256": "5e7ea3a1fa771b5c5c3f9ff97a90a57c15462939c9595203b6324da4f41ae20b"
+    },
+    {
+      "path": "src/vehicle/control/braking/EBDController.ts",
+      "sha256": "e9f1debcec80bb8bf79c9b6a024068c3c5c77442ff1efdfb9c125cfd6f9292f8"
+    },
+    {
+      "path": "src/vehicle/control/index.ts",
+      "sha256": "796152b2f63fd3a76bcf9e10c88a15a34b4db50092a4f02deecd7703b5aa5a2e"
+    },
+    {
+      "path": "src/vehicle/diagnostics/BlackBoxSchema.ts",
+      "sha256": "a9a5b2a30d463058028229ea7bc9592513b045c62dab269394b29a0cf3d01960"
+    },
+    {
+      "path": "src/vehicle/diagnostics/BlackBoxTriggerThresholds.ts",
+      "sha256": "5e6a30f84fd027c4861b664c628ebeaecdac338d1acbfb405e39b619812af18f"
+    },
+    {
+      "path": "src/vehicle/diagnostics/VehiclePhysicsBlackBox.selftest.ts",
+      "sha256": "26232971250eac03aa6b7dd080900d7671facdceec03088bba93f21d5faa9af6"
+    },
+    {
+      "path": "src/vehicle/diagnostics/VehiclePhysicsBlackBox.ts",
+      "sha256": "8d49a61ff842e8a0c55b469215ccc0f2c92ae2ec2ed305ec8ace36615bf6e2f1"
+    },
+    {
+      "path": "src/vehicle/feedback/VehicleFeedbackSystem.selftest.ts",
+      "sha256": "d07a26f1172c41809ccded7b304e49dd290d11fd120c1554d5e2598701b41921"
+    },
+    {
+      "path": "src/vehicle/feedback/VehicleFeedbackSystem.ts",
+      "sha256": "d72a12a32bad2883cb5c0678bb8f94dad2bfd9fdd1bd6fbe03776cd945d7357d"
+    },
+    {
+      "path": "src/vehicle/fixtures/awdVehicleFixture.ts",
+      "sha256": "e3089e0bb21f2a1c0bb5cd5fdbe92cc618512dd4db5643ef2788fc0c2faf4518"
+    },
+    {
+      "path": "src/vehicle/index.ts",
+      "sha256": "c7773fb0577751bedbb1b3bbe389260d2614e129368626163626449c178974eb"
+    },
+    {
+      "path": "src/vehicle/interaction/DriverAccessController.ts",
+      "sha256": "ae9f4f538adf6b8546d472cecda95b6aee030ceccd7c4d61b950618474a1e8f9"
+    },
+    {
+      "path": "src/vehicle/interaction/VehicleInteraction.selftest.ts",
+      "sha256": "8d824572ee8ca73ba5e2460c9a49e668c3963ce8b619dc205995d6a134193d45"
+    },
+    {
+      "path": "src/vehicle/interaction/VehicleInteractionController.ts",
+      "sha256": "8c5e372edfa4571d5cfcea5afdd852e62e7f6829e77f8eea63293e9c8cf7f01c"
+    },
+    {
+      "path": "src/vehicle/interaction/VehicleInteractionDefinition.ts",
+      "sha256": "dba9c8029e929d573816cfcd044fe6e492b978a75b6973478ae9ac849c6ce884"
+    },
+    {
+      "path": "src/vehicle/physics/AWDTorqueDistribution.ts",
+      "sha256": "6be511ece853627920e68912450d739e62dfd619d5b1375f2261c098eb701875"
+    },
+    {
+      "path": "src/vehicle/physics/AutoClutchController.ts",
+      "sha256": "8582811d1400fb9a1367deabed7d2190aa6919cd3741a36c22d0e5b664741bbb"
+    },
+    {
+      "path": "src/vehicle/physics/BrakeSystem.ts",
+      "sha256": "b889689d99411d562f4ff01fef6ac4970208a783e84da86beb58687c0594f8f9"
+    },
+    {
+      "path": "src/vehicle/physics/BrakeTorqueCoordinator.ts",
+      "sha256": "a20bd2198e176d78a85fa5b1c840055fde4d1b725f12498dda9e29fc9d1a6d54"
+    },
+    {
+      "path": "src/vehicle/physics/ChassisDynamics.selftest.ts",
+      "sha256": "4c94ddeab98f79bc232f9cc4d1fbc7c688640829b6e00865699bd90c087c9b0a"
+    },
+    {
+      "path": "src/vehicle/physics/ChassisDynamics.ts",
+      "sha256": "2bf9f3ffb84f225658c236d0ae9fb0826f98ce0a5baac06033c8776cfc37a4f9"
+    },
+    {
+      "path": "src/vehicle/physics/Clutch.ts",
+      "sha256": "fdea7e28cb8cceb41cb0904b8b7ca613a50582e3700489efcb200c5aee85a5bf"
+    },
+    {
+      "path": "src/vehicle/physics/CollisionSystem.selftest.ts",
+      "sha256": "6f1f725bf52d91d03291c40411ce904917e944ca1e2249f14190666333efac2a"
+    },
+    {
+      "path": "src/vehicle/physics/CollisionSystem.ts",
+      "sha256": "cd087714e82460b663a5a84d29e6ba7ac0328b994d875d05b922e5eb4f11d9d0"
+    },
+    {
+      "path": "src/vehicle/physics/ContactDynamics.selftest.ts",
+      "sha256": "e8746521c497baf7a34c4d58764704700c4bc13f2e34c14c740cb07da573919d"
+    },
+    {
+      "path": "src/vehicle/physics/Differential.ts",
+      "sha256": "0abf5090dffad9799f8f28908c5f11b1d6ac2b3f3d783f1e7666b2008464cfb0"
+    },
+    {
+      "path": "src/vehicle/physics/DriveTorqueSource.ts",
+      "sha256": "2b80d3359d612d0a42a5534d9bdb481a0c68975e96cd99ed2ed2ab2cf62e90b5"
+    },
+    {
+      "path": "src/vehicle/physics/DriverAssistSystem.selftest.ts",
+      "sha256": "6bd6dce76870809e675d43d9d77c540479defc37a663adf9b9d5f893c838830b"
+    },
+    {
+      "path": "src/vehicle/physics/DriverAssistSystem.ts",
+      "sha256": "a0c835970485c708215e470c2b286e4b3b31c5129c98bac7779fd717f819c7c2"
+    },
+    {
+      "path": "src/vehicle/physics/DrivetrainLash.ts",
+      "sha256": "398c6e1953b15bac8bf2f3d9b116435e036124b499634412ff0f1d8120a7148b"
+    },
+    {
+      "path": "src/vehicle/physics/ESCAWD.selftest.ts",
+      "sha256": "746eb11a056e358bd442bcc4427db8543a9f2577f2ff3ba845bfa958251fe407"
+    },
+    {
+      "path": "src/vehicle/physics/ESCController.ts",
+      "sha256": "12d503d75877bbc429ef1d2f8f5d678c0a0b0df855ca9cedc0b95bef2e7ab4bf"
+    },
+    {
+      "path": "src/vehicle/physics/Engine.ts",
+      "sha256": "5f882b33904c8b9d1aa8c351035b729af039b32b6d231629766f30eca75221df"
+    },
+    {
+      "path": "src/vehicle/physics/EngineTorque.selftest.ts",
+      "sha256": "0b3b223a5b541a15137b04e6f91149d54c2213e39e96d93877262936a633919d"
+    },
+    {
+      "path": "src/vehicle/physics/EngineTurbo.selftest.ts",
+      "sha256": "6d453b70f280c81cef3d0d35dc3be97f69662621b60d02d5a8ab09bc9b3c1340"
+    },
+    {
+      "path": "src/vehicle/physics/ExecutivePolish.selftest.ts",
+      "sha256": "e051c58a68c9c9e728ae5c679ad3c405d10e8576c7243d2f6a9c7879c1a6034e"
+    },
+    {
+      "path": "src/vehicle/physics/ExecutiveSedan.selftest.ts",
+      "sha256": "3b688c74b7a6495860b6906c743c4edc01907ca480de2479ff879c9aa537df9d"
+    },
+    {
+      "path": "src/vehicle/physics/Ferrari458.selftest.ts",
+      "sha256": "bdf902892ac291a165fd8f259c008941cbbef165854f0d33b45cf35c3b21629d"
+    },
+    {
+      "path": "src/vehicle/physics/FourWheelPhysics.selftest.ts",
+      "sha256": "166b61e36952be3a1d949f4b218c6e409e40b32b6d0a1cae951ea1497a78326c"
+    },
+    {
+      "path": "src/vehicle/physics/FuelSystem.selftest.ts",
+      "sha256": "8030c0bb5f808589b2ab71cb5d31693aab7dec14d94a0c0ceacd4c0153419d8e"
+    },
+    {
+      "path": "src/vehicle/physics/FuelSystem.ts",
+      "sha256": "86725beef11951b9172343eed6f3a0f3e816d63b58bde4695f29531f693c7bf2"
+    },
+    {
+      "path": "src/vehicle/physics/Gearbox.ts",
+      "sha256": "c0c0e811aea82cd1d65ba7c251d06256098713ef6dc136880d881fa68a4e91b4"
+    },
+    {
+      "path": "src/vehicle/physics/LimitedSlipDifferential.ts",
+      "sha256": "899d155a405dbb2696d8633ed6215fc513eeaeec536b3e90f5abfba9f4cf39de"
+    },
+    {
+      "path": "src/vehicle/physics/LongitudinalSlip.ts",
+      "sha256": "0337b1041d81adf8ac640e700429b31d7949cec605250ad48ca9763b9abd2102"
+    },
+    {
+      "path": "src/vehicle/physics/MechanicalDetails.selftest.ts",
+      "sha256": "3223efd12684944b1e45a39c1f0c07cf9df6a657c48ce064024b28edf89c64f9"
+    },
+    {
+      "path": "src/vehicle/physics/OpenDifferential.ts",
+      "sha256": "7b8f14408933b2265b3749f3fd47e8ebe880f5c84084ac2329798610d69022d8"
+    },
+    {
+      "path": "src/vehicle/physics/PlanarDirection.selftest.ts",
+      "sha256": "4e955060b46bc1d2d28333e3e0921ca5042b198db398202d2bdeedbc7eb43aab"
+    },
+    {
+      "path": "src/vehicle/physics/SteeringSystem.selftest.ts",
+      "sha256": "d87c7dde672fba2178882b8ba627660582a85071c177c8470dd3a71c07ec1686"
+    },
+    {
+      "path": "src/vehicle/physics/SteeringSystem.ts",
+      "sha256": "f77204f4a634c0bbd8dcd4f3392839d24ce8318d4e4d8c90837ce2691f3e99a2"
+    },
+    {
+      "path": "src/vehicle/physics/SurfaceInteraction.selftest.ts",
+      "sha256": "0af132a0703635d36e2d62eb5bbbe2570a46240f0c246ebc2d925887b72e4291"
+    },
+    {
+      "path": "src/vehicle/physics/SurfaceInteraction.ts",
+      "sha256": "058ff4be062c9563fe012b5a9b5005ea08356e2c3b856f5211f3267b9e326c31"
+    },
+    {
+      "path": "src/vehicle/physics/SuspensionKinematics.selftest.ts",
+      "sha256": "2bb00000a843c9b1e039c82f7af09a2ed3a891fd3f7dea7fb00284dd96d52eb5"
+    },
+    {
+      "path": "src/vehicle/physics/SuspensionMechanics.selftest.ts",
+      "sha256": "6033863f8e0fc682c92247cdb9178375a2444dce0f9fd4d634abdaadd9952288"
+    },
+    {
+      "path": "src/vehicle/physics/SuspensionSystem.ts",
+      "sha256": "359ab78317f471facebbff13e662aa56b6ed920a64f174c20a7be57f8c735fd4"
+    },
+    {
+      "path": "src/vehicle/physics/TractionController.ts",
+      "sha256": "d729df402fe4d9d76ffb99563598e696684d309af8275d84e5d47cf6763bee6e"
+    },
+    {
+      "path": "src/vehicle/physics/TractionPerformance.selftest.ts",
+      "sha256": "1c07c8bee9dcd8068581059eb8c24c3376a01bf9aff66af2f78b1f39ca6909f7"
+    },
+    {
+      "path": "src/vehicle/physics/Turbocharger.ts",
+      "sha256": "bb68f5fd7bf8c22c804eb6720292eed9795c3cb8286ab3e152249df17b000030"
+    },
+    {
+      "path": "src/vehicle/physics/TyreDifferential.selftest.ts",
+      "sha256": "850fb566fd6170bf3f838b4af407ac0ea99ad2ef59763d96ff493dc2dbe83cb5"
+    },
+    {
+      "path": "src/vehicle/physics/TyreGripModel.ts",
+      "sha256": "640d5acc2be18e514098d8b1a2808d8d139aac26ed489ce01da6e55fb29afc81"
+    },
+    {
+      "path": "src/vehicle/physics/TyreThermalPressure.selftest.ts",
+      "sha256": "8399ae3f4d41cc30426f69d56a40f986ede215063c18a364cda3e6b9fe1f8d6b"
+    },
+    {
+      "path": "src/vehicle/physics/TyreThermalPressureSystem.ts",
+      "sha256": "8398660f94499d10af143e21e24a16bea2b413618a7e1b46eaa278defed234ac"
+    },
+    {
+      "path": "src/vehicle/physics/UnsprungWheelDynamics.selftest.ts",
+      "sha256": "d8577db13098bb78aefaf79e0210f61da02dfaa175b8e2e796a5804da999c7bd"
+    },
+    {
+      "path": "src/vehicle/physics/UnsprungWheelDynamics.ts",
+      "sha256": "e61cb95eb4ee2f00870a5b32e7855b0089555db9f5869f049ccd151527e144c1"
+    },
+    {
+      "path": "src/vehicle/physics/UpshiftAdvisor.ts",
+      "sha256": "4db1a7ebe5adc7ef38aa7fe420fdd49703633c3c16bb5f5c3e83fa9cec8563ed"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleAerodynamics.selftest.ts",
+      "sha256": "b13c473d0a97113b929107544d1b29b00411c1f992894b927931b4ea851d9a8f"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleAerodynamics.ts",
+      "sha256": "ccac64bde0e6a4d1177e6969c3865cffa4273f8fa49401507a4780187d528074"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleContactSystem.selftest.ts",
+      "sha256": "12b56124293f71d3b665cb8175313bd72f3b34289c6254a8e34408b07ceca5f7"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleContactSystem.ts",
+      "sha256": "64f35ad6a0edc51c2ea9b9f8174c431f1b65a5db04d29e7df79f8a47d24e75a2"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleDynamics.selftest.ts",
+      "sha256": "bc4f0da1de94b6a49a131e03bd2331390a2a90867b1144f3e9c848c1f9318299"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleDynamics.ts",
+      "sha256": "4f0e85afdf23ec4a36d2e2c94d75a0760c2d7cbe081298c7ca607d3690a4e1d3"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleExperience.selftest.ts",
+      "sha256": "3bcf29a2b29e8b06d2e884ee0e2f606c81724a3cba4bd73264083e7a101ffbb2"
+    },
+    {
+      "path": "src/vehicle/physics/VehicleLayout.selftest.ts",
+      "sha256": "75767558558936fdaa9a467fc98517b8f17e989764870906b80f68f4673b97f3"
+    },
+    {
+      "path": "src/vehicle/physics/VehiclePlatform.selftest.ts",
+      "sha256": "e7f9fba039ea7af2d91e3a469a7e0d00000f0b63e5f0bc89a17bcec2058e9e20"
+    },
+    {
+      "path": "src/vehicle/physics/VerticalDynamics.selftest.ts",
+      "sha256": "2e8fa589c3bcc1b0ef1dc79668dff5b72d7e6e99a170d58719c793c265c8417a"
+    },
+    {
+      "path": "src/vehicle/physics/WheelContact.selftest.ts",
+      "sha256": "e701ec17b746e9d21117a5825116d291ff6a8d6450136348d469b2b2ddef8ae5"
+    },
+    {
+      "path": "src/vehicle/physics/WheelContact.ts",
+      "sha256": "f3fe9c672a4050892f8f1d8c42207c8a327fe3169ebcc75fc9be79791cb1b808"
+    },
+    {
+      "path": "src/vehicle/physics/WheelMechanicalEligibility.ts",
+      "sha256": "e8c1e79cb8acb7f1959c56d66eff8d9dd15f2464bda6e742f67f09e3973d6f96"
+    },
+    {
+      "path": "src/vehicle/physics/WheelPhysicsState.ts",
+      "sha256": "084700522e34d9d6dffaf3295919e5f54d51c86571674a476d3f08c2f303b3e2"
+    },
+    {
+      "path": "src/vehicle/physics/WheelRotationSystem.selftest.ts",
+      "sha256": "255b6dd906209fa79064a91e70819d471001740ce62b92b16c931cb216b8bbd7"
+    },
+    {
+      "path": "src/vehicle/physics/WheelRotationSystem.ts",
+      "sha256": "b4a07d35e392c5c7ddbe0ff4433ee6d045444264eabb8b5de6a51fd0a9db30f6"
+    },
+    {
+      "path": "src/vehicle/physics/WheelSupportContinuity.selftest.ts",
+      "sha256": "a88b2860bdfff4d75384b9a6a912c250d0480f24dc4860e42dab864b107b322b"
+    },
+    {
+      "path": "src/vehicle/physics/WheelSupportContinuity.ts",
+      "sha256": "0c310e9b2a9945bf80141ed19f3a240cd0cc883eacb26997b261ebbec3eebce0"
+    },
+    {
+      "path": "src/vehicle/physics/index.ts",
+      "sha256": "2804c2a969cffa8d0258fae5e4fd90cc15c6bc92f73e05ef04bfb93cd0db2a74"
+    },
+    {
+      "path": "src/vehicle/physics/math.ts",
+      "sha256": "17d3c5afb8752557291a58ac21044bab9e0a561fd462027c2f8c9e51857fd037"
+    },
+    {
+      "path": "src/vehicle/powertrain/BatteryPack.ts",
+      "sha256": "3aac8566af58fb1aba9361072f04d694cd5de652ac0608f998d4cce37e3bdfdf"
+    },
+    {
+      "path": "src/vehicle/powertrain/EVLaunchControl.ts",
+      "sha256": "b606472011be3267a570153e8f0a65c1e115f0bca7dfab2f4e86aa1b7d834c58"
+    },
+    {
+      "path": "src/vehicle/powertrain/EVPlatformV2.selftest.ts",
+      "sha256": "4714ed89344d3c544c53280e6dfa537ef6b909e68e1f3160094ff9d3d3f4115b"
+    },
+    {
+      "path": "src/vehicle/powertrain/EVPowerCoordinator.ts",
+      "sha256": "87dad78398b62ed515263ff85dbbd6539ebc0b02a4c3a98225071eecfba4ed7b"
+    },
+    {
+      "path": "src/vehicle/powertrain/EVThermalState.ts",
+      "sha256": "31041203745688dc497785898643a70604365a435b1097d06c105d22823b28b6"
+    },
+    {
+      "path": "src/vehicle/powertrain/ElectricDriveUnit.ts",
+      "sha256": "1e1d281ab0651ed6dfb026a650ba19fcd26788e61c465d4956ea1693586c5325"
+    },
+    {
+      "path": "src/vehicle/powertrain/ElectricMotor.ts",
+      "sha256": "acea6bd7d8d06f2121a5dece0279a983138ac4b003285a46c7ef2fcf26f90b1a"
+    },
+    {
+      "path": "src/vehicle/powertrain/ElectricPowertrain.selftest.ts",
+      "sha256": "046ad6e2d853fac1a1b37a90569e9fe2e416b6bb6149bae7415f46d852eb8c8e"
+    },
+    {
+      "path": "src/vehicle/powertrain/ElectricPowertrain.ts",
+      "sha256": "f3f32e1560066dfa6fdddbfe1fd9e0683ebdedf17eefefba421bf070543cdb00"
+    },
+    {
+      "path": "src/vehicle/powertrain/ElectrifiedPowertrain.selftest.ts",
+      "sha256": "47940ef1333598ce3218a099de9a2d7a5db6bbcadd95050a8da6899667d5ba88"
+    },
+    {
+      "path": "src/vehicle/powertrain/HybridBattery.ts",
+      "sha256": "821900a066e6aff4298165909c5d3e3bc1d65291a8d4ae7b696680f738aad0ef"
+    },
+    {
+      "path": "src/vehicle/powertrain/HybridEnergyManagement.ts",
+      "sha256": "120f00c390f083968a86f6a5243d7a4ae48171d5e2dff67060c0f41162736a85"
+    },
+    {
+      "path": "src/vehicle/powertrain/ICEHeatState.ts",
+      "sha256": "37842db26d2183833171bc39f5aade3563207fe5b5484be4f280b3a2b0a4b331"
+    },
+    {
+      "path": "src/vehicle/powertrain/ICEPowertrain.ts",
+      "sha256": "17e63ac2632e943c11d81e89d6a4174816e20549c073bd64e8b0fcde5f5bc732"
+    },
+    {
+      "path": "src/vehicle/powertrain/Inverter.ts",
+      "sha256": "14ea0519543351fe3b5c74f0044fe89f143600c86eb69ddbd88a7f676c8a0024"
+    },
+    {
+      "path": "src/vehicle/powertrain/MechanicalTransferCase.ts",
+      "sha256": "86e15e95005bf7fe0bf1a0dbc513db5e4639cb5c760f506534ac3d945e042ef8"
+    },
+    {
+      "path": "src/vehicle/powertrain/MildHybridSystem.ts",
+      "sha256": "5cfe191226a661624e8a8b7b496ab00dfa14db9e7bd0a552a889d5747ef025c2"
+    },
+    {
+      "path": "src/vehicle/powertrain/P2HybridPowertrain.ts",
+      "sha256": "3328f0d651dbeb912dbdd40bbaa7c0178ee758c3ead504bf074ed818e6e695ae"
+    },
+    {
+      "path": "src/vehicle/powertrain/Powertrain.selftest.ts",
+      "sha256": "f6e26671305b413f2a1495446816da4f1fa0ce855bb3d19dcdc2caaf97de9cb6"
+    },
+    {
+      "path": "src/vehicle/powertrain/Powertrain.ts",
+      "sha256": "bee370bf3b24eb609923a0413c9effdb312137ee0fed89f6b56bc6d6fd039d0a"
+    },
+    {
+      "path": "src/vehicle/su7MaxDimensions.ts",
+      "sha256": "ac9a5cb40da84fe5e5ed040ec512dfe504020f34ed016711a22e0c6cb5032c00"
+    },
+    {
+      "path": "src/vehicle/transmission/AutomaticGround.selftest.ts",
+      "sha256": "6eff5e175739c2c7ed643abb1a92819856d125fac33340f4a03c236e22f15c80"
+    },
+    {
+      "path": "src/vehicle/transmission/AutomaticSelectorInput.selftest.ts",
+      "sha256": "a7fe145a44b3044e63e2f5818d5e614d22b5e253d6d2d61e7ebd8c1d720ca462"
+    },
+    {
+      "path": "src/vehicle/transmission/EVTransmission.ts",
+      "sha256": "31cdafbbf00bf576d06f3bdd702b29d263c0d6b1227e008aa2fef873875d072f"
+    },
+    {
+      "path": "src/vehicle/transmission/EVTwoSpeedTransmission.ts",
+      "sha256": "fe4aef1899667236881e763cbca9a2b541a1eae3a8190fcf19cfa40b5430598c"
+    },
+    {
+      "path": "src/vehicle/transmission/FixedReductionTransmission.ts",
+      "sha256": "8db694e1e6d9e48fa3056947285c1feff842e9db303423b0dae51fd44f3b5ace"
+    },
+    {
+      "path": "src/vehicle/transmission/LightSpeedTransmission.ts",
+      "sha256": "17d23391559455ba0c691d2700f34a250a3f3cacc0c23ecd9c84dad8de2028c6"
+    },
+    {
+      "path": "src/vehicle/transmission/P2HybridTransmission.ts",
+      "sha256": "078a485331efea9e39e12a4ac4f8eaf96d91ce5e858a2241f716388df0f15399"
+    },
+    {
+      "path": "src/vehicle/transmission/SelectorSafety.ts",
+      "sha256": "018965c2d5aa1e569632fb49eb227e0272016f285ac98ade6bcae7c7c0f84a67"
+    },
+    {
+      "path": "src/vehicle/transmission/Transmission.selftest.ts",
+      "sha256": "0803b90b5586e9fbf95f87dd97f2f792273b9d02fdfea4a5d67f8cbfb6c14adf"
+    },
+    {
+      "path": "src/vehicle/transmission/TransmissionSystem.ts",
+      "sha256": "f764d6e30de60a5122039d02249443dda617f9ec3441e369804fd86ea67bf0c1"
+    },
+    {
+      "path": "src/vehicle/transmission/automatic/AutomaticShiftController.ts",
+      "sha256": "dd21572ae4761ca556a7cb19dbfef50a539c12d3232e945076f5fd86ba71f360"
+    },
+    {
+      "path": "src/vehicle/transmission/automatic/AutomaticTransmissionSystem.ts",
+      "sha256": "d9ffe4b1e430d8b6fecc4e637f050686e1af149136d3a67c0c60a72e84e26fb3"
+    },
+    {
+      "path": "src/vehicle/transmission/automatic/TorqueConverter.ts",
+      "sha256": "8ad1664c9f8d82408440a1f919d8889d8ea858cb21e449129cdf1127d73353e7"
+    },
+    {
+      "path": "src/vehicle/transmission/createTransmissionSystem.ts",
+      "sha256": "459fc4e7d1229d8b41436d52de73d2b864e6006056f447337c8e5008f72b3ae9"
+    },
+    {
+      "path": "src/vehicle/transmission/cvt/CVTTransmission.selftest.ts",
+      "sha256": "c9be268db36db28831dba8f5737a3682c40b49118cd626f2caf1b5518a7abf13"
+    },
+    {
+      "path": "src/vehicle/transmission/cvt/CVTTransmissionSystem.ts",
+      "sha256": "39f92cf73c5810050fa1ece8aa1a4be87a5ca0168f7838b0922672467853b01a"
+    },
+    {
+      "path": "src/vehicle/transmission/dct/DualClutchTransmissionSystem.ts",
+      "sha256": "c8a838489032a25fbb879c7d72389a0f17462567fe6757ecfaf34bbf2fa93cdd"
+    },
+    {
+      "path": "src/vehicle/transmission/implicitClutchDemand.ts",
+      "sha256": "affab39c0cc12ab35556a6d0d5b8b5123d2200df5237843f57876a575dbf438c"
+    },
+    {
+      "path": "src/vehicle/transmission/manual/ManualTransmissionSystem.ts",
+      "sha256": "7cf4605477d5315dc7a9b9c17707a9ee44c8b525d0b0d27acba60384ee0623ae"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Cabin.ts",
+      "sha256": "7b70e77b95ceefa6d56b8d31f047ad32eddfc9c3e73bacd941581b140f9b52b8"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530CenterDisplay.ts",
+      "sha256": "0d26ea5fa3be3ba535f326ac3d7b1e11266ba9f33cfccc46f4ce5a0c52078611"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Exterior.ts",
+      "sha256": "8e1a2a01cbc386df6277b5d8f457a0247f7ada0d9189b39563792b39fc008257"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530ExteriorDetails.ts",
+      "sha256": "283d026566da18bf45ce97f964731513959b18a752d00373c2e45fd8dd718a32"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530FrontCabin.selftest.ts",
+      "sha256": "b1a48b0afcaccda222e9685fbb664c7243852b860252d7f7004db4afb57444c3"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530FrontFrame.ts",
+      "sha256": "a2e42c9ef8f7e4189f8e2a0d829091a313b1f2abbfad4616974af85f76333e58"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Geometry.ts",
+      "sha256": "fb3dac536a064431f3d57c65ec463a3459a9cb1bd7ed23620ee1d0f12eaa12e1"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Instruments.ts",
+      "sha256": "cabf1512b25637501989392393af8bc74610b45fb6f1677c1fcfed9af0850ae2"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Li.selftest.ts",
+      "sha256": "58a26206c17aff55a588eebf947dd1aa583016611d3a78a8ad1064ad40a46e12"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530LiVisualConfig.ts",
+      "sha256": "71a74139b2218a93200c7b85433ca0c551920e2dd004abbdebcff574a27fc3c0"
+    },
+    {
+      "path": "src/vehicle/visual/BMW530Wheels.ts",
+      "sha256": "06a269dbb860c3063f08ccf1436bfd50b8ae5ad27f27953b13b95706b3199fa1"
+    },
+    {
+      "path": "src/vehicle/visual/CabinLightResponse.ts",
+      "sha256": "0204a75e2a975e03940c0ead188d4296541ebcbe9df16728eec98f6d67bd7c5b"
+    },
+    {
+      "path": "src/vehicle/visual/Cockpit.ts",
+      "sha256": "e39aca0006667bc01d5dcfbe896b62c6ddbc303e7b52b2a9e3914011fffa020d"
+    },
+    {
+      "path": "src/vehicle/visual/CockpitLayout.ts",
+      "sha256": "f675f51a35531dafe859cdd8aa4d0754e7c43f558f8403a4d1991701577f0844"
+    },
+    {
+      "path": "src/vehicle/visual/DoorSideSplit.ts",
+      "sha256": "65a76e62647fec137366a0a1177e06bd6bef307bf9b91c974eda291bfdf87be1"
+    },
+    {
+      "path": "src/vehicle/visual/DriverView.selftest.ts",
+      "sha256": "90bb14648ab16646d8336e92bde0f472fa7371fce625edd1f325ff82b8353e40"
+    },
+    {
+      "path": "src/vehicle/visual/DrivingEnvironmentView.ts",
+      "sha256": "167830c51f7711675d16b75b8ee482b36ae384b4c97c634c110c304fe9b85fea"
+    },
+    {
+      "path": "src/vehicle/visual/DrivingSceneDisplayContext.selftest.ts",
+      "sha256": "eacaf261a4f7f455c80ee714898ae93671b30db57ca7329c6bfb89638ff362a8"
+    },
+    {
+      "path": "src/vehicle/visual/DrivingSceneDisplayContext.ts",
+      "sha256": "cb54372dd87417f42bf31e417a6309a2986d7ed7dd9baeb83f81bd3f18a1e227"
+    },
+    {
+      "path": "src/vehicle/visual/ElectricCenterDisplay.ts",
+      "sha256": "506d3a021fb28a13c36253ec11f43a129c132bfee98805e55f0e202da74eb651"
+    },
+    {
+      "path": "src/vehicle/visual/ElectricDisplayContext.ts",
+      "sha256": "154ecdf7950030c821e9f71fe148c88f48016cc82d71e1aba344fd2aa54344d0"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveCabin.selftest.ts",
+      "sha256": "d9a23926f4079374016e90aed51826f6bd8ad4c4b064215daa5ef705dfc1a604"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveCabinAppearance.ts",
+      "sha256": "d8befbc2c3ff61061a35414e456745fdf825d375badc9655612f860496159060"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveCabinMaterials.ts",
+      "sha256": "1b41b42f20e79c01629f661b97aa613c7ec63e9e582ff981ef505688d79043eb"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveDisplayContext.ts",
+      "sha256": "f034dc492551d002735674e3c644374c80111066886f4a46731c3691d14d7a34"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveExterior.selftest.ts",
+      "sha256": "259de12c27fe6b671022c9888e6e2bff4892c95c95e467cf5b757e0f55bf7658"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveExteriorSurfaces.ts",
+      "sha256": "c5bf0920bde455f91c05cfdafffc042103a16e24623822add7724d89b6adffd5"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveLampGeometry.ts",
+      "sha256": "f3e407eada09369b7c0fc4549b6b6a1369b0ba16549261a2fdbe972bee28c117"
+    },
+    {
+      "path": "src/vehicle/visual/ExecutiveWheels.ts",
+      "sha256": "f7093447ae8fbfe223f14681d430019e1062c96a9b9b820ace15ff4783139731"
+    },
+    {
+      "path": "src/vehicle/visual/ExteriorDetailAtlas.ts",
+      "sha256": "750fcb2b53ebdfda8e5e2ed560ce880eac378cc682385de90e0afe03be426e2f"
+    },
+    {
+      "path": "src/vehicle/visual/ExteriorEnvelope.ts",
+      "sha256": "85bc1774cd5ff021c4cdd45f6a31f5d0787321d129c4f51ebb006f15fb05842c"
+    },
+    {
+      "path": "src/vehicle/visual/ExteriorMirrorGeometry.ts",
+      "sha256": "9a3e669d29e04b66e40ee4f40e1edceb84818bfd1a8f6e445e916ea5054b2a0e"
+    },
+    {
+      "path": "src/vehicle/visual/ExteriorShapeProfiles.ts",
+      "sha256": "ac60aeffebd8058d0b944cffec48bccdf16392de323171a89582ec4a69095573"
+    },
+    {
+      "path": "src/vehicle/visual/Ferrari458Visual.selftest.ts",
+      "sha256": "71c236082821d53047c2e708100207b8873850e48d081d76247dea3c968e1abe"
+    },
+    {
+      "path": "src/vehicle/visual/Ferrari458VisualConfig.ts",
+      "sha256": "8b256b2c5423b681904d543fa8ad54d5951a6f5624c5c701e6c4232a4baca909"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTI.selftest.ts",
+      "sha256": "6574b63a302f22cc76ae4f5e32159e3344958c0e3d9e3e4f3fa124c0f63d6b9f"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIAccess.selftest.ts",
+      "sha256": "0d53b607a468fecfd360813bf0537e3c794f8d0c77fef3779bd35a4cbeb2e16f"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIBodyShape.ts",
+      "sha256": "7b4e2328feb3ef32d995b94129ee26a70b6f2f37739e827775217fa50eca8a36"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTICabin.ts",
+      "sha256": "516743acfff879911ae80dcb740a44b4fe41dcd8c8c9b7bfbad3f52e05a9f57d"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTICockpitGeometry.ts",
+      "sha256": "b2300aefd2a8be06be600c1a04fe0142cb86e8a7e9d23de59d30a4c439474020"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTICockpitMaterials.ts",
+      "sha256": "dbd30a544e8a40ce0efe6fcda76ab7775474d3d73d6ad4bce8a9880bfb8a562f"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIDashboard.ts",
+      "sha256": "a79865167297949f1751cabdfe27c7d9856fd330d4db62bb62d1fcb44163fa85"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIDisplays.ts",
+      "sha256": "24dc7668ee7d6568292543612812a6728b07b9d693d2a7d9b70ac0c20d9b6141"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIExterior.ts",
+      "sha256": "135336ee6e46283295580b5cab61a715c641e8a54e14b99dee45dfec08b63b48"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIExteriorDetails.ts",
+      "sha256": "8c1e36efabd2017b7f6a99dcfdd9fb150d792695cd12b458ecaf48b97fd22e27"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIInstrumentArtwork.ts",
+      "sha256": "7f68a39a8b42fed03a7f28fb70a8857c250a69b362edef7a244a42dce637ebb7"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTISteeringTextures.ts",
+      "sha256": "26da0a20fcde669fa1c72979c564aa2a44917889b4c74552ebecdc56f61c9329"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTISurfaces.ts",
+      "sha256": "904b5cd908c356c799722f93d4c103198d7c3b3a2123cf9e2e2c04edaf8d9d11"
+    },
+    {
+      "path": "src/vehicle/visual/GolfGTIWheels.ts",
+      "sha256": "f628bcb242605168ca04928ca885b3881ebea5ff4296c0b8e6f7456f3054e86b"
+    },
+    {
+      "path": "src/vehicle/visual/HeadlampBeamTexture.ts",
+      "sha256": "9fa9724a860e8bec2b3de1d2f553eda433ccf30bbb4181d8dc1a7bf2ca4d42a0"
+    },
+    {
+      "path": "src/vehicle/visual/InstrumentBinnacle.ts",
+      "sha256": "d6a76a0aa8e4fd3c6bfc32034f0672584d629ae9f6343161ddffdee99341b587"
+    },
+    {
+      "path": "src/vehicle/visual/InstrumentCluster.selftest.ts",
+      "sha256": "ebd396ff61f20a0868cfb87db7b8b3fc91cb62326f924bffa354ebd6a33cf07c"
+    },
+    {
+      "path": "src/vehicle/visual/InstrumentCluster.ts",
+      "sha256": "0ce67339643c54e6b12a396ae4f386625b593f3fd31391ab7b97d264aaca02ac"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoAttackCabin.ts",
+      "sha256": "1d0d2dc7e5d9c06fa74eaed65deb4f04f093a22b78a2227b8bf6008746dc4413"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoAttackExterior.ts",
+      "sha256": "6d5b4bbc5f5bda7fdd05dd054df8f96070aa05f36781ba59589e3886354a1219"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoAttackInstruments.ts",
+      "sha256": "1e54a7ba259b431cf131a124d0ec1ca3fdcac42c772769c66e124b85dd8d8e85"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoAttackVisualConfig.ts",
+      "sha256": "7f73553300f30b62db412bee198021e23c38713d00234d483ed981d60d0a9bb8"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoCabinGeometry.ts",
+      "sha256": "d872ad4a676fd44cd8473a79e4f2512221d85b02fcc9aedad635b8fc9e3ed231"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoCabinTextures.ts",
+      "sha256": "d4a83036d69911e5b5dc3b8356f50434a63b5c5f6c76e14f007c310df208bf83"
+    },
+    {
+      "path": "src/vehicle/visual/JeskoCanopy.ts",
+      "sha256": "89e62eb2747fd9c6ee5d620cded25a2c5f24ecf06a4c7613a334233c8a4ab32c"
+    },
+    {
+      "path": "src/vehicle/visual/LaneAssistSelectionDisplay.selftest.ts",
+      "sha256": "e70d2727e759993fd4bf06f9201d22bd1c3ec9bc70d3035aa85809e34c1c1c5c"
+    },
+    {
+      "path": "src/vehicle/visual/LaneAssistSelectionDisplay.ts",
+      "sha256": "46f0f59e18673a2037bd48810012316247ba57944776b637b081d292c5aee73b"
+    },
+    {
+      "path": "src/vehicle/visual/LateralAssistDisplay.ts",
+      "sha256": "b21f9313e0107041ef726d826d39a207715464ec82c5107986813f62e12a3dbd"
+    },
+    {
+      "path": "src/vehicle/visual/LuxuryVehicleStatusPage.ts",
+      "sha256": "732caeebe4367a4e9d76859b7e8f020fb91bcb34d591169140f326bb28a90735"
+    },
+    {
+      "path": "src/vehicle/visual/LuxuryVisualProfile.ts",
+      "sha256": "1d778bcc11214ecada8a48cac3ac1ff504d71e8e413e4abaf2de26aba11f6293"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680AmbientLighting.ts",
+      "sha256": "0d5d684b6b0d2fe88d334617670b0661cab57532b597282ad1ffa28bfc4c7da3"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680Cabin.ts",
+      "sha256": "53ea0da935c693dd5b1a6e9fb929b76073a3ce949e54f8b8633e2c3607f74c88"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680Displays.ts",
+      "sha256": "ae11ce5f43fbb423c61797c98146cfa40da72666a69299fafda9eac9851bb372"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680Exterior.ts",
+      "sha256": "317b0096b966aa65d0b1d2eda0a060707e96288d55852d0fb48fec8a6ab9a9c3"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680InstrumentCar.ts",
+      "sha256": "7ab21b49aec116c53212c0d40b71b9847b535804b8ad313f39fe1230ccaf976f"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680TellTales.ts",
+      "sha256": "ec5b7c6d816fa750bfe475cdf275b1886718a3a6c298ca95364253e8a8d4c4ba"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680Textures.ts",
+      "sha256": "0332a4ab10ee6e3da2ae484a532fd9131a774643e91ca73d17961c422dc06173"
+    },
+    {
+      "path": "src/vehicle/visual/MaybachS680VisualConfig.ts",
+      "sha256": "0f12f03c76b792b48b255936d08b1f1c2a5e617eaf0b557913f0b6a71072a70b"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300L.selftest.ts",
+      "sha256": "19aeda9b08c8a14fe8bafd627061614e34f870c57e45c9f9f028fc939cda5d76"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LCabin.ts",
+      "sha256": "daa776b7f973d735300cf62c2cb9161718de1c299fe4e82b453d2af78b601742"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LCenterDisplay.ts",
+      "sha256": "a045517af4fbd27d8997447ed62d24c8653c45f2fe414c40df903a82fbcd2f61"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LExterior.ts",
+      "sha256": "61a91135edec7cc451e6c7ee2ba657bcf4c4b9d7d86f455290690b5778354b2d"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LExteriorDetails.ts",
+      "sha256": "178b0fb43fe1b52cd3b2c8dfc7361a9fd22d937b1d62688f49ac0bd3467ae2bb"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LGeometry.ts",
+      "sha256": "c55f5d9f83fafe9aa50a3f2c3b67f8af11a7b69e79c0458a87e795b0649ff0bf"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LInstruments.ts",
+      "sha256": "9c94b077646c27e152c53f27a4ee5e688e1be7aeaea56f9078eeba78b363eee0"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LInteriorTextures.ts",
+      "sha256": "a75381e4769873b6ef53e7ae39200106ee2941a80a9120be572d9927d2b032a1"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LVisualConfig.ts",
+      "sha256": "48d4bb0f96948ad9473faad0e408e271d3f83797c7647854f92d5af3a988ba99"
+    },
+    {
+      "path": "src/vehicle/visual/MercedesE300LWheels.ts",
+      "sha256": "02e5bc6957d9146b78beb8da9063f4a5513d550f71296c7240749c97dc44f985"
+    },
+    {
+      "path": "src/vehicle/visual/NavigationCenterDisplay.ts",
+      "sha256": "a8e13b284f62f8c188775e68c6c9227a46a3845e04db2137cf7b45122293a8cf"
+    },
+    {
+      "path": "src/vehicle/visual/NavigationDisplays.selftest.ts",
+      "sha256": "e96a02e2b741c379a4eb03a08b712057d48f5570ed392a2c6f75c5712b5c2d57"
+    },
+    {
+      "path": "src/vehicle/visual/PrancingHorseBadge.ts",
+      "sha256": "75a40834999857036bc77f47c6459881180e2cc2185aa4903f2292cc62abfbe9"
+    },
+    {
+      "path": "src/vehicle/visual/PremiumEVInstruments.ts",
+      "sha256": "17d9354c05ef967e22fca9be859176228e2d71a89713e1e215148abf8f02f818"
+    },
+    {
+      "path": "src/vehicle/visual/RefinedVehicleExterior.ts",
+      "sha256": "b091b3fbbb531ef217cef92e56460c1804f49bdda63dad560d9aafee330a17be"
+    },
+    {
+      "path": "src/vehicle/visual/SU7CabinEnvironment.ts",
+      "sha256": "4f14c2c0370aefa8b9802f503dde8bb5a8527068f61aff4579356d0eb2007dcb"
+    },
+    {
+      "path": "src/vehicle/visual/SU7CabinSurfaces.ts",
+      "sha256": "da9ac0062120ff86e1489ce96fc653157f80715e3a8d29fee51a1549c32a3d42"
+    },
+    {
+      "path": "src/vehicle/visual/SU7CabinTextures.ts",
+      "sha256": "7a06ca81224af5e48b931e4009bffdcc37b11bfaf9a10f81cc6cfe7b4407155c"
+    },
+    {
+      "path": "src/vehicle/visual/SU7CenterDisplay.ts",
+      "sha256": "6932baa7049486666c74895286bb023e2c2753eacbf0d6eb647d3821c69deb24"
+    },
+    {
+      "path": "src/vehicle/visual/SU7Exterior.selftest.ts",
+      "sha256": "2befa366c9e06e58de96cf895f100de6ed8270eccc4c65ba38ad171269cf5063"
+    },
+    {
+      "path": "src/vehicle/visual/SU7ExteriorDetails.ts",
+      "sha256": "d7dfa049a171553292781c6d2da0a31fc6f1a20f2d54c4af6a0773debc5969e7"
+    },
+    {
+      "path": "src/vehicle/visual/SU7InstrumentGraphics.ts",
+      "sha256": "43120e3e6ddd1a9f65055b0cc69a98df51a3a6ce1bcf2d4e1c60ba860a522b89"
+    },
+    {
+      "path": "src/vehicle/visual/SU7InstrumentTellTales.ts",
+      "sha256": "6a1add9c0237bdf707e3909d2813775227dd43057cb77cd596e92dc9a98794f1"
+    },
+    {
+      "path": "src/vehicle/visual/SU7MaxCabin.ts",
+      "sha256": "747e4d7fbb1a9d19685a9bb443d8a88d4215517ea57824e4b6cfca6536ea8c53"
+    },
+    {
+      "path": "src/vehicle/visual/SU7MaxExterior.ts",
+      "sha256": "78a4c012103b5b96609d090c71042876dd8475ce7647b957a5315a82335c1f05"
+    },
+    {
+      "path": "src/vehicle/visual/SU7MaxInstruments.ts",
+      "sha256": "8555d7c707aaefdd71fb3194db5bd14aa1b798279e88fc04109f2c14f613783f"
+    },
+    {
+      "path": "src/vehicle/visual/SU7Typography.ts",
+      "sha256": "5155c1a89d523a0cf362044fef9aec867f1c508e0fbeb8304e7d84bc7b758031"
+    },
+    {
+      "path": "src/vehicle/visual/SurfaceVehicleGeometry.ts",
+      "sha256": "7a6b7cab7e957d1512ea266a64b50ea979bacb050931ec9a948c86876b532999"
+    },
+    {
+      "path": "src/vehicle/visual/SuspensionStance.selftest.ts",
+      "sha256": "364ce6a4f2be8e776eafeaabb404e595c1e603909018babe86c5170d40b696c9"
+    },
+    {
+      "path": "src/vehicle/visual/SuvInstrumentCluster.selftest.ts",
+      "sha256": "337cf145609e0ebee963f7e69c4f291482c390f21246597f1f0be45824afce13"
+    },
+    {
+      "path": "src/vehicle/visual/TPMSDisplays.selftest.ts",
+      "sha256": "3ba7082d7730bc0d0582293f40bfe1837a7a22728ccda6dbe8d2e1a2cccb47bd"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500BodyExterior.ts",
+      "sha256": "2852b19431afc4d2f53c8713dbedc706fb339c10667482a68349cf8ac396ad88"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500BodyGeometry.ts",
+      "sha256": "3d9a2c6b3b085bd81b7842c0ed11f35f89adc5d1cb0009d401c55c9852402b43"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Cabin.ts",
+      "sha256": "2bdc4b7e0cebb1a74f846d146de65066c1427416446e95179de2b054f596a804"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500CabinLighting.ts",
+      "sha256": "d1420c4b72de55f1607b0d20239d84676d342bfe4345a4bccb7c57e9bc007ed0"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Displays.selftest.ts",
+      "sha256": "1d52d9792c102bffa8607adfd0b943e7fef35aa016113246fbf34d5c4921c0de"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Displays.ts",
+      "sha256": "3c5e1c160dd97b6e8a75fb4c7ddb42dbfa9e10e5ffe5eb1833b6021c0ae00150"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Exterior.ts",
+      "sha256": "672dc44734c548e43b06065421ab93e306f92855048efa7bb7a60c58f38d75c9"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Refinement.selftest.ts",
+      "sha256": "ff859a75949b41cff0bd5e9a46135bd643b2cb8de479c038b40de041d912a769"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500Textures.ts",
+      "sha256": "c8760fbb5b6f00be8c38dc495234d9b0b337c7c3cae3ed3d1889edd43814caa3"
+    },
+    {
+      "path": "src/vehicle/visual/Tank500VisualConfig.ts",
+      "sha256": "86247d63ba927590fe1bc500e7cca964b662d8d38edfe3b95c776ebd86fba764"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanAuxDisplays.ts",
+      "sha256": "094dd21e3f25710911641612566bbae744ad6e2b19af91d1c7122a54918c1710"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanCabinDisplays.ts",
+      "sha256": "ef3c6e4ec84b03a7ce855e33aa44d6527c0815306de4af00ee9c31141bc0514d"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanCenterDisplay.ts",
+      "sha256": "0abedc96396df993fd989312f68caa3564239806fef7f97cb2eb5a8fd008845d"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanDisplaySurface.ts",
+      "sha256": "83a04e7d85e939c9202500cd2a0c8d470c1cdcbf2b870d15650f9cacbb5135df"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanDisplays.selftest.ts",
+      "sha256": "9fe62545416cb2e3b7b633e5fb0ed1bc14a86d2caf7f341f7bb5fa8473bed24b"
+    },
+    {
+      "path": "src/vehicle/visual/TaycanSymbols.ts",
+      "sha256": "9bcc9bddb819d71273c49f1c691d220e0af25d37969616e9d5e6880292568267"
+    },
+    {
+      "path": "src/vehicle/visual/TeslaExperience.selftest.ts",
+      "sha256": "d076512647d547e4b1151391a4804d5daf2846e1fe4a9ecbe5e2c59626a1b393"
+    },
+    {
+      "path": "src/vehicle/visual/TeslaModel3Exterior.ts",
+      "sha256": "5aa1ce8aba98e134097f3aed0b0a708b7574ead9e2f2062a6ed47cffbc241dd8"
+    },
+    {
+      "path": "src/vehicle/visual/TeslaModel3Visual.selftest.ts",
+      "sha256": "c27ab849cd862625d8ac7544444fcc5ed833ed97c67a65b5ddc8f034473dbf6f"
+    },
+    {
+      "path": "src/vehicle/visual/TeslaModel3Wheels.ts",
+      "sha256": "2351c5d554c5b94828d27d9b19cb9c873514775d8934cd2c754f8b3f849cf42f"
+    },
+    {
+      "path": "src/vehicle/visual/TyreDetailTexture.ts",
+      "sha256": "8822f6676719efdc00515e152bcb80fccd0c439fe01cd9bae4a3b8bed6a09ccc"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleAssetRegistry.ts",
+      "sha256": "28c119c9d44bd7f31e86daaf50ca17a9a7fa6d3921a8be3c9a28ba9ab313f2a5"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleExterior.selftest.ts",
+      "sha256": "a38e004afb3c05108dd726e4cc93b822ea6da74cfec4647705653f00ec410eae"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleExterior.ts",
+      "sha256": "a7fd1fd29f52ceb54797424bbcdbf711b08d02495878f03bbd92d78ab2c5f781"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleLighting.selftest.ts",
+      "sha256": "00c2a110010096dca0e6fb8f3acd580c21446b61d6a281c2b59dfacad177f70c"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleLighting.ts",
+      "sha256": "0b322fb541e4b26c61e36d1a351ac9ad27963cb9b92a7fd3428135676f756290"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleMaterials.ts",
+      "sha256": "82d0efe3a252f8c3e692ab373c289c5bb494c1c07f71b7b0d429baabb9b933d4"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleRenderLayers.ts",
+      "sha256": "22b5dc44a48d0852797241666f448676ce2b3689c9ade956d049d6d2b7324267"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleStaticAssets.ts",
+      "sha256": "f320b3c22751893ec8272240f56f425aae2fba4f6871a7f6ddfa446f7c7b8061"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleStructure.selftest.ts",
+      "sha256": "148dff475a4eb6332ee1e5711101fbc93008cdafc27b69434ed348a67bbe90d0"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleVisual.ts",
+      "sha256": "ca6901134531fa30c3a88d84f2e91907ccd349f009815059989c3d315ed852df"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleVisualConfig.ts",
+      "sha256": "e264f7bac9d3d10ebc338128db6563c57b7f5735693dcdec36a571f3cc819120"
+    },
+    {
+      "path": "src/vehicle/visual/VehicleVisualDimensions.selftest.ts",
+      "sha256": "c06fc9396b8a1285ff06376d18fa4c86716c9d7bb8200795bc107a752a276b34"
+    },
+    {
+      "path": "src/vehicle/visual/assets/SOURCES.md",
+      "sha256": "d5136adf161316bab7d4e9195ac688e49f7930bacb510a00bd97e42d01c1c6ec"
+    },
+    {
+      "path": "src/vehicle/visual/assets/su7-fonts/MiSans-LICENSE.pdf",
+      "sha256": "4a93a27cd2bd81b3b5ecfd0a853144a876fa26938a93a68443c67d74172fcb86"
+    },
+    {
+      "path": "src/vehicle/visual/assets/su7-fonts/MiSansLatin-Medium.woff2",
+      "sha256": "88e5ee3ef906cfbc6fc85cb17b6afaa1c7d5f118ccbd1e10d7d8dfc481211024"
+    },
+    {
+      "path": "src/vehicle/visual/assets/su7-fonts/MiSansLatin-Regular.woff2",
+      "sha256": "fc17182f3f2b941cef6ca1317cb50d556532fdff46d8c540234543947b9fa0e5"
+    },
+    {
+      "path": "src/vehicle/visual/assets/su7-fonts/README.md",
+      "sha256": "c4b0f173f03fda292ac45125c10b38dc5c833fd9c331c1aba4629cca13f16b2e"
+    },
+    {
+      "path": "src/vehicle/visual/assets/volkswagen.svg",
+      "sha256": "de8379968dc31340ab9a06fd54f01d59be56f9846bc07938b9da5bd24407034f"
+    },
+    {
+      "path": "src/vehicle/visual/assets/volkswagenMark.ts",
+      "sha256": "97c9ec6f0160ec89d0fc49b470351def2e9a7e050a88db2220699844fbaeedc9"
+    },
+    {
+      "path": "src/vehicle/visual/golfGTIVisualConfig.ts",
+      "sha256": "45658e411b7e3792ae251e6247332120ebc5a740f87324dcab4ef8b91ca2cf5d"
+    },
+    {
+      "path": "src/vehicle/visual/index.ts",
+      "sha256": "6aa5d194466ae92a9e72d66b96b745c975c9370bbf19ca3cbac5a7d5380d7019"
+    },
+    {
+      "path": "src/vehicle/visual/su7MaxVisualConfig.ts",
+      "sha256": "2738d46743b28fb6b8118d7c393aebbb45b539765761cc72b7286c884563b695"
+    },
+    {
+      "path": "src/vehicle/visual/taycan4SVisualConfig.ts",
+      "sha256": "733cb68e1042a5259384bca1f7c1ccf1d0ac37a179e907d802cbba68ff21f61c"
+    },
+    {
+      "path": "src/vehicle/visual/teslaModel3VisualConfig.ts",
+      "sha256": "aeef38ac9a8acec82813e926e036a1f4dea48b0adf6def7bbfe3788e2dd0241a"
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "sha256": "6e63d987f799788e33691bf121979f3bef9d9eae0fd1f792c371b70f04b814d6"
+    },
+    {
+      "path": "src/world/DrivingGround.ts",
+      "sha256": "88fbbb18998d6dce9118b74369d9ee1207b819c347384df43a33ee3652a6b60b"
+    },
+    {
+      "path": "src/world/DrivingGroundCatalog.selftest.ts",
+      "sha256": "86c38432a2d046f4a831d862dc60c8b8b5767b66cceb0047eeac87bbc8992bbb"
+    },
+    {
+      "path": "src/world/DrivingGroundCatalog.ts",
+      "sha256": "8599ac20c69afdfb3d98e701f6e660a56f61498cd07acfcc8d023c6104c0dbb4"
+    },
+    {
+      "path": "src/world/DrivingTestTrack.selftest.ts",
+      "sha256": "d66a87cb8f1a2c2af9f6631bf5785a7a3df35815f2e35c1570cd61e0aa2e74cf"
+    },
+    {
+      "path": "src/world/DrivingTestTrack.ts",
+      "sha256": "73b17670d97fe75da1192bfbda6e010e264410a37758818dcbcfb23b272b858c"
+    },
+    {
+      "path": "src/world/SurfaceMaterial.ts",
+      "sha256": "16a981cf7679ebc8a8077e25266414813e50a157a86af2a579b6c7d50b367fcb"
+    },
+    {
+      "path": "src/world/SurfaceProfile.ts",
+      "sha256": "d8d25152c321c1f5297eadb507ff919624fe60b0087f217b4ad23edfa27fbe95"
+    },
+    {
+      "path": "src/world/circuit/CircuitGround.selftest.ts",
+      "sha256": "02b542455d684ac5ed8217bb888de7281627f489d42171eb589b4c8b07d8f1ad"
+    },
+    {
+      "path": "src/world/circuit/CircuitGround.ts",
+      "sha256": "d84bf78f84af5ebad883997a79487fdce415a50adfce20b44d7cef8b8ea23bbb"
+    },
+    {
+      "path": "src/world/circuit/CircuitTrackConfig.ts",
+      "sha256": "28021c298b8fdeb7cce55287476520d25b9759bedfc8038831c05821f819eaf7"
+    },
+    {
+      "path": "src/world/circuit/LapCourse.ts",
+      "sha256": "7577aab0a35542d21cce0b1bbfa1f2d21fdca399978397ae2c7a78fb1e6a4cc8"
+    },
+    {
+      "path": "src/world/circuit/StartFinishArea.ts",
+      "sha256": "a1af609bc9706dc18753b4ba45499142ca9eb15d7b3a153308ffb027f3d87b9a"
+    },
+    {
+      "path": "src/world/circuit/TrackEnvironment.ts",
+      "sha256": "f7d38f9eb55a00ff3d9d3238d8ef2b7a9cbd45bd57c653fe706bd85dcc6b1a29"
+    },
+    {
+      "path": "src/world/circuit/TrackFeatures.ts",
+      "sha256": "46a14117f7960b5def9213075ca006537c224b5390a5afbb14d1a5858ba3eea7"
+    },
+    {
+      "path": "src/world/circuit/TrackGeometry.ts",
+      "sha256": "cfa69dea9b424070b8c38146c51354f6f007b56f4ae0775e93384cb10664ceb5"
+    },
+    {
+      "path": "src/world/circuit/TrackLayout.ts",
+      "sha256": "aa935e9c2a0031fb1e6762e2f9bd69d7383fc8c4439177e9fd9889140c52fa9b"
+    },
+    {
+      "path": "src/world/circuit/geometry.ts",
+      "sha256": "9c9e5df7c7ee8a083e71721efb3e841c217a8ccc97ad947348fa763287cbd637"
+    },
+    {
+      "path": "src/world/circuit/index.ts",
+      "sha256": "e71419e7d9f3dded5da33acc8d6669bfbf29338589d64a156df6bdaccdab3ed8"
+    },
+    {
+      "path": "src/world/circuit/materials.ts",
+      "sha256": "235abe780a3ba2d5d1aa437032e6318695ce45bba71b03bf46ca31def97a2120"
+    },
+    {
+      "path": "src/world/circuit/types.ts",
+      "sha256": "c6d1dcce646291d015108882075d0ddc479f80a68513218e411c828da1463d60"
+    },
+    {
+      "path": "src/world/city/AGENT_GUIDE.md",
+      "sha256": "c026392962494da6712297720f02e37a87cd2964bf81bfd5d26bb150ddba627f"
+    },
+    {
+      "path": "src/world/city/CityBuildingGeometry.ts",
+      "sha256": "8dd4db95a784f2f2f1fc3a5402f43f4ddc274e0003ad04e9983747bc9fb0a2ee"
+    },
+    {
+      "path": "src/world/city/CityGround.ts",
+      "sha256": "468605529d247a0089b5c2ae25883ce1ee9f64ee938d21b2754f12a03535f099"
+    },
+    {
+      "path": "src/world/city/CityGroundElevation.selftest.ts",
+      "sha256": "1d124dc4612af1ef717405ffd9900a27c8b97c2f9cf376b4221d76abfb136060"
+    },
+    {
+      "path": "src/world/city/CityGroundGeometry.ts",
+      "sha256": "545cca6bc33d2318f37d5f36e577baf47b455dc33452072cd33365c234babbcb"
+    },
+    {
+      "path": "src/world/city/CityLandmarkGeometry.ts",
+      "sha256": "7183a8835a3ab3cb0960e5cb103341a147fab7b44931d9c9ef75ae7002c4bfb8"
+    },
+    {
+      "path": "src/world/city/CityMain.selftest.ts",
+      "sha256": "5ba8fd1e962ea6c8a8da7e4f613f1a2a4cdb521f9f5464791afc08e50697edbd"
+    },
+    {
+      "path": "src/world/city/CityMainResource.ts",
+      "sha256": "b79c97549c665fbc7a41e73b1209a58e34458d2fcd40f89f3171615b8388a663"
+    },
+    {
+      "path": "src/world/city/CityMainV3.selftest.ts",
+      "sha256": "7bbc43e8c71dd2d882683fa9046607038a68cdfaded6553259488a0380e78e4f"
+    },
+    {
+      "path": "src/world/city/CityMainV4.selftest.ts",
+      "sha256": "fa11cd3daa69672eb774f37fddee520d15b0dbe6cd70d0560a11bf184ff11f97"
+    },
+    {
+      "path": "src/world/city/CityMainV41.selftest.ts",
+      "sha256": "453c2ea8e60bf5839a9c1feee2336c03e95e7206b2df7ca0d8aeee96b94ec363"
+    },
+    {
+      "path": "src/world/city/CityMainV5.selftest.ts",
+      "sha256": "6ddcf469292bd9a8a0ca0f079178d605fb4d131e50996388c1c3f2494fbf5665"
+    },
+    {
+      "path": "src/world/city/CityMainV6.selftest.ts",
+      "sha256": "63cf8d09972f8952736293556d574ef5d6dafb0592478778f4379c585ac2cb19"
+    },
+    {
+      "path": "src/world/city/CityMainV61.selftest.ts",
+      "sha256": "458539501b48d1530aaef2b485acd0a872a5c8820af9283664188f73ea7ded5d"
+    },
+    {
+      "path": "src/world/city/CityMainV62.selftest.ts",
+      "sha256": "1d6366f972fd67213d180bafe3b2fb0240649c83b2f99724fa42983ede0f655e"
+    },
+    {
+      "path": "src/world/city/CityMap.selftest.ts",
+      "sha256": "e679ec15829a240849a70d275a903749af991085d910e897d605539907f0bdc7"
+    },
+    {
+      "path": "src/world/city/CityMapData.ts",
+      "sha256": "a8f1bc91c3226f403c1e2a78b77b1c13bad1cac4c4c5c34db532101859b43e30"
+    },
+    {
+      "path": "src/world/city/CityMapIds.ts",
+      "sha256": "485a585f1c71c6766bf0a1a20bb3dd8aa3c4d21858adab33111c57208588c975"
+    },
+    {
+      "path": "src/world/city/CityMapLoader.ts",
+      "sha256": "34d87bbf7e0590731d4d5b52ceab5dcac0f53bee713edc05d31b0ab61d2d9c51"
+    },
+    {
+      "path": "src/world/city/CityMapValidation.ts",
+      "sha256": "2367bf48e0c15886c30dc5128253b22b9b9db37c35ad14319f321588f47b9db5"
+    },
+    {
+      "path": "src/world/city/CityPhysicsSectors.ts",
+      "sha256": "af750b027baaeecdc6ad758897acfb8e11db818d12ac1dc9fcf35602f636f5d6"
+    },
+    {
+      "path": "src/world/city/CityRoadModel.selftest.ts",
+      "sha256": "78429bc3d17814f9d05879c1f0e4265b845372b4a5cab7634357a326132ef428"
+    },
+    {
+      "path": "src/world/city/CityRoadNetwork.ts",
+      "sha256": "33a43deda57b132e4e06f400373b64337c0f9e61971e916e7330f42977bfec1b"
+    },
+    {
+      "path": "src/world/city/CityRuntimeData.ts",
+      "sha256": "392e2a396da6dcffa0cc8a56d936cf8fa1fb6ca6a821a45ea0f65b8b2804e4ff"
+    },
+    {
+      "path": "src/world/city/CitySignalVisual.ts",
+      "sha256": "23dbd741e73dc47b341d44f164c46c226e0c45298ff981fda4d8a47948c49cd7"
+    },
+    {
+      "path": "src/world/city/CityTerrain.ts",
+      "sha256": "868e47cc2706c5054f1d500442a4455db1b4ddb7eaa249f7dc6de5caeafb437b"
+    },
+    {
+      "path": "src/world/city/CityToolchain.selftest.ts",
+      "sha256": "8fa69e4f55fa62d25a971b00368df1e738920536a06077f8d296ce569e4050b8"
+    },
+    {
+      "path": "src/world/city/CityTrafficSignals.selftest.ts",
+      "sha256": "5db089c141efa3d39e5a3364b868e40d207f893c947422ed551f329b1cbc5f86"
+    },
+    {
+      "path": "src/world/city/CityTrafficSignals.ts",
+      "sha256": "4af300726943cc0011928a905dff3b09f216dbbeb79a8115b5456760a0288e23"
+    },
+    {
+      "path": "src/world/city/FogVisibility.ts",
+      "sha256": "fbf0a6f8b554c8cde2b94c1b980a956be299aa8395374bdfa1509802c82429aa"
+    },
+    {
+      "path": "src/world/city/IntersectionBuilder.ts",
+      "sha256": "b82f9d529108a3d6ed680a6c31b1f57567ecc354ee47ddb210cc9e57f224b834"
+    },
+    {
+      "path": "src/world/city/JunctionSurface.ts",
+      "sha256": "436be7d078fdc389308e7fed26095436adcc77af681dc3ce392454f840e236c0"
+    },
+    {
+      "path": "src/world/city/MapAPI.ts",
+      "sha256": "1b2032998ceb91626c4a1ada4a7bfa25c760fddeb0664182cd017af3474aa505"
+    },
+    {
+      "path": "src/world/city/MarkingOwnership.selftest.ts",
+      "sha256": "83f16b35205b9a060013ae819bc0d3603b7f5a5beddc05fc6461775278209db8"
+    },
+    {
+      "path": "src/world/city/MarkingOwnership.ts",
+      "sha256": "3237d54c1a9a980fa88e1087e9175c8bebf02c870f74ffa95cead0caa9acf539"
+    },
+    {
+      "path": "src/world/city/MidRoadVisual.ts",
+      "sha256": "809719b5201f7c41d7765c71d3c0e5ccbcc20106bfa028b1975fe261d35fb879"
+    },
+    {
+      "path": "src/world/city/OverheadSignPlacement.ts",
+      "sha256": "63f9249be5b88fa37bf9b04b62a3ffa248277fe3e76e3ffca1fb8b147b1d69f1"
+    },
+    {
+      "path": "src/world/city/PRESET_CATALOG.md",
+      "sha256": "6824dc2f2207225f0eb20481c88162cfb2edd8bca50e0492803a6da117245122"
+    },
+    {
+      "path": "src/world/city/PrefabRegistry.ts",
+      "sha256": "0175e799bd3df0b49b0b96c5737d31f1c8d9ca92a8a2b0d8f71fdf1b5c61cfb9"
+    },
+    {
+      "path": "src/world/city/README.md",
+      "sha256": "bae7fdeff20a23129f9f0e4a9b007953b952dd3ede5f8d7285439f12457ff7ec"
+    },
+    {
+      "path": "src/world/city/RoadBuilder.ts",
+      "sha256": "a79d30a04ed6e873d4a8bf6833d5a546db09509326632a79a1e611f4f1f3a6b6"
+    },
+    {
+      "path": "src/world/city/RoadCarriageway.ts",
+      "sha256": "612256ff29f45e07c5446fbf335c7c48734efade437bc4e7df0a53fa051df603"
+    },
+    {
+      "path": "src/world/city/RoadClassification.ts",
+      "sha256": "fcf447c6e613ac8d7dbf9997c81c210d864a560395e4850fe33df7c94caa9940"
+    },
+    {
+      "path": "src/world/city/RoadClearance.ts",
+      "sha256": "ccd436e7800027ec3b6142cb7d47cdfb3fd5edc52bea312fc3fc394d59073ff7"
+    },
+    {
+      "path": "src/world/city/RoadConnections.ts",
+      "sha256": "c7942f0e6c7138579c346ff02993fd3bbbc8522ca7af4093f28e3737b4eb1f2a"
+    },
+    {
+      "path": "src/world/city/RoadCrossSection.ts",
+      "sha256": "c07e819c9da89e83783f4a70263f026708da7e2aaab75a683aab06945fbe1a0c"
+    },
+    {
+      "path": "src/world/city/RoadEdgeChain.selftest.ts",
+      "sha256": "5e12ba14cab358176684b40a645eaa15673ad91c2ed226b22569a117ca9fbc86"
+    },
+    {
+      "path": "src/world/city/RoadEdgeChain.ts",
+      "sha256": "be400fc2e1b02bc24e573d659227ed4332502be09a6babaf10e903e9834a5d9f"
+    },
+    {
+      "path": "src/world/city/RoadInfrastructure.ts",
+      "sha256": "87b3fc695a286cc7ba9da146a45430953984beebae9a24d33057bd615d79ea9c"
+    },
+    {
+      "path": "src/world/city/RoadPavementSurface.ts",
+      "sha256": "bd2a784978bf8d7f1c3a00627893d962af7b6203c6ee8f4af26aeff4b02152ec"
+    },
+    {
+      "path": "src/world/city/RoadSignData.ts",
+      "sha256": "b18bb272ce00207f8141b9c5884fd60636dc5e41ac836fd0872ea2e4246d3188"
+    },
+    {
+      "path": "src/world/city/RoadSignRenderer.ts",
+      "sha256": "2a6de7b96b0555df61e0482388783aa4e1111e30d89cd2ee89ae1209632b4cb1"
+    },
+    {
+      "path": "src/world/city/RoadSignTemplates.ts",
+      "sha256": "e83ed14233d0579b07c344df21d09229e57eeab845165118b359a3b610bd0606"
+    },
+    {
+      "path": "src/world/city/RoadSignValidation.ts",
+      "sha256": "7bce2337c7c0e2c28ddd53cecaf2b78e5a73d839b18147d6afd22f3c768f2374"
+    },
+    {
+      "path": "src/world/city/RoadStyles.ts",
+      "sha256": "6b30ad0c6b0c75a6b56a96612d4c4770f2fd97870bf862ab135c30af2e983d42"
+    },
+    {
+      "path": "src/world/city/RoadVisualCompiler.ts",
+      "sha256": "873e1446638dbcb43d5c6bf3201078442c5c544e9e3cd00d22a3eb5179331044"
+    },
+    {
+      "path": "src/world/city/RoadsidePlacement.ts",
+      "sha256": "53ceaf6812d74b28db2c795d3037aa94495649656e497d3576aca62a4e1d45c4"
+    },
+    {
+      "path": "src/world/city/SectorManager.ts",
+      "sha256": "a2aaa8ef5dae5d6da0882c90ecb8c62df9a581458c9ec3228e7a6d3109baa677"
+    },
+    {
+      "path": "src/world/city/SignPlacementGenerator.ts",
+      "sha256": "dc336ae74b2b5783f6b3adb101cb6d9dc493178099cdb71bb92d564bae1bb55d"
+    },
+    {
+      "path": "src/world/city/SignalPlacement.ts",
+      "sha256": "17915bd116aa69227b5b77cc008877f2320e5d2c2b775daa25fa9b4c3fde1c65"
+    },
+    {
+      "path": "src/world/city/VisualStreaming.selftest.ts",
+      "sha256": "5f511308695bd84207aedf95aaad75e7e11a6917abd5d775ae6d736f76395a7a"
+    },
+    {
+      "path": "src/world/city/VisualStreaming.worker.ts",
+      "sha256": "0524839db86effa92ab19025f655a16466fe4b101ef21c1bcaf90ee8d1ad07c7"
+    },
+    {
+      "path": "src/world/city/VisualStreamingData.ts",
+      "sha256": "13726e64a40e24f380732a9a10cad80518d9be2292df65dde10aaddc311d9265"
+    },
+    {
+      "path": "src/world/city/VisualStreamingLifecycle.selftest.ts",
+      "sha256": "15268cae0cf5255dc1d5673c9c0603e639d9ecfb8b6c19b197c3ba98de7e8e24"
+    },
+    {
+      "path": "src/world/city/VisualStreamingWorker.ts",
+      "sha256": "4ea3e7cd76641807d3f6a49206314026cb389550109216edce1fd2626071dc01"
+    },
+    {
+      "path": "src/world/city/coordinates.ts",
+      "sha256": "6b11de599c965753576a8f86bdc425fa998d253c67c8e7d8c97750f5cd86a1e9"
+    },
+    {
+      "path": "src/world/city/geometry.ts",
+      "sha256": "7d7e767502dfada7261bdfbdbadf331e21dd14a634719ee3d179372bb8a450c2"
+    },
+    {
+      "path": "src/world/city/maps/CityGeometryRepair.selftest.ts",
+      "sha256": "631c3764fd862bea1eca6582595121b5ab26cfcb2944b60a3cf43588657cdce0"
+    },
+    {
+      "path": "src/world/city/maps/CityGeometryRepair.ts",
+      "sha256": "66ff13122ae3e60978f4a03dff59de49316376603fcb06b712427d1bd2b0cfe6"
+    },
+    {
+      "path": "src/world/city/maps/CityMainGroundElevation.ts",
+      "sha256": "c668333b0ecdf6dd79247b346fd78a083e2c0b1602ccd9cbf008700c5141c0c5"
+    },
+    {
+      "path": "src/world/city/maps/CityMainLandscape.ts",
+      "sha256": "f8f8b3e3ed5c50c688f096a34dc086f8450c82cb116c6f6b650fdcf980e78341"
+    },
+    {
+      "path": "src/world/city/maps/CityMainRecipe.ts",
+      "sha256": "eda8f5b46468e0314a95ed743167ac1d121855b4707b5b981f7723a719e83236"
+    },
+    {
+      "path": "src/world/city/maps/CityMainRoadNames.json",
+      "sha256": "6a61b74465690821e58597718bf3eda57c1479b6785c167f9ea0601e74a9f673"
+    },
+    {
+      "path": "src/world/city/maps/CityMainUrbanConnections.ts",
+      "sha256": "85052e3209cbf4fd051303fbfcd873baad0f4b9accb2dbb605d66a4c82d08f5a"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Landscape.ts",
+      "sha256": "00ee61cc96b3bcc3dc2a5354cb63c74abe20bd70f1b139ecec03c19f8feb1618"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Names.ts",
+      "sha256": "aae472bbd4de1fa73dacb5b0d5be0fd102ddfc654e58931fde063ad0a99d4f47"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Recipe.ts",
+      "sha256": "0d8c5fd2ad6bbd36bd47e22a5601c6725043e89d691c36cf42f896aa41aa61d6"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Signs.ts",
+      "sha256": "e5a22e63ad0f17da0dd1b7f58d3710c6dde079d20d60fcd6bac5424965b522d4"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Upgrade.ts",
+      "sha256": "7ee0ac680c5579b43dfd152bdc04f5599af7e56228d9a766ae9df9ae2a32c509"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV3Urban.ts",
+      "sha256": "15fe667102f68ce955fd8ca437d90d86cd791bbc5f6aca4ef8c03a1d83f66c0f"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV41Recipe.ts",
+      "sha256": "0a251b4d66840e36210df2040c4bfa77bbf956b119685802f79193f9fc2803fd"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV4Recipe.ts",
+      "sha256": "ebc4ffc3eae9e75d715a842f1dd3eef033b768fe55eef1767f189b7f138817be"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV4Surroundings.ts",
+      "sha256": "4bac54dd3cac41a854706063e4b0ae23011b5854d47ad23f85e5e5adc54d94ac"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV5Recipe.ts",
+      "sha256": "f30ef08d5c110a0a738494dabc824dcfb978843e677dbdd30e6cf34529b90965"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV61.ts",
+      "sha256": "ca50792a9bd537ed6e22d28a3d2e73afc1d841abab75f524d03739650d7abc36"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV61Corridors.ts",
+      "sha256": "d0b0e930ce71d026fa92aa80fe9c21aa603b6e311f97bec9d0721136eeb0deb4"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV61Places.ts",
+      "sha256": "c82c8d421c7746e3ebd031bcb52fb9df5b4c9b35d303e8f8764ca19dc2fa5675"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV61Rail.ts",
+      "sha256": "0c3c45bb4f53fdbde433ae131a432e9fe14b928b20b9ac8cd650e4b05038a54f"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62.ts",
+      "sha256": "60658414f0a185e2569cbf18df80a086b3c168bc590028d220f967f254481165"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62Access.ts",
+      "sha256": "1f5c85d13ac7553ab3dd17acdd52fd1654d4a6be9e920be7acda642a6a56feef"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62Continuity.ts",
+      "sha256": "04b0d4f1e7c807075ed1755185fd41ea7bf1381f07fb97a71586e05ea09605f6"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62Landmarks.ts",
+      "sha256": "88cd730408f16d4d88922687aa7c6efb4fc65280eb660b44cfffc4468fe4dd3a"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62Profiles.ts",
+      "sha256": "ad0d33766a86c20537c7c9d316a0206af086258125f53c17cd00bd31d3ce732d"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV62Signs.ts",
+      "sha256": "178ffbdb21cf2a1717dc3a882fec404a62744187add718a00cde40b1ce1afcc6"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6Details.ts",
+      "sha256": "fbb741237ebc62f694c14f302dd2656345e4997fe091916d153955c2094b6067"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6EastLayout.ts",
+      "sha256": "eb3f7f2415b98c3f069380baf7dffc2b05b1d5054fc938a43cba93dfc8c7b7b0"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6Environment.ts",
+      "sha256": "46b74205a190f70bdf71eb992ef62c0050e8e410f170c5c1a53acfa8aff40147"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6Geography.ts",
+      "sha256": "9a155bef678f4d21cb8878ab12d9014654a16c5a6acb6033fb2b2f3bc7ddaf67"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6Recipe.ts",
+      "sha256": "13ab7350a5327114a72df2c7a3e0a0958db1e6fde6aa482425f142774160496e"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV6SignPosts.ts",
+      "sha256": "9ae3ff955c6d856761a1b067a9c3e3811d37351181949461cdc64b4a6261c69d"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV7.ts",
+      "sha256": "76bc081fda7490cf67672a95115e5f159beaba0b9217ad725430af518f592361"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV7Continuity.ts",
+      "sha256": "9d129ebed689a92dc6225ffde79e30b5140a404366f7f71fc41685d411bc3d14"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV7Parcels.ts",
+      "sha256": "8cc285d8c9f072d17ee561c61a3c168f2bff6bef6f94a337a024cf7e8fe66032"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8.ts",
+      "sha256": "eaef1d6bb195168345ae4d9a34f10943588028c96c0ab1d361dd13f2444787d2"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Access.ts",
+      "sha256": "1cf3b5163abeae605b76eff8b6137f1f007b2b778de73ed0d8cae93a22382b1e"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Continuity.ts",
+      "sha256": "2d036aa85d8c35c2a57ccad8678a7d12a281e223ac110c5a6ffad97298df91f8"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Districts.ts",
+      "sha256": "bcc9b7379cf081d174ec9aa6ecac2aaaf33960822eec9ddd457fc64d025237de"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Landscape.ts",
+      "sha256": "ca5a768d875c289a65e821c36ba2a299efdc285e5e877792e35983be687c27f5"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Names.ts",
+      "sha256": "44f93fac9b1c01e15f2ac363300a420ca6ae643914ac3fbb0b81c81e36b0d3dc"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Regional.ts",
+      "sha256": "814de2fa3faa9957f210440ab6f9acb992080ee9f0fb35023a043bd2ebc8438e"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV8Roads.ts",
+      "sha256": "c70a9866e84923efe6a891baf3b39466c1a228cc29709044b40c13f35a1e2008"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV9.ts",
+      "sha256": "450a880b8749d488524841d19b4c92bfc472635a5712c0ee2d1fba64c83b7671"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV9Frontages.ts",
+      "sha256": "cadcc482516852ef5c5d1932a0ec40333929dc70e24cf9d8780f6735948fce85"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV9Layout.ts",
+      "sha256": "25ca5a7afc8ace6e66018f298178ac57d87ad90e9f8a5d4eb5f50cd1da96fffb"
+    },
+    {
+      "path": "src/world/city/maps/CityMainV9Services.ts",
+      "sha256": "5545f5c8765155bee9ddf219c6d90f32d5d38e17df68182d8f92d13050b74b28"
+    },
+    {
+      "path": "src/world/city/maps/city-alpha.json",
+      "sha256": "99a1d1abe483d19f6d91c920bc19db2c8c4fa1a2438c0794ee91b05d290f371d"
+    },
+    {
+      "path": "src/world/city/maps/city-main.json",
+      "sha256": "181a4ef0249b747e7c39965d5dd794491aac0540b8c210c82b137c82ca8ef5e9"
+    },
+    {
+      "path": "src/world/city/maps/preset-showcase.json",
+      "sha256": "d57d7574033e9fa2e939c6104aa54c7f3edc1340800104f22c997c1a129e1546"
+    },
+    {
+      "path": "src/world/city/presets/BackbonePresets.ts",
+      "sha256": "5543e8e025c506ce6abf459b58621ac5d61fb50c6395a9ccfcbb07e6854fcc77"
+    },
+    {
+      "path": "src/world/city/presets/CompactInterchangePresets.ts",
+      "sha256": "6910b400f12c64fcc83d05fbf241052fb6211aea6de1b2616c27bd8e2619ca28"
+    },
+    {
+      "path": "src/world/city/presets/InfrastructurePresets.ts",
+      "sha256": "4ba6af0ca4176e438a04539ea690e0e4de86474dac34d2f24c9c6f407f1f1b2c"
+    },
+    {
+      "path": "src/world/city/presets/PresetGeometryValidation.ts",
+      "sha256": "022e1b4e9432c8ae96583427ec91632d1f46f755653264a0c7cfb02835b111e5"
+    },
+    {
+      "path": "src/world/city/presets/catalog.json",
+      "sha256": "8ece4ba150b1bdfd6c9f52ca9af0e951b6064ddef8f5e7c9f2457578b32c6da8"
+    },
+    {
+      "path": "src/world/environment/Environment.selftest.ts",
+      "sha256": "8ae6864ee4abac032a86086c02adca653c675ac9e612990ebd236e1f953e896b"
+    },
+    {
+      "path": "src/world/environment/EnvironmentVisual.ts",
+      "sha256": "a7a958624d50b40b9ade72e912b351cf43dbb382c9977e600b4fe822c1880485"
+    },
+    {
+      "path": "src/world/environment/RoadSurfaceDetail.ts",
+      "sha256": "e05632f0bed06aa3a3daa8fe20eeb75548477ae4659a822a3c4dce42858133a8"
+    },
+    {
+      "path": "src/world/environment/StaticEnvironmentMap.ts",
+      "sha256": "b1b1ed9c207cc5be3e46a9e8ad114f38af276203935a49abb05a626551a14995"
+    },
+    {
+      "path": "src/world/environment/VisualEnvironmentConfig.ts",
+      "sha256": "4428adb21894b3772e0f417cae66311aeccbb7d5f6a1ebb3d274dc40930f313f"
+    },
+    {
+      "path": "src/world/environment/WeatherSystem.ts",
+      "sha256": "f57a7337b0bdb3e1ac5fbb12303bf6803d57176d7ed8ac76556949270b0cc06e"
+    },
+    {
+      "path": "src/world/environment/WetRoadMaterial.ts",
+      "sha256": "55bba9f37d36b1a88f556c339e1339b3088a4d4276825aed8d17a7cd426ea899"
+    },
+    {
+      "path": "src/world/index.ts",
+      "sha256": "be349a8a14fd136109f0ee52d9288f4d1bb415a002f34efff293279d93c3ddd8"
+    },
+    {
+      "path": "src/world/mountain/MountainProvingGround.selftest.ts",
+      "sha256": "1ff889ae05409da4e4f00efdd9d7dba7fbe0d13ce2b0df170aac16eb23367e5c"
+    },
+    {
+      "path": "src/world/mountain/MountainProvingGround.ts",
+      "sha256": "99ed9e3d3769a51d62d994d6612466c09cae83693b7a7f0338511681d0ea45eb"
+    },
+    {
+      "path": "src/world/mountain/MountainRoute.ts",
+      "sha256": "a89ed072c48c999456e6b2397126571c3bea13eae49c529d50ed3468235540ad"
+    },
+    {
+      "path": "src/world/mountain/MountainSurface.ts",
+      "sha256": "b6009cecdb452743fb4a811e34538df0ef7c719cb964df2469340254f2b2fae6"
+    },
+    {
+      "path": "src/world/mountain/MountainTerrain.ts",
+      "sha256": "49ce8595d4be33f73b2e039e478f539f228206210a379f4aa37c4427847c4598"
+    },
+    {
+      "path": "src/world/navigation/LaneObservation.selftest.ts",
+      "sha256": "88096df7b53dd53f487b18b9c0974fd9575a19ff0678f97e1e53e4d907b8ae35"
+    },
+    {
+      "path": "src/world/navigation/LaneObservation.ts",
+      "sha256": "c277d2f0921a2003be9ccfc7a8692f4bd9fed9d5f372e2ad8ff252f925c92555"
+    },
+    {
+      "path": "src/world/navigation/MapGeometryConsistency.selftest.ts",
+      "sha256": "8a0f3e3a061c6e09da4bc4aa406f70e93ffcd2c46995e432e56e093b69bbc27a"
+    },
+    {
+      "path": "src/world/navigation/Navigation.selftest.ts",
+      "sha256": "38ae9c7831b8d2f3d98c07af6d0be9ca8aabad276e6bb3f910accafb4dddb414"
+    },
+    {
+      "path": "src/world/navigation/NavigationController.ts",
+      "sha256": "aac527e41034022164f392fdb05f5333da7c88f80a06ca7940c317b4f7308cb2"
+    },
+    {
+      "path": "src/world/navigation/RoadNetwork.ts",
+      "sha256": "7fbf58de4693c7f4fed481104ac3b7b0fd9e98fcbb91a918a02e7d399249fcfe"
+    },
+    {
+      "path": "src/world/navigation/RoutePlanner.ts",
+      "sha256": "ffcc7caeb17d8af8d4885e826fae66bd15655df270943db63dc1c4c1cc9b5329"
+    },
+    {
+      "path": "src/world/navigation/TrafficSignalState.ts",
+      "sha256": "020c4aa172d3f51ebe121e0e4451788ca6f55fabd696b8e491bbd2d9bb748a5d"
+    },
+    {
+      "path": "src/world/regional/FastRoadSignPlacement.selftest.ts",
+      "sha256": "f83e85e1f1d5228bad00305c275b0fab9cc035529aa8db820a997210b0e764aa"
+    },
+    {
+      "path": "src/world/regional/FastRoadSignPlacement.ts",
+      "sha256": "61a3bfd41a3f68d31049d76605c4bb5adb60107f00922d08b67453cb4f4182cf"
+    },
+    {
+      "path": "src/world/regional/HighwayData.ts",
+      "sha256": "9f7e882370909b1dcd92324cdc392f4aa55efbeff80b926e0ec8d1cf1c53007d"
+    },
+    {
+      "path": "src/world/regional/HighwayExpansionRecipe.ts",
+      "sha256": "e11edb6aa2da570aef5b0766dce79b1a0c233a2a8655b918ef4cbcc4985d46cf"
+    },
+    {
+      "path": "src/world/regional/HighwayLaneRenderer.ts",
+      "sha256": "73f3b383fe0ac1f5b89bdd5bd680f41dd2abe58298fcbf7bdad6e88296343f30"
+    },
+    {
+      "path": "src/world/regional/HighwayMarkings.ts",
+      "sha256": "33d471ab76895cc80e5723f4bf377ad8b17f2c34aeae400914abb92f7227141e"
+    },
+    {
+      "path": "src/world/regional/HighwayNetworkRevision.ts",
+      "sha256": "959688f5031cadba389e8b8fa505ddc46321a8fbbcf43e91fdda4bf26888dbd4"
+    },
+    {
+      "path": "src/world/regional/HighwaySigns.ts",
+      "sha256": "a83e5e552b453790427b7599417f86b12c0511faa564eebd8b43cee14374e8b6"
+    },
+    {
+      "path": "src/world/regional/HighwaySystem.selftest.ts",
+      "sha256": "de948b77e0c1943c356a42c7abacfd38cc8ee949c154730b6419ae414165940a"
+    },
+    {
+      "path": "src/world/regional/HighwayValidation.ts",
+      "sha256": "02bcec081d471ac70a5505a227a3e5c24274cd4131a32844e0a794da411cff2d"
+    },
+    {
+      "path": "src/world/regional/RegionalBackgroundBatches.ts",
+      "sha256": "6df1188a2aa31d8fa75e923f76da77510c0c33208768d48585a6ac54e96d519b"
+    },
+    {
+      "path": "src/world/regional/RegionalData.ts",
+      "sha256": "bea08136c64b39efc907f6719cb4f10f6bb1ed0c47cc6abc692cd3aa6b5ff8eb"
+    },
+    {
+      "path": "src/world/regional/RegionalDebug.ts",
+      "sha256": "54961ff3e7928326014fca1092dfed933f0c1039ef2331180b54d07306e1155f"
+    },
+    {
+      "path": "src/world/regional/RegionalDoubleCRevision.ts",
+      "sha256": "ad7df5e1c1df12b2288e75dcfa091f2162b0aa3249a6a9cb2309af3023561d30"
+    },
+    {
+      "path": "src/world/regional/RegionalReleaseBaseline.selftest.ts",
+      "sha256": "013e1aa0a2bbc620b367d12d15a79b6ccafa190b0ce661d50a770ec240cfe8fc"
+    },
+    {
+      "path": "src/world/regional/RegionalSigns.ts",
+      "sha256": "626408f1ded95f144fc592e7b659849d5c31360d72ea01a35347209b711c6312"
+    },
+    {
+      "path": "src/world/regional/RegionalStreaming.ts",
+      "sha256": "c58956728f7edb67c4ca9195a54f30e75524350cccb0c445948a27791bf00167"
+    },
+    {
+      "path": "src/world/regional/RegionalTerrain.ts",
+      "sha256": "c78df98804d2685dad111d482ea0dba553d0a41e19a6721a3da6a981d4176db2"
+    },
+    {
+      "path": "src/world/regional/RegionalTerrainClearance.ts",
+      "sha256": "a2f43f5ecacfe04d90b7350397f474c13d3348d4c17234ab87e910cb45d52b7b"
+    },
+    {
+      "path": "src/world/regional/RegionalWorld.selftest.ts",
+      "sha256": "a2868f02523d75e50e01d5a6ce5129bec311785222720dabb48d5131850886a8"
+    },
+    {
+      "path": "src/world/regional/RegionalWorldRecipe.ts",
+      "sha256": "bf14666a50187fe385d6edea619382ca2deb545f64c79f580ee4e58f4091f540"
+    },
+    {
+      "path": "src/world/regional/regional-main.json",
+      "sha256": "8bb57f70c146b41d3264829190b00c100d36e521757cc6816374179c84e0ab7a"
+    },
+    {
+      "path": "src/world/subject2/BuildContext.ts",
+      "sha256": "ecfce0a9c7e3ed0b4d31b5a7937ed365d353fc7b842b18ea74b4c733582a4c16"
+    },
+    {
+      "path": "src/world/subject2/ConnectionRoads.ts",
+      "sha256": "93981d23b08c7d1af437561d63b022d9de1f4e4ee07bf3e7a9dd60616b476a9b"
+    },
+    {
+      "path": "src/world/subject2/CurveDrivingArea.ts",
+      "sha256": "ec520cee676f9d0bf043efe1acb629bac7e0d9c4d353dd8eb3dbb64dabd8bd49"
+    },
+    {
+      "path": "src/world/subject2/Environment.ts",
+      "sha256": "9eb45e56e880b72ff0a586f6220176d937380ab6837e501612341b52689bb76c"
+    },
+    {
+      "path": "src/world/subject2/FinishArea.ts",
+      "sha256": "ebbd9c033516aed13f6a12326ad258eb8a8d81ece03692451a95a64132ca9aad"
+    },
+    {
+      "path": "src/world/subject2/HillStartArea.ts",
+      "sha256": "f30770f52b4f8fed1aca4203c4863df59b70d917702c2f21b43bbf612e6eb6c6"
+    },
+    {
+      "path": "src/world/subject2/ReverseParkingArea.ts",
+      "sha256": "da86f82cecce6e25655cea702f9420aa9d2651a354be5baf88537f8cb5302180"
+    },
+    {
+      "path": "src/world/subject2/RightAngleTurnArea.ts",
+      "sha256": "3ca2699e3bec95dce3330eeaca840db67158b7db7bb6c5a7439ea0012371fa5e"
+    },
+    {
+      "path": "src/world/subject2/SideParkingArea.ts",
+      "sha256": "b7116645e2e3022768a6ba130c69b13f47a9455bc63ee81c9a39bf7a124c24a0"
+    },
+    {
+      "path": "src/world/subject2/Subject2Ground.selftest.ts",
+      "sha256": "cfbb49cc41dda904984e0f8ee54bd0b07ba6d8940a46414a4f9eae2cfbf97cbc"
+    },
+    {
+      "path": "src/world/subject2/Subject2Ground.ts",
+      "sha256": "3b0fc440b488204fcb5aa751a415bd78eb88fa91ee089bdd815794ec9f9c9e1f"
+    },
+    {
+      "path": "src/world/subject2/Subject2GroundConfig.ts",
+      "sha256": "e29266f1f4bf714830fa384846457c48de998ce50e2733f6b6011bcf6174f96d"
+    },
+    {
+      "path": "src/world/subject2/SurfaceRegistry.ts",
+      "sha256": "8c73b140871bdc3cc123081f6c68304cd375e9e84ab5fcbba14f6b3e3636b48f"
+    },
+    {
+      "path": "src/world/subject2/WaitingArea.ts",
+      "sha256": "65bd1cd4cc1d0e157925d39918a702a29fc5d663ae0fe75317716d4bbc75c27c"
+    },
+    {
+      "path": "src/world/subject2/areaHelpers.ts",
+      "sha256": "b8d8759ca70c4c0375b3579ec994c465bab3cc198a3feb9692daaf79f5711f99"
+    },
+    {
+      "path": "src/world/subject2/geometry.ts",
+      "sha256": "96f3d3e2d7011909a318bbdbf857ed2fbd6fc8030c56c9f4d65cdcc08a135027"
+    },
+    {
+      "path": "src/world/subject2/index.ts",
+      "sha256": "54e8773b278d4d13fb715ebdb42d1e2316ae810ffe40e5602cc16bac5a259d95"
+    },
+    {
+      "path": "src/world/subject2/layout.ts",
+      "sha256": "a6281c638078e2a1ce79eb026de221e9fb8c6fd1fc32ea1bf50c7b1e24ea7b10"
+    },
+    {
+      "path": "src/world/subject2/materials.ts",
+      "sha256": "ed1ae15ddd660fc0753a5374a52534e252bab3f05b6c4868d84fb9b78ca23333"
+    },
+    {
+      "path": "src/world/subject2/types.ts",
+      "sha256": "adfa278278d69dd2bc62fe0c874fcda2dcf65c346634d5ea5b4c500fbc4f4827"
+    },
+    {
+      "path": "src/world/subject3/BuildContext.ts",
+      "sha256": "c4aa90c0a58983150d5f4a20b2ecfb283bc1776811bad8a25297f5fdec18575c"
+    },
+    {
+      "path": "src/world/subject3/Subject3Ground.selftest.ts",
+      "sha256": "c4b4e134eec6cb53988e94ffdab494ee830c051ff1df6e30ac69d49ab6c096c4"
+    },
+    {
+      "path": "src/world/subject3/Subject3Ground.ts",
+      "sha256": "0004c5569e8db93e9ecf4a29d020c768bc7ba00090fd72f38c7738c97400530a"
+    },
+    {
+      "path": "src/world/subject3/Subject3GroundConfig.ts",
+      "sha256": "891fd1f520f49d4736c708779d87b6e25dd01fc123353b82ebe9bbfc4599adac"
+    },
+    {
+      "path": "src/world/subject3/SurfaceRegistry.ts",
+      "sha256": "3d171b0279c3924c30a30f4e0e2a8ec7bcb1acfbd8207570c14d1640b6fe5912"
+    },
+    {
+      "path": "src/world/subject3/environment.ts",
+      "sha256": "caba45d97f369a92973c83fe1a5bb2bca96cb8046126b676751d34d44e10f1d3"
+    },
+    {
+      "path": "src/world/subject3/geometry.ts",
+      "sha256": "e3e0c5e147f0f52b204ef6b5422233a6147e848cfdd3b68a4422b77c0009c74f"
+    },
+    {
+      "path": "src/world/subject3/index.ts",
+      "sha256": "0295bea1cafbef6f2c5b3e4f3be420ef6e026921b3f4b2e48e1db4951ac8527e"
+    },
+    {
+      "path": "src/world/subject3/junctions.ts",
+      "sha256": "c007f68073a6f84cf252842fbc029dc4c5fa6310a7ae41c3fc3ad83f0e91bcd8"
+    },
+    {
+      "path": "src/world/subject3/landmarks.ts",
+      "sha256": "1c4b178caf8859f1355092795345e31a8dcf3a783f246942d09702f157660344"
+    },
+    {
+      "path": "src/world/subject3/materials.ts",
+      "sha256": "bf670317f747b231f09814e17918e6b6096cbaf458570227cc6ca04aac48e5bb"
+    },
+    {
+      "path": "src/world/subject3/math.ts",
+      "sha256": "5b410ec8a6ae2c69dccd74fbf4d4c085c069d10c36ebda80d00c70bc4b3b4879"
+    },
+    {
+      "path": "src/world/subject3/metadata.ts",
+      "sha256": "6e76bd8e0a4af5781216f97e11b8e6125fcb658ba5a638d92a08a34268bb5cee"
+    },
+    {
+      "path": "src/world/subject3/roads.ts",
+      "sha256": "6c665cb5dbc270ed8ada7cf2c957eb63925391a0677d244571fe3663e6bd6df9"
+    },
+    {
+      "path": "src/world/subject3/signs.ts",
+      "sha256": "3b44299c96f1fc7c61df3182e1905ae9b7e20f11498e5e2445ce0dc7847fe3f5"
+    },
+    {
+      "path": "src/world/subject3/topology.ts",
+      "sha256": "2df82a3d3884de52dad524f165be09890e05deaeae00a9e064aaedc7d3e86a41"
+    },
+    {
+      "path": "src/world/subject3/trafficSignals.ts",
+      "sha256": "491dcb0589ac4dcefd48336841bbe86944bf50d271429931023616c840053f3f"
+    },
+    {
+      "path": "src/world/subject3/types.ts",
+      "sha256": "054fa5eea23ee5bbff493e26b83a6a65bd49789ffb26e95a7f659580dd59cbcc"
+    },
+    {
+      "path": "src/world/surface/MixedSurfaceGround.ts",
+      "sha256": "41ccf0cf3cbfa075d64e580f1c3aad3fdd0c0dc9b28959bbdbb8601e9a548f02"
+    },
+    {
+      "path": "src/world/tsukuba/TsukubaElevation.ts",
+      "sha256": "d12fab9b2e04f40f6274cbf64a96d025c6c6fe206f58c8c097caf4e73e258f8a"
+    },
+    {
+      "path": "src/world/tsukuba/TsukubaGround.selftest.ts",
+      "sha256": "b9588f9c9307b82bbce62a9a4704f4f1ef12633e684aca32f102299bcb48b7e6"
+    },
+    {
+      "path": "src/world/tsukuba/TsukubaGround.ts",
+      "sha256": "5ba2809e1858c568422a02983cfefebb3befc60f198b4d24033581bbd2685fac"
+    },
+    {
+      "path": "src/world/tsukuba/TsukubaLayout.ts",
+      "sha256": "30cefc31207645902e0d11f908719f13d84ac0d2fc5f8bd7ff119097dbf88972"
+    },
+    {
+      "path": "src/world/tsukuba/TsukubaSurface.ts",
+      "sha256": "dc3d54c67fe66f007271dc7d2aec1404ead8ca721e1439ee5504567091292116"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "a0115976e8deb8485bf9c0d67d66a75dcb5b1fdbb1a0e2ecd38b8d22739db8b1"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "68c3791f23bec8b1df567328142683a0e730bfbd27fd14d8eef61478bba2048b"
+    }
+  ],
+  "releases": [
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-Performance-Round2-20261109-final/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "4ee75f2135b943a504c07646bd5128637d54362739f839f1f54aaa0965f6217d"
+    },
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "f2b0b6513e22bc100bdca334c0efe09f3fd9fe7e6c3a6fdc80d4ae60c69c5984"
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 import { createMaybachS680PhysicsConfig } from './config/maybachS680PhysicsConfig';
 import { createTank500Hi4TPhysicsConfig } from './config/tank500Hi4TPhysicsConfig';
+import { createQinPlusDmiPhysicsConfig } from './config/qinPlusDmiPhysicsConfig';
+import { isEhsHybridConfig } from './config/EhsHybridConfig';
+import { QIN_PLUS_DMI_VISUAL_CONFIG } from './visual/QinPlusVisualConfig';
+import { QIN_PLUS_DMI_AUDIO_PROFILE } from '../audio/QinPlusAudioProfile';
 import { isP2HybridConfig } from './config/P2HybridConfig';
 import { TANK500_HI4T_VISUAL_CONFIG } from './visual/Tank500VisualConfig';
 import { TANK500_HI4T_AUDIO_PROFILE } from '../audio/Tank500AudioProfile';
@@ -52,7 +56,7 @@ import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
   'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s', 'volkswagen-golf-gti',
-  'mercedes-e300l-v214', 'mercedes-maybach-s680-z223', 'xiaomi-su7-max-2026', 'koenigsegg-jesko-attack', 'tank-500-hi4-t'] as const;
+  'mercedes-e300l-v214', 'mercedes-maybach-s680-z223', 'xiaomi-su7-max-2026', 'koenigsegg-jesko-attack', 'tank-500-hi4-t', 'byd-qin-plus-dmi-210-2026'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd' | 'porsche-taycan-4s' | 'xiaomi-su7-max-2026'>;
 export type PlayerVehiclePhysicsConfig = VehiclePhysicsConfig | ElectricVehiclePhysicsConfig;
@@ -172,6 +176,12 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescript
     description: '单后轴永磁电机 / 固定减速器 / 60 kWh 可用电池游戏标定。低重心电动轿车，松电门回收、制动融合、无怠速蠕行；电机功率与能耗为模拟参数。',
     capabilities: Object.freeze({ cruiseControl: true, advancedInstrument: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }),
     physicsConfig: createTeslaModel3PhysicsConfig(), visualConfig: TESLA_MODEL_3_VISUAL_CONFIG }),
+  'byd-qin-plus-dmi-210-2026': Object.freeze({ id: 'byd-qin-plus-dmi-210-2026', version: 1,
+    displayName: 'BYD 秦PLUS DM-i 210KM (2026 进取型)',
+    description: '中国市场2026年1月款 · 1.5L 74 kW / P1发电机 / P3 120 kW 210 Nm / 25.28 kWh 磷酸铁锂 · 前驱EHS串并联。独立能量管理、发动机直驱、保电和外接充电；未公开P1/齿比等采用工程估值。',
+    capabilities: Object.freeze({ cruiseControl: true, advancedInstrument: true, navigation: true, tpms: true }),
+    physicsConfig: createQinPlusDmiPhysicsConfig(), visualConfig: QIN_PLUS_DMI_VISUAL_CONFIG,
+    audioProfile: QIN_PLUS_DMI_AUDIO_PROFILE }),
   'family-sedan': FAMILY_SEDAN_DESCRIPTOR,
   'sport-coupe': SPORTS_COUPE_DESCRIPTOR,
   'test-6at-sedan': TEST_6AT_DESCRIPTOR,
@@ -225,10 +235,10 @@ export function createVehiclePhysicsConfig(id: 'xiaomi-su7-max-2026'): ElectricV
 export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig;
 export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig {
   const descriptor = getVehicleDescriptor(id);
-  if (isElectricConfig(descriptor.physicsConfig)) return structuredClone(descriptor.physicsConfig);
+  if (isElectricConfig(descriptor.physicsConfig) || isEhsHybridConfig(descriptor.physicsConfig)) return structuredClone(descriptor.physicsConfig);
   return { ...cloneVehiclePhysicsConfig(descriptor.physicsConfig), capabilities: { ...descriptor.physicsConfig.capabilities } };
 }
 
 /** ICE regression fixtures retain their combustion-specific type. */
 export const ICE_VEHICLE_CATALOG = VEHICLE_CATALOG.filter((v): v is VehicleDescriptor<VehiclePhysicsConfig> =>
-  !isElectricConfig(v.physicsConfig) && !isP2HybridConfig(v.physicsConfig));
+  !isElectricConfig(v.physicsConfig) && !isP2HybridConfig(v.physicsConfig) && !isEhsHybridConfig(v.physicsConfig));

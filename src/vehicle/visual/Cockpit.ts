@@ -1,5 +1,6 @@
 import { buildMaybachS680Cabin } from './MaybachS680Cabin';
 import { buildTank500Cabin } from './Tank500Cabin';
+import { buildQinPlusCabin } from './QinPlusCabin';
 import { addJeskoInteriorCanopy } from './JeskoCanopy';
 import * as THREE from 'three';
 import { addJeskoAttackCabin } from './JeskoAttackCabin';
@@ -99,6 +100,7 @@ export class Cockpit extends THREE.Group {
   private su7Cabin?: SU7MaxCabinState;
   private jeskoCabin?: ReturnType<typeof addJeskoAttackCabin>;
   private tankCabin?: ReturnType<typeof buildTank500Cabin>;
+  private qinCabin?: ReturnType<typeof buildQinPlusCabin>;
   private mercedesCabin: MercedesE300LCabinState | null = null;
   public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
@@ -117,6 +119,10 @@ export class Cockpit extends THREE.Group {
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
 
+    if (config.body.design === 'qin-plus') {
+      this.qinCabin = buildQinPlusCabin(this, config, this);
+      this.instrumentCluster = this.qinCabin.instrument; return;
+    }
     if (config.body.design === 'tank-500') {
       this.tankCabin = buildTank500Cabin(this, config, this);
       this.instrumentCluster = this.tankCabin.instrument; return;
@@ -269,11 +275,13 @@ export class Cockpit extends THREE.Group {
 
   /** Updates every cockpit instrument from one render-facing state object. */
   public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
+    if (this.qinCabin) return this.qinCabin.click(raycaster);
     if (this.tankCabin) return this.tankCabin.click(raycaster);
     return this.gtiCabin?.click(raycaster) ?? this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? this.mercedesCabin?.click(raycaster) ?? false;
   }
 
   public cycleCenterDisplayPage(): boolean {
+    if (this.qinCabin) { this.qinCabin.cyclePage(); return true; }
     if (this.tankCabin) { this.tankCabin.cyclePage(); return true; }
     if (this.gtiCabin) { this.gtiCabin.cyclePage(); return true; }
     if (this.taycanDisplays) { this.taycanDisplays.center.cyclePage(); return true; }
@@ -287,6 +295,7 @@ export class Cockpit extends THREE.Group {
     this.instrumentCluster.update(telemetry, deltaTime);
     this.jeskoCabin?.update(telemetry, deltaTime);
     this.tankCabin?.update(telemetry, deltaTime);
+    this.qinCabin?.update(telemetry, deltaTime);
     this.su7Cabin?.update(telemetry,deltaTime);
     this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);

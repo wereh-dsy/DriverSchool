@@ -1,0 +1,4005 @@
+{
+  "sourceSHA256": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+  "settings": [
+    {
+      "width": 1200,
+      "height": 650,
+      "pixelRatio": 1,
+      "shadowMapSize": 2048,
+      "fogFar": 1100,
+      "fullMap": true
+    },
+    {
+      "width": 1200,
+      "height": 650,
+      "pixelRatio": 1,
+      "shadowMapSize": 2048,
+      "fogFar": 1100,
+      "fullMap": true,
+      "order": "continuous-legacy"
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "arterial",
+      "sourceIds": {
+        "roads": [
+          "v4-south-logistics-west"
+        ],
+        "junctions": []
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            159.78,
+            162.46
+          ],
+          "continuousFPS": [
+            159.42,
+            163
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 0.2630248098838622,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            157.05,
+            158.5
+          ],
+          "continuousFPS": [
+            151.99,
+            161.68
+          ],
+          "meanRatio": 0.99,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 3.682474605748881,
+          "airborneTicks": [
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              8
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            164.48,
+            164.26
+          ],
+          "continuousFPS": [
+            163.57,
+            164.59
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 0.2630248098838622,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 433,
+              "shadowCalls": 65,
+              "normalTriangles": 331855,
+              "shadowTriangles": 55910,
+              "renderMs": 3
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 355,
+              "shadowCalls": 77,
+              "normalTriangles": 290393,
+              "shadowTriangles": 27940,
+              "renderMs": 2.5
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 433,
+              "shadowCalls": 65,
+              "normalTriangles": 331855,
+              "shadowTriangles": 55910,
+              "renderMs": 2.2000000001862645
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 355,
+              "shadowCalls": 77,
+              "normalTriangles": 290393,
+              "shadowTriangles": 27940,
+              "renderMs": 3.1000000005587935
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 433,
+              "shadowCalls": 65,
+              "normalTriangles": 336997,
+              "shadowTriangles": 55910,
+              "renderMs": 3.5
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 355,
+              "shadowCalls": 77,
+              "normalTriangles": 295535,
+              "shadowTriangles": 27940,
+              "renderMs": 3.800000000745058
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 433,
+              "shadowCalls": 65,
+              "normalTriangles": 336997,
+              "shadowTriangles": 55910,
+              "renderMs": 3.5
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 355,
+              "shadowCalls": 77,
+              "normalTriangles": 295535,
+              "shadowTriangles": 27940,
+              "renderMs": 3.7000000001862645
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          58.85,
+          58.92
+        ],
+        "continuous": [
+          59.58,
+          59.72
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          544.53,
+          525.95
+        ],
+        "continuous": [
+          750.52,
+          545.63
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [
+            {
+              "point": {
+                "x": -1738.853344257048,
+                "y": -0.23643641166613474,
+                "z": 1956.8523248903552
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -4,3"
+                },
+                {
+                  "y": -0.21242360146234773,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -4,3"
+                }
+              ]
+            }
+          ],
+          "continuous": [
+            {
+              "point": {
+                "x": -1738.853344257048,
+                "y": -0.23643641166613474,
+                "z": 1956.8523248903552
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -4,3"
+                },
+                {
+                  "y": -0.21242360146234773,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -4,3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "legacy": [
+            {
+              "point": {
+                "x": -1738.853344257048,
+                "y": -0.23643641166613474,
+                "z": 1956.8523248903552
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -4,3"
+                },
+                {
+                  "y": -0.21242360146234773,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -4,3"
+                }
+              ]
+            }
+          ],
+          "continuous": [
+            {
+              "point": {
+                "x": -1738.853344257048,
+                "y": -0.23643641166613474,
+                "z": 1956.8523248903552
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -4,3"
+                },
+                {
+                  "y": -0.21242360146234773,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -4,3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "median",
+      "sourceIds": {
+        "roads": [
+          "direction-mingyuan-main-section-section"
+        ],
+        "junctions": []
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            107.36,
+            102.02
+          ],
+          "continuousFPS": [
+            109.51,
+            110.95
+          ],
+          "meanRatio": 1.05,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 2.6516173851497306e-11,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            62.18,
+            64.84
+          ],
+          "continuousFPS": [
+            64.68,
+            71.86
+          ],
+          "meanRatio": 1.07,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 1.0319280788883153e-10,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            108.1,
+            114.95
+          ],
+          "continuousFPS": [
+            113.47,
+            130.39
+          ],
+          "meanRatio": 1.09,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 9.674357303010117e-13,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1056,
+              "shadowCalls": 80,
+              "normalTriangles": 722311,
+              "shadowTriangles": 44814,
+              "renderMs": 5.7999999998137355
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1099,
+              "shadowCalls": 92,
+              "normalTriangles": 688698,
+              "shadowTriangles": 16844,
+              "renderMs": 7.900000000372529
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1056,
+              "shadowCalls": 80,
+              "normalTriangles": 722311,
+              "shadowTriangles": 44814,
+              "renderMs": 5.5
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1099,
+              "shadowCalls": 92,
+              "normalTriangles": 688698,
+              "shadowTriangles": 16844,
+              "renderMs": 6.599999999627471
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1059,
+              "shadowCalls": 82,
+              "normalTriangles": 733567,
+              "shadowTriangles": 48018,
+              "renderMs": 5
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1102,
+              "shadowCalls": 94,
+              "normalTriangles": 699954,
+              "shadowTriangles": 20048,
+              "renderMs": 7.5
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1059,
+              "shadowCalls": 82,
+              "normalTriangles": 733567,
+              "shadowTriangles": 48018,
+              "renderMs": 5.699999999254942
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1102,
+              "shadowCalls": 94,
+              "normalTriangles": 699954,
+              "shadowTriangles": 20048,
+              "renderMs": 5.699999999254942
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          90.2,
+          90.2
+        ],
+        "continuous": [
+          91.97,
+          92.6
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          568.8,
+          654.68
+        ],
+        "continuous": [
+          1028.94,
+          657.3
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [],
+          "continuous": []
+        },
+        {
+          "legacy": [],
+          "continuous": []
+        }
+      ]
+    },
+    {
+      "id": "junction",
+      "sourceIds": {
+        "roads": [],
+        "junctions": [
+          "urban-junction-83"
+        ]
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            63.74,
+            60.72
+          ],
+          "continuousFPS": [
+            62.24,
+            70.6
+          ],
+          "meanRatio": 1.07,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 2.753159547439972,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            60.49,
+            57.92
+          ],
+          "continuousFPS": [
+            58.35,
+            65.43
+          ],
+          "meanRatio": 1.05,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 6.180489322226753,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            63.07,
+            58.66
+          ],
+          "continuousFPS": [
+            57.11,
+            66.23
+          ],
+          "meanRatio": 1.02,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 1.594066820144375,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1446,
+              "shadowCalls": 68,
+              "normalTriangles": 575528,
+              "shadowTriangles": 42166,
+              "renderMs": 8.200000000186265
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1449,
+              "shadowCalls": 80,
+              "normalTriangles": 529932,
+              "shadowTriangles": 14196,
+              "renderMs": 8
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1446,
+              "shadowCalls": 68,
+              "normalTriangles": 575528,
+              "shadowTriangles": 42166,
+              "renderMs": 8.899999999441206
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1449,
+              "shadowCalls": 80,
+              "normalTriangles": 529932,
+              "shadowTriangles": 14196,
+              "renderMs": 7.400000000372529
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1446,
+              "shadowCalls": 68,
+              "normalTriangles": 575623,
+              "shadowTriangles": 42166,
+              "renderMs": 6.2000000001862645
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1449,
+              "shadowCalls": 80,
+              "normalTriangles": 530020,
+              "shadowTriangles": 14196,
+              "renderMs": 6.300000000745058
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1446,
+              "shadowCalls": 68,
+              "normalTriangles": 575623,
+              "shadowTriangles": 42166,
+              "renderMs": 5.2999999998137355
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1449,
+              "shadowCalls": 80,
+              "normalTriangles": 530020,
+              "shadowTriangles": 14196,
+              "renderMs": 6.7999999998137355
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          96.79,
+          96.79
+        ],
+        "continuous": [
+          96.89,
+          97.94
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          693.32,
+          709.61
+        ],
+        "continuous": [
+          694.11,
+          649.87
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [],
+          "continuous": []
+        },
+        {
+          "legacy": [],
+          "continuous": []
+        }
+      ]
+    },
+    {
+      "id": "divided",
+      "sourceIds": {
+        "roads": [],
+        "junctions": [
+          "urban-junction"
+        ]
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            61.84,
+            59.99
+          ],
+          "continuousFPS": [
+            55.34,
+            60.54
+          ],
+          "meanRatio": 0.95,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 3.8850714691847465e-11,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            62.61,
+            59.05
+          ],
+          "continuousFPS": [
+            57.61,
+            60.2
+          ],
+          "meanRatio": 0.97,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 0.002821932579536224,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            63.42,
+            64.12
+          ],
+          "continuousFPS": [
+            63.32,
+            67.14
+          ],
+          "meanRatio": 1.02,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 3.0592947936037095e-12,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2184,
+              "shadowCalls": 81,
+              "normalTriangles": 645203,
+              "shadowTriangles": 43042,
+              "renderMs": 10.199999999254942
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2105,
+              "shadowCalls": 93,
+              "normalTriangles": 575499,
+              "shadowTriangles": 15072,
+              "renderMs": 11.699999999254942
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1966,
+              "shadowCalls": 81,
+              "normalTriangles": 608786,
+              "shadowTriangles": 43042,
+              "renderMs": 9.100000001490116
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1923,
+              "shadowCalls": 93,
+              "normalTriangles": 539469,
+              "shadowTriangles": 15072,
+              "renderMs": 9
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2184,
+              "shadowCalls": 81,
+              "normalTriangles": 645203,
+              "shadowTriangles": 43042,
+              "renderMs": 12.700000000186265
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2105,
+              "shadowCalls": 93,
+              "normalTriangles": 575499,
+              "shadowTriangles": 15072,
+              "renderMs": 11.900000000372529
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1966,
+              "shadowCalls": 81,
+              "normalTriangles": 608786,
+              "shadowTriangles": 43042,
+              "renderMs": 9.200000000186265
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1923,
+              "shadowCalls": 93,
+              "normalTriangles": 539469,
+              "shadowTriangles": 15072,
+              "renderMs": 8.099999999627471
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          99.03,
+          99.03
+        ],
+        "continuous": [
+          98.94,
+          100.06
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          635.22,
+          645.73
+        ],
+        "continuous": [
+          573.66,
+          642.82
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [
+            {
+              "point": {
+                "x": -1147.99264097734,
+                "y": 0,
+                "z": -129.99999999999957
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": 8.02400016784668,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": 8.02400016784668,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -3,-1"
+                },
+                {
+                  "y": 0.024,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "urban-junction"
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -3,-1"
+                }
+              ]
+            }
+          ],
+          "continuous": [
+            {
+              "point": {
+                "x": -1147.99264097734,
+                "y": 0,
+                "z": -129.99999999999957
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": 8.02400016784668,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": 8.02400016784668,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -3,-1"
+                },
+                {
+                  "y": 0.024000000208616257,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "urban-junction"
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -3,-1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "legacy": [
+            {
+              "point": {
+                "x": -1147.99264097734,
+                "y": 0,
+                "z": -129.99999999999957
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": 8.02400016784668,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": 8.02400016784668,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -3,-1"
+                },
+                {
+                  "y": 0.024,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "urban-junction"
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -3,-1"
+                }
+              ]
+            }
+          ],
+          "continuous": [
+            {
+              "point": {
+                "x": -1147.99264097734,
+                "y": 0,
+                "z": -129.99999999999957
+              },
+              "asphaltFound": true,
+              "terrainAboveRoad": true,
+              "terrainOcclusion": true,
+              "roofOverburdenAllowed": false,
+              "topSurfaces": [
+                {
+                  "y": 8.02400016784668,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": 8.02400016784668,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "City sector -3,-1"
+                },
+                {
+                  "y": 0.024000000208616257,
+                  "color": "414548",
+                  "terrain": false,
+                  "asphalt": true,
+                  "sector": "urban-junction"
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "ffffff",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": ""
+                },
+                {
+                  "y": -0.03999999910593033,
+                  "color": "6b7f52",
+                  "terrain": true,
+                  "asphalt": false,
+                  "sector": "City sector -3,-1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "sourceIds": {
+        "roads": [
+          "ew-wb-split"
+        ],
+        "junctions": []
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            45.39,
+            40.35
+          ],
+          "continuousFPS": [
+            40.56,
+            44.53
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 2.842517866562357e-14,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            44.58,
+            41.55
+          ],
+          "continuousFPS": [
+            39.23,
+            44
+          ],
+          "meanRatio": 0.97,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 0.000002915642653533723,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            44.74,
+            47.82
+          ],
+          "continuousFPS": [
+            43.13,
+            53.72
+          ],
+          "meanRatio": 1.04,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 4.440892098500626e-16,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1530,
+              "shadowCalls": 84,
+              "normalTriangles": 699866,
+              "shadowTriangles": 47158,
+              "renderMs": 9.400000000372529
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1454,
+              "shadowCalls": 96,
+              "normalTriangles": 582969,
+              "shadowTriangles": 19188,
+              "renderMs": 9.700000001117587
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1530,
+              "shadowCalls": 84,
+              "normalTriangles": 699866,
+              "shadowTriangles": 47158,
+              "renderMs": 10.199999999254942
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1454,
+              "shadowCalls": 96,
+              "normalTriangles": 582969,
+              "shadowTriangles": 19188,
+              "renderMs": 10.5
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1532,
+              "shadowCalls": 86,
+              "normalTriangles": 701162,
+              "shadowTriangles": 47542,
+              "renderMs": 6.599999999627471
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1456,
+              "shadowCalls": 98,
+              "normalTriangles": 584265,
+              "shadowTriangles": 19572,
+              "renderMs": 9.799999999813735
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 1532,
+              "shadowCalls": 86,
+              "normalTriangles": 701162,
+              "shadowTriangles": 47542,
+              "renderMs": 8.899999999441206
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 1456,
+              "shadowCalls": 98,
+              "normalTriangles": 584265,
+              "shadowTriangles": 19572,
+              "renderMs": 7.599999999627471
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          101.49,
+          101.23
+        ],
+        "continuous": [
+          102.02,
+          103.28
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          653.68,
+          667.78
+        ],
+        "continuous": [
+          647.01,
+          798.77
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [],
+          "continuous": []
+        },
+        {
+          "legacy": [],
+          "continuous": []
+        }
+      ]
+    },
+    {
+      "id": "underground",
+      "sourceIds": {
+        "roads": [
+          "urban-rail-underpass:underpass",
+          "urban-underpass-end-approach"
+        ],
+        "junctions": []
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            162.88,
+            164.06
+          ],
+          "continuousFPS": [
+            163.7,
+            164.81
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 4.440892098500626e-16,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            164.34,
+            164.52
+          ],
+          "continuousFPS": [
+            164.83,
+            164.54
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 3.524291969387584e-11,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            164.6,
+            164.52
+          ],
+          "continuousFPS": [
+            164.64,
+            164.58
+          ],
+          "meanRatio": 1,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 4.440892098500626e-16,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 266,
+              "shadowCalls": 72,
+              "normalTriangles": 353653,
+              "shadowTriangles": 53778,
+              "renderMs": 3.5
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 187,
+              "shadowCalls": 84,
+              "normalTriangles": 311429,
+              "shadowTriangles": 25808,
+              "renderMs": 3.299999998882413
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 266,
+              "shadowCalls": 72,
+              "normalTriangles": 353653,
+              "shadowTriangles": 53778,
+              "renderMs": 3.700000001117587
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 187,
+              "shadowCalls": 84,
+              "normalTriangles": 311429,
+              "shadowTriangles": 25808,
+              "renderMs": 3
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 266,
+              "shadowCalls": 72,
+              "normalTriangles": 353653,
+              "shadowTriangles": 53778,
+              "renderMs": 4.5
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 187,
+              "shadowCalls": 84,
+              "normalTriangles": 311429,
+              "shadowTriangles": 25808,
+              "renderMs": 3.699999999254942
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 266,
+              "shadowCalls": 72,
+              "normalTriangles": 353653,
+              "shadowTriangles": 53778,
+              "renderMs": 3.7000000001862645
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 187,
+              "shadowCalls": 84,
+              "normalTriangles": 311429,
+              "shadowTriangles": 25808,
+              "renderMs": 2.5
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          79.29,
+          79.29
+        ],
+        "continuous": [
+          79.29,
+          79.29
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          569.41,
+          574.41
+        ],
+        "continuous": [
+          747.29,
+          895.99
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [],
+          "continuous": []
+        },
+        {
+          "legacy": [],
+          "continuous": []
+        }
+      ]
+    },
+    {
+      "id": "curve-grade",
+      "sourceIds": {
+        "roads": [
+          "direction-mingyuan-main-section-2"
+        ],
+        "junctions": []
+      },
+      "drive": {
+        "normal": {
+          "legacyFPS": [
+            72.5,
+            68.03
+          ],
+          "continuousFPS": [
+            71.01,
+            70.63
+          ],
+          "meanRatio": 1.01,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 0.05020812080092223,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "high": {
+          "legacyFPS": [
+            67.57,
+            64.39
+          ],
+          "continuousFPS": [
+            70.69,
+            66.39
+          ],
+          "meanRatio": 1.04,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              true,
+              true
+            ],
+            [
+              true,
+              true
+            ]
+          ],
+          "maxLaneError": 0.41237515810729525,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        },
+        "night": {
+          "legacyFPS": [
+            76.44,
+            72.92
+          ],
+          "continuousFPS": [
+            78.81,
+            75.6
+          ],
+          "meanRatio": 1.03,
+          "sameTrajectory": true,
+          "crossed": [
+            [
+              false,
+              false
+            ],
+            [
+              false,
+              false
+            ]
+          ],
+          "maxLaneError": 0.05020812080092223,
+          "airborneTicks": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "collisions": []
+        }
+      },
+      "render": {
+        "legacy": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2362,
+              "shadowCalls": 59,
+              "normalTriangles": 758573,
+              "shadowTriangles": 34490,
+              "renderMs": 10
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2309,
+              "shadowCalls": 71,
+              "normalTriangles": 716058,
+              "shadowTriangles": 6520,
+              "renderMs": 11.700000001117587
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2362,
+              "shadowCalls": 59,
+              "normalTriangles": 758573,
+              "shadowTriangles": 34490,
+              "renderMs": 11
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2309,
+              "shadowCalls": 71,
+              "normalTriangles": 716058,
+              "shadowTriangles": 6520,
+              "renderMs": 14.100000001490116
+            }
+          }
+        ],
+        "continuous": [
+          {
+            "night": false,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2366,
+              "shadowCalls": 60,
+              "normalTriangles": 785268,
+              "shadowTriangles": 37646,
+              "renderMs": 13.099999999627471
+            }
+          },
+          {
+            "night": false,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2313,
+              "shadowCalls": 72,
+              "normalTriangles": 742753,
+              "shadowTriangles": 9676,
+              "renderMs": 8.799999999813735
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": false,
+            "render": {
+              "normalCalls": 2366,
+              "shadowCalls": 60,
+              "normalTriangles": 785268,
+              "shadowTriangles": 37646,
+              "renderMs": 10.399999999441206
+            }
+          },
+          {
+            "night": true,
+            "firstPerson": true,
+            "render": {
+              "normalCalls": 2313,
+              "shadowCalls": 72,
+              "normalTriangles": 742753,
+              "shadowTriangles": 9676,
+              "renderMs": 11.5
+            }
+          }
+        ]
+      },
+      "stableBuffersMiB": {
+        "legacy": [
+          96.82,
+          96.82
+        ],
+        "continuous": [
+          98.8,
+          98.8
+        ]
+      },
+      "stableHeapMiB": {
+        "legacy": [
+          606.77,
+          814.66
+        ],
+        "continuous": [
+          606.3,
+          650.62
+        ]
+      },
+      "terrainOcclusions": [
+        {
+          "legacy": [],
+          "continuous": []
+        },
+        {
+          "legacy": [],
+          "continuous": []
+        }
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "pass": 1,
+      "variant": "legacy",
+      "initialization": {
+        "variant": "legacy",
+        "constructorAndPrepareMs": 1764.0999999996275,
+        "streamingMs": 4339.4000000003725,
+        "totalMs": 6103.5,
+        "heapBefore": 777476852,
+        "heapAfter": 415939633,
+        "stages": {
+          "loadCityMap": 0.09999999962747097,
+          "roadNetwork": 0.09999999962747097,
+          "sectorSetup": 782.4000000003725,
+          "groundGeometry": 4.099999999627471,
+          "sectorManager": 238.30000000074506,
+          "clearanceIndex": 90.29999999981374,
+          "colliders": 37.799999999813735,
+          "physicsPreparation": 69.20000000018626,
+          "surfaceIndex": 202.3999999994412,
+          "spawnPreparation": 6.800000000745058
+        },
+        "worldCounts": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153,
+          "signs": 3399
+        }
+      },
+      "sectorActiveMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 28.600000000558794,
+        "max": 52.899999998509884
+      },
+      "sectorWallMs": {
+        "count": 512,
+        "median": 24.799999999813735,
+        "p95": 576.7999999998137,
+        "max": 938.2999999998137
+      },
+      "sectorMaxStepMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 2.5,
+        "max": 15.400000000372529
+      },
+      "maxSectorUpdateMs": 16.899999999441206,
+      "workerActiveMs": null,
+      "workerWallMs": null,
+      "workerMaxStepMs": null,
+      "drivingMaxMainFrameMs": 50,
+      "drivingLongTasks": [
+        {
+          "start": 99152.79999999981,
+          "duration": 52
+        }
+      ],
+      "peakActiveBufferMiB": 140.52,
+      "peakHeapMiB": 756.09,
+      "drivingUploadsMiB": 97.23,
+      "stableMaterials": [
+        72,
+        119,
+        131,
+        238,
+        126,
+        117,
+        131
+      ],
+      "cycles": {
+        "variant": "legacy",
+        "cycles": [
+          {
+            "cycle": 0,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 625,
+                "textures": 61
+              },
+              "heap": 569155999
+            },
+            "cache": {
+              "cachedRoads": 80,
+              "cachedRoadBytes": 39316896,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2662,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 623,
+                "textures": 61
+              },
+              "heap": 617871726
+            },
+            "cache": {
+              "cachedRoads": 94,
+              "cachedRoadBytes": 45093568,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2867,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 2,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 623,
+                "textures": 61
+              },
+              "heap": 628830978
+            },
+            "cache": {
+              "cachedRoads": 98,
+              "cachedRoadBytes": 45675808,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 3068,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          }
+        ]
+      },
+      "release": {
+        "variant": "legacy",
+        "resourcesReleased": true,
+        "releaseMs": 111.1000000005588,
+        "gpuAfterRelease": {
+          "geometries": 176,
+          "textures": 8
+        },
+        "heap": 602498745
+      },
+      "selectedRoadWorker": []
+    },
+    {
+      "pass": 1,
+      "variant": "continuous",
+      "initialization": {
+        "variant": "continuous",
+        "constructorAndPrepareMs": 2298,
+        "streamingMs": 4453,
+        "totalMs": 6751,
+        "heapBefore": 602498745,
+        "heapAfter": 648869463,
+        "stages": {
+          "loadCityMap": 0,
+          "roadNetwork": 0,
+          "sectorSetup": 888.5,
+          "groundGeometry": 2.3999999994412065,
+          "sectorManager": 255.1000000005588,
+          "clearanceIndex": 93.79999999981374,
+          "colliders": 41.90000000037253,
+          "physicsPreparation": 79.09999999962747,
+          "surfaceIndex": 265,
+          "spawnPreparation": 16.90000000037253
+        },
+        "worldCounts": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153,
+          "signs": 3399
+        }
+      },
+      "sectorActiveMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 26.100000001490116,
+        "max": 56.29999999888241
+      },
+      "sectorWallMs": {
+        "count": 512,
+        "median": 25.40000000037253,
+        "p95": 529.4000000003725,
+        "max": 996
+      },
+      "sectorMaxStepMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 2.3999999994412065,
+        "max": 13.299999999813735
+      },
+      "maxSectorUpdateMs": 16.40000000037253,
+      "workerActiveMs": null,
+      "workerWallMs": null,
+      "workerMaxStepMs": null,
+      "drivingMaxMainFrameMs": 47,
+      "drivingLongTasks": [],
+      "peakActiveBufferMiB": 142.55,
+      "peakHeapMiB": 1041.17,
+      "drivingUploadsMiB": 97.43,
+      "stableMaterials": [
+        72,
+        119,
+        131,
+        238,
+        126,
+        117,
+        131
+      ],
+      "cycles": {
+        "variant": "continuous",
+        "cycles": [
+          {
+            "cycle": 0,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 626,
+                "textures": 61
+              },
+              "heap": 941882770
+            },
+            "cache": {
+              "cachedRoads": 80,
+              "cachedRoadBytes": 41210336,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2662,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 624,
+                "textures": 61
+              },
+              "heap": 617683881
+            },
+            "cache": {
+              "cachedRoads": 77,
+              "cachedRoadBytes": 40492352,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2884,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 2,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 624,
+                "textures": 61
+              },
+              "heap": 773456765
+            },
+            "cache": {
+              "cachedRoads": 77,
+              "cachedRoadBytes": 40492352,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 3106,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          }
+        ]
+      },
+      "release": {
+        "variant": "continuous",
+        "resourcesReleased": true,
+        "releaseMs": 100.29999999981374,
+        "gpuAfterRelease": {
+          "geometries": 176,
+          "textures": 8
+        },
+        "heap": 777084752
+      },
+      "selectedRoadWorker": []
+    },
+    {
+      "pass": 2,
+      "variant": "legacy",
+      "initialization": {
+        "variant": "legacy",
+        "constructorAndPrepareMs": 2061.0999999996275,
+        "streamingMs": 4672.299999999814,
+        "totalMs": 6733.5,
+        "heapBefore": 613472792,
+        "heapAfter": 406477176,
+        "stages": {
+          "loadCityMap": 0,
+          "roadNetwork": 0,
+          "sectorSetup": 850.8000000007451,
+          "groundGeometry": 3.099999999627471,
+          "sectorManager": 251.90000000037253,
+          "clearanceIndex": 91.5,
+          "colliders": 40.89999999944121,
+          "physicsPreparation": 91,
+          "surfaceIndex": 269.40000000037253,
+          "spawnPreparation": 11.799999999813735
+        },
+        "worldCounts": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153,
+          "signs": 3399
+        }
+      },
+      "sectorActiveMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 26.200000001117587,
+        "max": 50.90000000409782
+      },
+      "sectorWallMs": {
+        "count": 512,
+        "median": 27.90000000037253,
+        "p95": 530.2999999988824,
+        "max": 931
+      },
+      "sectorMaxStepMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 2.300000000745058,
+        "max": 21.300000000745058
+      },
+      "maxSectorUpdateMs": 23.299999998882413,
+      "workerActiveMs": {
+        "count": 1448,
+        "median": 7.3,
+        "p95": 48.9,
+        "max": 491.7
+      },
+      "workerWallMs": {
+        "count": 1448,
+        "median": 7.4,
+        "p95": 50.9,
+        "max": 603.5
+      },
+      "workerMaxStepMs": {
+        "count": 1448,
+        "median": 3,
+        "p95": 28.4,
+        "max": 259.2
+      },
+      "drivingMaxMainFrameMs": 47.09999999962747,
+      "drivingLongTasks": [],
+      "peakActiveBufferMiB": 140.52,
+      "peakHeapMiB": 836.72,
+      "drivingUploadsMiB": 97.3,
+      "stableMaterials": [
+        72,
+        119,
+        131,
+        238,
+        126,
+        117,
+        131
+      ],
+      "cycles": {
+        "variant": "legacy",
+        "cycles": [
+          {
+            "cycle": 0,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 625,
+                "textures": 61
+              },
+              "heap": 583128050
+            },
+            "cache": {
+              "cachedRoads": 80,
+              "cachedRoadBytes": 39316896,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2662,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 623,
+                "textures": 61
+              },
+              "heap": 611591029
+            },
+            "cache": {
+              "cachedRoads": 104,
+              "cachedRoadBytes": 46835008,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2857,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 2,
+            "state": {
+              "bufferBytes": 83951834,
+              "geometries": 1732,
+              "materials": 78,
+              "instances": 6114,
+              "gpu": {
+                "geometries": 623,
+                "textures": 61
+              },
+              "heap": 767693949
+            },
+            "cache": {
+              "cachedRoads": 114,
+              "cachedRoadBytes": 49204288,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 3042,
+              "terrainEntries": 96,
+              "instanceTemplates": 6,
+              "duplicates": 0
+            }
+          }
+        ]
+      },
+      "release": {
+        "variant": "legacy",
+        "resourcesReleased": true,
+        "releaseMs": 113.10000000149012,
+        "gpuAfterRelease": {
+          "geometries": 176,
+          "textures": 8
+        },
+        "heap": 771406248
+      },
+      "selectedRoadWorker": [
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-split-2-m91",
+          "activeMs": 24.300000000745058,
+          "elapsedMs": 25.59999999962747,
+          "maxStepMs": 9.5,
+          "roundTripMs": 32.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:access-finance-north-section-section",
+          "activeMs": 12,
+          "elapsedMs": 12,
+          "maxStepMs": 7.3999999994412065,
+          "roundTripMs": 16.700000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-c91",
+          "activeMs": 12.599999998696148,
+          "elapsedMs": 12.799999999813735,
+          "maxStepMs": 4.3999999994412065,
+          "roundTripMs": 13.299999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split",
+          "activeMs": 9.800000000745058,
+          "elapsedMs": 10.099999999627471,
+          "maxStepMs": 3.2000000001862645,
+          "roundTripMs": 16.199999999254942
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-finance-road-m91",
+          "activeMs": 8.5,
+          "elapsedMs": 8.800000000745058,
+          "maxStepMs": 2.7000000001862645,
+          "roundTripMs": 9.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-m91-section",
+          "activeMs": 11.400000000372529,
+          "elapsedMs": 11.5,
+          "maxStepMs": 3.5,
+          "roundTripMs": 11.799999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-split-2-m91",
+          "activeMs": 28.29999999795109,
+          "elapsedMs": 28.699999999254942,
+          "maxStepMs": 12.200000000186265,
+          "roundTripMs": 31.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:access-finance-north-section-section",
+          "activeMs": 13.200000000186265,
+          "elapsedMs": 13.400000000372529,
+          "maxStepMs": 8.299999999813735,
+          "roundTripMs": 15
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-c91",
+          "activeMs": 14.099999998696148,
+          "elapsedMs": 14.199999999254942,
+          "maxStepMs": 5.7999999998137355,
+          "roundTripMs": 17.5
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-diagonal-split-split-split-split-3",
+          "activeMs": 2.400000000372529,
+          "elapsedMs": 2.400000000372529,
+          "maxStepMs": 1.400000000372529,
+          "roundTripMs": 7.900000000372529
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-split",
+          "activeMs": 10,
+          "elapsedMs": 10.099999999627471,
+          "maxStepMs": 3.900000000372529,
+          "roundTripMs": 17.100000000558794
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split",
+          "activeMs": 9.100000000558794,
+          "elapsedMs": 9.100000000558794,
+          "maxStepMs": 2.7000000001862645,
+          "roundTripMs": 24.300000000745058
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split-2-split",
+          "activeMs": 3.099999999627471,
+          "elapsedMs": 3.099999999627471,
+          "maxStepMs": 1.7999999998137355,
+          "roundTripMs": 7.3999999994412065
+        },
+        {
+          "kind": "road",
+          "id": "road:regional:G38:out:split274",
+          "activeMs": 24.5,
+          "elapsedMs": 25.59999999962747,
+          "maxStepMs": 11,
+          "roundTripMs": 34.39999999944121
+        },
+        {
+          "kind": "road",
+          "id": "road:regional:qingling:S-to-E-right:deceleration",
+          "activeMs": 55.10000000055879,
+          "elapsedMs": 65.69999999925494,
+          "maxStepMs": 48.39999999944121,
+          "roundTripMs": 70.1000000005588
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-a-3",
+          "activeMs": 4.699999999254942,
+          "elapsedMs": 4.7999999998137355,
+          "maxStepMs": 3.400000000372529,
+          "roundTripMs": 6
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-a-4",
+          "activeMs": 8.600000000558794,
+          "elapsedMs": 9.799999999813735,
+          "maxStepMs": 5.900000000372529,
+          "roundTripMs": 10
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-b-3",
+          "activeMs": 5.099999999627471,
+          "elapsedMs": 5.099999999627471,
+          "maxStepMs": 3.199999999254942,
+          "roundTripMs": 5.199999999254942
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-b-4",
+          "activeMs": 6.7999999998137355,
+          "elapsedMs": 6.8999999994412065,
+          "maxStepMs": 4.7000000001862645,
+          "roundTripMs": 10.799999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-0-split-2-v91-m91",
+          "activeMs": 6,
+          "elapsedMs": 6.2000000001862645,
+          "maxStepMs": 2,
+          "roundTripMs": 10
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-rail-underpass:underpass",
+          "activeMs": 10.600000000558794,
+          "elapsedMs": 11.700000000186265,
+          "maxStepMs": 3.7000000001862645,
+          "roundTripMs": 20.399999999441206
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-underpass-end-approach",
+          "activeMs": 12.799999998882413,
+          "elapsedMs": 13.200000000186265,
+          "maxStepMs": 4.3999999994412065,
+          "roundTripMs": 29.899999999441206
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-finance-road-m91",
+          "activeMs": 7.699999999254942,
+          "elapsedMs": 7.900000000372529,
+          "maxStepMs": 2.5,
+          "roundTripMs": 18.100000001490116
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-m91-section",
+          "activeMs": 15.900000000372529,
+          "elapsedMs": 17.300000000745058,
+          "maxStepMs": 5.099999999627471,
+          "roundTripMs": 26.299999998882413
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-split-2-m91",
+          "activeMs": 23.299999995157123,
+          "elapsedMs": 23.59999999962747,
+          "maxStepMs": 8.799999998882413,
+          "roundTripMs": 29.09999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:access-finance-north-section-section",
+          "activeMs": 17,
+          "elapsedMs": 17.09999999962747,
+          "maxStepMs": 10,
+          "roundTripMs": 25.700000001117587
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-2-split-split-m91",
+          "activeMs": 7.900000000372529,
+          "elapsedMs": 8.199999999254942,
+          "maxStepMs": 2.399999998509884,
+          "roundTripMs": 29.09999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-section",
+          "activeMs": 238.2000000011176,
+          "elapsedMs": 274.59999999962747,
+          "maxStepMs": 35,
+          "roundTripMs": 275.59999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-2",
+          "activeMs": 178.7999999988824,
+          "elapsedMs": 205.89999999850988,
+          "maxStepMs": 39.899999998509884,
+          "roundTripMs": 215.89999999850988
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-2",
+          "activeMs": 171.09999999590218,
+          "elapsedMs": 207.2999999988824,
+          "maxStepMs": 40.29999999888241,
+          "roundTripMs": 212.30000000074506
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-section",
+          "activeMs": 261.90000000037253,
+          "elapsedMs": 303.40000000037253,
+          "maxStepMs": 38.09999999962747,
+          "roundTripMs": 305.59999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-2-split-split-m91",
+          "activeMs": 8.800000000745058,
+          "elapsedMs": 9,
+          "maxStepMs": 2.5,
+          "roundTripMs": 14.200000001117587
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-ns-split-split-split-split-m91",
+          "activeMs": 5.900000000372529,
+          "elapsedMs": 6.299999998882413,
+          "maxStepMs": 2.199999999254942,
+          "roundTripMs": 11.600000001490116
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-ns-split-split-split-split-split-2-m91",
+          "activeMs": 8.400000000372529,
+          "elapsedMs": 9.900000000372529,
+          "maxStepMs": 2.400000000372529,
+          "roundTripMs": 10.400000000372529
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-m91",
+          "activeMs": 10.700000001117587,
+          "elapsedMs": 11,
+          "maxStepMs": 3.700000001117587,
+          "roundTripMs": 21
+        },
+        {
+          "kind": "road",
+          "id": "road:ew-wb-split",
+          "activeMs": 14,
+          "elapsedMs": 14,
+          "maxStepMs": 4.900000000372529,
+          "roundTripMs": 24.40000000037253
+        }
+      ]
+    },
+    {
+      "pass": 2,
+      "variant": "continuous",
+      "initialization": {
+        "variant": "continuous",
+        "constructorAndPrepareMs": 2067.5,
+        "streamingMs": 4754.899999999441,
+        "totalMs": 6822.600000000559,
+        "heapBefore": 122629598,
+        "heapAfter": 412820751,
+        "stages": {
+          "loadCityMap": 0,
+          "roadNetwork": 0.09999999962747097,
+          "sectorSetup": 882.5,
+          "groundGeometry": 4.5,
+          "sectorManager": 249.5,
+          "clearanceIndex": 94.5,
+          "colliders": 33.200000000186265,
+          "physicsPreparation": 75.29999999981374,
+          "surfaceIndex": 254.40000000037253,
+          "spawnPreparation": 11.399999999441206
+        },
+        "worldCounts": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153,
+          "signs": 3399
+        }
+      },
+      "sectorActiveMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 27.800000000745058,
+        "max": 54.80000000074506
+      },
+      "sectorWallMs": {
+        "count": 512,
+        "median": 21.199999999254942,
+        "p95": 476.59999999962747,
+        "max": 969.7000000001863
+      },
+      "sectorMaxStepMs": {
+        "count": 512,
+        "median": 0.10000000055879354,
+        "p95": 2.6000000005587935,
+        "max": 21.899999999441206
+      },
+      "maxSectorUpdateMs": 24.299999999813735,
+      "workerActiveMs": {
+        "count": 1468,
+        "median": 7.4,
+        "p95": 58.5,
+        "max": 491.5
+      },
+      "workerWallMs": {
+        "count": 1468,
+        "median": 7.5,
+        "p95": 59.3,
+        "max": 604.2
+      },
+      "workerMaxStepMs": {
+        "count": 1468,
+        "median": 3.1,
+        "p95": 29.5,
+        "max": 276.4
+      },
+      "drivingMaxMainFrameMs": 49.700000000186265,
+      "drivingLongTasks": [
+        {
+          "start": 65703.20000000019,
+          "duration": 50
+        },
+        {
+          "start": 99310.20000000019,
+          "duration": 50
+        }
+      ],
+      "peakActiveBufferMiB": 142.55,
+      "peakHeapMiB": 896.88,
+      "drivingUploadsMiB": 97.4,
+      "stableMaterials": [
+        72,
+        119,
+        131,
+        238,
+        126,
+        117,
+        131
+      ],
+      "cycles": {
+        "variant": "continuous",
+        "cycles": [
+          {
+            "cycle": 0,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 626,
+                "textures": 61
+              },
+              "heap": 549096571
+            },
+            "cache": {
+              "cachedRoads": 80,
+              "cachedRoadBytes": 41210336,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2662,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 624,
+                "textures": 61
+              },
+              "heap": 546101892
+            },
+            "cache": {
+              "cachedRoads": 98,
+              "cachedRoadBytes": 47569248,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 2863,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          },
+          {
+            "cycle": 2,
+            "state": {
+              "bufferBytes": 84714602,
+              "geometries": 1733,
+              "materials": 78,
+              "instances": 6222,
+              "gpu": {
+                "geometries": 624,
+                "textures": 61
+              },
+              "heap": 609718789
+            },
+            "cache": {
+              "cachedRoads": 77,
+              "cachedRoadBytes": 40492352,
+              "cacheBudget": {
+                "maxRoads": 128,
+                "maxBytes": 33554432
+              },
+              "evictions": 3085,
+              "terrainEntries": 96,
+              "instanceTemplates": 7,
+              "duplicates": 0
+            }
+          }
+        ]
+      },
+      "release": {
+        "variant": "continuous",
+        "resourcesReleased": true,
+        "releaseMs": 105.8999999994412,
+        "gpuAfterRelease": {
+          "geometries": 176,
+          "textures": 8
+        },
+        "heap": 613472792
+      },
+      "selectedRoadWorker": [
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-split-2-m91",
+          "activeMs": 30.700000000186265,
+          "elapsedMs": 31.100000000558794,
+          "maxStepMs": 10.5,
+          "roundTripMs": 36.09999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:access-finance-north-section-section",
+          "activeMs": 15.299999999813735,
+          "elapsedMs": 15.599999999627471,
+          "maxStepMs": 9.099999999627471,
+          "roundTripMs": 18
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-c91",
+          "activeMs": 18.40000000037253,
+          "elapsedMs": 19.700000000186265,
+          "maxStepMs": 5.7999999998137355,
+          "roundTripMs": 23.299999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split",
+          "activeMs": 14.100000000558794,
+          "elapsedMs": 15.900000000372529,
+          "maxStepMs": 3.5,
+          "roundTripMs": 20.799999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-c91",
+          "activeMs": 15.599999999627471,
+          "elapsedMs": 16.200000000186265,
+          "maxStepMs": 5.5,
+          "roundTripMs": 16.399999999441206
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-diagonal-split-split-split-split-3",
+          "activeMs": 2.199999999254942,
+          "elapsedMs": 2.2999999998137355,
+          "maxStepMs": 1.3999999994412065,
+          "roundTripMs": 6.7999999998137355
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-east-garden-split",
+          "activeMs": 11.999999999068677,
+          "elapsedMs": 12.200000000186265,
+          "maxStepMs": 3.5,
+          "roundTripMs": 15.5
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split",
+          "activeMs": 10.699999999254942,
+          "elapsedMs": 11.899999999441206,
+          "maxStepMs": 3,
+          "roundTripMs": 22.09999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-arterial-split-split-3-split-2-split",
+          "activeMs": 3.599999999627471,
+          "elapsedMs": 3.599999999627471,
+          "maxStepMs": 1.599999999627471,
+          "roundTripMs": 6
+        },
+        {
+          "kind": "road",
+          "id": "road:regional:G38:out:split274",
+          "activeMs": 37.299999999813735,
+          "elapsedMs": 37.60000000055879,
+          "maxStepMs": 14.5,
+          "roundTripMs": 45.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:regional:qingling:S-to-E-right:deceleration",
+          "activeMs": 27.000000000931323,
+          "elapsedMs": 27.200000000186265,
+          "maxStepMs": 24.40000000037253,
+          "roundTripMs": 28.40000000037253
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-a-3",
+          "activeMs": 7.2999999998137355,
+          "elapsedMs": 7.400000000372529,
+          "maxStepMs": 4.2000000001862645,
+          "roundTripMs": 7.6000000005587935
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-a-4",
+          "activeMs": 8.399999998509884,
+          "elapsedMs": 8.599999999627471,
+          "maxStepMs": 5.099999999627471,
+          "roundTripMs": 11.299999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-b-3",
+          "activeMs": 6,
+          "elapsedMs": 6.099999999627471,
+          "maxStepMs": 3.400000000372529,
+          "roundTripMs": 9.5
+        },
+        {
+          "kind": "road",
+          "id": "road:v91-ew-0-b-4",
+          "activeMs": 6.900000000372529,
+          "elapsedMs": 7.1000000005587935,
+          "maxStepMs": 4.2000000001862645,
+          "roundTripMs": 10.100000000558794
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-0-split-2-v91-m91",
+          "activeMs": 7.200000001117587,
+          "elapsedMs": 7.300000000745058,
+          "maxStepMs": 2,
+          "roundTripMs": 10
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-rail-underpass:underpass",
+          "activeMs": 7.900000000372529,
+          "elapsedMs": 8.299999999813735,
+          "maxStepMs": 2.400000000372529,
+          "roundTripMs": 13.799999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-underpass-end-approach",
+          "activeMs": 28.299999998882413,
+          "elapsedMs": 28.59999999962747,
+          "maxStepMs": 11.799999999813735,
+          "roundTripMs": 31
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-finance-road-m91",
+          "activeMs": 15.900000000372529,
+          "elapsedMs": 16.09999999962747,
+          "maxStepMs": 3.7999999998137355,
+          "roundTripMs": 29.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-m91-section",
+          "activeMs": 17.600000000558794,
+          "elapsedMs": 17.90000000037253,
+          "maxStepMs": 4.099999999627471,
+          "roundTripMs": 21.700000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:v4-inner-1-split-2-m91",
+          "activeMs": 31.499999999068677,
+          "elapsedMs": 33.200000000186265,
+          "maxStepMs": 11.099999999627471,
+          "roundTripMs": 56.299999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:access-finance-north-section-section",
+          "activeMs": 15.600000001490116,
+          "elapsedMs": 15.800000000745058,
+          "maxStepMs": 9.299999999813735,
+          "roundTripMs": 28.299999999813735
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-2-split-split-m91",
+          "activeMs": 13.099999999627471,
+          "elapsedMs": 13.5,
+          "maxStepMs": 3.599999999627471,
+          "roundTripMs": 27.200000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-section",
+          "activeMs": 274.3999999994412,
+          "elapsedMs": 313.09999999962747,
+          "maxStepMs": 34.299999999813735,
+          "roundTripMs": 321.1000000005588
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-2",
+          "activeMs": 198.89999999850988,
+          "elapsedMs": 238.09999999962747,
+          "maxStepMs": 40.59999999962747,
+          "roundTripMs": 244.40000000037253
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-rail-underpass:underpass",
+          "activeMs": 11.700000000186265,
+          "elapsedMs": 12,
+          "maxStepMs": 3.7000000001862645,
+          "roundTripMs": 17.90000000037253
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-underpass-end-approach",
+          "activeMs": 25.59999999962747,
+          "elapsedMs": 25.700000000186265,
+          "maxStepMs": 9.899999999441206,
+          "roundTripMs": 25.899999999441206
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-2",
+          "activeMs": 190.49999999906868,
+          "elapsedMs": 224.3999999994412,
+          "maxStepMs": 38.700000000186265,
+          "roundTripMs": 227.6000000005588
+        },
+        {
+          "kind": "road",
+          "id": "road:direction-mingyuan-main-section-section",
+          "activeMs": 191.7999999979511,
+          "elapsedMs": 235.5,
+          "maxStepMs": 21.5,
+          "roundTripMs": 235.90000000037253
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-2-split-split-m91",
+          "activeMs": 13.599999998696148,
+          "elapsedMs": 13.699999999254942,
+          "maxStepMs": 3.5,
+          "roundTripMs": 14.099999999627471
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-ns-split-split-split-split-m91",
+          "activeMs": 2.7999999998137355,
+          "elapsedMs": 2.900000000372529,
+          "maxStepMs": 1,
+          "roundTripMs": 9.700000000186265
+        },
+        {
+          "kind": "road",
+          "id": "road:urban-east-ns-split-split-split-split-split-2-m91",
+          "activeMs": 9.299999999813735,
+          "elapsedMs": 10.799999999813735,
+          "maxStepMs": 2.2000000001862645,
+          "roundTripMs": 11.800000000745058
+        },
+        {
+          "kind": "road",
+          "id": "road:v5-civic-south-split-m91",
+          "activeMs": 18.700000000186265,
+          "elapsedMs": 19.299999999813735,
+          "maxStepMs": 4.699999999254942,
+          "roundTripMs": 31.59999999962747
+        },
+        {
+          "kind": "road",
+          "id": "road:ew-wb-split",
+          "activeMs": 18.200000000186265,
+          "elapsedMs": 18.200000000186265,
+          "maxStepMs": 6.7999999998137355,
+          "roundTripMs": 24.200000000186265
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "assertions": 2048,
+    "unit": {
+      "assertions": 138
+    },
+    "lifecycle": {
+      "assertions": 10
+    },
+    "projection": [
+      {
+        "id": "arterial",
+        "paintMeshes": 182,
+        "round1Ms": {
+          "count": 5,
+          "median": 52.38869999999952,
+          "p95": 55.917599999999766,
+          "max": 55.917599999999766
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 14.422099999999773,
+          "p95": 15.359600000000682,
+          "max": 15.359600000000682
+        },
+        "round1Triangles": 18778,
+        "optimizedTriangles": 17218,
+        "maxAreaError": 0.00010176002979278564,
+        "indexBytes": 77632,
+        "statistics": {
+          "inputTriangles": 59640,
+          "candidateTests": 160272,
+          "contained": 40116,
+          "coplanarUnions": 4092,
+          "outputTriangles": 103308
+        }
+      },
+      {
+        "id": "median",
+        "paintMeshes": 240,
+        "round1Ms": {
+          "count": 5,
+          "median": 16.025900000000547,
+          "p95": 19.502399999999398,
+          "max": 19.502399999999398
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 3.8957999999993262,
+          "p95": 5.188799999999901,
+          "max": 5.188799999999901
+        },
+        "round1Triangles": 8598,
+        "optimizedTriangles": 8010,
+        "maxAreaError": 0.00007420056499540806,
+        "indexBytes": 10112,
+        "statistics": {
+          "inputTriangles": 45264,
+          "candidateTests": 80370,
+          "contained": 42360,
+          "coplanarUnions": 1596,
+          "outputTriangles": 48060
+        }
+      },
+      {
+        "id": "junction",
+        "paintMeshes": 313,
+        "round1Ms": {
+          "count": 5,
+          "median": 37.27099999999973,
+          "p95": 47.01350000000002,
+          "max": 47.01350000000002
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 8.433100000000195,
+          "p95": 14.46309999999994,
+          "max": 14.46309999999994
+        },
+        "round1Triangles": 17240,
+        "optimizedTriangles": 13907,
+        "maxAreaError": 0.000057159923017024994,
+        "indexBytes": 37068,
+        "statistics": {
+          "inputTriangles": 83124,
+          "candidateTests": 130542,
+          "contained": 74898,
+          "coplanarUnions": 8118,
+          "outputTriangles": 83442
+        }
+      },
+      {
+        "id": "divided",
+        "paintMeshes": 180,
+        "round1Ms": {
+          "count": 5,
+          "median": 13.981899999999769,
+          "p95": 20.183399999999892,
+          "max": 20.183399999999892
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 2.9061000000001513,
+          "p95": 3.966699999999946,
+          "max": 3.966699999999946
+        },
+        "round1Triangles": 6380,
+        "optimizedTriangles": 5980,
+        "maxAreaError": 0.00008991826325654984,
+        "indexBytes": 10072,
+        "statistics": {
+          "inputTriangles": 35880,
+          "candidateTests": 64224,
+          "contained": 34824,
+          "coplanarUnions": 1056,
+          "outputTriangles": 35880
+        }
+      },
+      {
+        "id": "bridge",
+        "paintMeshes": 32,
+        "round1Ms": {
+          "count": 5,
+          "median": 1.707300000000032,
+          "p95": 2.29779999999937,
+          "max": 2.29779999999937
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 0.4915000000000873,
+          "p95": 0.9821000000001732,
+          "max": 0.9821000000001732
+        },
+        "round1Triangles": 1212,
+        "optimizedTriangles": 936,
+        "maxAreaError": 0,
+        "indexBytes": 4408,
+        "statistics": {
+          "inputTriangles": 5616,
+          "candidateTests": 9576,
+          "contained": 4788,
+          "coplanarUnions": 828,
+          "outputTriangles": 5616
+        }
+      },
+      {
+        "id": "underground",
+        "paintMeshes": 196,
+        "round1Ms": {
+          "count": 5,
+          "median": 15.974599999999555,
+          "p95": 17.243500000000495,
+          "max": 17.243500000000495
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 3.8266999999996187,
+          "p95": 3.9248999999999796,
+          "max": 3.9248999999999796
+        },
+        "round1Triangles": 8647,
+        "optimizedTriangles": 7344,
+        "maxAreaError": 0,
+        "indexBytes": 22376,
+        "statistics": {
+          "inputTriangles": 34992,
+          "candidateTests": 64584,
+          "contained": 28026,
+          "coplanarUnions": 3618,
+          "outputTriangles": 44064
+        }
+      },
+      {
+        "id": "curve-grade",
+        "paintMeshes": 476,
+        "round1Ms": {
+          "count": 5,
+          "median": 27.931799999999384,
+          "p95": 29.19919999999911,
+          "max": 29.19919999999911
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 6.9671999999991385,
+          "p95": 11.226700000001074,
+          "max": 11.226700000001074
+        },
+        "round1Triangles": 17320,
+        "optimizedTriangles": 15814,
+        "maxAreaError": 0.00008221622556447983,
+        "indexBytes": 18684,
+        "statistics": {
+          "inputTriangles": 92904,
+          "candidateTests": 156888,
+          "contained": 87624,
+          "coplanarUnions": 4356,
+          "outputTriangles": 94884
+        }
+      },
+      {
+        "id": "skew",
+        "paintMeshes": 249,
+        "round1Ms": {
+          "count": 5,
+          "median": 17.934900000000198,
+          "p95": 19.509099999999307,
+          "max": 19.509099999999307
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 4.791900000000169,
+          "p95": 6.180599999999686,
+          "max": 6.180599999999686
+        },
+        "round1Triangles": 11267,
+        "optimizedTriangles": 9150,
+        "maxAreaError": 0.00020969286561012268,
+        "indexBytes": 20764,
+        "statistics": {
+          "inputTriangles": 52296,
+          "candidateTests": 93312,
+          "contained": 46734,
+          "coplanarUnions": 4926,
+          "outputTriangles": 54900
+        }
+      },
+      {
+        "id": "tunnel",
+        "paintMeshes": 68,
+        "round1Ms": {
+          "count": 5,
+          "median": 7.21349999999984,
+          "p95": 9.988800000000992,
+          "max": 9.988800000000992
+        },
+        "optimizedMs": {
+          "count": 5,
+          "median": 1.4431000000004133,
+          "p95": 1.523300000000745,
+          "max": 1.523300000000745
+        },
+        "round1Triangles": 4887,
+        "optimizedTriangles": 4886,
+        "maxAreaError": 0.00000768899917602539,
+        "indexBytes": 21128,
+        "statistics": {
+          "inputTriangles": 22260,
+          "candidateTests": 36870,
+          "contained": 18714,
+          "coplanarUnions": 6,
+          "outputTriangles": 29316
+        }
+      }
+    ],
+    "collisions": [
+      {
+        "roadId": "regional:G38:out:split274",
+        "newGeometry": true,
+        "probes": [
+          {
+            "kind": "guardrail",
+            "colliderId": "regional:G38:out:split274:barrier:222:1",
+            "collided": true
+          },
+          {
+            "kind": "wall",
+            "colliderId": "regional:G38:out:split274:wall:507:1",
+            "collided": true
+          },
+          {
+            "kind": "ceiling",
+            "colliderId": "regional:G38:out:split274:ceiling:32",
+            "collided": false,
+            "roofClearance": 4.355
+          }
+        ],
+        "roofSamples": [
+          {
+            "fraction": 0.02,
+            "clearance": 4.3550403530379
+          },
+          {
+            "fraction": 0.25,
+            "clearance": 4.355021427371639
+          },
+          {
+            "fraction": 0.5,
+            "clearance": 4.355384651828004
+          },
+          {
+            "fraction": 0.75,
+            "clearance": 4.355292760818802
+          },
+          {
+            "fraction": 0.98,
+            "clearance": 4.355096487935466
+          }
+        ],
+        "piers": 0,
+        "visualEnvelope": [
+          {
+            "kind": "concrete-barrier",
+            "vertices": 2676,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0019998290542369013,
+            "maxVerticalMiss": 0.026000799861726875,
+            "examples": []
+          },
+          {
+            "kind": "concrete-barrier",
+            "vertices": 2700,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0020018042906584377,
+            "maxVerticalMiss": 0.026000799861726875,
+            "examples": []
+          },
+          {
+            "kind": "tunnel-wall",
+            "vertices": 1384,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.00013746530771555077,
+            "maxVerticalMiss": 9.194882508722912e-7,
+            "examples": []
+          },
+          {
+            "kind": "tunnel-wall",
+            "vertices": 1520,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.000125534868302829,
+            "maxVerticalMiss": 9.087355543613285e-7,
+            "examples": []
+          }
+        ]
+      },
+      {
+        "roadId": "regional:qingling:S-to-E-right:deceleration",
+        "newGeometry": false,
+        "probes": [
+          {
+            "kind": "guardrail",
+            "colliderId": "regional:qingling:S-to-E-right:deceleration:barrier:4:1",
+            "collided": true
+          }
+        ],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "ew-wb-split",
+        "newGeometry": true,
+        "probes": [
+          {
+            "kind": "guardrail",
+            "colliderId": "ew-wb-split:barrier:54:1",
+            "collided": true
+          }
+        ],
+        "roofSamples": [],
+        "piers": 2,
+        "visualEnvelope": [
+          {
+            "kind": "concrete-barrier",
+            "vertices": 648,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0000035815506009839737,
+            "maxVerticalMiss": 0.025999832153321023,
+            "examples": []
+          },
+          {
+            "kind": "metal-rail",
+            "vertices": 1080,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0000035815506009839737,
+            "maxVerticalMiss": 0,
+            "examples": []
+          },
+          {
+            "kind": "guardrail-posts",
+            "vertices": 768,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0,
+            "maxVerticalMiss": 0.02499978542327952,
+            "examples": []
+          }
+        ]
+      },
+      {
+        "roadId": "urban-rail-underpass:underpass",
+        "newGeometry": false,
+        "probes": [
+          {
+            "kind": "wall",
+            "colliderId": "urban-rail-underpass:underpass:wall:14:1",
+            "collided": true
+          },
+          {
+            "kind": "ceiling",
+            "colliderId": "urban-rail-underpass:underpass:ceiling:8",
+            "collided": false,
+            "roofClearance": 4.355
+          }
+        ],
+        "roofSamples": [
+          {
+            "fraction": 0.02,
+            "clearance": 4.355
+          },
+          {
+            "fraction": 0.25,
+            "clearance": 4.355
+          },
+          {
+            "fraction": 0.5,
+            "clearance": 4.355
+          },
+          {
+            "fraction": 0.75,
+            "clearance": 4.355
+          },
+          {
+            "fraction": 0.98,
+            "clearance": 4.355
+          }
+        ],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-underpass-end-approach",
+        "newGeometry": false,
+        "probes": [
+          {
+            "kind": "wall",
+            "colliderId": "urban-underpass-end-approach:wall:117:1",
+            "collided": true
+          }
+        ],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v4-south-logistics-west",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 3,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-diagonal-split-split-split-split-3",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v5-east-garden-split",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-east-arterial-split-split-3-split",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-east-arterial-split-split-3-split-2-split",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v91-ew-0-a-3",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v91-ew-0-a-4",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v91-ew-0-b-3",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v91-ew-0-b-4",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-east-ns-split-split-split-split-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v5-finance-road-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "urban-east-ns-split-split-split-split-split-2-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v5-civic-south-split-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v5-civic-south-split-2-split-split-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v4-inner-0-v91-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v4-inner-0-split-2-v91-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v5-east-garden-c91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v4-inner-1-m91-section",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "v4-inner-1-split-2-m91",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "direction-mingyuan-main-section-section",
+        "newGeometry": true,
+        "probes": [
+          {
+            "kind": "median",
+            "colliderId": "direction-mingyuan-main-section-section:median:175",
+            "collided": true
+          },
+          {
+            "kind": "guardrail",
+            "colliderId": "direction-mingyuan-main-section-section:barrier:547:1",
+            "collided": true
+          }
+        ],
+        "roofSamples": [],
+        "piers": 8,
+        "visualEnvelope": [
+          {
+            "kind": "metal-rail",
+            "vertices": 3820,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.000014601046841811183,
+            "maxVerticalMiss": 0,
+            "examples": []
+          },
+          {
+            "kind": "guardrail-posts",
+            "vertices": 3144,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0,
+            "maxVerticalMiss": 0.02507368330955817,
+            "examples": []
+          },
+          {
+            "kind": "metal-rail",
+            "vertices": 3840,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.000016546138318696002,
+            "maxVerticalMiss": 0,
+            "examples": []
+          },
+          {
+            "kind": "guardrail-posts",
+            "vertices": 3144,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0,
+            "maxVerticalMiss": 0.02508021519292658,
+            "examples": []
+          },
+          {
+            "kind": "median",
+            "vertices": 5632,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.000027620261580745393,
+            "maxVerticalMiss": 2.3782684799300569e-7,
+            "examples": []
+          }
+        ]
+      },
+      {
+        "roadId": "access-finance-north-section-section",
+        "newGeometry": true,
+        "probes": [],
+        "roofSamples": [],
+        "piers": 0,
+        "visualEnvelope": []
+      },
+      {
+        "roadId": "direction-mingyuan-main-section-2",
+        "newGeometry": true,
+        "probes": [
+          {
+            "kind": "median",
+            "colliderId": "direction-mingyuan-main-section-2:median:353",
+            "collided": true
+          },
+          {
+            "kind": "guardrail",
+            "colliderId": "direction-mingyuan-main-section-2:barrier:1113:1",
+            "collided": true
+          }
+        ],
+        "roofSamples": [],
+        "piers": 27,
+        "visualEnvelope": [
+          {
+            "kind": "metal-rail",
+            "vertices": 7540,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0006832905258851163,
+            "maxVerticalMiss": 0,
+            "examples": []
+          },
+          {
+            "kind": "guardrail-posts",
+            "vertices": 6336,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0,
+            "maxVerticalMiss": 0.025002034467467737,
+            "examples": []
+          },
+          {
+            "kind": "metal-rail",
+            "vertices": 7700,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.000031870095659969344,
+            "maxVerticalMiss": 0,
+            "examples": []
+          },
+          {
+            "kind": "guardrail-posts",
+            "vertices": 6360,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0,
+            "maxVerticalMiss": 0.02500141741113815,
+            "examples": []
+          },
+          {
+            "kind": "median",
+            "vertices": 11344,
+            "outsideTolerance": 0,
+            "maxHorizontalMiss": 0.0005708686068157031,
+            "maxVerticalMiss": 4.7543584003051365e-7,
+            "examples": []
+          }
+        ]
+      },
+      {
+        "junctionId": "urban-junction-80",
+        "status": "legacy-retained",
+        "reason": "traffic-island collision contract requires separate authoring review",
+        "islandHeight": 0.18
+      }
+    ],
+    "environmentConflicts": []
+  },
+  "limitations": [
+    "Two full passes, opposite renderer order; results are samples, not a statistical non-regression proof.",
+    "No forced GC; JS heap includes shared runtime, renderer and vehicle resources. Geometry buffer estimates exclude textures, render targets and driver overhead.",
+    "Main-frame times include real physics and renderer CPU work, not GPU hardware timer measurements.",
+    "First-pass raw Worker arrays were live references in intermediate snapshots; Worker distributions here use only the corrected reverse-pass copied snapshots.",
+    "Sector distributions are bounded final 512 publication samples; CPU active time is separated from elapsed shader/scheduling wait."
+  ]
+}

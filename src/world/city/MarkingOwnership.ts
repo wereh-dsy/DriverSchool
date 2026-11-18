@@ -4,6 +4,8 @@ import { junctionSurfaceContains, junctionSurfaceHeight } from './JunctionSurfac
 import { roadEdgeChains } from './RoadEdgeChain';
 import { isControlledAccessRoad } from './RoadClassification';
 import {hasCentralBarrier} from './RoadCarriageway';
+import { roadCompileSampler } from './RoadCompileSampling';
+import { drain } from '../../loading/Loading';
 
 /** Data migration/authoring only. Renderers consume approach data, never infer arrows. */
 export function populateIntersectionMarkingMetadata(map:CityMapData):void {
@@ -115,20 +117,25 @@ export class MarkingOwnership {
     return true;
   }
   sections(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge',boundary=false,centre=false):CityPoint[][] {
+    return drain(this.sectionSteps(path,offset,road,owner,boundary,centre));
+  }
+  *sectionSteps(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge',boundary=false,centre=false):Generator<void,CityPoint[][]> {
     const len=polylineLength(path),count=Math.max(1,Math.ceil(len/0.75)),sections:CityPoint[][]=[];let section:CityPoint[]=[];
+    const sample=roadCompileSampler(path);
     const flush=()=>{if(section.length>1)sections.push(section);section=[];};
     const permitted=(d:number)=>{
       // Stop lines and zebra crossings now sit just outside the pavement
       // boundary; suppress longitudinal road paint through that terminal strip
       // so lane markings never run through the crossing.
-      const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,5.5,centre?.15:5.5);
+      const s=sample(d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,5.5,centre?.15:5.5);
       const owned=owner==='road'?!mask:mask?.kind==='merge'&&mask.id===road.id;
       return owned&&this.permitsLongitudinal(p,s.tangent,road,boundary,centre);
     };
     for(let i=0;i<count;i++) {
+      if(i%64===0)yield;
       const a=len*i/count,b=len*(i+1)/count;
       if(!permitted(a)||!permitted((a+b)/2)||!permitted(b)){flush();continue;}
-      if(!section.length)section.push(sampleAt(path,a).point);section.push(sampleAt(path,b).point);
+      if(!section.length)section.push(sample(a).point);section.push(sample(b).point);
     }
     flush();return sections;
   }

@@ -1,0 +1,36 @@
+{
+  "label": "Round 6: local signal and vegetation placement review",
+  "operations": [
+    {
+      "op": "reanchorObject",
+      "id": "signal:urban-junction-167:east",
+      "strategy": "reanchorToApproach"
+    },
+    {
+      "op": "moveObject",
+      "id": "signal:v91-ring-west-outer-junction:east",
+      "delta": {
+        "x": 7,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "op": "brushObjects",
+      "brush": {
+        "mode": "REPAIR",
+        "type": "tree",
+        "objectIds": [
+          "v6-road-trees-417",
+          "regional:extension-tree:G65:460:1"
+        ],
+        "heightMode": "GROUND",
+        "lateralOffset": 5,
+        "minDistanceToObject": 2,
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 12,
+        "seed": 6
+      }
+    }
+  ]
+}

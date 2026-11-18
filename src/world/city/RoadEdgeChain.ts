@@ -3,6 +3,7 @@ import {polylineLength,roadPoints} from './geometry';
 import {sampleRibbonPolyline} from '../subject3/geometry';
 import {BufferGeometry,Float32BufferAttribute} from 'three';
 import {roadEdges} from './geometry';
+import {drain} from '../../loading/Loading';
 
 export interface RoadEdgeCorridor {id:string;roadIds:string[];points:CityPoint[];length:number}
 /** Load-time logical edge chains. Only explicitly linked, compatible continuations
@@ -12,20 +13,35 @@ export class RoadEdgeChains {
  private readonly frames=new Map<string,{point:CityPoint;tangent:{x:number;z:number}}[]>();
  private readonly starts=new Map<string,{distance:number;reverse:boolean}>();
  private readonly neighbours=new Map<string,RoadEndpoint>();
- private readonly roads:Map<string,CityRoad>;
+ private readonly roads=new Map<string,CityRoad>();
  private readonly continuationIds=new Map<string,ReadonlySet<string>>();
- constructor(map:CityMapData) {
-  const roads=new Map(map.roads.map(r=>[r.id,r])),paths=new Map(map.roads.map(r=>[r.id,roadPoints(r)]));
-  this.roads=roads;
+ constructor(map:CityMapData, deferred = false) {
+  this.initialization = this.initialize(map);
+  if (!deferred) drain(this.initialization);
+ }
+ readonly initialization: Generator<void>;
+ private *initialize(map:CityMapData):Generator<void> {
+  const roads=this.roads, paths=new Map<string, CityPoint[]>();
+  for (const road of map.roads) {
+   roads.set(road.id, road);
+   paths.set(road.id, roadPoints(road));
+   yield;
+  }
   const key=(e:RoadEndpoint)=>e.roadId+':'+e.end;
   const groups:RoadEndpoint[][]=[];
+  const endpointGroups=new Map<string,RoadEndpoint[]>();
   for(const link of map.roadLinks??[]) {
-   const a=groups.find(g=>g.some(e=>key(e)===key(link.from))),b=groups.find(g=>g.some(e=>key(e)===key(link.to)));
-   if(a&&b&&a!==b){a.push(...b);groups.splice(groups.indexOf(b),1);}else if(a&&!b)a.push(link.to);else if(b&&!a)b.push(link.from);else if(!a&&!b)groups.push([link.from,link.to]);
+   yield;
+   const a=endpointGroups.get(key(link.from)),b=endpointGroups.get(key(link.to));
+   if(a&&b&&a!==b){a.push(...b);for(const end of b)endpointGroups.set(key(end),a);groups.splice(groups.indexOf(b),1);}
+   else if(a&&!b){a.push(link.to);endpointGroups.set(key(link.to),a);}
+   else if(b&&!a){b.push(link.from);endpointGroups.set(key(link.from),b);}
+   else if(!a&&!b){const group=[link.from,link.to];groups.push(group);endpointGroups.set(key(link.from),group);endpointGroups.set(key(link.to),group);}
   }
   const neighbour=new Map<string,RoadEndpoint>();
   const out=(e:RoadEndpoint)=>{const p=paths.get(e.roadId)!,a=e.end==='start'?p[0]!:p.at(-1)!,b=e.end==='start'?p[1]!:p.at(-2)!,l=Math.hypot(b.x-a.x,b.z-a.z);return{x:(b.x-a.x)/l,z:(b.z-a.z)/l};};
   for(const g of groups)for(const a of g) {
+   yield;
    const r=roads.get(a.roadId)!,p=paths.get(r.id)![a.end==='start'?0:paths.get(r.id)!.length-1]!,u=out(a);
    const matches=g.filter(b=>b.roadId!==r.id).filter(b=>{const s=roads.get(b.roadId)!,v=out(b),q=paths.get(s.id)![b.end==='start'?0:paths.get(s.id)!.length-1]!;
     return r.laneCount===s.laneCount&&r.laneWidth===s.laneWidth&&JSON.stringify(r.shoulders)===JSON.stringify(s.shoulders)&&r.structure?.barrierEnabled===s.structure?.barrierEnabled&&Math.hypot(p.x-q.x,p.z-q.z)<.06&&Math.abs((p.y??0)-(q.y??0))<.02&&u.x*v.x+u.z*v.z<-.95;});
@@ -41,6 +57,7 @@ export class RoadEdgeChains {
   for(const [id,end] of neighbour)this.neighbours.set(id,end);
   const seen=new Set<string>();
   for(const seed of map.roads) {
+   yield;
    if(seen.has(seed.id))continue;
    let begin:RoadEndpoint={roadId:seed.id,end:'start'};const searched=new Set<string>();
    // Find the outer end before walking the whole corridor; closed rings start at
@@ -67,6 +84,7 @@ export class RoadEdgeChains {
   // road's cross-section frame. Otherwise different end tangents leave a wedge
   // between the auxiliary lane and the ramp despite identical XYZ anchors.
   for(const group of groups)for(const end of group){
+   yield;
    const road=roads.get(end.roadId)!;if(!road.gore&&!road.highwayTransition)continue;
    const own=this.frames.get(road.id)!,frame=own[end.end==='start'?0:own.length-1]!;
    const hosts=group.filter(e=>e.roadId!==road.id).map(e=>({end:e,road:roads.get(e.roadId)!})).filter(q=>q.road.laneCount>road.laneCount||q.road.laneCount===road.laneCount&&q.road.laneWidth>road.laneWidth+.01).sort((a,b)=>b.road.laneCount*b.road.laneWidth-a.road.laneCount*a.road.laneWidth||a.road.id.localeCompare(b.road.id));
@@ -81,9 +99,10 @@ export class RoadEdgeChains {
  }
  /** Structure offsets may differ at a tunnel portal. Blend both sections to a
   * common wall/rail endpoint while keeping the drivable pavement edge fixed. */
- barrierEdge(road:CityRoad,side:number):CityPoint[] {
-  const frames=this.frames.get(road.id)!,own=road.structure?.barrierOffset??0,edges=roadEdges(road),length=polylineLength(frames.map(f=>f.point));
-  const joined=(end:'start'|'end')=>{const e=this.neighbours.get(road.id+':'+end);return e?(own+(this.roads.get(e.roadId)!.structure?.barrierOffset??0))/2:own;};
+ barrierEdge(road:CityRoad,side:number,enclosureWall=false):CityPoint[] {
+  const reserve=(r:CityRoad)=>enclosureWall?(r.structure?.enclosure?.wallOffset??r.structure?.barrierOffset??0):(r.structure?.barrierOffset??0);
+  const frames=this.frames.get(road.id)!,own=reserve(road),edges=roadEdges(road),length=polylineLength(frames.map(f=>f.point));
+  const joined=(end:'start'|'end')=>{const e=this.neighbours.get(road.id+':'+end),other=e?this.roads.get(e.roadId):undefined;return other&&(!enclosureWall||other.structure?.enclosure)?(own+reserve(other))/2:own;};
   const start=joined('start'),end=joined('end');let d=0;
   return frames.map((f,i)=>{if(i)d+=Math.hypot(f.point.x-frames[i-1]!.point.x,f.point.z-frames[i-1]!.point.z);const span=Math.min(30,length/2),extra=own+(start-own)*Math.max(0,1-d/span)+(end-own)*Math.max(0,1-(length-d)/span),offset=(side<0?edges.left:edges.right)+side*extra;return{x:f.point.x-f.tangent.z*offset,y:f.point.y??0,z:f.point.z+f.tangent.x*offset};});
  }
@@ -95,7 +114,14 @@ export class RoadEdgeChains {
  }
 }
 const cache=new WeakMap<CityMapData,RoadEdgeChains>();
+export function invalidateRoadEdgeChains(map:CityMapData):void {cache.delete(map);}
 export function roadEdgeChains(map:CityMapData):RoadEdgeChains {let c=cache.get(map);if(!c){c=new RoadEdgeChains(map);cache.set(map,c);}return c;}
+export function* prepareRoadEdgeChainsSteps(map:CityMapData):Generator<void> {
+ if (cache.has(map)) return;
+ const chains = new RoadEdgeChains(map, true);
+ yield* chains.initialization;
+ cache.set(map, chains);
+}
 /** Two edges share the corridor's frame, including at road-ID seams. */
 export function roadEdgeStrip(road:CityRoad,map:CityMapData,left:number,right:number,yOffset:number):BufferGeometry {
  const chain=roadEdgeChains(map),a=chain.edge(road,left,yOffset),b=chain.edge(road,right,yOffset),positions:number[]=[],uv:number[]=[],indices:number[]=[];let d=0;

@@ -1,0 +1,617 @@
+{
+  "before": {
+    "draws": {
+      "calls": {
+        "n": 3830,
+        "p50": 765,
+        "p95": 1394,
+        "p99": 1521,
+        "max": 1528
+      },
+      "shadowCalls": {
+        "n": 3830,
+        "p50": 122,
+        "p95": 132,
+        "p99": 133,
+        "max": 133
+      },
+      "backgroundCalls": {
+        "n": 3830,
+        "p50": 19,
+        "p95": 41,
+        "p99": 42,
+        "max": 42
+      }
+    },
+    "triangles": {
+      "n": 3830,
+      "p50": 737346,
+      "p95": 861856,
+      "p99": 877543,
+      "max": 888170
+    },
+    "sectors": {
+      "n": 3830,
+      "p50": 5,
+      "p95": 6,
+      "p99": 6,
+      "max": 6
+    }
+  },
+  "after": {
+    "draws": {
+      "calls": {
+        "n": 5353,
+        "p50": 763,
+        "p95": 1244,
+        "p99": 1404,
+        "max": 1410
+      },
+      "shadowCalls": {
+        "n": 5353,
+        "p50": 123,
+        "p95": 132,
+        "p99": 133,
+        "max": 133
+      },
+      "backgroundCalls": {
+        "n": 5353,
+        "p50": 20,
+        "p95": 35,
+        "p99": 36,
+        "max": 40
+      }
+    },
+    "triangles": null,
+    "sectors": {
+      "n": 5353,
+      "p50": 5,
+      "p95": 6,
+      "p99": 6,
+      "max": 6
+    },
+    "runtime": {
+      "samples": 4096,
+      "historyCapacity": 4096,
+      "jobs": {
+        "completed": 6302,
+        "cancelled": 2,
+        "failed": 0,
+        "coalesced": 0,
+        "overBudgetAtoms": 223
+      },
+      "phases": {
+        "cpuMs": {
+          "n": 4096,
+          "p50": 9.5,
+          "p95": 16.30000001192093,
+          "p99": 19.799999997019768,
+          "max": 37.8999999910593
+        },
+        "simulation": {
+          "n": 4096,
+          "p50": 0.5999999940395355,
+          "p95": 1.5999999940395355,
+          "p99": 3.0999999940395355,
+          "max": 16.400000005960464
+        },
+        "scene": {
+          "n": 4096,
+          "p50": 0.5,
+          "p95": 1.1000000089406967,
+          "p99": 2.0999999940395355,
+          "max": 5.100000008940697
+        },
+        "render": {
+          "n": 4096,
+          "p50": 8.099999994039536,
+          "p95": 14,
+          "p99": 16.799999997019768,
+          "max": 33.5
+        },
+        "streaming": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 1.2999999970197678,
+          "p99": 2.5,
+          "max": 11
+        },
+        "assets": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 0.4000000059604645,
+          "p99": 1.0000000149011612,
+          "max": 2.2999999970197678
+        },
+        "maintenance": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0.10000000894069672,
+          "max": 0.30000001192092896
+        },
+        "debtMs": {
+          "n": 4096,
+          "p50": 4.200000000004643,
+          "p95": 7.800000000003584,
+          "p99": 8.266666666665692,
+          "max": 55.86666666667109
+        },
+        "steps": {
+          "n": 4096,
+          "p50": 1,
+          "p95": 2,
+          "p99": 4,
+          "max": 16
+        }
+      },
+      "gpu": {
+        "n": 83,
+        "p50": 6.714272,
+        "p95": 13.017856,
+        "p99": 16.172224,
+        "max": 16.172224
+      },
+      "renderCounters": null,
+      "stillQueued": 6,
+      "slowFramesOver100": [
+        {
+          "time": 6320.3,
+          "rafMs": 194,
+          "cpuMs": 8.299999997019768,
+          "simulation": 0,
+          "scene": 0,
+          "render": 0,
+          "streaming": 3.199999988079071,
+          "assets": 3.9000000059604645,
+          "background": 0.10000000894069672,
+          "maintenance": 0,
+          "steps": 0,
+          "debtMs": 0,
+          "queued": 1,
+          "calls": 0,
+          "triangles": 0,
+          "geometries": 92,
+          "textures": 2,
+          "heapBytes": 351719873,
+          "state": {
+            "sector": "4,2",
+            "active": 0,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 111576,
+            "terrain": 0,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 8,
+              "inFlight": "road:ring-cw-2-split-4-split"
+            }
+          }
+        },
+        {
+          "time": 11775.3,
+          "rafMs": 254.59999999999854,
+          "cpuMs": 0.19999998807907104,
+          "simulation": 0,
+          "scene": 0,
+          "render": 0,
+          "streaming": 0,
+          "assets": 0,
+          "background": 0,
+          "maintenance": 0.09999999403953552,
+          "steps": 0,
+          "debtMs": 0,
+          "queued": 0,
+          "calls": 0,
+          "triangles": 0,
+          "geometries": 1456,
+          "textures": 58,
+          "heapBytes": 426355481,
+          "state": {
+            "sector": "4,2",
+            "active": 56,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 31559956,
+            "terrain": 9648580,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 0
+            }
+          }
+        },
+        {
+          "time": 12017.7,
+          "rafMs": 163.60000000000036,
+          "cpuMs": 49.79999999701977,
+          "simulation": 19.5,
+          "scene": 8.799999997019768,
+          "render": 19.099999994039536,
+          "streaming": 2.2999999970197678,
+          "assets": 0,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 1,
+          "debtMs": 155.26666666666702,
+          "queued": 2,
+          "calls": 725,
+          "triangles": 788205,
+          "geometries": 1457,
+          "textures": 59,
+          "heapBytes": 426355481,
+          "state": {
+            "sector": "4,2",
+            "active": 56,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 31559956,
+            "terrain": 9648580,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 1
+            }
+          }
+        },
+        {
+          "time": 34668.3,
+          "rafMs": 187.90000000000146,
+          "cpuMs": 17.299999997019768,
+          "simulation": 5.100000008940697,
+          "scene": 1.0999999940395355,
+          "render": 10.599999994039536,
+          "streaming": 0,
+          "assets": 0.5,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 16,
+          "debtMs": 55.86666666667109,
+          "queued": 10,
+          "calls": 739,
+          "triangles": 733343,
+          "geometries": 1501,
+          "textures": 81,
+          "heapBytes": 530773805,
+          "state": {
+            "sector": "5,2",
+            "active": 56,
+            "publishing": 9,
+            "retiring": 0,
+            "roads": 31668048,
+            "terrain": 11804640,
+            "backgroundPages": 50,
+            "worker": {
+              "queued": 9
+            }
+          }
+        }
+      ],
+      "atomicMaxMs": 29.100000008940697
+    }
+  },
+  "final": {
+    "draws": {
+      "calls": {
+        "n": 5719,
+        "p50": 768,
+        "p95": 1266,
+        "p99": 1415,
+        "max": 1430
+      },
+      "shadowCalls": {
+        "n": 5719,
+        "p50": 123,
+        "p95": 132,
+        "p99": 133,
+        "max": 133
+      },
+      "backgroundCalls": {
+        "n": 5719,
+        "p50": 24,
+        "p95": 44,
+        "p99": 46,
+        "max": 48
+      }
+    },
+    "triangles": {
+      "n": 5719,
+      "p50": 790706,
+      "p95": 898095,
+      "p99": 918772,
+      "max": 932311
+    },
+    "sectors": {
+      "n": 5719,
+      "p50": 5,
+      "p95": 6,
+      "p99": 6,
+      "max": 6
+    },
+    "runtime": {
+      "samples": 4096,
+      "historyCapacity": 4096,
+      "jobs": {
+        "completed": 6876,
+        "cancelled": 0,
+        "failed": 0,
+        "coalesced": 0,
+        "overBudgetAtoms": 220
+      },
+      "phases": {
+        "cpuMs": {
+          "n": 4096,
+          "p50": 9.5,
+          "p95": 14.599999994039536,
+          "p99": 16.5,
+          "max": 29.299999997019768
+        },
+        "simulation": {
+          "n": 4096,
+          "p50": 0.5999999940395355,
+          "p95": 1.4000000059604645,
+          "p99": 2.5,
+          "max": 13
+        },
+        "scene": {
+          "n": 4096,
+          "p50": 0.5,
+          "p95": 1.1000000089406967,
+          "p99": 1.7999999970197678,
+          "max": 4.0999999940395355
+        },
+        "render": {
+          "n": 4096,
+          "p50": 8,
+          "p95": 12.599999994039536,
+          "p99": 14.299999997019768,
+          "max": 27.299999997019768
+        },
+        "streaming": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 1.0999999940395355,
+          "p99": 2.0999999940395355,
+          "max": 19.5
+        },
+        "assets": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 0.4000000059604645,
+          "p99": 1,
+          "max": 2.8999999910593033
+        },
+        "maintenance": {
+          "n": 4096,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0.10000000894069672,
+          "max": 0.29999999701976776
+        },
+        "debtMs": {
+          "n": 4096,
+          "p50": 4.16666666666698,
+          "p95": 7.933333333339536,
+          "p99": 8.233333333335263,
+          "max": 24.36666666667134
+        },
+        "steps": {
+          "n": 4096,
+          "p50": 1,
+          "p95": 2,
+          "p99": 4,
+          "max": 16
+        }
+      },
+      "gpu": {
+        "n": 92,
+        "p50": 5.694592,
+        "p95": 11.899712,
+        "p99": 16.974368,
+        "max": 16.974368
+      },
+      "renderCounters": {
+        "viewCalls": {
+          "n": 4096,
+          "p50": 779,
+          "p95": 1296,
+          "p99": 1416,
+          "max": 1430
+        },
+        "shadowCalls": {
+          "n": 4096,
+          "p50": 124,
+          "p95": 132,
+          "p99": 133,
+          "max": 133
+        },
+        "backgroundCalls": {
+          "n": 4096,
+          "p50": 25,
+          "p95": 45,
+          "p99": 46,
+          "max": 48
+        },
+        "visibleObjects": {
+          "n": 4096,
+          "p50": 580,
+          "p95": 1100,
+          "p99": 1180,
+          "max": 1186
+        },
+        "geometries": {
+          "n": 4096,
+          "p50": 1497,
+          "p95": 1927,
+          "p99": 1957,
+          "max": 1965
+        },
+        "textures": {
+          "n": 4096,
+          "p50": 70,
+          "p95": 124,
+          "p99": 130,
+          "max": 130
+        },
+        "programs": {
+          "n": 4096,
+          "p50": 79,
+          "p95": 79,
+          "p99": 79,
+          "max": 79
+        }
+      },
+      "stillQueued": 1,
+      "slowFramesOver100": [
+        {
+          "time": 4384.1,
+          "rafMs": 151.60000000000036,
+          "cpuMs": 8.900000005960464,
+          "simulation": 0,
+          "scene": 0,
+          "render": 0,
+          "streaming": 3.5,
+          "assets": 4.300000011920929,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 0,
+          "debtMs": 0,
+          "queued": 1,
+          "calls": 0,
+          "triangles": 0,
+          "viewCalls": 0,
+          "shadowCalls": 0,
+          "backgroundCalls": 0,
+          "visibleObjects": 0,
+          "geometries": 92,
+          "textures": 2,
+          "programs": 3,
+          "heapBytes": 343228981,
+          "state": {
+            "sector": "4,2",
+            "active": 0,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 111576,
+            "terrain": 0,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 8,
+              "inFlight": "road:ring-cw-2-split-4-split"
+            }
+          }
+        },
+        {
+          "time": 10784.6,
+          "rafMs": 284.8000000000011,
+          "cpuMs": 0.20000000298023224,
+          "simulation": 0,
+          "scene": 0,
+          "render": 0,
+          "streaming": 0,
+          "assets": 0,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 0,
+          "debtMs": 0,
+          "queued": 0,
+          "calls": 0,
+          "triangles": 0,
+          "viewCalls": 0,
+          "shadowCalls": 0,
+          "backgroundCalls": 0,
+          "visibleObjects": 0,
+          "geometries": 1456,
+          "textures": 58,
+          "programs": 71,
+          "heapBytes": 407192017,
+          "state": {
+            "sector": "4,2",
+            "active": 56,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 31559956,
+            "terrain": 9648580,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 0
+            }
+          }
+        },
+        {
+          "time": 11057.5,
+          "rafMs": 169.79999999999927,
+          "cpuMs": 43.79999999701977,
+          "simulation": 16.200000002980232,
+          "scene": 8.799999997019768,
+          "render": 16.400000005960464,
+          "streaming": 2.2999999970197678,
+          "assets": 0,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 1,
+          "debtMs": 161.46666666666596,
+          "queued": 2,
+          "calls": 725,
+          "triangles": 788205,
+          "viewCalls": 725,
+          "shadowCalls": 120,
+          "backgroundCalls": 0,
+          "visibleObjects": 540,
+          "geometries": 1457,
+          "textures": 59,
+          "programs": 76,
+          "heapBytes": 407192017,
+          "state": {
+            "sector": "4,2",
+            "active": 56,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 31559956,
+            "terrain": 9648580,
+            "backgroundPages": 0,
+            "worker": {
+              "queued": 1
+            }
+          }
+        },
+        {
+          "time": 46345.4,
+          "rafMs": 151.5,
+          "cpuMs": 13.5,
+          "simulation": 4.799999997019768,
+          "scene": 1.4000000059604645,
+          "render": 7.199999988079071,
+          "streaming": 0,
+          "assets": 0,
+          "background": 0,
+          "maintenance": 0,
+          "steps": 16,
+          "debtMs": 24.36666666667134,
+          "queued": 2,
+          "calls": 775,
+          "triangles": 877096,
+          "viewCalls": 775,
+          "shadowCalls": 132,
+          "backgroundCalls": 21,
+          "visibleObjects": 540,
+          "geometries": 1960,
+          "textures": 127,
+          "programs": 79,
+          "heapBytes": 526046298,
+          "state": {
+            "sector": "5,2",
+            "active": 82,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 24783676,
+            "terrain": 19229928,
+            "backgroundPages": 56,
+            "worker": {
+              "queued": 4
+            }
+          }
+        }
+      ],
+      "atomicMaxMs": 19.5
+    }
+  }
+}

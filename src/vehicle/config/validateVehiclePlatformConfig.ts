@@ -6,9 +6,12 @@ import { isElectricConfig } from './ElectricVehiclePhysicsConfig';
 import { validateEVPlatformConfig } from './validateEVPlatformConfig';
 import { isP2HybridConfig } from './P2HybridConfig';
 import { validateP2HybridConfig } from './validateP2HybridConfig';
+import { isEhsHybridConfig } from './EhsHybridConfig';
+import { validateEhsHybridConfig } from './validateEhsHybridConfig';
 
 /** Startup/test validation only; no schema framework or work in the fixed loop. */
 export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visual?: VehicleVisualConfig): void {
+  if (isEhsHybridConfig(config)) validateEhsHybridConfig(config);
   if (isP2HybridConfig(config)) validateP2HybridConfig(config);
   const require = (ok: boolean, field: string): void => {
     if (!ok) throw new Error(`Invalid vehicle platform config: ${field}`);

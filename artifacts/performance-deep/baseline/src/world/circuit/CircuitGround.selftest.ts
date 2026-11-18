@@ -1,0 +1,499 @@
+import type { VehiclePhysicsConfig } from '../../vehicle/config';
+type VehicleDescriptor = CatalogDescriptor<VehiclePhysicsConfig>;
+import * as THREE from 'three';
+import { LapTimer } from '../../game/lap/LapTimer';
+import { circuitBarrierDistance, circuitRunoffWidth } from './TrackFeatures';
+import { createNeutralVehicleInputState, type VehicleInputState } from '../../input/VehicleInputState';
+import { VehicleDynamics } from '../../vehicle/physics/VehicleDynamics';
+import type { Powertrain } from '../../vehicle/powertrain/Powertrain';
+import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
+import { createVehiclePhysicsConfig, VEHICLE_CATALOG, getVehicleDescriptor, type VehicleDescriptor as CatalogDescriptor } from '../../vehicle/VehicleCatalog';
+import { CircuitGround } from './CircuitGround';
+
+export interface CircuitGroundSelfTestResult {
+  readonly assertions: number;
+  readonly lapLength: number;
+  readonly mainStraightLength: number;
+  readonly cornerCount: number;
+  readonly minimumCornerRadius: number;
+  readonly maximumCornerRadius: number;
+  readonly closureGap: number;
+  readonly seamTangentDot: number;
+  readonly maximumGripStep: number;
+  readonly maximumRollingResistanceStep: number;
+  readonly markingVertices: number;
+  readonly markingClearanceError: number;
+  readonly closedRibbonCount: number;
+  readonly maximumRibbonJoinGap: number;
+  readonly simulatedLaps: number;
+  readonly simulationSeconds: number;
+  readonly maximumFollowerError: number;
+  readonly meanFollowerError: number;
+  readonly maximumSpeedKmh: number;
+  readonly meanSpeedKmh: number;
+  readonly sportsLaps: number;
+  readonly sportsMaximumFollowerError: number;
+  readonly hairpinVehicles: ReturnType<typeof runHairpinAcceptance>;
+}
+
+const clamp = (value: number, minimum: number, maximum: number): number =>
+  Math.min(maximum, Math.max(minimum, value));
+
+const wrapAngle = (angle: number): number => {
+  let result = angle;
+  while (result > Math.PI) result -= Math.PI * 2;
+  while (result < -Math.PI) result += Math.PI * 2;
+  return result;
+};
+
+const modularDistance = (from: number, to: number, length: number): number =>
+  THREE.MathUtils.euclideanModulo(to - from, length);
+
+const makeInput = (overrides: Partial<VehicleInputState> = {}): VehicleInputState => ({
+  ...createNeutralVehicleInputState('normal'),
+  ...overrides,
+});
+
+/**
+ * Geometry and repeat-lap regression coverage. The follower deliberately uses
+ * the shipping sedan VehicleDynamics; it is test code only and does not add AI,
+ * checkpoints, timing or race state to the game.
+ */
+export function runCircuitGroundSelfTest(): CircuitGroundSelfTestResult {
+  const ground = new CircuitGround({ shadows: false });
+  let assertions = 0;
+  const assert = (condition: boolean, message: string): void => {
+    assertions += 1;
+    if (!condition) throw new Error(`Circuit-ground self-test failed: ${message}`);
+  };
+
+  try {
+    const metadata = ground.metadata;
+    const route = metadata.routeCenterline;
+    const first = route[0]!;
+    const last = route[route.length - 1]!;
+    const closureGap = Math.hypot(last.x - first.x, last.z - first.z);
+    const seamTangentDot = last.tangentX * first.tangentX + last.tangentZ * first.tangentZ;
+    assert(metadata.closedRoute, 'route metadata must declare an intentional closed loop');
+    assert(closureGap < 1e-9, 'published route centerline must close exactly');
+    assert(seamTangentDot > 0.999_999, 'route tangent must be continuous at the seam');
+    assert(
+      metadata.lapLength >= ground.config.lapLengthRange[0] &&
+      metadata.lapLength <= ground.config.lapLengthRange[1],
+      'lap length must remain inside the authored 1.2–1.8 km range',
+    );
+    assert(
+      Math.abs(metadata.lapLength - ground.config.lapLengthTarget) < 80,
+      'lap length should remain close to the 1.56 km target',
+    );
+    assert(metadata.trackWidth >= 10 && metadata.trackWidth <= 12, 'asphalt must be 10–12 m wide');
+    assert(
+      metadata.barrierOffset > metadata.shoulderWidth + 4,
+      'guardrail must leave a meaningful grass runoff beyond the shoulder',
+    );
+    assert(
+      metadata.mainStraightLength >= ground.config.mainStraightMinimumLength,
+      'usable main straight must remain long enough for multi-gear acceleration',
+    );
+
+    const cornerSections = metadata.sections.filter((section) => section.kind !== 'straight');
+    const radii = cornerSections.map((section) => section.radius ?? Number.POSITIVE_INFINITY);
+    const minimumCornerRadius = Math.min(...radii);
+    const maximumCornerRadius = Math.max(...radii);
+    assert(cornerSections.length >= 4 && cornerSections.length <= 6, 'track must keep only 4–6 major corners');
+    assert(minimumCornerRadius >= 42, 'tightest bend must remain forgiving for the road car');
+    assert(maximumCornerRadius >= 100, 'layout must retain broad, flowing corners');
+    const hairpin = cornerSections.find(section => section.id === 'braking-corner')!;
+    assert(cornerSections.filter(section => section.kind === 'braking').length === 1,
+      'one marked braking approach retains its paved runoff');
+    assert(hairpin.radius === 90 && (85 / 3.6) ** 2 / hairpin.radius / 9.81 < .64,
+      'revised hairpin supports an 85 km/h line without demanding near-limit lateral grip');
+    assert(
+      cornerSections.filter((section) => section.kind === 'gentle-left').length === 1,
+      'route should retain one clear, gentle left bend',
+    );
+    for (const point of route) {
+      assert(
+        Math.abs(Math.hypot(point.tangentX, point.tangentZ) - 1) < 2e-5,
+        'published route tangents must stay normalized',
+      );
+    }
+
+    const mainPoint = ground.routeCurve.getPointAt(0.07);
+    const mainTangent = ground.routeCurve.getTangentAt(0.07).normalize();
+    const right = new THREE.Vector2(-mainTangent.z, mainTangent.x);
+    const sampleAtOffset = (offset: number) => ground.sampleRoadSurface(
+      mainPoint.x + right.x * offset,
+      mainPoint.z + right.y * offset,
+    );
+    const asphalt = sampleAtOffset(0);
+    const shoulder = sampleAtOffset(metadata.trackWidth * 0.5 + 1.05);
+    const grass = sampleAtOffset(metadata.trackWidth * 0.5 + metadata.shoulderWidth + 2);
+    assert(Math.abs(asphalt.gripMultiplier - 1) < 1e-9, 'centre asphalt response must remain exact');
+    assert(shoulder.gripMultiplier < asphalt.gripMultiplier, 'shoulder must reduce grip progressively');
+    assert(grass.gripMultiplier < shoulder.gripMultiplier, 'grass must provide the lowest grip');
+    assert(
+      grass.rollingResistanceMultiplier > shoulder.rollingResistanceMultiplier,
+      'grass must add more rolling resistance than the shoulder',
+    );
+
+    let maximumGripStep = 0;
+    let maximumRollingResistanceStep = 0;
+    let previous = sampleAtOffset(metadata.trackWidth * 0.5 - 0.3);
+    for (let offset = -0.25; offset <= metadata.shoulderWidth + 2.2; offset += 0.04) {
+      const sample = sampleAtOffset(metadata.trackWidth * 0.5 + offset);
+      maximumGripStep = Math.max(maximumGripStep, Math.abs(sample.gripMultiplier - previous.gripMultiplier));
+      maximumRollingResistanceStep = Math.max(
+        maximumRollingResistanceStep,
+        Math.abs(sample.rollingResistanceMultiplier - previous.rollingResistanceMultiplier),
+      );
+      previous = sample;
+    }
+    assert(maximumGripStep < 0.025, 'asphalt/shoulder/grass grip must not have a sharp step');
+    assert(maximumRollingResistanceStep < 0.11, 'rolling resistance must transition smoothly');
+
+    const markings = ground.getRoadMarkingDiagnostics();
+    assert(markings.vertexCount > 8_000, 'edge lines must be densely sampled around the full lap');
+    assert(markings.maximumClearanceError < 2e-5, 'markings must stay in contact with the road plane');
+    assert(markings.maximumJoinGap < 1e-8, 'closed edge-line subdivisions must not develop gaps');
+
+    // Measure the GPU-facing Float32 position buffers independently instead
+    // of trusting diagnostic metadata. This covers asphalt, shoulder and both
+    // edge lines and catches endpoint tangent drift at the closed seam.
+    let closedRibbonCount = 0;
+    let maximumRibbonJoinGap = 0;
+    ground.root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh) || object.geometry.userData.circuitClosedRibbon !== true) {
+        return;
+      }
+      const positions = object.geometry.getAttribute('position');
+      assert(positions.count >= 4, `${object.name} must contain a first and final vertex ring`);
+      const finalRingStart = positions.count - 2;
+      let joinGap = 0;
+      for (let side = 0; side < 2; side += 1) {
+        joinGap = Math.max(joinGap, Math.hypot(
+          positions.getX(side) - positions.getX(finalRingStart + side),
+          positions.getY(side) - positions.getY(finalRingStart + side),
+          positions.getZ(side) - positions.getZ(finalRingStart + side),
+        ));
+      }
+      const recordedJoinGap = object.geometry.userData.maximumJoinGap;
+      assert(
+        typeof recordedJoinGap === 'number' && Math.abs(recordedJoinGap - joinGap) < 1e-12,
+        `${object.name} must publish its measured vertex-buffer join gap`,
+      );
+      closedRibbonCount += 1;
+      maximumRibbonJoinGap = Math.max(maximumRibbonJoinGap, joinGap);
+    });
+    assert(closedRibbonCount === 4, 'shoulder, asphalt and both edge lines must be closed ribbons');
+    assert(maximumRibbonJoinGap < 1e-8, 'all rendered circuit ribbons must close without a seam gap');
+
+    const nearestRouteDistance = (x: number, z: number): number => {
+      let minimum = Number.POSITIVE_INFINITY;
+      for (let index = 1; index < route.length; index += 1) {
+        const a = route[index - 1]!; const b = route[index]!;
+        const dx = b.x - a.x; const dz = b.z - a.z;
+        const t = clamp(((x - a.x) * dx + (z - a.z) * dz) / (dx * dx + dz * dz), 0, 1);
+        minimum = Math.min(minimum, (x - a.x - dx * t) ** 2 + (z - a.z - dz * t) ** 2);
+      }
+      return Math.sqrt(minimum);
+    };
+    for (const collider of ground.colliders) {
+      for (const point of collider.corners) assert(nearestRouteDistance(point.x, point.z) > metadata.trackWidth * 0.5 + 2,
+        `${collider.id} must leave the road and immediate shoulder unobstructed`);
+    }
+    assert(nearestRouteDistance(ground.spawnPose.position.x, ground.spawnPose.position.z) < 0.01,
+      'spawn remains on the centreline');
+    const gate = ground.lapCourse.startFinish;
+    const spawn = ground.spawnPose;
+    assert((spawn.position.x - gate.center.x) * gate.forward.x +
+      (spawn.position.z - gate.center.z) * gate.forward.z < -20, 'spawn is safely upstream of timing line');
+    assert(-Math.sin(spawn.yawRadians) * gate.forward.x - Math.cos(spawn.yawRadians) * gate.forward.z > 0.999,
+      'spawn faces the race direction');
+    assert(ground.lapCourse.checkpoints.length === 4 && gate.halfWidth === metadata.trackWidth * .5 + metadata.barrierOffset,
+      'finite timing gates include the near runoff up to the normal guardrail envelope');
+    assert(ground.lapCourse.revision === metadata.version, 'layout and timing revision agree');
+    const widenedTimer = new LapTimer();
+    // A line parallel to the course through every gate's shoulder must count.
+    // The same crossing beyond the finite envelope must still be rejected.
+    const crossGate = (timer: LapTimer, timingGate: typeof gate, offset: number) => {
+      for(let along=-2;along<=2;along+=.5) timer.update(.05, {
+        x: timingGate.center.x - timingGate.forward.z * offset + timingGate.forward.x * along,
+        z: timingGate.center.z + timingGate.forward.x * offset + timingGate.forward.z * along,
+      });
+    };
+    const shoulderOffset = metadata.trackWidth*.5 + metadata.shoulderWidth*.5;
+    const gateStart = {x:gate.center.x-gate.forward.z*shoulderOffset-gate.forward.x*2,
+      z:gate.center.z+gate.forward.x*shoulderOffset-gate.forward.z*2};
+    widenedTimer.configure(ground.lapCourse,'gate-width-test',gateStart);
+    crossGate(widenedTimer,gate,shoulderOffset);
+    assert(widenedTimer.state.phase === 'RUNNING','crossing the start line on shoulder begins timing');
+    for(const timingGate of [...ground.lapCourse.checkpoints,gate]) {
+      // A fresh isolated gate course exercises the gate's real crossing logic
+      // without treating a jump across the map as a driven lap.
+      const isolated = new LapTimer();
+      const start={x:timingGate.center.x-timingGate.forward.z*shoulderOffset-timingGate.forward.x*2,
+        z:timingGate.center.z+timingGate.forward.x*shoulderOffset-timingGate.forward.z*2};
+      isolated.configure({...ground.lapCourse,startFinish:timingGate,checkpoints:[]},'gate-width-test',start);
+      crossGate(isolated,timingGate,shoulderOffset);
+      assert(isolated.state.phase === 'RUNNING','each widened gate detects off-asphalt crossing');
+      const runoffOffset=timingGate.halfWidth-1;
+      isolated.configure({...ground.lapCourse,startFinish:timingGate,checkpoints:[]},'gate-width-test',{
+        x:timingGate.center.x-timingGate.forward.z*runoffOffset-timingGate.forward.x*2,
+        z:timingGate.center.z+timingGate.forward.x*runoffOffset-timingGate.forward.z*2});
+      crossGate(isolated,timingGate,runoffOffset);
+      assert(isolated.state.phase === 'RUNNING','near grass/runoff crossings retain timing');
+      const farOffset=timingGate.halfWidth+1;
+      isolated.configure({...ground.lapCourse,startFinish:timingGate,checkpoints:[]},'gate-width-test',{
+        x:timingGate.center.x-timingGate.forward.z*farOffset-timingGate.forward.x*2,
+        z:timingGate.center.z+timingGate.forward.x*farOffset-timingGate.forward.z*2});
+      crossGate(isolated,timingGate,farOffset);
+      assert(isolated.state.phase === 'WAITING_FOR_START','remote crossing still cannot start a lap');
+    }
+    for (const section of metadata.sections) {
+      const before = ground.routeCurve.getTangentAt(Math.max(0, section.startDistance - 0.15) / metadata.lapLength).normalize();
+      const after = ground.routeCurve.getTangentAt((section.startDistance + 0.15) / metadata.lapLength).normalize();
+      assert(before.dot(after) > 0.999, `${section.id} retains a smooth tangent connection`);
+      if (section.kind !== 'braking') continue;
+      const distance = (section.startDistance + section.endDistance) * 0.5;
+      const point = ground.routeCurve.getPointAt(distance / metadata.lapLength);
+      const tangent = ground.routeCurve.getTangentAt(distance / metadata.lapLength).normalize();
+      const side = -Math.sign(section.turnAngleRadians!);
+      const runoffWidth = circuitRunoffWidth(ground.config, section, distance, metadata.lapLength);
+      const offset = side * (metadata.trackWidth * 0.5 + runoffWidth * 0.7);
+      const response = ground.sampleRoadSurface(point.x - tangent.z * offset, point.z + tangent.x * offset);
+      assert(response.surfaceType === 'asphalt' && response.gripMultiplier === 1, 'paved runoff matches its physical asphalt response');
+      assert(circuitBarrierDistance(ground.config, metadata.sections, distance, side, metadata.lapLength) >
+        metadata.trackWidth * 0.5 + runoffWidth + metadata.shoulderWidth + 3,
+      'heavy-braking runoff retains clear space before the barrier');
+    }
+    const kerbs = ground.root.getObjectsByProperty('name', 'Circuit apex kerb');
+    assert(kerbs.length === cornerSections.length, 'each corner has a short apex kerb');
+    assert(ground.root.getObjectsByProperty('name', 'Braking board turn-one 150').length === 1 &&
+      ground.root.getObjectsByProperty('name', 'Braking board braking-corner 50').length === 1,
+    'both major braking approaches have distance boards');
+    // Walk the authored course once; gate ordering and geometry must agree.
+    const timer = new LapTimer();
+    timer.configure(ground.lapCourse, 'geometry-test', spawn.position);
+    for (let distance = 23; distance <= metadata.lapLength + 54; distance += 1) {
+      const point = ground.routeCurve.getPointAt((distance % metadata.lapLength) / metadata.lapLength);
+      timer.update(0.05, point);
+    }
+    assert(timer.state.lap === 2 && timer.state.lastMs !== null, 'authored route crosses all gates in order exactly once per lap');
+
+    const follower = runTwoLapFollower(ground);
+    assert(follower.laps >= 2, 'shipping sedan must complete at least two continuous laps');
+    assert(
+      follower.maximumError < metadata.trackWidth * 0.5,
+      `centreline follower must remain on asphalt for the full two-lap run (got ${follower.maximumError.toFixed(2)} m)`,
+    );
+    assert(
+      follower.meanError < 1.7,
+      `mean two-lap line error must remain comfortably inside the lane (got ${follower.meanError.toFixed(2)} m)`,
+    );
+    assert(follower.maximumSpeedKmh > 72, 'main straight must support a clear multi-gear high-speed run');
+    assert(follower.meanSpeedKmh > 38, 'layout must sustain an easy, continuous driving rhythm');
+    const sportsFollower = runTwoLapFollower(ground, getVehicleDescriptor('sport-coupe'));
+    assert(sportsFollower.laps >= 2 && sportsFollower.maximumError < metadata.trackWidth * .5,
+      `shipping GT must complete two laps on asphalt (${sportsFollower.laps} laps, ${sportsFollower.maximumError.toFixed(2)} m)`);
+
+    return {
+      assertions,
+      lapLength: metadata.lapLength,
+      mainStraightLength: metadata.mainStraightLength,
+      cornerCount: cornerSections.length,
+      minimumCornerRadius,
+      maximumCornerRadius,
+      closureGap,
+      seamTangentDot,
+      maximumGripStep,
+      maximumRollingResistanceStep,
+      markingVertices: markings.vertexCount,
+      markingClearanceError: markings.maximumClearanceError,
+      closedRibbonCount,
+      maximumRibbonJoinGap,
+      simulatedLaps: follower.laps,
+      simulationSeconds: follower.seconds,
+      maximumFollowerError: follower.maximumError,
+      meanFollowerError: follower.meanError,
+      maximumSpeedKmh: follower.maximumSpeedKmh,
+      meanSpeedKmh: follower.meanSpeedKmh,
+      sportsLaps: sportsFollower.laps,
+      sportsMaximumFollowerError: sportsFollower.maximumError,
+      hairpinVehicles: runHairpinAcceptance(ground),
+    };
+  } finally {
+    ground.dispose();
+  }
+}
+
+/** Same normal steering/throttle/brake path for every shipping car; no pose or speed correction. */
+function runHairpinAcceptance(ground: CircuitGround) {
+  const section=ground.metadata.sections.find(s=>s.id==='braking-corner')!,route=ground.metadata.routeCenterline;
+  const start=section.startDistance-60,end=section.endDistance+25;
+  const point=ground.routeCurve.getPointAt(start/ground.metadata.lapLength),tangent=ground.routeCurve.getTangentAt(start/ground.metadata.lapLength);
+  return VEHICLE_CATALOG.map(vehicle=>{
+    const config=createVehiclePhysicsConfig(vehicle.id);
+    const car=new VehicleDynamics<Powertrain>(config,{x:point.x,z:point.z,yaw:Math.atan2(-tangent.x,-tangent.z),speed:85/3.6,gear:4,driveSelector:'D',engineRunning:true});
+    const contacts=new VehicleContactSystem(ground,vehicle.visualConfig.collisionDimensions);
+    let nearest=route.findIndex(r=>r.distance>=start),maximumError=0,minimumSpeed=Infinity,minimumGrip=1,collisions=0,steps=0;
+    while(steps++<120*18&&route[nearest]!.distance<end){
+      const state=car.getSnapshot();let best=Infinity;
+      for(let i=Math.max(0,nearest-15);i<=Math.min(route.length-1,nearest+35);i++){
+        const r=route[i]!,distance=(r.x-state.x)**2+(r.z-state.z)**2;
+        if(distance<best){best=distance;nearest=i;}
+      }
+      const lookahead=clamp(13+Math.abs(state.speed)*.62,14,31);
+      const target=ground.routeCurve.getPointAt((route[nearest]!.distance+lookahead)/ground.metadata.lapLength);
+      const targetYaw=Math.atan2(-(target.x-state.x),-(target.z-state.z));
+      const speedError=85-state.speedKmh;
+      const after=contacts.step(1/120,makeInput({
+        // The same bounded test driver must also track slower steering racks
+        // on the newly registered large SUV; no vehicle calibration is changed.
+        steering:clamp(-wrapAngle(targetYaw-(state.yaw-state.bodySlipAngle))*1.8,-1,1),
+        throttle:clamp(.28+speedError*.11,0,1),brake:clamp((-speedError-2)*.06,0,.3),
+      }),car);
+      if(contacts.collision?.collided)collisions++;
+      maximumError=Math.max(maximumError,Math.sqrt(best));minimumSpeed=Math.min(minimumSpeed,after.speedKmh);
+      minimumGrip=Math.min(minimumGrip,...Object.values(contacts.wheelContacts!).map(w=>w.lateralGrip));
+    }
+    const assert=(ok:boolean,message:string)=>{if(!ok)throw new Error(`Circuit hairpin ${vehicle.id}: ${message}`);};
+    assert(route[nearest]!.distance>=end,'completes the approach, bend and exit');
+    assert(minimumSpeed>=75,`does not rely on slowing below 70 km/h (${minimumSpeed})`);
+    assert(maximumError<ground.config.trackWidth*.5-vehicle.visualConfig.collisionDimensions.width*.5-.4,'body has lateral margin');
+    assert(minimumGrip===1&&collisions===0,'all four tyres stay on asphalt without collision');
+    return {vehicle:vehicle.id,maximumError,minimumSpeed,minimumGrip,collisions};
+  });
+}
+
+interface FollowerResult {
+  readonly laps: number;
+  readonly seconds: number;
+  readonly maximumError: number;
+  readonly meanError: number;
+  readonly maximumSpeedKmh: number;
+  readonly meanSpeedKmh: number;
+}
+
+const runTwoLapFollower = (ground: CircuitGround, vehicle: VehicleDescriptor = getVehicleDescriptor('family-sedan')): FollowerResult => {
+  const route = ground.metadata.routeCenterline.slice(0, -1);
+  const routeSpacing = ground.metadata.lapLength / route.length;
+  const dynamics = new VehicleDynamics(vehicle.physicsConfig, {
+    x: ground.spawnPose.position.x,
+    z: ground.spawnPose.position.z,
+    yaw: ground.spawnPose.yawRadians,
+    gear: 'N',
+    clutchEngagement: 0,
+    controlMode: 'normal',
+  });
+  dynamics.requestGear(1);
+  const contactSystem = new VehicleContactSystem(ground, vehicle.visualConfig.collisionDimensions);
+  const dt = 1 / 120;
+  const maximumSteps = 120 * 250;
+  let nearestIndex = 0;
+  let previousIndex = 0;
+  let completedLaps = 0;
+  let maximumError = 0;
+  let errorSum = 0;
+  let speedSum = 0;
+  let maximumSpeedKmh = 0;
+  let samples = 0;
+  let shiftCooldown = 0;
+  let steps = 0;
+
+  const findNearest = (x: number, z: number, centreIndex: number): number => {
+    let bestIndex = centreIndex;
+    let bestSquared = Number.POSITIVE_INFINITY;
+    const searchRadius = 45;
+    for (let offset = -searchRadius; offset <= searchRadius; offset += 1) {
+      const index = THREE.MathUtils.euclideanModulo(centreIndex + offset, route.length);
+      const point = route[index]!;
+      const squared = (x - point.x) ** 2 + (z - point.z) ** 2;
+      if (squared < bestSquared) {
+        bestSquared = squared;
+        bestIndex = index;
+      }
+    }
+    return bestIndex;
+  };
+
+  nearestIndex = route.reduce((best, point, index) => {
+    const bestPoint = route[best]!;
+    return (dynamics.x - point.x) ** 2 + (dynamics.z - point.z) ** 2 <
+      (dynamics.x - bestPoint.x) ** 2 + (dynamics.z - bestPoint.z) ** 2 ? index : best;
+  }, 0);
+  previousIndex = nearestIndex;
+
+  for (; steps < maximumSteps && completedLaps < 2; steps += 1) {
+    const snapshot = dynamics.getSnapshot();
+    nearestIndex = findNearest(snapshot.x, snapshot.z, nearestIndex);
+    if (previousIndex > route.length * 0.82 && nearestIndex < route.length * 0.18) {
+      completedLaps += 1;
+    }
+    previousIndex = nearestIndex;
+    const nearest = route[nearestIndex]!;
+    const error = Math.hypot(snapshot.x - nearest.x, snapshot.z - nearest.z);
+    maximumError = Math.max(maximumError, error);
+    errorSum += error;
+    speedSum += snapshot.speedKmh;
+    maximumSpeedKmh = Math.max(maximumSpeedKmh, snapshot.speedKmh);
+    samples += 1;
+
+    const currentDistance = nearest.distance;
+    let upcomingRadius = Number.POSITIVE_INFINITY;
+    for (const section of ground.metadata.sections) {
+      if (section.radius === undefined) continue;
+      const distanceAhead = modularDistance(currentDistance, section.startDistance, ground.metadata.lapLength);
+      if (distanceAhead < 145 || (
+        currentDistance >= section.startDistance && currentDistance <= section.endDistance
+      )) {
+        upcomingRadius = Math.min(upcomingRadius, section.radius);
+      }
+    }
+    const targetSpeedKmh = upcomingRadius < 55
+      ? 36
+      : upcomingRadius < 82
+        ? 62
+        : upcomingRadius < 102
+          ? 72
+          : upcomingRadius < Number.POSITIVE_INFINITY
+            ? 80
+            : 98;
+    const lookaheadMetres = clamp(13 + Math.abs(snapshot.speed) * 0.62, 14, 31);
+    const lookaheadIndex = THREE.MathUtils.euclideanModulo(
+      nearestIndex + Math.round(lookaheadMetres / routeSpacing),
+      route.length,
+    );
+    const target = route[lookaheadIndex]!;
+    const desiredYaw = Math.atan2(-(target.x - snapshot.x), -(target.z - snapshot.z));
+    // Follow the direction of travel, including ordinary body slip. Comparing
+    // only body yaw made this test driver over-correct after a braking corner.
+    const headingError = wrapAngle(desiredYaw - (snapshot.yaw - snapshot.bodySlipAngle));
+    const steering = clamp(-headingError * 1.55, -1, 1);
+    const speedError = targetSpeedKmh - snapshot.speedKmh;
+    const brake = speedError < -7 ? clamp((-speedError - 4) / 22, 0, 0.72) : 0;
+    const throttle = brake > 0
+      ? 0
+      : speedError > 12
+        ? 0.78
+        : speedError > 3
+          ? 0.48
+          : 0.2;
+    shiftCooldown = Math.max(0, shiftCooldown - dt);
+    const shiftThresholds: Readonly<Record<number, number>> = { 1: 24, 2: 43, 3: 67, 4: 91 };
+    const numericGear = typeof snapshot.gear === 'number' ? snapshot.gear : 0;
+    const shiftUp = numericGear > 0 && numericGear < 5 && shiftCooldown <= 0 &&
+      snapshot.speedKmh > (shiftThresholds[numericGear] ?? Number.POSITIVE_INFINITY);
+    if (shiftUp) shiftCooldown = 1.15;
+    contactSystem.step(dt, makeInput({ throttle, brake, steering, shiftUp }), dynamics);
+  }
+
+  return {
+    laps: completedLaps,
+    seconds: steps * dt,
+    maximumError,
+    meanError: errorSum / Math.max(1, samples),
+    maximumSpeedKmh,
+    meanSpeedKmh: speedSum / Math.max(1, samples),
+  };
+};

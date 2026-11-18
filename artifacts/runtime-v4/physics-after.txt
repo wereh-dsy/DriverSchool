@@ -1,0 +1,106 @@
+while (this.runtime.simulation.canStep()) {
+    const rawControls = this.input.consumeState();
+    this.processVehicleInteractionCommands(rawControls, FIXED_STEP);
+    const driverControls = this.drivingInputActive
+        ? this.filterSettingsInput(rawControls)
+        : vehicleControlsForPlayerMode(rawControls, 'OnFoot');
+    this.processAccessoryCommands(driverControls);
+    if (driverControls.cycleWipers) {
+        const mode = this.wiperController.cycle();
+        this.hud.settings.setWiperMode(mode);
+        const labels = { OFF: '关闭', AUTO: '自动', INTERMITTENT: '间歇', LOW: '低速', HIGH: '高速' };
+        this.hud.showMessage(`前雨刷 · ${labels[mode]}`, 1.6);
+    }
+    const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
+        available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
+        speedMetersPerSecond: this.snapshot.speed,
+        engineRunning: this.snapshot.driveAvailable,
+        currentThrottle: this.snapshot.throttle,
+        driverThrottleCommand: this.dynamics.driverThrottleCommand(driverControls.throttle),
+        torqueLimitFactor: this.snapshot.driverAssists.engineTorqueFactor,
+        parkingBrakeActive: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
+        autoHoldHolding: this.snapshot.autoHold.holding,
+        gear: this.snapshot.gear ?? 'N',
+        driveSelector: this.snapshot.transmission.selectedMode ?? undefined,
+    });
+    this.reportCruiseControlEvent();
+    this.laneAssistSelection.update(FIXED_STEP);
+    if (driverControls.cycleLaneAssist)
+        this.laneAssistSelection.cycleMode();
+    if (driverControls.lccToggle)
+        this.toggleLaneCentering();
+    this.laneAssistSelection.applyTo(this.lateralAssist);
+    const lateral = this.lateralContext;
+    lateral.speed = this.snapshot.speed;
+    lateral.lateralVelocity = this.snapshot.lateralVelocity;
+    lateral.yawRate = this.snapshot.yawRate;
+    lateral.driverSteering = driverControls.steering;
+    lateral.operational = this.snapshot.vehicleOperational;
+    lateral.forwardGear = this.snapshot.transmission.selectedMode === 'D';
+    lateral.suspended = this.settingsOpen || !this.gameStarted || document.hidden;
+    // Include the current input edge before the lamp controller consumes it below.
+    lateral.leftSignal = driverControls.leftIndicator ? !this.lightController.leftSignalSelected : this.lightController.leftSignalSelected;
+    lateral.rightSignal = driverControls.rightIndicator ? !this.lightController.rightSignalSelected : this.lightController.rightSignalSelected;
+    this.lateralPose.x = this.snapshot.x;
+    this.lateralPose.z = this.snapshot.z;
+    this.lateralPose.yaw = this.snapshot.yaw;
+    this.lateralPose.y = this.snapshot.chassis.groundHeight;
+    if (this.dynamics.capabilities.laneDisplay || this.dynamics.capabilities.lka || this.dynamics.capabilities.lcc) {
+        this.sharedVehicleData?.updateLaneObservation(FIXED_STEP, this.lateralPose, this.snapshot.speed, this.ground.roadNetwork, this.lateralAssist.laneChangeOverride || lateral.leftSignal && driverControls.steering < -.1 || lateral.rightSignal && driverControls.steering > .1);
+    }
+    const lateralOutput = this.lateralAssist.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane, lateral);
+    if (this.laneDepartureWarning.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane, lateral, this.laneAssistSelection.state.mode, this.dynamics.capabilities.lka || this.dynamics.capabilities.lcc))
+        this.engineAudio.playLaneDepartureWarning();
+    controls.steering = arbitrateLateralSteering(driverControls.steering, lateralOutput);
+    const beforeStep = this.snapshot;
+    this.dynamics.vehicleControl.learningAllowed = this.gameStarted && !this.settingsOpen && !document.hidden &&
+        this.playerMode.mode === 'Driving' && !this.playerMode.transitioning && !lateralOutput.active && !this.cruiseControl.isActive;
+    this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+    this.renderPose.push(this.snapshot, this.vehicleVisual.config.staticBodyOffsetY);
+    this.accelerationTest?.update(FIXED_STEP, beforeStep, this.snapshot, driverControls.throttle, this.gameStarted && !this.settingsOpen && !document.hidden, this.contacts.collision?.collided ?? false);
+    if (this.accelerationTest && this.accelerationDiagnostics)
+        this.accelerationDiagnostics.update(FIXED_STEP, this.accelerationTest.state, beforeStep, this.snapshot, driverControls, controls, this.contacts.wheelContacts, this.dynamics.driverAssists.frontTorqueFactor, this.dynamics.driverAssists.rearTorqueFactor, this.environment);
+    this.tripCheckpointTime += FIXED_STEP;
+    if (this.tripCheckpointTime >= 10) {
+        this.tripCheckpointTime = 0;
+        this.storeCurrentFuel();
+    }
+    this.ignitionOn = this.snapshot.vehicleOperational;
+    this.lapTimer.update(FIXED_STEP, this.snapshot, this.gameStarted && !this.settingsOpen && !document.hidden);
+    if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
+        this.hud.showMessage(`驾驶模式 · ${this.snapshot.driveMode}`, 1.6);
+    }
+    if (this.snapshot.transmission.type !== 'MANUAL' &&
+        (driverControls.shiftUp || driverControls.shiftDown || driverControls.driveSelector !== undefined) &&
+        this.snapshot.transmission.selectorRejectedReason !== null) {
+        this.hud.showMessage(this.snapshot.transmission.selectorRejectedReason === 'brake-required'
+            ? '选挡被拒绝 · 请踩住刹车再切换 P / R / N / D'
+            : '选挡被拒绝 · 请先停车再切换行驶方向或驻车挡', 2.2);
+    }
+    this.updateVehicleFeedback(FIXED_STEP);
+    const previousLightMode = this.lightController.state.mainLightMode;
+    this.lightController.update(FIXED_STEP, driverControls, {
+        assistedBrakeActive: this.snapshot.powertrain.ev !== undefined &&
+            (this.snapshot.powertrain.ev.regenBrakeLight || this.snapshot.wheels.frontLeft.appliedBrakeTorque > 10 ||
+                this.snapshot.wheels.frontRight.appliedBrakeTorque > 10 || this.snapshot.wheels.rearLeft.appliedBrakeTorque > 10 ||
+                this.snapshot.wheels.rearRight.appliedBrakeTorque > 10),
+        autoOffWithIgnition: this.vehicleVisual.config.exteriorLighting?.autoOffWithIgnition,
+        ignitionOn: this.ignitionOn,
+        actualGear: this.snapshot.transmission.selectedMode === 'R' ? 'R' : this.snapshot.gear ?? 'N',
+        steeringWheelAngle: this.snapshot.steeringWheelAngle,
+    });
+    if (driverControls.cycleLights || driverControls.fogToggle) {
+        const lights = this.lightController.state;
+        if (lights.mainLightMode !== previousLightMode)
+            this.storeLightMode(lights.mainLightMode);
+        this.hud.settings.setLightMode(lights.mainLightMode);
+        this.hud.settings.setFogLights(lights.fogMode);
+        this.hud.showMessage(driverControls.fogToggle ? (lights.fogMode === 'front-rear' ? '前后雾灯已开启' : lights.fogMode === 'front' ? '前雾灯已开启' : '雾灯已关闭') : this.getLightModeLabel(lights.mainLightMode), 1.6);
+    }
+    const wheels = this.contacts.wheelContacts;
+    const roughness = wheels === null ? 0.025 :
+        (wheels.frontLeft.roughness + wheels.frontRight.roughness +
+            wheels.rearLeft.roughness + wheels.rearRight.roughness) / 4;
+    this.latestRoadRoughness = MathUtils.lerp(this.latestRoadRoughness, roughness, 1 - Math.exp(-FIXED_STEP * 9));
+    this.runtime.simulation.completeStep();
+}

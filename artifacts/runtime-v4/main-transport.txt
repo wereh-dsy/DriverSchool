@@ -1,0 +1,20 @@
+ private renderContext():Record<string,unknown>{
+  return {lights:{...this.lightController.state},ignitionOn:this.ignitionOn,mirror:{...this.mirrorContext},reversing:this.snapshot.transmission.selectedMode==='R',cockpit:this.visualDebug.renderCamera===null&&this.playerMode.mode==='Driving',overlay:this.playerMode.mode==='Driving',immersive:this.hud.immersiveMode};
+ }
+ private publishRender(camera:PerspectiveCamera,dt:number,mode:number):void{
+  const rect=this.hud.getMirrorRect();
+  this.renderer.publish(data=>{
+   this.renderPose.writeCurrent(data,R.pose);
+   camera.position.toArray(data,R.cameraPosition);camera.quaternion.toArray(data,R.cameraQuaternion);camera.projectionMatrix.toArray(data,R.cameraProjection);data[R.cameraLayers]=camera.layers.mask;
+   data[R.mode]=mode;data[R.paused]=this.gameUI?.freezesSimulation?1:0;data[R.speed]=this.snapshot.speed;data[R.visible]=document.hidden?0:1;
+   const feedback=this.feedback.state.cockpitOffset;data[R.bodyFeedback]=feedback.x;data[R.bodyFeedback+1]=feedback.y;data[R.bodyFeedback+2]=feedback.z;
+   const wiper=this.wiperController;data[R.wiper]=wiper.angle;data[R.wiper+1]=wiper.previousAngle;data[R.wiper+2]=wiper.sweptMin;data[R.wiper+3]=wiper.sweptMax;data[R.wiper+4]=wiper.sweeping?1:0;
+   data[R.weather]=WEATHER_SEQUENCE.indexOf(this.environment.weather);data[R.weather+1]=['DAY','DUSK','NIGHT'].indexOf(this.environment.time);
+   for(const [i,key]of (['cloudiness','rainIntensity','fogIntensity','wetness','windIntensity','stormIntensity','lightningFlash']as const).entries())data[R.weather+2+i]=this.environment[key];
+   for(const [i,id]of (['frontLeft','frontRight','rearLeft','rearRight']as const).entries()){data[R.alignment+i*2]=this.snapshot.wheels[id].steeringAngle;data[R.alignment+i*2+1]=this.snapshot.wheels[id].camberAngle??0;}
+   data[R.access]=this.vehicleInteraction.driverDoorOpenFraction;data[R.access+1]=this.vehicleInteraction.driverWindowOpenFraction;
+   this.vehicleVisual.getMirrorSurface('left').quaternion.toArray(data,R.mirrorQuaternion);this.vehicleVisual.getMirrorSurface('right').quaternion.toArray(data,R.mirrorQuaternion+4);
+   data[R.overlay]=rect.left;data[R.overlay+1]=rect.top;data[R.overlay+2]=rect.width;data[R.overlay+3]=rect.height;data[R.simTime]=this.runtime.simulation.simulationSeconds;data[R.rpm]=dt;
+  });
+  this.hud.setMirrorOverlayVisible(this.renderer.state.overlayVisible===true);
+ }

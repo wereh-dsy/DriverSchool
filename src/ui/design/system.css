@@ -78,6 +78,7 @@
 .vehicle-settings-toggle { display: none; }
 /* Profiles affect presentation only. Sensors and navigation remain game owned. */
 #app[data-menu-open="true"] .game-ui { display: none; }
+#app[data-ui-phase="loading"][data-loading-hud="true"] .game-ui { display: block; }
 .game-ui .control-ribbon, .game-ui .clutch-meter { display: none; }
 .game-ui .drive-readout { top: auto; right: auto; bottom: 38px; left: 48px; width: 180px; min-width: 0; display: grid; grid-template-columns: 1fr 36px; gap: 8px; align-items: end; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; box-shadow: none; text-shadow: 0 2px 12px #0009; }
 .game-ui .gear-readout { grid-column: 2; grid-row: 1; color: var(--ds-primary); font: 400 23px/1 "Segoe UI", sans-serif; padding-bottom: 25px; text-align: right; }
@@ -122,6 +123,19 @@
 
 .ds-loading { background: #111315ed; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
 .ds-loading p { color: var(--ds-secondary); font-size: 14px; margin-bottom: 28px; }
+#app[data-ui-phase="loading"] .ds-runtime-loading { display:none; }
+.ds-load-panel { width: min(680px, 88vw); }
+.ds-load-heading { display:flex;align-items:center;gap:20px;margin:32px 0 12px; }
+.ds-load-heading h1 { margin:0;font-size:clamp(26px,3.8vw,48px); }
+.ds-load-indicator { width:22px;height:22px;border:2px solid #ffffff26;border-top-color:#e6be69;border-radius:50%;animation:ds-load-spin 1s linear infinite;flex:none; }
+.ds-load-value,.ds-load-meta { display:flex;justify-content:space-between;align-items:baseline;gap:16px; }
+.ds-load-value strong { font:500 56px/1.3 var(--ds-font, sans-serif);font-variant-numeric:tabular-nums; }
+.ds-load-value span,.ds-load-meta { color:var(--ds-secondary);font-size:13px;font-variant-numeric:tabular-nums; }
+.ds-load-track { height:4px;background:#ffffff20;margin:14px 0 16px;overflow:hidden; }
+.ds-load-track>span { display:block;height:100%;width:0;background:#e6be69; }
+.ds-load-panel small { display:block;color:var(--ds-secondary);margin:30px 0;font-size:12px; }
+@keyframes ds-load-spin { to {transform:rotate(360deg);} }
+@media(prefers-reduced-motion:reduce){.ds-load-indicator{animation:none;}}
 
 /* Presentation effects are gated by phase; loading and live HUD never blur. */
 #app[data-ui-phase="menu"] .ds-main { background: linear-gradient(90deg,#0b0f12ed,#10161b8c 32%,transparent 70%); }

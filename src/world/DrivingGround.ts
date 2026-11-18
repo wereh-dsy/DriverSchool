@@ -29,7 +29,11 @@ export interface DrivingGroundMetadata {
  * independent of the concrete map implementation.
  */
 export interface DrivingGround {
+  setRuntimeCoordinator?(runtime: import('../game/runtime/RuntimeCoordinator').RuntimeCoordinator): void;
+  runtimeState?(): unknown;
   readonly root: THREE.Group;
+  /** Resolves after disposal and any outstanding preparation leases release. */
+  readonly whenDisposed?:Promise<void>;
   readonly spawnPose: TrackSpawnPose;
   readonly worldBounds: DrivingGroundBounds;
   readonly metadata: DrivingGroundMetadata;
@@ -55,17 +59,24 @@ export interface DrivingGround {
   getRoadPitchAt(x: number, z: number, yawRadians: number): number;
   /** Optional per-frame hook for maps with authored ambient animation. */
   update?(deltaSeconds: number): void;
+  /** Authoritative animation clock exported to the independent visual copy. */
+  getRenderClock?():number;
+  applyRenderClock?(seconds:number):void;
   /** Optional streaming hook; true asks the environment to discover new visuals. */
-  updatePlayerPosition?(x: number, z: number,yawRadians?:number,speedMetersPerSecond?:number): boolean;
+  updatePlayerPosition?(x: number, z: number, yawRadians?: number, speedMetersPerSecond?: number, frameMs?: number): boolean;
   /** Asynchronous visual readiness only. Logical contacts/topology are already available. */
   readonly visualReady?: boolean;
+  beginVisualPreload?():void;
+  finishVisualPreload?():void;
+  readonly visualLoadingProgress?:{regionDone:number;regionTotal:number;gpuDone:number;gpuTotal:number;resource:string};
   readonly visualLoadingError?: Error;
   markLoadMilestone?(name: 'firstRender' | 'playable'): void;
   setVisualResourcePreparation?(prepare: (texture: THREE.Texture) => void,
     warmup?: (root: THREE.Group) => Promise<unknown>): void;
   /** Incremental visual additions/removals; never changes logical resources. */
   setVisualObserver?(observer: (root: THREE.Object3D, added: boolean) => void): void;
-  updateVisualVisibility?(eye: THREE.Vector3, fogFar: number, cameras: readonly THREE.Camera[]): void;
+  updateVisualVisibility?(eye: THREE.Vector3, fogFar: number, cameras: readonly THREE.Camera[], shadows?:readonly THREE.Camera[]): void;
+  prepareRenderView?(camera:THREE.Camera,shadow?:boolean):void;
   /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
   setSurfaceReferenceHeight?(height: number): void;
   /** Read-only, bounded local query, used only by sparse incident diagnostics. */

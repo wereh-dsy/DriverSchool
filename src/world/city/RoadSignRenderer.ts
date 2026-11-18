@@ -161,7 +161,14 @@ export class RoadSignRenderer {
   /** Regional sectors release inactive board textures; template geometry remains reusable. */
   retainContents(signs:RoadSignDefinition[]):void {
     const wanted=new Set(signs.map(sign=>this.contentKey(sign)));
-    for(const [key,material]of this.materials)if(!wanted.has(key)){material.map?.dispose();material.dispose();this.materials.delete(key);}
+    for(const _ of this.retainContentKeysSteps(wanted)) { /* synchronous authoring path */ }
+  }
+  *retainContentKeysSteps(wanted:ReadonlySet<string>,valid:()=>boolean=()=>true):Generator<void>{
+    for(const[key,material]of this.materials){
+      if(!valid())return;
+      if(!wanted.has(key)){material.map?.dispose();material.dispose();this.materials.delete(key);}
+      yield;
+    }
   }
   dispose(){const geometries=new Set([...this.templates.values()].flatMap(parts=>parts.map(p=>p.geometry)));geometries.add(this.unitBox);for(const g of geometries)g.dispose();for(const material of this.materials.values()){material.map?.dispose();material.dispose();}this.metal.dispose();this.backs.dispose();this.templates.clear();this.materials.clear();}
 }

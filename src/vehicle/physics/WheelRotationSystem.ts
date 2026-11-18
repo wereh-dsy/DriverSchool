@@ -5,6 +5,7 @@ import { WHEEL_IDS, type WheelId } from './WheelContact';
 import { clamp, wrapAngle } from './math';
 import { TyreGripModel } from './TyreGripModel';
 import { TyreThermalPressureSystem } from './TyreThermalPressureSystem';
+import type { CompliantShaftCoupling } from './CompliantShaftCoupling';
 
 export interface WheelRotationInput {
   readonly surfaceCurve?: SurfaceCurve;
@@ -74,6 +75,9 @@ export class WheelRotationSystem {
   private readonly inertia: number;
   public readonly gripModel: TyreGripModel;
   public readonly tyres: TyreThermalPressureSystem;
+  private readonly couplingTorques = [0, 0, 0, 0];
+  private readonly couplingOmegas = [0, 0, 0, 0];
+  private readonly couplingInertias = [1, 1, 1, 1];
 
   public constructor(private readonly config: TireConfig, wheelRadius: number, wheelInertia = config.wheelInertia, ambientTemperatureC = 20) {
     this.radius = Number.isFinite(wheelRadius) ? Math.max(0.05, wheelRadius) : 0.315;
@@ -87,6 +91,7 @@ export class WheelRotationSystem {
     const speed = this.finite(longitudinalSpeed);
     for (const id of WHEEL_IDS) {
       this.lateralDemands[id] = 0;
+      this.couplingTorques[WHEEL_IDS.indexOf(id)] = 0;
       this.states[id] = { ...zeroState(), angularVelocity: speed / this.radius, longitudinalSpeed: speed };
     }
   }
@@ -94,6 +99,23 @@ export class WheelRotationSystem {
   public getSnapshot(id: WheelId): WheelRotationState { return { ...this.states[id] }; }
   /** Allocation-free feedback for the differential carrier and static hold checks. */
   public getAngularVelocity(id: WheelId): number { return this.states[id].angularVelocity; }
+  public getCouplingTorque(id: WheelId): number { return this.couplingTorques[WHEEL_IDS.indexOf(id)]!; }
+
+  /** Operator split: exact passive shaft impulse, then existing implicit tyre/brake solve.
+   * Finite compliance permits stress and different front/rear paths in a tight turn.
+   * This is physical I*dOmega angular momentum, not a wheel-speed clamp. */
+  public integrateShaftCouplings(dt: number, couplings: readonly CompliantShaftCoupling[], frontInertia: number, rearInertia: number): void {
+    for (let i = 0; i < 4; i++) {
+      this.couplingOmegas[i] = this.states[WHEEL_IDS[i]!].angularVelocity;
+      this.couplingInertias[i] = this.inertia + Math.max(0, i < 2 ? frontInertia : rearInertia);
+    }
+    for (const coupling of couplings) coupling.integrate(dt, this.couplingOmegas, this.couplingInertias);
+    for (let i = 0; i < 4; i++) {
+      const id = WHEEL_IDS[i]!, before = this.states[id];
+      this.couplingTorques[i] = this.couplingInertias[i]! * (this.couplingOmegas[i]! - before.angularVelocity) / Math.max(1e-8, dt);
+      this.states[id] = { ...before, angularVelocity: this.couplingOmegas[i]! };
+    }
+  }
 
   /** Explicit collision/pawl correction only; preserves the visual spin phase. */
   public constrainAngularVelocity(id: WheelId, angularVelocity: number,
@@ -157,7 +179,7 @@ export class WheelRotationSystem {
           gripUsage: limit > 1e-6 ? Math.abs(staticForce) / limit : 0,
           brakeReactionTorque: totalBrake > 0 ? reaction * brakeTorque / totalBrake : 0,
           handbrakeReactionTorque: totalBrake > 0 ? reaction * handbrakeTorque / totalBrake : 0,
-          rotationalInertiaForce: inertia * previous.angularVelocity / duration / this.radius,
+          rotationalInertiaForce: inertia * previous.angularVelocity / duration / this.radius - this.getCouplingTorque(id) / this.radius,
           staticContact: true,
         };
         this.states[id] = state;
@@ -226,7 +248,7 @@ export class WheelRotationSystem {
       gripUsage: this.gripModel.usage(longitudinalForce, lateralForce, limit, lateralLimit, surface),
       brakeReactionTorque: totalBrake > 0 ? brakeReaction * brakeTorque / totalBrake : 0,
       handbrakeReactionTorque: totalBrake > 0 ? brakeReaction * handbrakeTorque / totalBrake : 0,
-      rotationalInertiaForce: duration > 0 ? -inertia * (omega - previous.angularVelocity) / duration / this.radius : 0,
+      rotationalInertiaForce: (duration > 0 ? -inertia * (omega - previous.angularVelocity) / duration / this.radius : 0) - this.getCouplingTorque(id) / this.radius,
       staticContact: false,
     };
     this.states[id] = state;

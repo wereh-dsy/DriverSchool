@@ -1,0 +1,120 @@
+{
+  "timestepHz": 120,
+  "results": {
+    "EV/0": {
+      "torque": 48.22468881252377,
+      "maxResidualW": 0,
+      "minLossW": 0,
+      "maximumJumpNm": 12.634719858609571
+    },
+    "EV/12": {
+      "torque": 48.22468881252377,
+      "maxResidualW": 1.8189894035458565e-12,
+      "minLossW": 0,
+      "maximumJumpNm": 12.634719858609571
+    },
+    "EV/25": {
+      "torque": 48.22468881252377,
+      "maxResidualW": 9.094947017729282e-13,
+      "minLossW": 0,
+      "maximumJumpNm": 12.634719858609571
+    },
+    "series": {
+      "beforeRPM": 3614.6273160048167,
+      "afterRPM": 3614.5996956032723,
+      "generationW": 39351.82461871282,
+      "maxResidualW": 1.2369127944111824e-9,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 12.634719858609571
+    },
+    "transition": {
+      "paths": [
+        "SERIES",
+        "PARALLEL"
+      ],
+      "clutch": {
+        "engagement": 1,
+        "torqueNm": 123.20365494117547,
+        "slipRPM": 5.882541207262911
+      },
+      "maxResidualW": 9.458744898438454e-10,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 20.1006906841516
+    },
+    "direct": {
+      "state": "DIRECT",
+      "engineRPM": 2869.126490337271,
+      "wheelPowerW": 25272.7235111224,
+      "maxResidualW": 9.531504474580288e-10,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 6.891665377423394
+    },
+    "highLoad": {
+      "state": "SERIES",
+      "generationW": 57394.93181284197,
+      "maxResidualW": 3.6961864680051804e-9,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 57.43054481186164
+    },
+    "sustained": {
+      "socBefore": 0.18,
+      "socAfter": 0.23800324862007827,
+      "maxResidualW": 1.367880031466484e-9,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 10.337498066135097
+    },
+    "generation": {
+      "energyAddedKWh": 0.2827270545870375,
+      "fuelL": 0.10646155986912585,
+      "maxResidualW": 5.020410753786564e-10,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 0
+    },
+    "regenABS": {
+      "regenNm": 916.7060045860051,
+      "absNm": 0,
+      "maxResidualW": 0,
+      "minLossW": 0,
+      "maximumJumpNm": 916.7060045860051
+    },
+    "fullPack": {
+      "regenNm": 7.5760830429866886,
+      "maxResidualW": 5.684341886080802e-14,
+      "minLossW": 0,
+      "maximumJumpNm": 0.7209595892425111
+    },
+    "AC": {
+      "gridKWh": 0.21999999999994932,
+      "addedKWh": 0.19766675832138603,
+      "maxResidualW": 2.2737367544323206e-13,
+      "minLossW": 0,
+      "maximumJumpNm": 0
+    },
+    "thermal": {
+      "warmDischargeW": 135000,
+      "hotDischargeW": 16398.29145800473,
+      "maxResidualW": 2.6193447411060333e-10,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 236.32415385756312
+    },
+    "continuous": {
+      "batteryC": 22.997707997009744,
+      "p1C": 81.924559478775,
+      "p3C": 72.76101492587654,
+      "soc": 0.015814099387806636,
+      "maxResidualW": 3.1723175197839737e-9,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 31.586799646524014
+    },
+    "startStop": {
+      "maxResidualW": 1.280568540096283e-9,
+      "minLossW": -2.637534635141492e-11,
+      "maximumJumpNm": 14.35763620296541
+    },
+    "fuelBoundary": {
+      "maxResidualW": 1.8189894035458565e-12,
+      "minLossW": 0,
+      "maximumJumpNm": 11.13407426746997
+    }
+  }
+}

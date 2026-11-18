@@ -1,0 +1,159 @@
+{
+  "stage": "error",
+  "message": "Error: Vehicle migration failed: mercedes-maybach-s680-z223 undefined",
+  "errors": [],
+  "contexts": [
+    {
+      "kind": "webgl2",
+      "time": 347.5
+    }
+  ],
+  "renderer": {
+    "owner": "RendererWorker",
+    "webgl2": true,
+    "ready": true,
+    "frames": 11640,
+    "sequence": 140,
+    "overlayVisible": true,
+    "mirrors": {
+      "left": true,
+      "right": true
+    },
+    "shadow": true,
+    "debugText": "",
+    "info": {
+      "render": {
+        "frame": 56263,
+        "calls": 1060,
+        "triangles": 975718,
+        "points": 0,
+        "lines": 2688
+      },
+      "memory": {
+        "geometries": 2413,
+        "textures": 139
+      },
+      "programs": 281
+    },
+    "renderGraph": {
+      "backend": "webgl2",
+      "frames": 11668,
+      "passes": [
+        {
+          "name": "world.visibility",
+          "after": [],
+          "cpuMs": 0.5
+        },
+        {
+          "name": "additional.views",
+          "after": [
+            "world.visibility"
+          ],
+          "cpuMs": 10.800000011920929
+        },
+        {
+          "name": "main.composite",
+          "after": [
+            "additional.views"
+          ],
+          "cpuMs": 9.5
+        },
+        {
+          "name": "hud.composite",
+          "after": [
+            "main.composite"
+          ],
+          "cpuMs": 0
+        }
+      ],
+      "fusedStages": [
+        "sky/weather",
+        "opaque world",
+        "transparent",
+        "3D cockpit"
+      ],
+      "shadowCpuMs": 1.5,
+      "draws": {
+        "main": 431,
+        "additional": 362,
+        "shadow": 266,
+        "skyWeather": 4,
+        "transparent": 108,
+        "cockpit": 134,
+        "overlay": 1
+      },
+      "residency": {
+        "geometry": 2447,
+        "instances": 653,
+        "texture": 135,
+        "target": 7,
+        "registered": 3242,
+        "prepared": 3184,
+        "released": 2821,
+        "cpuBackingBytes": 53815424,
+        "gpuBytes": null,
+        "gpuBytesLimitation": "WebGL does not expose driver residency; use allocation instrumentation for GL buffers"
+      },
+      "multiDrawAvailable": true,
+      "multiDrawUsed": false,
+      "offscreenAvailable": true,
+      "offscreen": true
+    },
+    "world": {
+      "sector": "4,2",
+      "active": 56,
+      "publishing": 0,
+      "retiring": 0,
+      "roads": 33280196,
+      "terrain": 9708532,
+      "backgroundPages": 44,
+      "worker": {
+        "queued": 0
+      },
+      "incompleteVisible": 0,
+      "decorationJobs": 0,
+      "releasing": 0
+    },
+    "performance": {
+      "time": 247686.5,
+      "rafMs": 12.200000000011642,
+      "cpuMs": 93.90000000596046,
+      "simulation": 0,
+      "scene": 1,
+      "render": 12.800000011920929,
+      "streaming": 0,
+      "assets": 80,
+      "background": 0,
+      "maintenance": 0,
+      "steps": 0,
+      "debtMs": 0,
+      "surrenderedMs": 0,
+      "simulationSeconds": 0,
+      "queued": 1,
+      "calls": 1066,
+      "triangles": 975724,
+      "viewCalls": 1060,
+      "shadowCalls": 266,
+      "backgroundCalls": 3,
+      "visibleObjects": 588,
+      "geometries": 2413,
+      "textures": 139,
+      "programs": 281,
+      "heapBytes": null
+    }
+  },
+  "loading": {
+    "phase": "ready",
+    "message": "",
+    "progress": {
+      "phase": "驾驶就绪",
+      "resource": "首屏资源已准备完成",
+      "percent": 100,
+      "completed": 202,
+      "total": 202,
+      "elapsedMs": 12979,
+      "status": "ready",
+      "attempt": 1
+    }
+  }
+}

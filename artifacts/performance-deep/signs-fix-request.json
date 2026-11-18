@@ -1,0 +1,469 @@
+{
+  "label": "Full sign audit: four reading conflicts, six occupied supports, exact safety footing and approach metadata",
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "highway:S29:in:mileage:48213",
+      "properties": {
+        "id": "highway:S29:in:mileage:48213",
+        "type": "EXPRESSWAY_DISTANCE",
+        "template": "highway-gantry",
+        "size": "large",
+        "roadId": "regional:v3:S29:in:40:revision553",
+        "position": {
+          "x": -9616.871095653642,
+          "y": 47.95328507728353,
+          "z": -8619.186570850894
+        },
+        "heading": 1.6609025694091224,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:northeast-west",
+            "arrow": "straight",
+            "distanceMetres": 900
+          }
+        ],
+        "language": "zh-CN",
+        "stationMetres": 180,
+        "incomingRoadId": "regional:v3:S29:in:40:revision553",
+        "gantryPosts": [
+          -4.4,
+          6.4
+        ],
+        "highwayLayout": true
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:lingang:E-to-N-right:sign:35",
+      "properties": {
+        "id": "regional:lingang:E-to-N-right:sign:35",
+        "type": "EXPRESSWAY_DIVERGE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "regional:S68:out:split12:split30:split36:split88",
+        "position": {
+          "x": 2191.375,
+          "y": 20,
+          "z": 3176.598615873342
+        },
+        "heading": 3.1415926535897647,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S68",
+            "directionId": "S68:forward",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S26",
+            "directionId": "S26:reverse",
+            "arrow": "exit-right",
+            "distanceMetres": 35
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:lingang",
+        "advanceMetres": 35,
+        "stationMetres": 21.098615873342624,
+        "decisionIds": [
+          "regional:lingang:E-to-N-right"
+        ],
+        "incomingRoadId": "regional:S68:out:split12:split30:split36:split88",
+        "highwayLayout": true,
+        "actualAdvanceMetres": 35,
+        "laneArrows": [
+          "straight",
+          "straight",
+          "exit-right"
+        ],
+        "postOffset": -6.175
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:lingang:E-to-S-star:sign:1000",
+      "properties": {
+        "id": "regional:lingang:E-to-S-star:sign:1000",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570",
+        "position": {
+          "x": 2716.345637762215,
+          "y": 18.07355662630001,
+          "z": 2241.825663695413
+        },
+        "heading": 2.3242681836319354,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S68",
+            "directionId": "S68:forward",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S26",
+            "directionId": "S26:forward",
+            "arrow": "exit-right",
+            "distanceMetres": 1000
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:lingang",
+        "advanceMetres": 1000,
+        "stationMetres": 436.9723684453519,
+        "decisionIds": [
+          "regional:lingang:E-to-S-star"
+        ],
+        "incomingRoadId": "regional:S68:out:split12:split30:split36:split232:split238",
+        "highwayLayout": true,
+        "actualAdvanceMetres": 1000.0000000000001,
+        "postOffset": 8.175
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:logistics:E-to-N-right:sign:35",
+      "properties": {
+        "id": "regional:logistics:E-to-N-right:sign:35",
+        "type": "EXPRESSWAY_DIVERGE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "regional:S89:in:split142",
+        "position": {
+          "x": 523.3999999999999,
+          "y": 8,
+          "z": 3391.375
+        },
+        "heading": 1.5707963267948397,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S89",
+            "directionId": "S89:reverse",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S26",
+            "directionId": "S26:reverse",
+            "arrow": "exit-right",
+            "distanceMetres": 35
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:logistics",
+        "advanceMetres": 35,
+        "stationMetres": 21.09999999999991,
+        "decisionIds": [
+          "regional:logistics:E-to-N-right"
+        ],
+        "incomingRoadId": "regional:S89:in:split142",
+        "highwayLayout": true,
+        "actualAdvanceMetres": 35,
+        "laneArrows": [
+          "straight",
+          "straight",
+          "exit-right"
+        ],
+        "postOffset": -6.175
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:logistics:S-to-E-right:sign:35",
+      "properties": {
+        "id": "regional:logistics:S-to-E-right:sign:35",
+        "type": "EXPRESSWAY_DIVERGE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "regional:S26:in:split82:split96:split130",
+        "position": {
+          "x": 8.625,
+          "y": 0,
+          "z": 3923.4
+        },
+        "heading": 0,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S26",
+            "directionId": "S26:reverse",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S89",
+            "directionId": "S89:forward",
+            "arrow": "exit-right",
+            "distanceMetres": 35
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:logistics",
+        "advanceMetres": 35,
+        "stationMetres": 21.09999999999991,
+        "decisionIds": [
+          "regional:logistics:S-to-E-right"
+        ],
+        "incomingRoadId": "regional:S26:in:split82:split96:split130",
+        "highwayLayout": true,
+        "actualAdvanceMetres": 35,
+        "laneArrows": [
+          "straight",
+          "straight",
+          "exit-right"
+        ],
+        "postOffset": -6.175
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:logistics:W-to-S-right:sign:35",
+      "properties": {
+        "id": "regional:logistics:W-to-S-right:sign:35",
+        "type": "EXPRESSWAY_DIVERGE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "regional:S89:out:split114:split166",
+        "position": {
+          "x": -523.4,
+          "y": 8,
+          "z": 3408.625
+        },
+        "heading": -1.5707963267948966,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S89",
+            "directionId": "S89:forward",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S26",
+            "directionId": "S26:forward",
+            "arrow": "exit-right",
+            "distanceMetres": 35
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:logistics",
+        "advanceMetres": 35,
+        "stationMetres": 21.100000000000023,
+        "decisionIds": [
+          "regional:logistics:W-to-S-right"
+        ],
+        "incomingRoadId": "regional:S89:out:split114:split166",
+        "highwayLayout": true,
+        "actualAdvanceMetres": 35,
+        "laneArrows": [
+          "straight",
+          "straight",
+          "exit-right"
+        ],
+        "postOffset": -6.175
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:v2:airport-north:E-to-S-loop:sign:200",
+      "properties": {
+        "id": "regional:v2:airport-north:E-to-S-loop:sign:200",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "highway-gantry",
+        "size": "large",
+        "roadId": "regional:v2:G42:in:20",
+        "position": {
+          "x": -6160.7,
+          "y": 35.88557064580794,
+          "z": -5506.75
+        },
+        "heading": 1.5707963267948966,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "G42",
+            "directionId": "G42:reverse",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S18",
+            "directionId": "S18:reverse",
+            "arrow": "exit-right",
+            "distanceMetres": 330
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:v2:airport-north",
+        "advanceMetres": 200,
+        "stationMetres": 385.1731502788343,
+        "decisionIds": [
+          "regional:v2:airport-north:E-to-S-loop"
+        ],
+        "incomingRoadId": "regional:v2:G42:in:20:revision158:lane3309",
+        "gantryPosts": [
+          -4.4,
+          6.4
+        ],
+        "highwayLayout": true,
+        "actualAdvanceMetres": 330
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:v2:westlink:E-to-S-loop:sign:200",
+      "properties": {
+        "id": "regional:v2:westlink:E-to-S-loop:sign:200",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "highway-gantry",
+        "size": "large",
+        "roadId": "regional:v2:S27-extension:out:4:revision254",
+        "position": {
+          "x": -10271.2,
+          "y": 10.000709548910592,
+          "z": 2693.25
+        },
+        "heading": 1.5707963267948966,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S37",
+            "directionId": "S37:forward",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "G65",
+            "directionId": "G65:forward",
+            "arrow": "exit-right",
+            "distanceMetres": 255
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:v2:westlink",
+        "advanceMetres": 200,
+        "stationMetres": 77.40000000000146,
+        "decisionIds": [
+          "regional:v2:westlink:E-to-S-loop"
+        ],
+        "incomingRoadId": "regional:v2:S27-extension:out:4:revision254:lane3381",
+        "gantryPosts": [
+          -4.4,
+          6.4
+        ],
+        "highwayLayout": true,
+        "actualAdvanceMetres": 255
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:v3:river-newcity:W-to-N-turbine:sign:500",
+      "properties": {
+        "id": "regional:v3:river-newcity:W-to-N-turbine:sign:500",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "highway-gantry",
+        "size": "large",
+        "roadId": "regional:v3:S36-extension54:out:27:revision877:revision880:lane4434",
+        "position": {
+          "x": 9530.896684130243,
+          "y": 6.0325076781389,
+          "z": 6091.117594694774
+        },
+        "heading": -1.776945594979915,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "S36",
+            "directionId": "S36:forward",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "S31",
+            "directionId": "S31:reverse",
+            "arrow": "exit-right",
+            "distanceMetres": 355
+          }
+        ],
+        "language": "zh-CN",
+        "interchangeId": "regional:v3:river-newcity",
+        "advanceMetres": 500,
+        "stationMetres": 55.70683164522839,
+        "decisionIds": [
+          "regional:v3:river-newcity:W-to-N-turbine"
+        ],
+        "incomingRoadId": "regional:v3:S36-extension54:out:28",
+        "gantryPosts": [
+          -6.275,
+          8.275
+        ],
+        "highwayLayout": true,
+        "actualAdvanceMetres": 355
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:access-ew-west-eb-on:false:speed:65",
+      "properties": {
+        "id": "road-safety:access-ew-west-eb-on:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "access-ew-west-eb-on",
+        "position": {
+          "x": -694.9871143946242,
+          "y": 3.449641132049195,
+          "z": -107.39484024193453
+        },
+        "heading": -1.3353278662078352,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 65,
+        "speedLimitKmh": 40
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:access-ew-west-wb-off:false:guide:130",
+      "properties": {
+        "id": "road-safety:access-ew-west-wb-off:false:guide:130",
+        "type": "CHEVRON",
+        "template": "chevron",
+        "size": "small",
+        "roadId": "access-ew-west-wb-off",
+        "position": {
+          "x": -722.3004821575844,
+          "y": 1.1044316288242328,
+          "z": -193.2168253210789
+        },
+        "heading": 1.161276567276551,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 115,
+        "chevronDirection": "left"
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:access-ew-west-wb-off:false:speed:65",
+      "properties": {
+        "id": "road-safety:access-ew-west-wb-off:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "access-ew-west-wb-off",
+        "position": {
+          "x": -679.1538212622256,
+          "y": 4.894066986332497,
+          "z": -167.05612394797018
+        },
+        "heading": 0.9932874372490332,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 65,
+        "speedLimitKmh": 40
+      }
+    }
+  ]
+}

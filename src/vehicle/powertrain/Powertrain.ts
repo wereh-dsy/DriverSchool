@@ -50,6 +50,7 @@ export interface ICEVehicleTelemetry {
   revHang: RevHangSnapshot;
 }
 export interface PowertrainSnapshot {
+  ehs?: import('./EhsHybridSystem').EhsTelemetry;
   hybrid?: import('./P2HybridPowertrain').HybridTelemetry;
   kind: string;
   vehicleOperational: boolean;
@@ -82,6 +83,7 @@ export interface EVTelemetry {
   requestedBrakeTorque: number; regenerativeBrakeTorque: number;
 }
 export interface PowertrainInitialState {
+  ehs?: { mode?: import('../config/EhsHybridConfig').EhsDriverMode; holdSOC?: number; p1TemperatureC?: number };
   hybrid?: { mode?: import('../config/P2HybridConfig').HybridMode; holdSOC?: number;
     transferMode?: import('../config/P2HybridConfig').TransferMode; freeShaftOmega?: number };
   vehicleOperational?: boolean;
@@ -127,6 +129,8 @@ export interface PowertrainOutput {
 }
 /** Owns source, coupling and transmission lifecycle without requiring ICE components. */
 export interface Powertrain {
+  /** Installed passive shaft constraints; the wheel solver owns angular momentum integration. */
+  readonly wheelCouplings?: readonly import('../physics/CompliantShaftCoupling').CompliantShaftCoupling[];
   /** READY systems can be operational while their combustion engine is stopped. */
   readonly ignitionToggleUsesOperationalState?: boolean;
   readonly serviceBrakeDemand?: number;

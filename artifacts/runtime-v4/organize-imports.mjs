@@ -1,0 +1,5 @@
+import ts from 'typescript';
+import fs from 'node:fs';
+const config=ts.readConfigFile('tsconfig.json',ts.sys.readFile),parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,'.');
+const service=ts.createLanguageService({getCompilationSettings:()=>parsed.options,getScriptFileNames:()=>parsed.fileNames,getScriptVersion:()=> '1',getScriptSnapshot:file=>ts.sys.fileExists(file)?ts.ScriptSnapshot.fromString(ts.sys.readFile(file)):undefined,getCurrentDirectory:()=>process.cwd(),getDefaultLibFileName:options=>ts.getDefaultLibFilePath(options),fileExists:ts.sys.fileExists,readFile:ts.sys.readFile,readDirectory:ts.sys.readDirectory});
+for(const file of process.argv.slice(2))for(const change of service.organizeImports({type:'file',fileName:file},{},{skipDestructiveCodeActions:false})){let source=fs.readFileSync(change.fileName,'utf8');for(const edit of change.textChanges.sort((a,b)=>b.span.start-a.span.start))source=source.slice(0,edit.span.start)+edit.newText+source.slice(edit.span.start+edit.span.length);fs.writeFileSync(change.fileName,source);}

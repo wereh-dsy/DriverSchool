@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "stale queue removal",
+    "one cancel per in-flight task",
+    "no publication on acknowledgement",
+    "near work resumes after acknowledgement",
+    "queue clears on dispose"
+  ],
+  "jobs": {
+    "completed": 2,
+    "cancelledQueued": 1,
+    "cancelledInFlight": 1,
+    "coalescedRequests": 0,
+    "disposed": true
+  }
+}

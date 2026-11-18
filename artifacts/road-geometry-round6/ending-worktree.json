@@ -1,0 +1,351 @@
+{
+  "versionBefore": 494,
+  "versionAfter": 498,
+  "counts": {
+    "roads": 46,
+    "intersections": 2,
+    "objects": 28,
+    "objectTypes": {
+      "industrial": 4,
+      "residential_low": 1,
+      "tree": 14,
+      "streetlight_dual": 4,
+      "streetlight": 4,
+      "school": 1
+    },
+    "total": 76,
+    "reviewRegions": 17
+  },
+  "contracts": {
+    "identityCountsPreserved": true,
+    "roadContactAndTopologyPreserved": true,
+    "unrelatedMapFieldsPreserved": true,
+    "staticLayoutsSynchronizedThroughExistingProviders": true
+  },
+  "piers": {
+    "resolved": 7,
+    "total": 7,
+    "minCylinderClearance": 2.095453515912959
+  },
+  "walks": {
+    "modified": 46,
+    "minimumClearWidth": 1.58,
+    "underpass": {
+      "sidewalkMeshes": 2,
+      "clearMeshSpans": [
+        1.580078125,
+        1.5799560546875
+      ],
+      "vertices": 1422,
+      "ceilingColliders": 14,
+      "minimumCeilingWidth": 26.79999999999982,
+      "headroom": 5.85
+    },
+    "deferred": [
+      "intercity-wb",
+      "intercity-eb-split-split",
+      "v8-port-works-c91",
+      "direction-north-west"
+    ]
+  },
+  "globalObjectScreen": {
+    "coverage": {
+      "roads": 0,
+      "objects": 11505
+    },
+    "initialCounts": {
+      "total": 1377,
+      "error": 0,
+      "warning": 1259,
+      "info": 118
+    },
+    "fullRescanRepeated": false
+  },
+  "phases": [
+    {
+      "name": "buildings",
+      "modifiedInSource": 3,
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "name": "walks",
+      "modifiedInSource": 46,
+      "errors": 0,
+      "warnings": 22
+    },
+    {
+      "name": "scenery",
+      "modifiedInSource": 4,
+      "errors": 0,
+      "warnings": 4
+    },
+    {
+      "name": "wall-objects",
+      "modifiedInSource": 23,
+      "errors": 0,
+      "warnings": 20
+    }
+  ],
+  "validation": [
+    {
+      "region": "warehouse",
+      "valid": true,
+      "errorCount": 0,
+      "warningCount": 1
+    },
+    {
+      "region": "wuliuyuan",
+      "valid": true,
+      "errorCount": 0,
+      "warningCount": 4
+    },
+    {
+      "region": "underpass",
+      "valid": true,
+      "errorCount": 0,
+      "warningCount": 31
+    },
+    {
+      "region": "north-south-walks",
+      "valid": true,
+      "errorCount": 0,
+      "warningCount": 95
+    },
+    {
+      "region": "signals",
+      "valid": true,
+      "errorCount": 0,
+      "warningCount": 25
+    }
+  ],
+  "typecheck": {
+    "exitCode": 0,
+    "initialAttempt": "QA typing errors corrected; initial log retained",
+    "reasonForFinalCheck": "Production signal-head integration added to preview",
+    "scope": "src and final Round 6 local verification/preview",
+    "fullBuildRun": false
+  },
+  "layoutAudit": {
+    "wallConflicts": [],
+    "buildingConflicts": []
+  },
+  "changedFiles": [
+    {
+      "path": "src/world/regional/regional-main.json",
+      "before": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+      "after": "f7136826ccbf94426c0527d97f066e9fd6fbd5cff966053e692bac5878afd236"
+    },
+    {
+      "path": "src/world/city/RoadGeometry.ts",
+      "before": "fc63afa06a3d772db362b915094d96318cc2f81f773091b90a4b1abe0c52100c",
+      "after": "438d545b5a155aeac739b95f1cc237988dd9cbe4d5c919133910f75eb67c951d"
+    },
+    {
+      "path": "src/world/city/RoadInfrastructure.ts",
+      "before": "4292af4c4b1c100d7bf88eb668996dfc0263197f42a94b4b832ca19ee04016ee",
+      "after": "87b3fc695a286cc7ba9da146a45430953984beebae9a24d33057bd615d79ea9c"
+    },
+    {
+      "path": "src/world/city/RoadEdgeChain.ts",
+      "before": "e5b7e6ceb2e04d54a98417cb37b2898706710e7603406af7e8736975186ee3ef",
+      "after": "e8ae2ea9448294cf11c54619db93ae9200dd7b7beb76fec414b12c37ee727106"
+    },
+    {
+      "path": "src/world/city/RoadClearance.ts",
+      "before": "5e014229ced57ff8fc712d9545619abd784ae5a7511b0ef3b59dc714f815b052",
+      "after": "db1d23ff00c498bd2d921c20489e355093af209fa070e513b807cb39b211e6a2"
+    },
+    {
+      "path": "src/world/regional/RegionalTerrainClearance.ts",
+      "before": "6f0127a3c1ade07f0b782bab65ddc404fa0cb7bf5bd7a8d1acb000c75a8cf48d",
+      "after": "daab50b7e4b383fb2bbc544e827ab8357d3e8fd6a3c7dcfa02568baece1089e0"
+    },
+    {
+      "path": "src/world/city/CityMapData.ts",
+      "before": "b97f3592b662fa28c0ce2f28c731fb67ee3dc1e4c13a555534ed8209e27ad872",
+      "after": "a8f1bc91c3226f403c1e2a78b77b1c13bad1cac4c4c5c34db532101859b43e30"
+    },
+    {
+      "path": "src/world/city/CityMapValidation.ts",
+      "before": "de33432c6a7fed4e9434f6c11d8df41d41faf14106323a48c46d0bd8d32e28c2",
+      "after": "2367bf48e0c15886c30dc5128253b22b9b9db37c35ad14319f321588f47b9db5"
+    }
+  ],
+  "preservedPriorSource": [
+    {
+      "path": "src/world/city/JunctionSurface.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/VisualStreamingData.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/ContinuousRoadGeometry.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrialCache.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrial.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/RoadBuilder.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/RoadVisualCompiler.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/IntersectionBuilder.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/VisualStreamingWorker.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/regional/RegionalBackgroundBatches.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/CityGroundGeometry.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/SectorManager.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/VisualStreaming.selftest.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/vehicle/visual/Tank500BodyExterior.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/MidRoadVisual.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/world/city/VisualStreaming.worker.ts",
+      "unchanged": true
+    }
+  ],
+  "distIndexMatchesRound5": true,
+  "release": {
+    "buildRun": false,
+    "releaseRun": false,
+    "protectedDirectoryWritten": false
+  },
+  "head": "e42346815360428daf9d90f4e805f527d6b739f1",
+  "commitCreated": false,
+  "pushed": false,
+  "status": [
+    " M src/vehicle/visual/Tank500BodyExterior.ts",
+    " M src/world/city/CityGround.ts",
+    " M src/world/city/CityGroundGeometry.ts",
+    " M src/world/city/CityMapData.ts",
+    " M src/world/city/CityMapValidation.ts",
+    " M src/world/city/IntersectionBuilder.ts",
+    " M src/world/city/JunctionSurface.ts",
+    " M src/world/city/MarkingOwnership.ts",
+    " M src/world/city/MidRoadVisual.ts",
+    " M src/world/city/RoadBuilder.ts",
+    " M src/world/city/RoadCarriageway.ts",
+    " M src/world/city/RoadClearance.ts",
+    " M src/world/city/RoadEdgeChain.ts",
+    " M src/world/city/RoadInfrastructure.ts",
+    " M src/world/city/RoadVisualCompiler.ts",
+    " M src/world/city/SectorManager.ts",
+    " M src/world/city/VisualStreaming.selftest.ts",
+    " M src/world/city/VisualStreaming.worker.ts",
+    " M src/world/city/VisualStreamingData.ts",
+    " M src/world/city/VisualStreamingWorker.ts",
+    " M src/world/regional/RegionalBackgroundBatches.ts",
+    " M src/world/regional/RegionalTerrain.ts",
+    " M src/world/regional/RegionalTerrainClearance.ts",
+    " M src/world/regional/regional-main.json",
+    "?? artifacts/road-geometry-round2/",
+    "?? artifacts/road-geometry-round3/",
+    "?? artifacts/road-geometry-round4/",
+    "?? artifacts/road-geometry-round5/",
+    "?? artifacts/road-geometry-round6/",
+    "?? artifacts/road-geometry-trial/",
+    "?? docs/ROAD_GEOMETRY_ROUND2_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_ROUND3_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_ROUND4_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_ROUND5_2026-11-07.md",
+    "?? docs/ROAD_GEOMETRY_ROUND6_2026-11-07.md",
+    "?? docs/ROAD_GEOMETRY_TRIAL_2026-11-06.md",
+    "?? scripts/check-road-geometry-round3.mjs",
+    "?? scripts/check-road-geometry-round4.mjs",
+    "?? scripts/check-road-geometry-round5-terrain.mjs",
+    "?? scripts/check-road-geometry-round5.mjs",
+    "?? scripts/check-road-geometry-round5.ts",
+    "?? scripts/check-road-geometry-round6.ts",
+    "?? scripts/inspect-road-geometry-round4.mjs",
+    "?? scripts/inspect-road-geometry-round5-piers.mjs",
+    "?? scripts/prepare-road-geometry-round3.mjs",
+    "?? scripts/prepare-road-geometry-round5.mjs",
+    "?? scripts/prepare-road-geometry-round6.mjs",
+    "?? scripts/profile-road-geometry-round3.mjs",
+    "?? scripts/road-geometry-round1-projection.fixture.ts",
+    "?? scripts/road-geometry-round2-data.ts",
+    "?? scripts/road-geometry-round2-server.mjs",
+    "?? scripts/road-geometry-round2.html",
+    "?? scripts/road-geometry-round2.ts",
+    "?? scripts/road-geometry-round2.tsconfig.json",
+    "?? scripts/road-geometry-round3-node-worker.mjs",
+    "?? scripts/road-geometry-round3-server.mjs",
+    "?? scripts/road-geometry-round3.html",
+    "?? scripts/road-geometry-round3.ts",
+    "?? scripts/road-geometry-round3.tsconfig.json",
+    "?? scripts/road-geometry-round4-data.ts",
+    "?? scripts/road-geometry-round4-server.mjs",
+    "?? scripts/road-geometry-round4.html",
+    "?? scripts/road-geometry-round4.ts",
+    "?? scripts/road-geometry-round4.tsconfig.json",
+    "?? scripts/road-geometry-round5-cpu.mjs",
+    "?? scripts/road-geometry-round5-electron.cjs",
+    "?? scripts/road-geometry-round5-game.html",
+    "?? scripts/road-geometry-round5-game.ts",
+    "?? scripts/road-geometry-round5-server.mjs",
+    "?? scripts/road-geometry-round5.html",
+    "?? scripts/road-geometry-round5.ts",
+    "?? scripts/road-geometry-round5.tsconfig.json",
+    "?? scripts/road-geometry-round6-electron.cjs",
+    "?? scripts/road-geometry-round6-server.mjs",
+    "?? scripts/road-geometry-round6.html",
+    "?? scripts/road-geometry-round6.ts",
+    "?? scripts/road-geometry-round6.tsconfig.json",
+    "?? scripts/road-geometry-trial-data.ts",
+    "?? scripts/road-geometry-trial-server.mjs",
+    "?? scripts/road-geometry-trial.html",
+    "?? scripts/road-geometry-trial.ts",
+    "?? scripts/road-geometry-trial.tsconfig.json",
+    "?? scripts/run-road-geometry-round2.mjs",
+    "?? scripts/run-road-geometry-round2.ts",
+    "?? scripts/run-road-geometry-round3.mjs",
+    "?? scripts/run-road-geometry-trial.mjs",
+    "?? scripts/run-road-geometry-trial.ts",
+    "?? scripts/smoke-road-geometry-round5-release.mjs",
+    "?? scripts/summarize-road-geometry-round2.mjs",
+    "?? scripts/summarize-road-geometry-round3.mjs",
+    "?? scripts/summarize-road-geometry-round5.mjs",
+    "?? src/world/city/ContinuousRoadGeometry.selftest.ts",
+    "?? src/world/city/ContinuousRoadGeometry.ts",
+    "?? src/world/city/PavementProjection.ts",
+    "?? src/world/city/RoadCompileSampling.ts",
+    "?? src/world/city/RoadGeometry.ts",
+    "?? src/world/city/RoadGeometryTrial.ts",
+    "?? src/world/city/RoadGeometryTrialCache.ts",
+    ""
+  ]
+}

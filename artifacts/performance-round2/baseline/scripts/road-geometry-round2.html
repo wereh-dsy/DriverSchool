@@ -1,0 +1,6 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>道路三维几何 · 真实环境与性能</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#101b24;color:#dfe8ee;font:14px system-ui}header,nav,footer{padding:12px 20px}h1{font-size:19px;margin:0 0 5px}button,select{padding:7px 10px;background:#29404e;color:#e5f0f5;border:1px solid #4b6473;border-radius:4px;margin:3px}canvas{display:block;width:100%;height:100%}#view{height:65vh;position:relative}#label{position:absolute;left:16px;top:12px;background:#14242ddd;padding:8px 12px;pointer-events:none}#status{color:#9adbb6}#stats{white-space:pre-wrap;font:12px monospace}small{color:#a3b7c4}</style></head>
+<body><header><h1>道路三维几何第二轮 · 全地图资源／真实 Worker／物理驾驶</h1><small>保留原地形、建筑、场景物件和道路。新几何仅显式选择的对象启用。默认游戏渲染器未变。</small></header>
+<nav><button id="run">开始完整对照采样</button><button id="smoke">仅当前场景检查</button><select id="case"></select><select id="variant"><option value="legacy">旧渲染器</option><option value="continuous">优化后新几何</option></select><button id="load">加载选择</button><button id="first">第一人称</button><button id="third">第三人称</button><button id="night">日夜切换</button><button id="snapshot">保存截图</button></nav>
+<main id="view"><div id="label">正在加载完整地图资源…</div></main><footer><div id="status">初始化中</div><div id="stats"></div></footer>
+<script type="module" src="./road-geometry-round2.ts"></script></body></html>

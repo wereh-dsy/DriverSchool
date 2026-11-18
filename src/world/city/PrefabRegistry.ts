@@ -1,11 +1,16 @@
 import { BufferGeometry, CanvasTexture, Color, CylinderGeometry, DataTexture, Float32BufferAttribute, Group, InstancedMesh, LinearFilter, LinearMipmapLinearFilter, Matrix4, Mesh, MeshBasicMaterial, MeshStandardMaterial, PlaneGeometry, Quaternion, RepeatWrapping, RingGeometry, SRGBColorSpace, Vector3 } from 'three';
 import { createStaticOBBCollider, type StaticCollider } from '../../vehicle/physics/CollisionSystem';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { drain } from '../../loading/Loading';
 import { makeBox } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import { PREFAB_IDS, type CityFacade, type CityObject, type PrefabId } from './CityMapData';
 import {cityBuildingGeometry,cityFacadeHeightBand} from './CityBuildingGeometry';
 import { cityLandmarkTemplate } from './CityLandmarkGeometry';
+import { staticTemplateSteps } from '../render/StaticBatchBuilder';
+import { WorldLODProxies } from '../render/WorldLODProxies';
+import contracts from './PrefabContracts.json';
+import { packStaticGeometrySteps } from '../render/StaticGeometryPacking';
 
 export interface CityPrefab { id: PrefabId; label: string; size: [number, number, number]; solid: boolean; template: Group }
 /** Small procedural kit, using the existing city's materials and primitive geometry. */
@@ -17,15 +22,24 @@ export class PrefabRegistry {
   private readonly buildingGeometries=new Map<string,BufferGeometry>();
   private readonly cityStaticTemplates=new Map<PrefabId,Group>();
   private readonly landmarkTemplates=new Map<string,Group>();
+  private readonly worldTemplates=new Map<Group,Group>();
+  private readonly worldProxies=new WorldLODProxies();
+  readonly preparation={completed:0,total:0,ready:false};
+  get renderStatistics(){return{templates:this.worldTemplates.size,proxies:{...this.worldProxies.statistics},preparation:{...this.preparation}};}
   private readonly landmarkMaterials:Subject3Materials;
-  constructor(m: Subject3Materials) {
+  constructor(m: Subject3Materials,metadataOnly=false) {
     this.landmarkMaterials=m;
+    if(metadataOnly){for(const contract of contracts)this.entries.set(contract.id as PrefabId,{...contract,id:contract.id as PrefabId,size:[...contract.size] as [number,number,number],template:new Group()});return;}
     const buildings: [PrefabId, string, number, number, number][] = [
       ['residential_low', '住宅 · 低层', 20, 9, 16], ['residential_mid', '住宅 · 中层', 26, 23, 20],
       ['office', '办公楼', 26, 38, 22], ['commercial', '商业盒子', 42, 9, 30],
       ['industrial', '工业厂房', 46, 11, 30], ['school', '学校', 42, 14, 18], ['garage', '简易车库', 22, 5, 16],
     ];
-    const register = (id: PrefabId, label: string, size: [number, number, number], solid: boolean, template: Group) => this.entries.set(id, { id, label, size, solid, template });
+    const register = (id: PrefabId, label: string, size: [number, number, number], solid: boolean, template: Group) => {
+      const contract=contracts.find(entry=>entry.id===id);
+      if(!contract||contract.solid!==solid||size.some((value,i)=>value!==contract.size[i]))throw Error('Prefab collision contract must be updated with its visual definition: '+id);
+      return this.entries.set(id, { id, label, size, solid, template });
+    };
     const box = (root: Group, size: [number, number, number], p: [number, number, number], material = m.buildingLight, tint = false) => {
       const mesh = makeBox('prefab part', size, p, material, true); mesh.userData.tint = tint; root.add(mesh); return mesh;
     };
@@ -166,20 +180,47 @@ export class PrefabRegistry {
       this.cityStaticTemplates.set(id,root);
     }
   }
+  /** Prepare only unique model recipes, never whole-map world instances/GPU data. */
+  *prepareModelsSteps(objects: readonly CityObject[]): Generator<void> {
+    const recipes=new Map<string,CityObject>();
+    for(let i=0;i<objects.length;i++){
+      const o=objects[i]!,scale=o.scale;
+      const key=[o.prefabId,o.id.startsWith('regional:'),o.landmarkModel,o.facade,o.buildingShape,cityFacadeHeightBand(scale?.y??1),o.label,
+        o.landmarkModel?(scale?.x??1)/(scale?.y??1):0].join('|');
+      if(!recipes.has(key))recipes.set(key,o);
+      if(i%128===0)yield;
+    }
+    this.preparation.total=recipes.size;
+    for(const object of recipes.values()){
+      const building=['office','industrial','residential_mid'].includes(object.prefabId);
+      const root=yield* this.buildInstanceSteps([object],building?'far':'near');
+      root.traverse(o=>{if(o instanceof InstancedMesh)o.dispose();});
+      root.clear();this.preparation.completed++;yield;
+    }
+    this.preparation.ready=true;
+  }
   buildInstances(objects: CityObject[]): Group {
+    return drain(this.buildInstanceSteps(objects));
+  }
+  *buildInstanceSteps(objects: CityObject[],lod:'near'|'mid'|'far'='near'): Generator<void, Group> {
     const root = new Group(), transform = new Matrix4(), placement = new Matrix4(), q = new Quaternion(), p = new Vector3(), scale = new Vector3();
-    const byPrefab=new Map<PrefabId,CityObject[]>();for(const o of objects){const list=byPrefab.get(o.prefabId)??[];list.push(o);byPrefab.set(o.prefabId,list);}
+    const byPrefab=new Map<PrefabId,Map<string,CityObject[]>>();for(const o of objects){const cells=byPrefab.get(o.prefabId)??new Map<string,CityObject[]>(),key=`${Math.floor(o.position.x/500)},${Math.floor((o.position.y??0)/8)},${Math.floor(o.position.z/500)}`,list=cells.get(key)??[];list.push(o);cells.set(key,list);byPrefab.set(o.prefabId,cells);}
     for (const id of PREFAB_IDS) {
-      const instances = byPrefab.get(id);
+      for(const instances of byPrefab.get(id)?.values()??[]){
       if (!instances?.length) continue;
       const prefab = this.entries.get(id)!,variants=new Map<CityObject['landmarkModel'],CityObject[]>();
       for(const o of instances){const key=o.landmarkModel,list=variants.get(key)??[];list.push(o);variants.set(key,list);}
       for(const [landmark,instances]of variants){
       let template=instances.every(o=>!o.id.startsWith('regional:'))?this.cityStaticTemplates.get(id)??prefab.template:prefab.template;
       if(landmark){const band=cityFacadeHeightBand(instances[0]!.scale?.y??1),key=id+':'+landmark+':'+band;let specific=this.landmarkTemplates.get(key);if(!specific){specific=cityLandmarkTemplate(landmark,prefab.size,this.landmarkMaterials,band);this.landmarkTemplates.set(key,specific);}template=specific;}
+      let compact=this.worldTemplates.get(template);
+      if(!compact){compact=yield* staticTemplateSteps(template);this.worldTemplates.set(template,compact);}
+      template=compact;
       template.updateMatrixWorld(true);
-      template.traverse(part => {
-        if (!(part instanceof Mesh)) return;
+      const parts: Mesh[] = [];
+      template.traverse(part => { if (part instanceof Mesh) parts.push(part); });
+      for (const part of parts) {
+        yield;
         const batchKey=(o:CityObject)=>part.userData.signLabel?o.label??'Ring':!o.facade?'legacy':part.userData.facadeBody?`${o.facade}:${o.buildingShape??'box'}:${cityFacadeHeightBand(o.scale?.y??1)}`:part.userData.buildingRoof?o.buildingShape??'box':o.facade;
         const batches=new Map<string,CityObject[]>();for(const o of instances){const key=batchKey(o),list=batches.get(key)??[];list.push(o);batches.set(key,list);}
         for(const batch of batches.values()) {
@@ -191,22 +232,28 @@ export class PrefabRegistry {
         if(facade&&(part.userData.facadeBody||part.userData.buildingRoof)) {
           const shape=batch[0]!.buildingShape??'box',band=part.userData.buildingRoof?1:cityFacadeHeightBand(batch[0]!.scale?.y??1),key=`${id}:${shape}:${band}:${part.userData.buildingRoof?'roof':'body'}`;
           geometry=this.buildingGeometries.get(key)!;
-          if(!geometry){const [w,h,d]=prefab.size;geometry=cityBuildingGeometry(part.userData.buildingRoof?w+.5:w,part.userData.buildingRoof?.4:h-.4,part.userData.buildingRoof?d+.5:d,shape,band,part.userData.buildingRoof===true);this.buildingGeometries.set(key,geometry);}
+          if(!geometry){const [w,h,d]=prefab.size,source=cityBuildingGeometry(part.userData.buildingRoof?w+.5:w,part.userData.buildingRoof?.4:h-.4,part.userData.buildingRoof?d+.5:d,shape,band,part.userData.buildingRoof===true);geometry=yield* packStaticGeometrySteps([{geometry:source,transform:new Matrix4()}]);source.dispose();this.buildingGeometries.set(key,geometry);}
         }
+        const detailed=geometry,buildingPart=part.userData.facadeBody||part.userData.buildingRoof;
+        const proxy=lod==='far'||buildingPart?yield* this.worldProxies.geometrySteps(geometry):geometry;
+        if(lod==='far'||lod==='mid'&&buildingPart)geometry=proxy;
         const mesh = new InstancedMesh(geometry,material,batch.length);
+        if(lod==='near'&&buildingPart&&proxy!==detailed)mesh.userData.worldLODGeometries=[detailed,proxy,proxy];
         mesh.name = `${id} instances`; mesh.castShadow = true; mesh.receiveShadow = true;
         mesh.userData.cityObjectIds = batch.map(o => o.id);
         mesh.userData.environmentLamp = part.userData.environmentLamp;
-        batch.forEach((o, i) => {
+        for (const [i, o] of batch.entries()) {
+          if (i % 128 === 0) yield;
           p.set(o.position.x, o.position.y ?? 0, o.position.z); q.setFromAxisAngle(new Vector3(0, 1, 0), o.rotation);
           scale.set(o.scale?.x ?? 1, o.scale?.y ?? 1, o.scale?.z ?? 1);
           placement.compose(p, q, scale); transform.multiplyMatrices(placement, part.matrixWorld); mesh.setMatrixAt(i, transform);
           if (part.userData.tint) mesh.setColorAt(i, new Color(o.color ?? '#ffffff'));
-        });
+        }
         mesh.computeBoundingSphere(); root.add(mesh);
         }
-      });
       }
+      }
+    }
     }
     return root;
   }
@@ -239,5 +286,5 @@ export class PrefabRegistry {
     context.fillStyle='#ffffff';context.textAlign='center';context.font=landmark?`600 ${canvas.height*.72}px "Microsoft YaHei",sans-serif`:'bold 64px sans-serif';if(landmark)context.textBaseline='middle';context.fillText(label,canvas.width/2,landmark?canvas.height*.52:135,canvas.width-28);
     const map=new CanvasTexture(canvas);map.colorSpace=SRGBColorSpace;material=new MeshBasicMaterial({map,transparent:true,toneMapped:!landmark});this.signMaterials.set(key,material);return material;
   }
-  dispose(): void { for (const prefab of this.entries.values()) prefab.template.traverse(p => { if (p instanceof Mesh) p.geometry.dispose(); });for(const root of this.cityStaticTemplates.values())root.traverse(p=>{if(p instanceof Mesh)p.geometry.dispose();});this.cityStaticTemplates.clear();for(const root of this.landmarkTemplates.values())root.traverse(p=>{if(p instanceof Mesh)p.geometry.dispose();});this.landmarkTemplates.clear();for(const g of this.buildingGeometries.values())g.dispose();this.buildingGeometries.clear();for(const m of this.signMaterials.values()){m.map?.dispose();m.dispose();}this.signMaterials.clear();for(const m of this.facadeMaterials.values()){m.map?.dispose();m.dispose();}this.facadeMaterials.clear();this.ownedMaterials.forEach(m=>m.dispose()); }
+  dispose(): void { this.worldProxies.dispose(); for(const root of this.worldTemplates.values())root.traverse(o=>{if(o instanceof Mesh)o.geometry.dispose();});this.worldTemplates.clear(); for (const prefab of this.entries.values()) prefab.template.traverse(p => { if (p instanceof Mesh) p.geometry.dispose(); });for(const root of this.cityStaticTemplates.values())root.traverse(p=>{if(p instanceof Mesh)p.geometry.dispose();});this.cityStaticTemplates.clear();for(const root of this.landmarkTemplates.values())root.traverse(p=>{if(p instanceof Mesh)p.geometry.dispose();});this.landmarkTemplates.clear();for(const g of this.buildingGeometries.values())g.dispose();this.buildingGeometries.clear();for(const m of this.signMaterials.values()){m.map?.dispose();m.dispose();}this.signMaterials.clear();for(const m of this.facadeMaterials.values()){m.map?.dispose();m.dispose();}this.facadeMaterials.clear();this.ownedMaterials.forEach(m=>m.dispose()); }
 }

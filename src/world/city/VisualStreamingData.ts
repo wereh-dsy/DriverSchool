@@ -5,23 +5,28 @@ export interface VisualGeometryData {
 }
 export interface CompiledRoadVisual {
   id: string;
-  surfaces: { key: string; material: string; geometry: VisualGeometryData; barrierTriangles: number }[];
-  instances: { key: string; material: string; geometryId: string; geometry?: VisualGeometryData; matrices: Float32Array; lamp: boolean }[];
+  geometrySystem?:'continuous-v5';
+  surfaces: { key: string; material: string; geometry: VisualGeometryData; barrierTriangles: number;castShadow?:boolean;receiveShadow?:boolean }[];
+  instances: { key: string; material: string; geometryId: string; geometry?: VisualGeometryData; matrices: Float32Array; lamp: boolean;castShadow?:boolean;receiveShadow?:boolean;kind?:string }[];
 }
+/** Different shadow contracts cannot share a batch even with one material. */
+export function visualBatchKey(material:string,castShadow:boolean,receiveShadow:boolean):string{return material+'|'+Number(castShadow)+Number(receiveShadow);}
 export interface TerrainVisualData { key: string; tier: 'near' | 'mid' | 'far'; geometries: VisualGeometryData[]; roadSurface?: VisualGeometryData;
   ground?: VisualGeometryData[]; groundBuildMs?: number; maxGroundStepMs?: number }
-export type VisualWorkerRequest = { kind: 'init'; map?: import('./CityMapData').CityMapData }
+export type VisualWorkerRequest = ({ kind: 'init'; map?: import('./CityMapData').CityMapData; roadGeometryTrial?: import('./RoadGeometryTrial').RoadGeometryTrialSelection; diagnostics?:boolean }
   | { kind: 'road'; id: string } | { kind: 'terrain'; key: string; tier: 'near' | 'mid' | 'far'; roadIds?: string[] }
-  | { kind: 'background'; keys: string[] };
+  | { kind: 'background'; keys: string[] } | { kind: 'cancel' }) & {sentAt?:number};
 export type VisualWorkerReply = ({ kind: 'ready' } | { kind: 'road'; data: CompiledRoadVisual }
-  | { kind: 'terrain'; data: TerrainVisualData } | { kind: 'background'; data: TerrainVisualData[] } | { kind: 'error'; message: string }) & { cpuMs?: number };
+  | { kind: 'terrain'; data: TerrainVisualData } | { kind: 'background'; data: TerrainVisualData[] } | { kind: 'cancelled' } | { kind: 'error'; message: string }) & { cpuMs?: number; activeMs?: number; maxStepMs?: number;
+    workerStartedAt?:number;workerFinishedAt?:number;transferBytes?:number;metrics?:import('./RoadVisualCompiler').RoadVisualCompiler['lastMetrics'];cache?:import('./RoadVisualCompiler').RoadVisualCompiler['cacheStatistics'];workerHeapBytes?:number|null };
 
-export function exportVisualGeometry(g: BufferGeometry): VisualGeometryData {
+export function exportVisualGeometry(g: BufferGeometry, copyBuffers=true): VisualGeometryData {
   g.computeBoundingBox(); g.computeBoundingSphere();
-  const copy = (name: string) => g.getAttribute(name) ? new Float32Array(g.getAttribute(name).array) : undefined;
+  // Borrow only reply-owned buffers; reusable templates/caches keep a copy.
+  const copy = (name: string) => {const a=g.getAttribute(name)?.array;return a?(!copyBuffers&&a instanceof Float32Array?a:new Float32Array(a)):undefined;};
   const box = g.boundingBox!, sphere = g.boundingSphere!;
   return { position: copy('position')!, normal: copy('normal')!, uv: copy('uv'), color: copy('color'),
-    index: g.index ? new Uint32Array(g.index.array) : undefined,
+    index: g.index ? !copyBuffers&&g.index.array instanceof Uint32Array?g.index.array:new Uint32Array(g.index.array) : undefined,
     bounds: [box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z],
     sphere: [sphere.center.x, sphere.center.y, sphere.center.z, sphere.radius] };
 }

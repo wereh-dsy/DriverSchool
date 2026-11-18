@@ -1,0 +1,151 @@
+{
+  "version": 506,
+  "total": 3399,
+  "reading": {
+    "navigation": 1546,
+    "speedLimits": 770,
+    "chevrons": 733,
+    "conflicts": []
+  },
+  "schema": [],
+  "counts": {
+    "roadSign.wrongSide": 8,
+    "roadSign.insideJunction": 1,
+    "roadSign.tooCloseToJunction": 2
+  },
+  "contracts": [],
+  "issues": [
+    {
+      "id": "roadSign.wrongSide:regional:G17:out:split306:lane64:regional:dongyuan:N-to-W-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:dongyuan:N-to-W-right:sign:200",
+      "roadId": "regional:G17:out:split306:lane64",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000011
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:G17:in:split270:split428:split456:lane32:regional:dongyuan:S-to-E-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:dongyuan:S-to-E-right:sign:200",
+      "roadId": "regional:G17:in:split270:split428:split456:lane32",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000011
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:S26:in:split82:split96:split506:split512:split516:split520:split524:lane156:regional:logistics:S-to-E-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:logistics:S-to-E-right:sign:200",
+      "roadId": "regional:S26:in:split82:split96:split506:split512:split516:split520:split524:lane156",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:v3:G17-extension185:in:2:revision499:regional:v3:chenjiang-east:E-to-N-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:v3:chenjiang-east:E-to-N-right:sign:200",
+      "roadId": "regional:v3:G17-extension185:in:2:revision499",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000182
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:v3:G17-extension185:out:0:revision523:regional:v3:chenjiang-east:W-to-S-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:v3:chenjiang-east:W-to-S-right:sign:200",
+      "roadId": "regional:v3:G17-extension185:out:0:revision523",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000182
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:v3:G17-extension185:in:0:revision739:regional:v3:northeast-donglin:E-to-N-right:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:v3:northeast-donglin:E-to-N-right:sign:200",
+      "roadId": "regional:v3:G17-extension185:in:0:revision739",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000182
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:regional:v3:G17-extension185:out:2:revision513:regional:v3:northeast-donglin:W-to-N-turbine:sign:200::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "regional:v3:northeast-donglin:W-to-N-turbine:sign:200",
+      "roadId": "regional:v3:G17-extension185:out:2:revision513",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.425000000000182
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.insideJunction:system-central:N-to-E-semi:road-safety:system-central:N-to-E-semi:false:guide:205::",
+      "code": "roadSign.insideJunction",
+      "severity": "warning",
+      "objectId": "road-safety:system-central:N-to-E-semi:false:guide:205",
+      "roadId": "system-central:N-to-E-semi",
+      "message": "Object envelope intersects junction pavement",
+      "metrics": {
+        "intersectionId": "urban-junction-33"
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.wrongSide:system-south:feeder-1:topology-sign:endpoint:ns-nb-split-3-split-split-split-3:end|ns-nb-split-3-split-split-split-3|end:EXPRESSWAY_ADVANCE::",
+      "code": "roadSign.wrongSide",
+      "severity": "warning",
+      "objectId": "topology-sign:endpoint:ns-nb-split-3-split-split-split-3:end|ns-nb-split-3-split-split-split-3|end:EXPRESSWAY_ADVANCE",
+      "roadId": "system-south:feeder-1",
+      "message": "Sign is on the opposite side of its served travel direction",
+      "metrics": {
+        "lateralOffset": -8.175
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.tooCloseToJunction:v8-port-south-split-split-2-split-2-m91:topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION::",
+      "code": "roadSign.tooCloseToJunction",
+      "severity": "warning",
+      "objectId": "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+      "roadId": "v8-port-south-split-split-2-split-2-m91",
+      "message": "Sign is immediately beside the junction conflict envelope",
+      "metrics": {
+        "intersectionId": "urban-junction-231"
+      },
+      "approximate": true
+    },
+    {
+      "id": "roadSign.tooCloseToJunction:v5-civic-north-split-split-m91-section:topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION::",
+      "code": "roadSign.tooCloseToJunction",
+      "severity": "warning",
+      "objectId": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+      "roadId": "v5-civic-north-split-split-m91-section",
+      "message": "Sign is immediately beside the junction conflict envelope",
+      "metrics": {
+        "intersectionId": "urban-junction-25"
+      },
+      "approximate": true
+    }
+  ]
+}

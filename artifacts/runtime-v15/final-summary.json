@@ -1,0 +1,2259 @@
+{
+  "before": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 11199.799999982119,
+    "loading": {
+      "n": 1347,
+      "p50": 6.100000023841858,
+      "p95": 11.699999988079071,
+      "p99": 59.29999998211861,
+      "max": 258.30000001192093,
+      "over33": 21,
+      "over50": 17,
+      "over100": 8
+    },
+    "driving": {
+      "n": 6023,
+      "p50": 9.300000011920929,
+      "p95": 15.099999994039536,
+      "p99": 32.099999994039536,
+      "max": 76,
+      "over33": 60,
+      "over50": 10,
+      "over100": 0
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 6023,
+      "p50": 523.4226913452148,
+      "p95": 625.4469623565674,
+      "p99": 648.4616622924805,
+      "max": 677.8634796142578
+    },
+    "cdpHeaps": {
+      "page": {
+        "usedMiB": {
+          "n": 7,
+          "p50": 345.56653594970703,
+          "p95": 433.6401138305664,
+          "p99": 433.6401138305664,
+          "max": 433.6401138305664
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 136.86156463623047,
+          "p95": 200.2178497314453,
+          "p99": 200.2178497314453,
+          "max": 200.2178497314453
+        }
+      },
+      "worker": {
+        "usedMiB": {
+          "n": 7,
+          "p50": 295.0859832763672,
+          "p95": 385.8266181945801,
+          "p99": 385.8266181945801,
+          "max": 385.8266181945801
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 61.8226842880249,
+          "p95": 117.18438625335693,
+          "p99": 117.18438625335693,
+          "max": 117.18438625335693
+        }
+      }
+    },
+    "gpuExecutionMs": {
+      "n": 98,
+      "p50": 5.990528,
+      "p95": 11.944192,
+      "p99": 16.469664,
+      "max": 16.469664
+    },
+    "gpuBufferPeakMiB": 81.5200252532959,
+    "draws": {
+      "n": 6023,
+      "p50": 768,
+      "p95": 1264,
+      "p99": 1412,
+      "max": 1437
+    },
+    "shadowDraws": {
+      "n": 6023,
+      "p50": 123,
+      "p95": 132,
+      "p99": 133,
+      "max": 133
+    },
+    "triangles": {
+      "n": 6023,
+      "p50": 788205,
+      "p95": 899226,
+      "p99": 915325,
+      "max": 922607
+    },
+    "route": {
+      "maxKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "turnFinished": true,
+      "finalPhase": "return",
+      "finalStation": 2182
+    },
+    "regularClock": {
+      "steps": {
+        "n": 6023,
+        "p50": 1,
+        "p95": 2,
+        "p99": 4,
+        "max": 11
+      },
+      "debtMs": {
+        "n": 6023,
+        "p50": 4.099999999998589,
+        "p95": 7.900000000002115,
+        "p99": 8.266666666665213,
+        "max": 206.73333333333295
+      },
+      "surrenderedMs": 0
+    },
+    "artificialStall": {
+      "injected": true,
+      "maxSteps": 16,
+      "maxDebtMs": 30.366666666664877,
+      "surrenderedMs": 0,
+      "maxConsecutiveSpeedChange": 0.01297359962121547,
+      "maxPoseStep": 3.2597947610873774
+    },
+    "completeness": null,
+    "worker": {
+      "completed": 622,
+      "cancelledQueued": 4,
+      "cancelledInFlight": 0,
+      "coalescedRequests": 18927,
+      "disposed": false
+    },
+    "workerRemaining": {
+      "queued": 4,
+      "inFlight": "road:ring-ccw-1-split-split-split-split-section"
+    },
+    "publication": {
+      "n": 142,
+      "p50": 0.10000002384185791,
+      "p95": 12.399999976158142,
+      "p99": 82.5,
+      "max": 170.19999998807907
+    },
+    "recipes": {
+      "roadMiB": 31.801563262939453,
+      "terrainMiB": 8.361740112304688,
+      "pinnedMiB": 28.025089263916016,
+      "totalBudgetMiB": 42
+    },
+    "resourcesReleased": true,
+    "releaseGpuBytes": 0,
+    "releaseRecipes": 0,
+    "errors": []
+  },
+  "validated": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 12055.800000011921,
+    "loading": {
+      "n": 1565,
+      "p50": 6.100000023841858,
+      "p95": 12.300000011920929,
+      "p99": 40.69999998807907,
+      "max": 304.19999998807907,
+      "over33": 21,
+      "over50": 9,
+      "over100": 5
+    },
+    "driving": {
+      "n": 6393,
+      "p50": 8.599999994039536,
+      "p95": 17,
+      "p99": 22.399999976158142,
+      "max": 61.30000001192093,
+      "over33": 28,
+      "over50": 9,
+      "over100": 0
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 6393,
+      "p50": 523.9787559509277,
+      "p95": 570.0120267868042,
+      "p99": 580.6801261901855,
+      "max": 587.153754234314
+    },
+    "cdpHeaps": {
+      "page": {
+        "usedMiB": {
+          "n": 7,
+          "p50": 349.18164825439453,
+          "p95": 386.48764419555664,
+          "p99": 386.48764419555664,
+          "max": 386.48764419555664
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 135.42044639587402,
+          "p95": 161.35635375976562,
+          "p99": 161.35635375976562,
+          "max": 161.35635375976562
+        }
+      },
+      "worker": {
+        "usedMiB": {
+          "n": 7,
+          "p50": 190.14355087280273,
+          "p95": 228.37353134155273,
+          "p99": 228.37353134155273,
+          "max": 228.37353134155273
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 25.88144016265869,
+          "p95": 33.43502902984619,
+          "p99": 33.43502902984619,
+          "max": 33.43502902984619
+        }
+      }
+    },
+    "gpuExecutionMs": {
+      "n": 104,
+      "p50": 5.817472,
+      "p95": 16.421024,
+      "p99": 18.412736,
+      "max": 18.79824
+    },
+    "gpuBufferPeakMiB": 70.39132499694824,
+    "draws": {
+      "n": 6393,
+      "p50": 734,
+      "p95": 1594,
+      "p99": 1742,
+      "max": 1758
+    },
+    "shadowDraws": {
+      "n": 6393,
+      "p50": 121,
+      "p95": 132,
+      "p99": 133,
+      "max": 133
+    },
+    "triangles": {
+      "n": 6393,
+      "p50": 760859,
+      "p95": 1078835,
+      "p99": 1139177,
+      "max": 1178763
+    },
+    "route": {
+      "maxKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "turnFinished": true,
+      "finalPhase": "return",
+      "finalStation": 2192
+    },
+    "regularClock": {
+      "steps": {
+        "n": 6393,
+        "p50": 1,
+        "p95": 2,
+        "p99": 3,
+        "max": 6
+      },
+      "debtMs": {
+        "n": 6393,
+        "p50": 4.085561430317698,
+        "p95": 7.91889476364425,
+        "p99": 8.252228096983988,
+        "max": 17.399999999999643
+      },
+      "surrenderedMs": 443.7144385696838
+    },
+    "artificialStall": {
+      "injected": true,
+      "maxSteps": 3,
+      "maxDebtMs": 8.188350911757865,
+      "surrenderedMs": 146.93626184894845,
+      "maxConsecutiveSpeedChange": 0.005742690522922089,
+      "maxPoseStep": 0.608977886078493
+    },
+    "completeness": {
+      "forwardReady": 4,
+      "forwardTotal": 5,
+      "remaining": [],
+      "exposured": [
+        {
+          "key": "7,-1",
+          "delayMs": 2696.699999988079,
+          "minDistanceOnRoute": 1427.3625716071688
+        },
+        {
+          "key": "7,0",
+          "delayMs": 1445.2000000178814,
+          "minDistanceOnRoute": 971.8155185483587
+        },
+        {
+          "key": "7,1",
+          "delayMs": 863.1000000238419,
+          "minDistanceOnRoute": 592.2213534802098
+        },
+        {
+          "key": "7,2",
+          "delayMs": 483,
+          "minDistanceOnRoute": 480.6662603275222
+        },
+        {
+          "key": "7,3",
+          "delayMs": 164.39999997615814,
+          "minDistanceOnRoute": 504.0110461875136
+        },
+        {
+          "key": "8,0",
+          "delayMs": 338,
+          "minDistanceOnRoute": 1294.9583705811444
+        },
+        {
+          "key": "8,-1",
+          "delayMs": 530.0999999940395,
+          "minDistanceOnRoute": 1664.5481638131548
+        },
+        {
+          "key": "8,1",
+          "delayMs": 142.2000000178814,
+          "minDistanceOnRoute": 1040.1577061755809
+        },
+        {
+          "key": "8,2",
+          "delayMs": 97.2000000178814,
+          "minDistanceOnRoute": 980.6662603275222
+        },
+        {
+          "key": "8,3",
+          "delayMs": 808.4000000059605,
+          "minDistanceOnRoute": 992.3767066393201
+        },
+        {
+          "key": "4,0",
+          "delayMs": 6611.4000000059605,
+          "minDistanceOnRoute": 815.3862069189136
+        },
+        {
+          "key": "3,5",
+          "delayMs": 3443.199999988079,
+          "minDistanceOnRoute": 1211.1505425247667
+        },
+        {
+          "key": "3,0",
+          "delayMs": 4458.300000011921,
+          "minDistanceOnRoute": 853.4813790198884
+        },
+        {
+          "key": "3,-1",
+          "delayMs": 7124.0999999940395,
+          "minDistanceOnRoute": 1339.334413525093
+        }
+      ],
+      "roadCorridorSamples": [
+        {
+          "elapsed": 41,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 1046.4000000059605,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 2054.5999999940395,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 3061.800000011921,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 4068.199999988079,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 5077.4000000059605,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 6081.0999999940395,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 7082.199999988079,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 8092.5999999940395,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 9098.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 10120.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 11125.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 12131.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 13131.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 14133.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 15138.199999988079,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 16145.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 17150,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 18152.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 19159.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 20165,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 21168,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 22168,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 23170.19999998808,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 24172.30000001192,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 25173,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 26177.80000001192,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 27181,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 28186.09999999404,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 29206.80000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 30206.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 31210.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 32214.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 33218.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 34226,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 35229.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 36241.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 37244.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 38246.80000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 39254.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 40263.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 41273.69999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 42278.09999999404,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 43289,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 44290.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 45301.80000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 46310.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 47310.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 48324.80000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 49324.80000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 50340.5,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 51344.80000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 52351.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 53364.69999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 54373.30000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 55379,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 56384.69999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 57389.80000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 58403.30000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 59404.59999999404,
+          "ready": 4,
+          "total": 4
+        }
+      ],
+      "lookahead": 1335.613905478569,
+      "latency": 6.61259999999404
+    },
+    "worker": {
+      "completed": 476,
+      "cancelledQueued": 126,
+      "cancelledInFlight": 0,
+      "coalescedRequests": 23197,
+      "disposed": false
+    },
+    "workerRemaining": {
+      "queued": 9,
+      "inFlight": "road:regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578"
+    },
+    "publication": {
+      "n": 112,
+      "p50": 0.09999999403953552,
+      "p95": 6.699999988079071,
+      "p99": 15.099999994039536,
+      "max": 24.599999994039536
+    },
+    "recipes": {
+      "roadMiB": 46.47279739379883,
+      "terrainMiB": 7.055274963378906,
+      "pinnedMiB": 0,
+      "totalBudgetMiB": 42
+    },
+    "resourcesReleased": true,
+    "releaseGpuBytes": 0,
+    "releaseRecipes": 0,
+    "errors": []
+  },
+  "accepted": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 11809,
+    "loading": {
+      "n": 1536,
+      "p50": 6.199999988079071,
+      "p95": 12.199999988079071,
+      "p99": 36.400000005960464,
+      "max": 305.40000000596046,
+      "over33": 19,
+      "over50": 10,
+      "over100": 5
+    },
+    "driving": {
+      "n": 5975,
+      "p50": 9.099999994039536,
+      "p95": 18.399999976158142,
+      "p99": 25.799999982118607,
+      "max": 55.400000005960464,
+      "over33": 28,
+      "over50": 5,
+      "over100": 0
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 5975,
+      "p50": 524.3083906173706,
+      "p95": 572.792197227478,
+      "p99": 581.5693855285645,
+      "max": 601.0972061157227
+    },
+    "cdpHeaps": {
+      "page": {
+        "usedMiB": {
+          "n": 8,
+          "p50": 348.15100479125977,
+          "p95": 411.0293884277344,
+          "p99": 411.0293884277344,
+          "max": 411.0293884277344
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 157.0693073272705,
+          "p95": 168.64782238006592,
+          "p99": 168.64782238006592,
+          "max": 168.64782238006592
+        }
+      },
+      "worker": {
+        "usedMiB": {
+          "n": 8,
+          "p50": 180.49735641479492,
+          "p95": 263.0636749267578,
+          "p99": 263.0636749267578,
+          "max": 263.0636749267578
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 27.83608627319336,
+          "p95": 46.99683380126953,
+          "p99": 46.99683380126953,
+          "max": 46.99683380126953
+        }
+      }
+    },
+    "gpuExecutionMs": {
+      "n": 97,
+      "p50": 6.352416,
+      "p95": 12.853408,
+      "p99": 15.979456,
+      "max": 15.979456
+    },
+    "gpuBufferPeakMiB": 69.14698028564453,
+    "draws": {
+      "n": 5975,
+      "p50": 744,
+      "p95": 1570,
+      "p99": 1727,
+      "max": 1758
+    },
+    "shadowDraws": {
+      "n": 5975,
+      "p50": 121,
+      "p95": 132,
+      "p99": 133,
+      "max": 133
+    },
+    "triangles": {
+      "n": 5975,
+      "p50": 793374,
+      "p95": 1062015,
+      "p99": 1139028,
+      "max": 1178893
+    },
+    "route": {
+      "maxKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "turnFinished": true,
+      "finalPhase": "return",
+      "finalStation": 2192
+    },
+    "regularClock": {
+      "steps": {
+        "n": 5975,
+        "p50": 1,
+        "p95": 2,
+        "p99": 3,
+        "max": 6
+      },
+      "debtMs": {
+        "n": 5975,
+        "p50": 4.237542813336293,
+        "p95": 7.8666666666655765,
+        "p99": 8.237542813339942,
+        "max": 20.108720096143546
+      },
+      "surrenderedMs": 417.99127990385597
+    },
+    "artificialStall": {
+      "injected": true,
+      "maxSteps": 4,
+      "maxDebtMs": 6.916746418077806,
+      "surrenderedMs": 177.65911830521114,
+      "maxConsecutiveSpeedChange": 0.010686268297586565,
+      "maxPoseStep": 0.8139387074379839
+    },
+    "completeness": {
+      "forwardReady": 4,
+      "forwardTotal": 5,
+      "remaining": [],
+      "exposured": [
+        {
+          "key": "7,0",
+          "delayMs": 1544.7000000178814,
+          "minDistanceOnRoute": 971.8155185483587
+        },
+        {
+          "key": "7,-1",
+          "delayMs": 2974.100000023842,
+          "minDistanceOnRoute": 1427.362517836815
+        },
+        {
+          "key": "7,1",
+          "delayMs": 801.4000000059605,
+          "minDistanceOnRoute": 592.2213470714578
+        },
+        {
+          "key": "7,2",
+          "delayMs": 681.8999999761581,
+          "minDistanceOnRoute": 480.6662603275222
+        },
+        {
+          "key": "7,3",
+          "delayMs": 451.7999999821186,
+          "minDistanceOnRoute": 504.0110461875136
+        },
+        {
+          "key": "8,0",
+          "delayMs": 607.1999999880791,
+          "minDistanceOnRoute": 1294.9583748071793
+        },
+        {
+          "key": "8,1",
+          "delayMs": 290.40000000596046,
+          "minDistanceOnRoute": 1040.1577061755809
+        },
+        {
+          "key": "8,-1",
+          "delayMs": 1575.2000000178814,
+          "minDistanceOnRoute": 1664.5481594964065
+        },
+        {
+          "key": "8,2",
+          "delayMs": 190.30000001192093,
+          "minDistanceOnRoute": 980.6662603275222
+        },
+        {
+          "key": "8,3",
+          "delayMs": 893.9000000059605,
+          "minDistanceOnRoute": 992.3767066393201
+        },
+        {
+          "key": "4,0",
+          "delayMs": 9617.699999988079,
+          "minDistanceOnRoute": 815.3862069189136
+        },
+        {
+          "key": "3,5",
+          "delayMs": 4172.5,
+          "minDistanceOnRoute": 1211.1505425247667
+        },
+        {
+          "key": "3,0",
+          "delayMs": 5499.200000017881,
+          "minDistanceOnRoute": 853.4813790198884
+        },
+        {
+          "key": "3,-1",
+          "delayMs": 7970,
+          "minDistanceOnRoute": 1339.334413525093
+        }
+      ],
+      "roadCorridorSamples": [
+        {
+          "elapsed": 42.5,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 1051.0999999940395,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 2051.0999999940395,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 3059.699999988079,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 4066.300000011921,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 5068.199999988079,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 6075.300000011921,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 7082.800000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 8084.300000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 9101.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 10104.800000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 11108.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 12112.300000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 13116,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 14119.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 15127,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 16136,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 17143.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 18147.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 19152.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 20154.80000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 21157.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 22158.40000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 23162.30000001192,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 24166,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 25170.30000001192,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 26176.59999999404,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 27176.69999998808,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 28180.5,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 29181.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 30184.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 31194.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 32195.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 33201.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 34213.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 35216.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 36221.80000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 37228.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 38229.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 39230.19999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 40233.19999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 41242.69999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 42251.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 43254.80000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 44261.30000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 45271,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 46276.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 47276.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 48280,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 49294.09999999404,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 50297.90000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 51298.30000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 52319.30000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 53329.59999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 54342.19999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 55357.59999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 56369.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 57390,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 58404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 59405.19999998808,
+          "ready": 4,
+          "total": 4
+        }
+      ],
+      "lookahead": 1335.4665490094442,
+      "latency": 7.97240000000596
+    },
+    "worker": {
+      "completed": 483,
+      "cancelledQueued": 119,
+      "cancelledInFlight": 1,
+      "coalescedRequests": 22590,
+      "disposed": false
+    },
+    "workerRemaining": {
+      "queued": 9
+    },
+    "publication": {
+      "n": 111,
+      "p50": 0.09999999403953552,
+      "p95": 8.100000023841858,
+      "p99": 12.200000017881393,
+      "max": 24.30000001192093
+    },
+    "recipes": {
+      "roadMiB": 52.59294128417969,
+      "terrainMiB": 7.055274963378906,
+      "pinnedMiB": 0,
+      "totalBudgetMiB": 42
+    },
+    "resourcesReleased": true,
+    "releaseGpuBytes": 0,
+    "releaseRecipes": 0,
+    "errors": []
+  },
+  "highway": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 100000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 13057.40000000596,
+    "loading": {
+      "n": 1664,
+      "p50": 6.0999999940395355,
+      "p95": 11,
+      "p99": 44.29999998211861,
+      "max": 349.59999999403954,
+      "over33": 34,
+      "over50": 13,
+      "over100": 6
+    },
+    "driving": {
+      "n": 14743,
+      "p50": 6.0999999940395355,
+      "p95": 11.400000005960464,
+      "p99": 15.799999982118607,
+      "max": 69.09999999403954,
+      "over33": 13,
+      "over50": 6,
+      "over100": 0
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 14743,
+      "p50": 435.75353050231934,
+      "p95": 493.14573860168457,
+      "p99": 506.3309440612793,
+      "max": 520.5330829620361
+    },
+    "cdpHeaps": {
+      "page": {
+        "usedMiB": {
+          "n": 11,
+          "p50": 337.681209564209,
+          "p95": 402.1991958618164,
+          "p99": 402.1991958618164,
+          "max": 402.1991958618164
+        },
+        "backingMiB": {
+          "n": 11,
+          "p50": 96.12465953826904,
+          "p95": 101.63524627685547,
+          "p99": 101.63524627685547,
+          "max": 101.63524627685547
+        }
+      },
+      "worker": {
+        "usedMiB": {
+          "n": 11,
+          "p50": 162.46225357055664,
+          "p95": 205.98391723632812,
+          "p99": 205.98391723632812,
+          "max": 205.98391723632812
+        },
+        "backingMiB": {
+          "n": 11,
+          "p50": 7.592398643493652,
+          "p95": 29.5933198928833,
+          "p99": 29.5933198928833,
+          "max": 29.5933198928833
+        }
+      }
+    },
+    "gpuExecutionMs": {
+      "n": 241,
+      "p50": 4.061504,
+      "p95": 9.25328,
+      "p99": 10.589312,
+      "max": 16.002944
+    },
+    "gpuBufferPeakMiB": 40.77383232116699,
+    "draws": {
+      "n": 14743,
+      "p50": 491,
+      "p95": 672,
+      "p99": 725,
+      "max": 733
+    },
+    "shadowDraws": {
+      "n": 14743,
+      "p50": 118,
+      "p95": 137,
+      "p99": 140,
+      "max": 145
+    },
+    "triangles": {
+      "n": 14743,
+      "p50": 492600,
+      "p95": 1210849,
+      "p99": 1280042,
+      "max": 1313130
+    },
+    "route": {
+      "maxKph": 168.74055704922486,
+      "sectors": [
+        "6,-1",
+        "7,-1",
+        "8,-1",
+        "9,-1",
+        "10,-1",
+        "11,-1"
+      ],
+      "turnFinished": false,
+      "finalPhase": "turn",
+      "finalStation": 3144
+    },
+    "regularClock": {
+      "steps": {
+        "n": 14743,
+        "p50": 1,
+        "p95": 2,
+        "p99": 2,
+        "max": 6
+      },
+      "debtMs": {
+        "n": 14743,
+        "p50": 4.223538152565308,
+        "p95": 7.927205856957725,
+        "p99": 8.256871485895774,
+        "max": 15.133333333334441
+      },
+      "surrenderedMs": 544.5097951807746
+    },
+    "artificialStall": {
+      "injected": true,
+      "maxSteps": 1,
+      "maxDebtMs": 7.811268392471366,
+      "surrenderedMs": 148.67139966006604,
+      "maxConsecutiveSpeedChange": 0.011282403123720506,
+      "maxPoseStep": 0.00012731117389163754
+    },
+    "completeness": {
+      "forwardReady": 3,
+      "forwardTotal": 3,
+      "remaining": [],
+      "exposured": [
+        {
+          "key": "9,-3",
+          "delayMs": 51.900000005960464,
+          "minDistanceOnRoute": 658.1249999931276
+        },
+        {
+          "key": "10,-2",
+          "delayMs": 282.09999999403954,
+          "minDistanceOnRoute": 158.12499999213685
+        },
+        {
+          "key": "10,0",
+          "delayMs": 193.30000001192093,
+          "minDistanceOnRoute": 341.8749999913564
+        },
+        {
+          "key": "11,-2",
+          "delayMs": 214.90000000596046,
+          "minDistanceOnRoute": 154.30910216641183
+        },
+        {
+          "key": "11,0",
+          "delayMs": 315.30000001192093,
+          "minDistanceOnRoute": 341.87499999186593
+        },
+        {
+          "key": "10,-3",
+          "delayMs": 59.80000001192093,
+          "minDistanceOnRoute": 658.1249999921368
+        },
+        {
+          "key": "11,-3",
+          "delayMs": 39.29999998211861,
+          "minDistanceOnRoute": 654.3091021664118
+        },
+        {
+          "key": "12,-3",
+          "delayMs": 46.19999998807907,
+          "minDistanceOnRoute": 654.8978031479234
+        },
+        {
+          "key": "14,-1",
+          "delayMs": 56.19999998807907,
+          "minDistanceOnRoute": 1027.7620018833368
+        },
+        {
+          "key": "14,0",
+          "delayMs": 52.30000001192093,
+          "minDistanceOnRoute": 1084.3278319008473
+        }
+      ],
+      "roadCorridorSamples": [
+        {
+          "elapsed": 69.09999999403954,
+          "ready": 2,
+          "total": 2
+        },
+        {
+          "elapsed": 1082.4000000059605,
+          "ready": 2,
+          "total": 2
+        },
+        {
+          "elapsed": 2090.5,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 3095.5999999940395,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 4099.0999999940395,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 5109.800000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 6119.699999988079,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 7119.9000000059605,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 8127.199999988079,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 9130.90000000596,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 10132.40000000596,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 11135.09999999404,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 12138.59999999404,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 13139.40000000596,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 14141.199999988079,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 15144.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 16146.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 17151.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 18154.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 19155.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 20159.30000001192,
+          "ready": 4,
+          "total": 5
+        },
+        {
+          "elapsed": 21163.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 22163.40000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 23164.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 24168.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 25169,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 26171.69999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 27186.19999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 28188,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 29194.59999999404,
+          "ready": 4,
+          "total": 5
+        },
+        {
+          "elapsed": 30198.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 31206.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 32206.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 33209.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 34211.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 35213.80000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 36220,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 37220.80000001192,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 38222,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 39225.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 40255.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 41256.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 42256.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 43257.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 44267.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 45268.40000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 46270,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 47272.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 48273.19999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 49275.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 50275.5,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 51276.40000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 52284.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 53285.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 54286.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 55289.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 56294.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 57296.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 58296.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 59302.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 60307.40000000596,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 61310.30000001192,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 62313.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 63314.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 64315.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 65315.19999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 66320.09999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 67329.69999998808,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 68333.40000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 69333.59999999404,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 70342.90000000596,
+          "ready": 6,
+          "total": 6
+        },
+        {
+          "elapsed": 71343.09999999404,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 72347.69999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 73349.19999998808,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 74349.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 75351.19999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 76351.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 77354.09999999404,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 78359.5,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 79366.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 80368.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 81372,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 82373.69999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 83374.19999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 84381.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 85383.19999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 86387.69999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 87389.09999999404,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 88389.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 89390.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 90392.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 91395.19999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 92398.80000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 93403.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 94408.59999999404,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 95413.69999998808,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 96415.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 97415.40000000596,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 98421.30000001192,
+          "ready": 3,
+          "total": 3
+        },
+        {
+          "elapsed": 99423.80000001192,
+          "ready": 3,
+          "total": 3
+        }
+      ],
+      "lookahead": 750,
+      "latency": 8.64580000001192
+    },
+    "worker": {
+      "completed": 495,
+      "cancelledQueued": 0,
+      "cancelledInFlight": 0,
+      "coalescedRequests": 21871,
+      "disposed": false
+    },
+    "workerRemaining": {
+      "queued": 0
+    },
+    "publication": {
+      "n": 152,
+      "p50": 0.09999999403953552,
+      "p95": 2.4000000059604645,
+      "p99": 8.300000011920929,
+      "max": 21.30000001192093
+    },
+    "recipes": {
+      "roadMiB": 26.90777587890625,
+      "terrainMiB": 10.378524780273438,
+      "pinnedMiB": 0,
+      "totalBudgetMiB": 42
+    },
+    "resourcesReleased": true,
+    "releaseGpuBytes": 0,
+    "releaseRecipes": 0,
+    "errors": []
+  },
+  "rain": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": true,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 15000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 11191.699999988079,
+    "loading": {
+      "n": 1425,
+      "p50": 6.100000023841858,
+      "p95": 12.699999988079071,
+      "p99": 37.69999998807907,
+      "max": 303.69999998807907,
+      "over33": 20,
+      "over50": 10,
+      "over100": 7
+    },
+    "driving": {
+      "n": 1702,
+      "p50": 8.399999976158142,
+      "p95": 13.099999994039536,
+      "p99": 21.099999994039536,
+      "max": 42.80000001192093,
+      "over33": 1,
+      "over50": 0,
+      "over100": 0
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 1702,
+      "p50": 499.29048919677734,
+      "p95": 522.2791585922241,
+      "p99": 525.8707647323608,
+      "max": 528.7506666183472
+    },
+    "cdpHeaps": {
+      "page": {
+        "usedMiB": {
+          "n": 2,
+          "p50": 340.6271209716797,
+          "p95": 364.5661277770996,
+          "p99": 364.5661277770996,
+          "max": 364.5661277770996
+        },
+        "backingMiB": {
+          "n": 2,
+          "p50": 84.21586799621582,
+          "p95": 129.25948238372803,
+          "p99": 129.25948238372803,
+          "max": 129.25948238372803
+        }
+      },
+      "worker": {
+        "usedMiB": {
+          "n": 2,
+          "p50": 190.36441802978516,
+          "p95": 228.75543594360352,
+          "p99": 228.75543594360352,
+          "max": 228.75543594360352
+        },
+        "backingMiB": {
+          "n": 2,
+          "p50": 14.220572471618652,
+          "p95": 32.02112865447998,
+          "p99": 32.02112865447998,
+          "max": 32.02112865447998
+        }
+      }
+    },
+    "gpuExecutionMs": {
+      "n": 27,
+      "p50": 5.623104,
+      "p95": 12.352736,
+      "p99": 15.328448,
+      "max": 15.328448
+    },
+    "gpuBufferPeakMiB": 55.955434799194336,
+    "draws": {
+      "n": 1702,
+      "p50": 674,
+      "p95": 757,
+      "p99": 766,
+      "max": 767
+    },
+    "shadowDraws": {
+      "n": 1702,
+      "p50": 121,
+      "p95": 125,
+      "p99": 126,
+      "max": 127
+    },
+    "triangles": {
+      "n": 1702,
+      "p50": 678596,
+      "p95": 845525,
+      "p99": 846075,
+      "max": 846212
+    },
+    "route": {
+      "maxKph": 88.02641066566338,
+      "sectors": [
+        "4,2"
+      ],
+      "turnFinished": false,
+      "finalPhase": "outbound",
+      "finalStation": 1880
+    },
+    "regularClock": {
+      "steps": {
+        "n": 1702,
+        "p50": 1,
+        "p95": 2,
+        "p99": 2,
+        "max": 4
+      },
+      "debtMs": {
+        "n": 1702,
+        "p50": 4.166666666666636,
+        "p95": 7.8666666666673875,
+        "p99": 8.200000000000744,
+        "max": 25.83333333333334
+      },
+      "surrenderedMs": 313.66666666666663
+    },
+    "artificialStall": {
+      "injected": true,
+      "maxSteps": 2,
+      "maxDebtMs": 7.828597193815791,
+      "surrenderedMs": 149.67140280618423,
+      "maxConsecutiveSpeedChange": 0.00231260693785984,
+      "maxPoseStep": 0.40738259899562346
+    },
+    "completeness": {
+      "forwardReady": 5,
+      "forwardTotal": 5,
+      "remaining": [],
+      "exposured": [],
+      "roadCorridorSamples": [
+        {
+          "elapsed": 42.80000001192093,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 1052.9000000059605,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 2063.5,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 3066.800000011921,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 4072.9000000059605,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 5075.800000011921,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 6076,
+          "ready": 4,
+          "total": 4
+        },
+        {
+          "elapsed": 7080.300000011921,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 8087.200000017881,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 9093.600000023842,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 10094.200000017881,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 11094.600000023842,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 12101.5,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 13106.90000000596,
+          "ready": 5,
+          "total": 5
+        },
+        {
+          "elapsed": 14110.5,
+          "ready": 5,
+          "total": 5
+        }
+      ],
+      "lookahead": 1303.8885212618036,
+      "latency": 5.87140000000596
+    },
+    "worker": {
+      "completed": 203,
+      "cancelledQueued": 3,
+      "cancelledInFlight": 0,
+      "coalescedRequests": 4137,
+      "disposed": false
+    },
+    "workerRemaining": {
+      "queued": 0
+    },
+    "publication": {
+      "n": 81,
+      "p50": 0.09999999403953552,
+      "p95": 3.7999999821186066,
+      "p99": 13.5,
+      "max": 13.5
+    },
+    "recipes": {
+      "roadMiB": 31.136089324951172,
+      "terrainMiB": 10.690326690673828,
+      "pinnedMiB": 0,
+      "totalBudgetMiB": 42
+    },
+    "resourcesReleased": true,
+    "releaseGpuBytes": 0,
+    "releaseRecipes": 0,
+    "errors": []
+  }
+}

@@ -41,7 +41,9 @@ export function createTank500Hi4TPhysicsConfig(): P2HybridVehiclePhysicsConfig {
       ...c.transmission.automatic!.shiftStrategy, minimumUpshiftSpeeds: [2, 3.5, 5, 7, 9, 12, 16, 20],
       map: [{ throttle: 0, upshiftRPM: 1600, downshiftRPM: 900 }, { throttle: .3, upshiftRPM: 2300, downshiftRPM: 1150 },
         { throttle: .7, upshiftRPM: 4200, downshiftRPM: 1600 }, { throttle: 1, upshiftRPM: 6100, downshiftRPM: 2600 }],
-      minimumTimeInGear: .9, kickdownThrottle: .85, kickdownTargetRPM: 4100, kickdownMaximumRPM: 6000 } } };
+      minimumTimeInGear: 1.1, kickdownThrottle: .85, kickdownTargetRPM: 4100, kickdownMaximumRPM: 6000,
+      liftHoldTime: 1.5, brakingDownshiftRPM: 1550, minimumPostShiftRPM: 1050,
+      minimumUpshiftRoadRPMFraction: .78 } } };
   c.suspension = { ...c.suspension, airSuspension: undefined, adaptiveDamping: undefined,
     rideHeight: .224, restLength: .50, suspensionTravel: .30,
     springRateFront: 49000, springRateRear: 47000,
@@ -86,9 +88,11 @@ export function createTank500Hi4TPhysicsConfig(): P2HybridVehiclePhysicsConfig {
         derateStartTemperature: 125, criticalTemperature: 165, minimumCapability: .15, initialTemperatureOffset: 0 } },
     charging: { acPower: 6600, dcPower: 50000, acEfficiency: .92, dcEfficiency: .96 },
     driveability: { normalAcceleration: 6.0, sportAcceleration: 6.4, ecoAcceleration: 4.2,
-      lowRangeAcceleration: 9.0, creepSpeed: 1.45, creepAcceleration: .55, coastDeceleration: .48 },
+      lowRangeAcceleration: 9.0, creepSpeed: 1.45, creepAcceleration: .55, coastDeceleration: .48, fullPowerPedalStart: .80 },
     inverterEfficiency: .97, auxiliaryPower: 650, starterPower: 1800,
     systemPower: 300000, systemTorque: 750, defaultMode: 'HYBRID',
+    engineCooling: { coolantWasteFraction: .35, thermostatStartC: 82, thermostatFullC: 95,
+      bypassWPerK: 35, fanStartC: 98, fanFullC: 108, minimumFanFraction: .15 },
     energyManagement: { minimumSOC: .15, restartSOC: .22, holdSOC: .50, chargeTargetSOC: .80,
       engineStartPower: 46000, engineStopPower: 18000, engineStartSpeed: 27, minimumRunTime: 14,
       startDemand: .82, startDelay: .28, stopDelay: 3,
@@ -97,7 +101,10 @@ export function createTank500Hi4TPhysicsConfig(): P2HybridVehiclePhysicsConfig {
     transfer: { modes: ['2H', 'AWD', '4H', '4L'], defaultMode: 'AWD', lowRatio: 2.64,
       efficiency: .97, highShiftMaximumSpeed: 80 / 3.6, lowShiftMaximumSpeed: .05,
       lowMaximumSpeed: 40 / 3.6,
-      frontShare: .35, maximumFrontShare: .5, couplingResponse: 4 },
+      frontShare: .35, maximumFrontShare: .5, couplingResponse: 4,
+      centerLock: { stiffness: 18000, damping: 450, capacity: 18000 },
+      rearLock: { stiffness: 12000, damping: 320, capacity: 12000 },
+      lockMaximumSpeed: 5 / 3.6, lockMaximumSlip: 2 },
     regen: { minimumSpeed: .5, fullSpeed: 2.5, liftTorque: 35 },
   };
   return c as P2HybridVehiclePhysicsConfig;

@@ -130,12 +130,7 @@ export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) 
   else for(const label of ['Ring','City Center','East','West','North','South','Intercity Expressway'])assert(map.objects.some(o=>o.prefabId==='guide_sign'&&o.label===label),'direction sign '+label);
   for(const prefab of ['tree','noise_barrier','embankment','hardscape','green_strip','office','industrial'])assert(map.objects.some(o=>o.prefabId===prefab),'landscape category '+prefab);
   assert(map.objects.some(o=>o.prefabId==='green_strip'&&(o.scale?.z??0)>10),'reserved park block');
-  const materials=createSubject3Materials(),prefabs=new PrefabRegistry(materials),objectRoot=prefabs.buildInstances(map.objects);
-  const objectBatches=objectRoot.children.length;
-  assert(objectRoot.children.every(o=>o instanceof InstancedMesh)&&objectBatches<90,'prefab parts batch independently of object count');
-  const treeBatches=objectRoot.children.filter(o=>o.name==='tree instances') as InstancedMesh[];
-  assert(treeBatches.length===1&&treeBatches[0]!.count===map.objects.filter(o=>o.prefabId==='tree').length&&treeBatches[0]!.geometry.hasAttribute('color'),'all tree trunks / crowns share one vertex-colored instance batch');
-  prefabs.dispose();Object.values(materials).forEach(m=>m.dispose());
+  const {objectBatches}=runCityPrefabBatchSelfTest(map);
   assert(new Set(map.intersections.filter(j=>j.presetSource==='diamond_interchange').map(j=>j.groupId)).size===2,'two meaningful diamonds');
   assert(v4?map.roads.some(r=>r.roadNameId==='new-city-avenue'):map.roads.some(r=>r.id.startsWith('urban-diagonal'))&&map.roads.some(r=>r.id.startsWith('urban-regional-diagonal')),'continuous authored diagonal');
   assert(map.roads.some(r=>r.groupId==='east-main-aux'&&r.id.includes('transition')),'real main/frontage transitions');
@@ -169,4 +164,22 @@ export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) 
   }finally{ground.dispose();}
   }
   return {ringLengthMetres:Number(map.environment.metadata!.ringLengthMetres),expressways:'3+3',systems:5,diamonds:2,directAccessRamps:direct.length,motorwayLength,urbanFootprints,peripheralFootprint,tunnelMetres:500,underpassMetres:110,objectBatches,maximumGrades:gradeLimits,contactSamples};
+}
+
+/** Spatial renderer contract, also runnable without repeating map/physics diagnostics. */
+export function runCityPrefabBatchSelfTest(map:CityMapData) {
+  const materials=createSubject3Materials(),prefabs=new PrefabRegistry(materials),objectRoot=prefabs.buildInstances(map.objects);
+  const objectBatches=objectRoot.children.length;
+  const cells=new Set(map.objects.map(o=>`${Math.floor(o.position.x/500)},${Math.floor((o.position.y??0)/8)},${Math.floor(o.position.z/500)}`));
+  assert(objectRoot.children.every(o=>o instanceof InstancedMesh)&&objectBatches<90*cells.size,'prefab parts batch within bounded spatial cells');
+  const singleCell=prefabs.buildInstances(map.objects.map(o=>({...o,position:{x:1,y:0,z:1}})));
+  assert(singleCell.children.length<90&&singleCell.children.every(o=>o instanceof InstancedMesh),'within one spatial cell draw batches remain independent of object count');
+  const treeBatches=objectRoot.children.filter(o=>o.name==='tree instances') as InstancedMesh[];
+  const trees=map.objects.filter(o=>o.prefabId==='tree'),treeCells=new Set(trees.map(o=>`${Math.floor(o.position.x/500)},${Math.floor((o.position.y??0)/8)},${Math.floor(o.position.z/500)}`));
+  assert(treeBatches.length===treeCells.size&&treeBatches.reduce((sum,batch)=>sum+batch.count,0)===trees.length&&treeBatches.every(batch=>batch.geometry.hasAttribute('color')),'all tree trunks / crowns retain their vertex colors and instances, one batch per spatial cell');
+  const byId=new Map(trees.map(tree=>[tree.id,tree]));
+  for(const batch of treeBatches){const occupied=new Set((batch.userData.cityObjectIds as string[]).map(id=>{const tree=byId.get(id)!;return `${Math.floor(tree.position.x/500)},${Math.floor((tree.position.y??0)/8)},${Math.floor(tree.position.z/500)}`;}));assert(occupied.size===1&&batch.userData.cityObjectIds.length===batch.count,'tree batches never join distant cells or lose instance identity');}
+  for(const root of [objectRoot,singleCell])for(const mesh of root.children)(mesh as InstancedMesh).dispose();
+  prefabs.dispose();Object.values(materials).forEach(m=>m.dispose());
+  return {objectBatches,cells:cells.size,treeBatches:treeBatches.length,trees:trees.length};
 }

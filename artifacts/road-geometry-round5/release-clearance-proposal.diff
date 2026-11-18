@@ -1,0 +1,5 @@
+--- src/vehicle/visual/Tank500BodyExterior.ts
++++ src/vehicle/visual/Tank500BodyExterior.ts
+@@
+-        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); points.push([p[0] + side * .004, p[1], p[2]]); }
++        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); points.push([p[0] + side * .004, p[1] + .011, p[2]]); }

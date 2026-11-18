@@ -1,0 +1,256 @@
+{
+  "date": "2026-11-06T10:05:40.453Z",
+  "source": "regional-main.json",
+  "mapVersion": 494,
+  "unit": {
+    "assertions": 138
+  },
+  "results": [
+    {
+      "id": "arterial",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 23,
+          "triangles": 55227
+        },
+        {
+          "variant": "continuous",
+          "calls": 23,
+          "triangles": 67552
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 5695680,
+          "generationMs": 670.8999999999069
+        },
+        {
+          "variant": "continuous",
+          "bytes": 6878880,
+          "generationMs": 607.8999999999069
+        }
+      ],
+      "activeSectors": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "median",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 88,
+          "triangles": 43376
+        },
+        {
+          "variant": "continuous",
+          "calls": 92,
+          "triangles": 57502
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 3674176,
+          "generationMs": 198.1999999997206
+        },
+        {
+          "variant": "continuous",
+          "bytes": 4444232,
+          "generationMs": 215
+        }
+      ],
+      "activeSectors": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "junction",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 109,
+          "triangles": 26155
+        },
+        {
+          "variant": "continuous",
+          "calls": 111,
+          "triangles": 32437
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 2523440,
+          "generationMs": 116.79999999981374
+        },
+        {
+          "variant": "continuous",
+          "bytes": 3076068,
+          "generationMs": 159.20000000018626
+        }
+      ],
+      "activeSectors": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "divided",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 289,
+          "triangles": 55506
+        },
+        {
+          "variant": "continuous",
+          "calls": 291,
+          "triangles": 60317
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 4104078,
+          "generationMs": 152.5
+        },
+        {
+          "variant": "continuous",
+          "bytes": 4268078,
+          "generationMs": 190.29999999981374
+        }
+      ],
+      "activeSectors": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "bridge",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 149,
+          "triangles": 176866
+        },
+        {
+          "variant": "continuous",
+          "calls": 153,
+          "triangles": 178822
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 17431266,
+          "generationMs": 1616.3000000002794
+        },
+        {
+          "variant": "continuous",
+          "bytes": 17548202,
+          "generationMs": 1435.3000000002794
+        }
+      ],
+      "activeSectors": [
+        7,
+        7
+      ]
+    },
+    {
+      "id": "underground",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 44,
+          "triangles": 44420
+        },
+        {
+          "variant": "continuous",
+          "calls": 44,
+          "triangles": 50211
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 4151412,
+          "generationMs": 152.10000000009313
+        },
+        {
+          "variant": "continuous",
+          "bytes": 4707348,
+          "generationMs": 193.89999999990687
+        }
+      ],
+      "activeSectors": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "skew",
+      "views": [
+        {
+          "variant": "legacy",
+          "calls": 191,
+          "triangles": 26399
+        },
+        {
+          "variant": "continuous",
+          "calls": 193,
+          "triangles": 32197
+        }
+      ],
+      "buffers": [
+        {
+          "variant": "legacy",
+          "bytes": 2378990,
+          "generationMs": 87.1999999997206
+        },
+        {
+          "variant": "continuous",
+          "bytes": 2801594,
+          "generationMs": 102.89999999990687
+        }
+      ],
+      "activeSectors": [
+        3,
+        3
+      ]
+    }
+  ],
+  "worker": {
+    "pass": true,
+    "roadIds": [
+      "ew-wb-split"
+    ],
+    "cpuWorkerMatch": true,
+    "timings": {
+      "initializationMs": 114.60000000009313,
+      "roadCompileMs": 66.20000000018626,
+      "terrainCompileMs": 0,
+      "backgroundCompileMs": 0
+    }
+  },
+  "gpuReloadResidency": [
+    {
+      "geometries": 199,
+      "textures": 5
+    },
+    {
+      "geometries": 199,
+      "textures": 5
+    },
+    {
+      "geometries": 199,
+      "textures": 5
+    }
+  ],
+  "webglErrors": [],
+  "contextLost": false
+}

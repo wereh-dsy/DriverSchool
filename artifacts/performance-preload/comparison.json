@@ -1,0 +1,5702 @@
+{
+  "note": "Same complete v507 map and actual normal physics inputs; preview-only spawn on existing road; native 1200x720/DPR1.5, no lowered settings. First 60s excludes loading; full 80s captures actual U-turn return. GL bytes exclude textures/driver residency. CPU GL-call time is not GPU elapsed time. Heap samples are not forced-GC values.",
+  "cases": {
+    "before-cold-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 80000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 22626.10000000149,
+      "loading": {
+        "count": 768,
+        "p50": 14.200000002980232,
+        "p95": 18.600000001490116,
+        "p99": 246.30000000447035,
+        "max": 4526.5,
+        "over33": 14,
+        "over50": 10,
+        "over100": 9
+      },
+      "first60": {
+        "count": 3000,
+        "p50": 15.600000001490116,
+        "p95": 34.79999999701977,
+        "p99": 60.69999999552965,
+        "max": 560.3000000044703,
+        "over33": 185,
+        "over50": 61,
+        "over100": 8
+      },
+      "fullDrive": {
+        "count": 3625,
+        "p50": 17.100000001490116,
+        "p95": 41.099999994039536,
+        "p99": 61,
+        "max": 560.3000000044703,
+        "over33": 407,
+        "over50": 88,
+        "over100": 8
+      },
+      "heapFirst60Bytes": 638288245,
+      "gpuPeakFirst60Bytes": 118817520,
+      "heapPeakBytes": 693128646,
+      "heapStartBytes": 465178312,
+      "heapEndBytes": 620852854,
+      "gpu": {
+        "bufferBytes": 80729380,
+        "bufferPeak": 118817520,
+        "buffers": 10001
+      },
+      "loadingGL": {
+        "texImage2DMs": 0.20000000298023224,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 68.70000000298023,
+        "bufferDataCalls": 2274,
+        "uploadBytes": 45654544,
+        "compileShaderMs": 0.5999999940395355,
+        "compileShaderCalls": 166,
+        "linkProgramMs": 1.400000013411045,
+        "linkProgramCalls": 83,
+        "getProgramParameterMs": 24.19999998807907,
+        "getProgramParameterCalls": 3450,
+        "getUniformLocationMs": 8.299999982118607,
+        "getUniformLocationCalls": 4211,
+        "getAttribLocationMs": 0.30000000447034836,
+        "getAttribLocationCalls": 178,
+        "texSubImage2DMs": 6.100000001490116,
+        "texSubImage2DCalls": 36,
+        "generateMipmapMs": 0.09999999403953552,
+        "generateMipmapCalls": 25,
+        "events": [
+          {
+            "call": "bufferData",
+            "ms": 5.600000001490116,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 5.700000002980232,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 5.5,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 32.399999998509884,
+            "pass": "main"
+          }
+        ],
+        "bufferBytes": 45645516,
+        "bufferPeak": 45645516,
+        "buffers": 2233
+      },
+      "drivingNewShaderCalls": 20,
+      "drivingBufferAllocations": 19068,
+      "drivingGLCallTotalMs": 212.09999994933605,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": false,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 5,
+      "progressLast": {
+        "elapsed": 22626.10000000149,
+        "phase": "ready",
+        "message": ""
+      },
+      "longTasksFirst60": [
+        {
+          "start": 24633.69999999553,
+          "duration": 467
+        },
+        {
+          "start": 47790.89999999851,
+          "duration": 61
+        },
+        {
+          "start": 49796,
+          "duration": 67
+        },
+        {
+          "start": 49867.10000000149,
+          "duration": 105
+        },
+        {
+          "start": 49984,
+          "duration": 61
+        },
+        {
+          "start": 50338.29999999702,
+          "duration": 130
+        },
+        {
+          "start": 50479.10000000149,
+          "duration": 51
+        },
+        {
+          "start": 50834.5,
+          "duration": 98
+        },
+        {
+          "start": 51179.60000000149,
+          "duration": 84
+        },
+        {
+          "start": 52950.19999999553,
+          "duration": 58
+        },
+        {
+          "start": 56988.89999999851,
+          "duration": 51
+        },
+        {
+          "start": 72634.29999999702,
+          "duration": 560
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 474,
+          "dt": 474,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.12031046514233802,
+          "x": 2252.148586254647,
+          "z": 1315.386507183773,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferDataMs": 0.09999999403953552,
+            "bufferDataCalls": 13,
+            "uploadBytes": 221324,
+            "compileShaderMs": 0,
+            "compileShaderCalls": 8,
+            "linkProgramMs": 0,
+            "linkProgramCalls": 4,
+            "getProgramParameterMs": 1.3999999910593033,
+            "getProgramParameterCalls": 12,
+            "getUniformLocationMs": 0.20000000298023224,
+            "getUniformLocationCalls": 12,
+            "getAttribLocationMs": 0.10000000149011612,
+            "getAttribLocationCalls": 7,
+            "events": [],
+            "bufferBytes": 43507544,
+            "bufferPeak": 45645516,
+            "buffers": 2243
+          }
+        },
+        {
+          "elapsed": 5807.19999999553,
+          "dt": 73.29999999701977,
+          "phase": "outbound",
+          "station": 1684,
+          "speed": 13.846886050660846,
+          "x": 2286.9805060599506,
+          "z": 1317.0815176282722,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 75441324,
+            "bufferPeak": 75718560,
+            "buffers": 5567
+          }
+        },
+        {
+          "elapsed": 19997.79999999702,
+          "dt": 60.79999999701977,
+          "phase": "outbound",
+          "station": 1998,
+          "speed": 24.742655733691613,
+          "x": 2600.78883683261,
+          "z": 1332.3522348668532,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 80455112,
+            "bufferPeak": 80719172,
+            "buffers": 6211
+          }
+        },
+        {
+          "elapsed": 20672.39999999851,
+          "dt": 60.600000001490116,
+          "phase": "outbound",
+          "station": 2016,
+          "speed": 24.723840379593938,
+          "x": 2617.6697927679447,
+          "z": 1333.1737054252235,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 84351300,
+            "bufferPeak": 84351300,
+            "buffers": 6806
+          }
+        },
+        {
+          "elapsed": 20773.69999999553,
+          "dt": 61.5,
+          "phase": "outbound",
+          "station": 2018,
+          "speed": 24.7214774834015,
+          "x": 2619.9333576930408,
+          "z": 1333.2838562929162,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 84351300,
+            "bufferPeak": 84351300,
+            "buffers": 6806
+          }
+        },
+        {
+          "elapsed": 21503.29999999702,
+          "dt": 51.29999999701977,
+          "phase": "outbound",
+          "station": 2036,
+          "speed": 24.703680216998457,
+          "x": 2638.2400493517584,
+          "z": 1334.1747068044533,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 92722640,
+            "bufferPeak": 92722640,
+            "buffers": 6958
+          }
+        },
+        {
+          "elapsed": 22843.79999999702,
+          "dt": 61.19999999552965,
+          "phase": "outbound",
+          "station": 2070,
+          "speed": 24.676920819255386,
+          "x": 2671.120853624245,
+          "z": 1335.77477096898,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.5,
+            "bufferDataCalls": 31,
+            "uploadBytes": 946304,
+            "events": [],
+            "bufferBytes": 101753296,
+            "bufferPeak": 101753296,
+            "buffers": 7258
+          }
+        },
+        {
+          "elapsed": 23242.39999999851,
+          "dt": 81.10000000149012,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.29999999701976776,
+            "bufferDataCalls": 29,
+            "uploadBytes": 966740,
+            "events": [],
+            "bufferBytes": 89891608,
+            "bufferPeak": 104658268,
+            "buffers": 6696
+          }
+        },
+        {
+          "elapsed": 24988.39999999851,
+          "dt": 58.70000000298023,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 25218,
+          "dt": 61,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 25324.69999999553,
+          "dt": 106.69999999552965,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 25406.79999999702,
+          "dt": 82.10000000149012,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 25819.29999999702,
+          "dt": 412.5,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 25897,
+          "dt": 77.70000000298023,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 26292.89999999851,
+          "dt": 395.8999999985099,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 26347.79999999702,
+          "dt": 54.899999998509884,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 26628.79999999702,
+          "dt": 278.19999999552965,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 26796.10000000149,
+          "dt": 127.80000000447035,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 26875,
+          "dt": 69.5,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.67114396316256,
+          "x": 2679.335800887505,
+          "z": 1336.1745313462864,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 27368.60000000149,
+          "dt": 51.30000000447035,
+          "phase": "outbound",
+          "station": 2078,
+          "speed": 24.670724010323614,
+          "x": 2679.951845254752,
+          "z": 1336.2045096432641,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 3,
+            "uploadBytes": 73728,
+            "events": [],
+            "bufferBytes": 70506824,
+            "bufferPeak": 104658268,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 28382,
+          "dt": 103.39999999850988,
+          "phase": "outbound",
+          "station": 2102,
+          "speed": 24.65568737856216,
+          "x": 2703.969843513009,
+          "z": 1337.3732869642572,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70503892,
+            "bufferPeak": 104658268,
+            "buffers": 3901
+          }
+        },
+        {
+          "elapsed": 31371.79999999702,
+          "dt": 50.5,
+          "phase": "outbound",
+          "station": 2176,
+          "speed": 24.62255378134496,
+          "x": 2777.7955688851207,
+          "z": 1340.9658358755057,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70503892,
+            "bufferPeak": 104658268,
+            "buffers": 3901
+          }
+        },
+        {
+          "elapsed": 31585.5,
+          "dt": 67.20000000298023,
+          "phase": "outbound",
+          "station": 2182,
+          "speed": 24.62055889634589,
+          "x": 2783.7387439677536,
+          "z": 1341.2550459994586,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70503892,
+            "bufferPeak": 104658268,
+            "buffers": 3901
+          }
+        },
+        {
+          "elapsed": 31643.19999999553,
+          "dt": 57.69999999552965,
+          "phase": "outbound",
+          "station": 2184,
+          "speed": 24.6200897135018,
+          "x": 2785.1732320678993,
+          "z": 1341.3248518651017,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 70503892,
+            "bufferPeak": 104658268,
+            "buffers": 3901
+          }
+        },
+        {
+          "elapsed": 31699.5,
+          "dt": 56.30000000447035,
+          "phase": "outbound",
+          "station": 2184,
+          "speed": 24.61962523116683,
+          "x": 2786.6076929685596,
+          "z": 1341.3946564071505,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.30000000447034836,
+            "bufferDataCalls": 36,
+            "uploadBytes": 1100644,
+            "events": [],
+            "bufferBytes": 71604536,
+            "bufferPeak": 104658268,
+            "buffers": 3937
+          }
+        },
+        {
+          "elapsed": 32157.39999999851,
+          "dt": 60.20000000298023,
+          "phase": "outbound",
+          "station": 2196,
+          "speed": 24.616378687882335,
+          "x": 2797.0579693257587,
+          "z": 1341.9031936249066,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.10000000149011612,
+            "bufferDataCalls": 3,
+            "uploadBytes": 192,
+            "events": [],
+            "bufferBytes": 73452928,
+            "bufferPeak": 104658268,
+            "buffers": 3978
+          }
+        },
+        {
+          "elapsed": 32413.5,
+          "dt": 61,
+          "phase": "outbound",
+          "station": 2202,
+          "speed": 24.614518557930538,
+          "x": 2803.4094425966196,
+          "z": 1342.2122725846111,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 72757300,
+            "bufferPeak": 104658268,
+            "buffers": 3918
+          }
+        },
+        {
+          "elapsed": 33327.5,
+          "dt": 51.899999998509884,
+          "phase": "outbound",
+          "station": 2224,
+          "speed": 24.60844858637527,
+          "x": 2826.3529350729705,
+          "z": 1343.3287617012968,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 77512436,
+            "bufferPeak": 104658268,
+            "buffers": 4647
+          }
+        },
+        {
+          "elapsed": 33382.10000000149,
+          "dt": 54.600000001490116,
+          "phase": "outbound",
+          "station": 2226,
+          "speed": 24.608100688093643,
+          "x": 2827.7867211124503,
+          "z": 1343.3985334027836,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 77512436,
+            "bufferPeak": 104658268,
+            "buffers": 4647
+          }
+        },
+        {
+          "elapsed": 33442.79999999702,
+          "dt": 60.69999999552965,
+          "phase": "outbound",
+          "station": 2228,
+          "speed": 24.607756272175756,
+          "x": 2829.2204869834454,
+          "z": 1343.468304122821,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 77512436,
+            "bufferPeak": 104658268,
+            "buffers": 4647
+          }
+        },
+        {
+          "elapsed": 33741.5,
+          "dt": 59.30000000447035,
+          "phase": "outbound",
+          "station": 2236,
+          "speed": 24.605992249324952,
+          "x": 2836.798636744877,
+          "z": 1343.8370763025432,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 78245260,
+            "bufferPeak": 104658268,
+            "buffers": 4682
+          }
+        },
+        {
+          "elapsed": 33800,
+          "dt": 58.5,
+          "phase": "outbound",
+          "station": 2236,
+          "speed": 24.60566893893016,
+          "x": 2838.232280384846,
+          "z": 1343.906841074519,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 78245260,
+            "bufferPeak": 104658268,
+            "buffers": 4682
+          }
+        },
+        {
+          "elapsed": 33858,
+          "dt": 58,
+          "phase": "outbound",
+          "station": 2238,
+          "speed": 24.605348864617525,
+          "x": 2839.665905281773,
+          "z": 1343.9766049344107,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 78245260,
+            "bufferPeak": 104658268,
+            "buffers": 4682
+          }
+        },
+        {
+          "elapsed": 33914.89999999851,
+          "dt": 56.899999998509884,
+          "phase": "outbound",
+          "station": 2240,
+          "speed": 24.605031994031915,
+          "x": 2841.0995116232593,
+          "z": 1344.0463678913477,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.5,
+            "bufferDataCalls": 19,
+            "uploadBytes": 2190748,
+            "events": [],
+            "bufferBytes": 80436008,
+            "bufferPeak": 104658268,
+            "buffers": 4701
+          }
+        },
+        {
+          "elapsed": 34424.79999999702,
+          "dt": 56.5,
+          "phase": "outbound",
+          "station": 2252,
+          "speed": 24.6024015362198,
+          "x": 2853.5916090375954,
+          "z": 1344.654265351593,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 82941908,
+            "bufferPeak": 104658268,
+            "buffers": 4762
+          }
+        },
+        {
+          "elapsed": 34482.89999999851,
+          "dt": 58.100000001490116,
+          "phase": "outbound",
+          "station": 2254,
+          "speed": 24.60211416445377,
+          "x": 2855.025044515557,
+          "z": 1344.7240199938792,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 12,
+            "uploadBytes": 2448,
+            "events": [],
+            "bufferBytes": 82941908,
+            "bufferPeak": 104658268,
+            "buffers": 4762
+          }
+        },
+        {
+          "elapsed": 34540.69999999553,
+          "dt": 57.79999999701977,
+          "phase": "outbound",
+          "station": 2254,
+          "speed": 24.601829668545857,
+          "x": 2856.4584633338895,
+          "z": 1344.7937738254684,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 82941908,
+            "bufferPeak": 104658268,
+            "buffers": 4762
+          }
+        },
+        {
+          "elapsed": 35237.29999999702,
+          "dt": 56.79999999701977,
+          "phase": "outbound",
+          "station": 2272,
+          "speed": 24.598665704070534,
+          "x": 2873.453502301481,
+          "z": 1345.6207959569883,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.5,
+            "bufferDataCalls": 28,
+            "uploadBytes": 698488,
+            "events": [],
+            "bufferBytes": 91434740,
+            "bufferPeak": 104658268,
+            "buffers": 5158
+          }
+        },
+        {
+          "elapsed": 36016.5,
+          "dt": 52.20000000298023,
+          "phase": "approach",
+          "station": 2290,
+          "speed": 24.59557253318805,
+          "x": 2892.2889790762006,
+          "z": 1346.5373785069012,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 94130720,
+            "bufferPeak": 104658268,
+            "buffers": 5508
+          }
+        },
+        {
+          "elapsed": 36067.69999999553,
+          "dt": 51.19999999552965,
+          "phase": "approach",
+          "station": 2292,
+          "speed": 24.595353496998253,
+          "x": 2893.722018660523,
+          "z": 1346.6071138840146,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 94130720,
+            "bufferPeak": 104658268,
+            "buffers": 5508
+          }
+        },
+        {
+          "elapsed": 36123.79999999702,
+          "dt": 56.100000001490116,
+          "phase": "approach",
+          "station": 2294,
+          "speed": 24.59510969994048,
+          "x": 2895.155045301791,
+          "z": 1346.6768486312808,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 94130720,
+            "bufferPeak": 104658268,
+            "buffers": 5508
+          }
+        },
+        {
+          "elapsed": 36315.79999999702,
+          "dt": 51,
+          "phase": "approach",
+          "station": 2298,
+          "speed": 24.590277988583782,
+          "x": 2900.0679345509434,
+          "z": 1346.9159224071702,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "events": [],
+            "bufferBytes": 94751276,
+            "bufferPeak": 104658268,
+            "buffers": 5526
+          }
+        },
+        {
+          "elapsed": 36557,
+          "dt": 61.70000000298023,
+          "phase": "approach",
+          "station": 2304,
+          "speed": 24.565576223525184,
+          "x": 2906.0011399748973,
+          "z": 1347.2046473817002,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 97023400,
+            "bufferPeak": 104658268,
+            "buffers": 5592
+          }
+        },
+        {
+          "elapsed": 36873.39999999851,
+          "dt": 67.20000000298023,
+          "phase": "approach",
+          "station": 2312,
+          "speed": 24.495836645032373,
+          "x": 2913.556259725361,
+          "z": 1347.5722988619655,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.10000000149011612,
+            "bufferDataCalls": 31,
+            "uploadBytes": 868704,
+            "events": [],
+            "bufferBytes": 98980304,
+            "bufferPeak": 104658268,
+            "buffers": 5660
+          }
+        },
+        {
+          "elapsed": 37221.5,
+          "dt": 60.30000000447035,
+          "phase": "approach",
+          "station": 2320,
+          "speed": 24.133377614918295,
+          "x": 2922.269353556794,
+          "z": 1347.9963003272712,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 99734904,
+            "bufferPeak": 104658268,
+            "buffers": 5692
+          }
+        },
+        {
+          "elapsed": 37285.89999999851,
+          "dt": 64.39999999850988,
+          "phase": "approach",
+          "station": 2322,
+          "speed": 24.044974783806172,
+          "x": 2923.6729373755293,
+          "z": 1348.064602311323,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.20000000298023224,
+            "bufferDataCalls": 32,
+            "uploadBytes": 485772,
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 100220676,
+            "bufferPeak": 104658268,
+            "buffers": 5724
+          }
+        },
+        {
+          "elapsed": 37566.89999999851,
+          "dt": 56,
+          "phase": "approach",
+          "station": 2328,
+          "speed": 23.529643080120515,
+          "x": 2930.4077747969036,
+          "z": 1348.3923367523448,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 101533576,
+            "bufferPeak": 104658268,
+            "buffers": 5759
+          }
+        },
+        {
+          "elapsed": 37651.19999999553,
+          "dt": 84.29999999701977,
+          "phase": "approach",
+          "station": 2330,
+          "speed": 23.37344775984011,
+          "x": 2932.1646080867044,
+          "z": 1348.477828760594,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.6000000014901161,
+            "bufferDataCalls": 31,
+            "uploadBytes": 2050772,
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 103584348,
+            "bufferPeak": 104658268,
+            "buffers": 5790
+          }
+        },
+        {
+          "elapsed": 38143.29999999702,
+          "dt": 52.69999999552965,
+          "phase": "approach",
+          "station": 2342,
+          "speed": 22.22150142666325,
+          "x": 2943.3681511141826,
+          "z": 1349.0230218639151,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 106562828,
+            "bufferPeak": 106562828,
+            "buffers": 5916
+          }
+        },
+        {
+          "elapsed": 38226,
+          "dt": 82.70000000298023,
+          "phase": "approach",
+          "station": 2344,
+          "speed": 22.008853550276147,
+          "x": 2945.20892375474,
+          "z": 1349.11259857606,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.4000000059604645,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 106562828,
+            "bufferPeak": 106562828,
+            "buffers": 5916
+          }
+        },
+        {
+          "elapsed": 38277.89999999851,
+          "dt": 51.899999998509884,
+          "phase": "approach",
+          "station": 2344,
+          "speed": 21.857429255576104,
+          "x": 2946.486841416424,
+          "z": 1349.1747853230881,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 106562828,
+            "bufferPeak": 106562828,
+            "buffers": 5916
+          }
+        },
+        {
+          "elapsed": 38408.10000000149,
+          "dt": 58,
+          "phase": "approach",
+          "station": 2348,
+          "speed": 21.50434284220975,
+          "x": 2949.3743209140184,
+          "z": 1349.3152974722398,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 107475168,
+            "bufferPeak": 107475168,
+            "buffers": 5946
+          }
+        },
+        {
+          "elapsed": 38687.89999999851,
+          "dt": 52.899999998509884,
+          "phase": "approach",
+          "station": 2354,
+          "speed": 20.720541414459383,
+          "x": 2955.350218410886,
+          "z": 1349.6060999527895,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 111148952,
+            "bufferPeak": 111148952,
+            "buffers": 6043
+          }
+        },
+        {
+          "elapsed": 38764.19999999553,
+          "dt": 50.099999994039536,
+          "phase": "approach",
+          "station": 2356,
+          "speed": 20.530345800952215,
+          "x": 2956.723614053893,
+          "z": 1349.672932902978,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 111148952,
+            "bufferPeak": 111148952,
+            "buffers": 6043
+          }
+        },
+        {
+          "elapsed": 38846.19999999553,
+          "dt": 82,
+          "phase": "approach",
+          "station": 2356,
+          "speed": 20.28957192393022,
+          "x": 2958.422427240489,
+          "z": 1349.7556015044465,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.6000000014901161,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 111148952,
+            "bufferPeak": 111148952,
+            "buffers": 6043
+          }
+        },
+        {
+          "elapsed": 38980.69999999553,
+          "dt": 91.89999999850988,
+          "phase": "approach",
+          "station": 2360,
+          "speed": 19.899947409900076,
+          "x": 2961.098619687334,
+          "z": 1349.885831884424,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 111148952,
+            "bufferPeak": 111148952,
+            "buffers": 6043
+          }
+        },
+        {
+          "elapsed": 39687.29999999702,
+          "dt": 60.899999998509884,
+          "phase": "approach",
+          "station": 2372,
+          "speed": 17.71466793749104,
+          "x": 2974.4157271569156,
+          "z": 1350.5338764473033,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 3,
+            "uploadBytes": 73728,
+            "events": [],
+            "bufferBytes": 116391256,
+            "bufferPeak": 118817520,
+            "buffers": 5933
+          }
+        },
+        {
+          "elapsed": 39774.29999999702,
+          "dt": 61.29999999701977,
+          "phase": "approach",
+          "station": 2374,
+          "speed": 17.44579344029001,
+          "x": 2975.879058391794,
+          "z": 1350.6050858936433,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 95736396,
+            "bufferPeak": 118817520,
+            "buffers": 5411
+          }
+        },
+        {
+          "elapsed": 39861.5,
+          "dt": 87.20000000298023,
+          "phase": "approach",
+          "station": 2376,
+          "speed": 17.147168927896566,
+          "x": 2977.4627813730176,
+          "z": 1350.6821539107464,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 95736396,
+            "bufferPeak": 118817520,
+            "buffers": 5411
+          }
+        },
+        {
+          "elapsed": 44757.10000000149,
+          "dt": 58.100000001490116,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.431037497752693,
+          "x": 3017.38535147958,
+          "z": 1351.5955582328602,
+          "sector": "6,2",
+          "gl": {
+            "bufferDataMs": 0.19999999552965164,
+            "bufferDataCalls": 2,
+            "uploadBytes": 49184,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 1,
+            "events": [],
+            "bufferBytes": 60606556,
+            "bufferPeak": 118817520,
+            "buffers": 3734
+          }
+        },
+        {
+          "elapsed": 48569,
+          "dt": 560.3000000044703,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 1.8438990630832155,
+          "x": 3018.820000395173,
+          "z": 1345.3712122236211,
+          "sector": "6,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 4,
+            "uploadBytes": 2784,
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0.7999999970197678,
+            "getProgramParameterCalls": 3,
+            "getUniformLocationMs": 0.10000000149011612,
+            "getUniformLocationCalls": 95,
+            "getAttribLocationMs": 0,
+            "getAttribLocationCalls": 4,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "events": [],
+            "bufferBytes": 60615196,
+            "bufferPeak": 118817520,
+            "buffers": 3767
+          }
+        }
+      ],
+      "publications": {
+        "count": 259,
+        "maxStep": 21,
+        "p95Step": 5.799999997019768
+      },
+      "worker": {
+        "queued": 0,
+        "samples": 1011,
+        "road": 625,
+        "terrain": 256,
+        "background": 129,
+        "maxActive": 2027.5
+      },
+      "cache": {
+        "roadBytes": 36103636,
+        "terrainBytes": 21092548,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648
+      },
+      "warmup": {
+        "roots": 268,
+        "objects": 8036,
+        "representatives": 2943,
+        "submissions": 251,
+        "maxSubmitMs": 12.5,
+        "cacheHits": 4571,
+        "resourceBatches": 1049,
+        "maxResourceMs": 12.699999995529652,
+        "textureUploads": 310
+      }
+    },
+    "before-warm-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 60000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 53.70000000298023,
+      "loading": {
+        "count": 1,
+        "p50": 22.299999997019768,
+        "p95": 22.299999997019768,
+        "p99": 22.299999997019768,
+        "max": 22.299999997019768,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "first60": {
+        "count": 3056,
+        "p50": 16.600000001490116,
+        "p95": 32.399999998509884,
+        "p99": 54.70000000298023,
+        "max": 96.30000000447035,
+        "over33": 131,
+        "over50": 43,
+        "over100": 0
+      },
+      "fullDrive": {
+        "count": 3056,
+        "p50": 16.600000001490116,
+        "p95": 32.399999998509884,
+        "p99": 54.70000000298023,
+        "max": 96.30000000447035,
+        "over33": 131,
+        "over50": 43,
+        "over100": 0
+      },
+      "heapFirst60Bytes": 719055290,
+      "gpuPeakFirst60Bytes": 127662112,
+      "heapPeakBytes": 719055290,
+      "heapStartBytes": 628972675,
+      "heapEndBytes": 523058986,
+      "gpu": {
+        "bufferBytes": 72651128,
+        "bufferPeak": 127662112,
+        "buffers": 7043
+      },
+      "loadingGL": {
+        "texSubImage2DMs": 0.5,
+        "texSubImage2DCalls": 6,
+        "bufferSubDataMs": 0.10000000149011612,
+        "bufferSubDataCalls": 8,
+        "uploadBytes": 1632,
+        "events": [],
+        "bufferBytes": 80729380,
+        "bufferPeak": 118817520,
+        "buffers": 10001
+      },
+      "drivingNewShaderCalls": 4,
+      "drivingBufferAllocations": 9827,
+      "drivingGLCallTotalMs": 123.49999990314245,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": false,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 1,
+      "progressLast": {
+        "elapsed": 22.299999997019768,
+        "phase": "loadingWorld",
+        "message": "正在准备驾驶场地"
+      },
+      "longTasksFirst60": [
+        {
+          "start": 128805.10000000149,
+          "duration": 53
+        },
+        {
+          "start": 146473.8999999985,
+          "duration": 51
+        },
+        {
+          "start": 164060.6000000015,
+          "duration": 75
+        },
+        {
+          "start": 164596.69999999553,
+          "duration": 69
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 1045.8999999985099,
+          "dt": 53.5,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 1.5686818643125515,
+          "x": 2252.851733876124,
+          "z": 1315.4207241482436,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 4,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 79219568,
+            "bufferPeak": 118817520,
+            "buffers": 7854
+          }
+        },
+        {
+          "elapsed": 1490.2999999970198,
+          "dt": 56.100000001490116,
+          "phase": "outbound",
+          "station": 1652,
+          "speed": 2.684232878871358,
+          "x": 2253.7836318704894,
+          "z": 1315.4660726918355,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 77315616,
+            "bufferPeak": 118817520,
+            "buffers": 5778
+          }
+        },
+        {
+          "elapsed": 1613,
+          "dt": 67.60000000149012,
+          "phase": "outbound",
+          "station": 1652,
+          "speed": 3.0662011774756537,
+          "x": 2254.1904038081357,
+          "z": 1315.4858672563241,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 13,
+            "uploadBytes": 2480,
+            "events": [],
+            "bufferBytes": 77315616,
+            "bufferPeak": 118817520,
+            "buffers": 5778
+          }
+        },
+        {
+          "elapsed": 5582.69999999553,
+          "dt": 61.19999999552965,
+          "phase": "outbound",
+          "station": 1686,
+          "speed": 14.036873234510105,
+          "x": 2288.3757669529027,
+          "z": 1317.1494145974743,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.4000000059604645,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0.09999999403953552,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 78439300,
+            "bufferPeak": 118817520,
+            "buffers": 5802
+          }
+        },
+        {
+          "elapsed": 5652.69999999553,
+          "dt": 70,
+          "phase": "outbound",
+          "station": 1688,
+          "speed": 14.162439668368162,
+          "x": 2289.3146330808745,
+          "z": 1317.195102228297,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 12,
+            "uploadBytes": 2448,
+            "events": [],
+            "bufferBytes": 78439300,
+            "bufferPeak": 118817520,
+            "buffers": 5802
+          }
+        },
+        {
+          "elapsed": 5707.79999999702,
+          "dt": 55.100000001490116,
+          "phase": "outbound",
+          "station": 1688,
+          "speed": 14.272392100336686,
+          "x": 2290.1430014185157,
+          "z": 1317.2354127535868,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 78439300,
+            "bufferPeak": 118817520,
+            "buffers": 5802
+          }
+        },
+        {
+          "elapsed": 5783.69999999553,
+          "dt": 75.89999999850988,
+          "phase": "outbound",
+          "station": 1690,
+          "speed": 14.41403766769959,
+          "x": 2291.2174688467358,
+          "z": 1317.2876990910413,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 78439300,
+            "bufferPeak": 118817520,
+            "buffers": 5802
+          }
+        },
+        {
+          "elapsed": 5838.0999999940395,
+          "dt": 54.399999998509884,
+          "phase": "outbound",
+          "station": 1690,
+          "speed": 14.52447201537231,
+          "x": 2292.0605099907657,
+          "z": 1317.3287236326762,
+          "sector": "4,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 78439300,
+            "bufferPeak": 118817520,
+            "buffers": 5802
+          }
+        },
+        {
+          "elapsed": 6028.0999999940395,
+          "dt": 65.09999999403954,
+          "phase": "outbound",
+          "station": 1692,
+          "speed": 14.872987781764808,
+          "x": 2294.7520609203716,
+          "z": 1317.4597013956925,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999998956918716,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 79447296,
+            "bufferPeak": 118817520,
+            "buffers": 5826
+          }
+        },
+        {
+          "elapsed": 6169.39999999851,
+          "dt": 62.20000000298023,
+          "phase": "outbound",
+          "station": 1694,
+          "speed": 15.143496610393209,
+          "x": 2296.875705484136,
+          "z": 1317.563043380176,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.4000000059604645,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 79447296,
+            "bufferPeak": 118817520,
+            "buffers": 5826
+          }
+        },
+        {
+          "elapsed": 6223.89999999851,
+          "dt": 54.5,
+          "phase": "outbound",
+          "station": 1696,
+          "speed": 15.25511124380759,
+          "x": 2297.7612830629264,
+          "z": 1317.6061378536897,
+          "sector": "4,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 79447296,
+            "bufferPeak": 118817520,
+            "buffers": 5826
+          }
+        },
+        {
+          "elapsed": 11834.29999999702,
+          "dt": 60.20000000298023,
+          "phase": "outbound",
+          "station": 1808,
+          "speed": 23.581593645371303,
+          "x": 2409.453487024158,
+          "z": 1323.0413666135773,
+          "sector": "4,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 79311244,
+            "bufferPeak": 118817520,
+            "buffers": 5690
+          }
+        },
+        {
+          "elapsed": 22455,
+          "dt": 51.5,
+          "phase": "outbound",
+          "station": 2068,
+          "speed": 24.6784207003355,
+          "x": 2669.0599793921806,
+          "z": 1335.6744835489724,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 79864496,
+            "bufferPeak": 118817520,
+            "buffers": 5695
+          }
+        },
+        {
+          "elapsed": 22943.59999999404,
+          "dt": 56.399999998509884,
+          "phase": "outbound",
+          "station": 2080,
+          "speed": 24.67003552268263,
+          "x": 2680.9717325680053,
+          "z": 1336.2541399726786,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.10000000149011612,
+            "bufferDataCalls": 48,
+            "uploadBytes": 7584,
+            "events": [],
+            "bufferBytes": 82718112,
+            "bufferPeak": 118817520,
+            "buffers": 6244
+          }
+        },
+        {
+          "elapsed": 23614.59999999404,
+          "dt": 59.69999999552965,
+          "phase": "outbound",
+          "station": 2096,
+          "speed": 24.659071853928904,
+          "x": 2698.216436556631,
+          "z": 1337.0933114445581,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0.09999999403953552,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 12,
+            "uploadBytes": 2448,
+            "events": [],
+            "bufferBytes": 83201332,
+            "bufferPeak": 118817520,
+            "buffers": 6377
+          }
+        },
+        {
+          "elapsed": 23668.59999999404,
+          "dt": 54,
+          "phase": "outbound",
+          "station": 2098,
+          "speed": 24.65833844553155,
+          "x": 2699.4479145529876,
+          "z": 1337.1532383185213,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 83201332,
+            "bufferPeak": 118817520,
+            "buffers": 6377
+          }
+        },
+        {
+          "elapsed": 23764.89999999851,
+          "dt": 96.30000000447035,
+          "phase": "outbound",
+          "station": 2100,
+          "speed": 24.657010248558063,
+          "x": 2701.705529721957,
+          "z": 1337.263099655932,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "events": [],
+            "bufferBytes": 79895988,
+            "bufferPeak": 118817520,
+            "buffers": 6345
+          }
+        },
+        {
+          "elapsed": 23841.69999999553,
+          "dt": 59.100000001490116,
+          "phase": "outbound",
+          "station": 2102,
+          "speed": 24.656294615146333,
+          "x": 2702.9369052043385,
+          "z": 1337.3230215412877,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 79895988,
+            "bufferPeak": 118817520,
+            "buffers": 6345
+          }
+        },
+        {
+          "elapsed": 24448.59999999404,
+          "dt": 61.5,
+          "phase": "outbound",
+          "station": 2116,
+          "speed": 24.64763995900674,
+          "x": 2718.7365034799595,
+          "z": 1338.091870466206,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.19999999552965164,
+            "bufferDataCalls": 28,
+            "uploadBytes": 698488,
+            "events": [],
+            "bufferBytes": 84503244,
+            "bufferPeak": 118817520,
+            "buffers": 6687
+          }
+        },
+        {
+          "elapsed": 24632.89999999851,
+          "dt": 62.100000001490116,
+          "phase": "outbound",
+          "station": 2122,
+          "speed": 24.645338660509385,
+          "x": 2723.2496848588667,
+          "z": 1338.3114934330167,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 12,
+            "uploadBytes": 2448,
+            "events": [],
+            "bufferBytes": 84427196,
+            "bufferPeak": 118817520,
+            "buffers": 6678
+          }
+        },
+        {
+          "elapsed": 24696.59999999404,
+          "dt": 63.69999999552965,
+          "phase": "outbound",
+          "station": 2122,
+          "speed": 24.644621604655153,
+          "x": 2724.6856095037792,
+          "z": 1338.3813692044703,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 84427196,
+            "bufferPeak": 118817520,
+            "buffers": 6678
+          }
+        },
+        {
+          "elapsed": 24789.59999999404,
+          "dt": 55.899999998509884,
+          "phase": "outbound",
+          "station": 2126,
+          "speed": 24.64340907520978,
+          "x": 2727.147098129733,
+          "z": 1338.50115154629,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 84427196,
+            "bufferPeak": 118817520,
+            "buffers": 6678
+          }
+        },
+        {
+          "elapsed": 24846.29999999702,
+          "dt": 56.70000000298023,
+          "phase": "outbound",
+          "station": 2126,
+          "speed": 24.642711391731584,
+          "x": 2728.5829109138303,
+          "z": 1338.5710218742988,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 84427196,
+            "bufferPeak": 118817520,
+            "buffers": 6678
+          }
+        },
+        {
+          "elapsed": 25505.5,
+          "dt": 62,
+          "phase": "outbound",
+          "station": 2144,
+          "speed": 24.635306664587993,
+          "x": 2744.7843740808635,
+          "z": 1339.3594265734002,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 88590888,
+            "bufferPeak": 118817520,
+            "buffers": 6983
+          }
+        },
+        {
+          "elapsed": 25872.29999999702,
+          "dt": 54.70000000298023,
+          "phase": "outbound",
+          "station": 2152,
+          "speed": 24.63153357624302,
+          "x": 2753.805945396902,
+          "z": 1339.7984393434433,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 90137324,
+            "bufferPeak": 118817520,
+            "buffers": 7052
+          }
+        },
+        {
+          "elapsed": 26437.29999999702,
+          "dt": 51.5,
+          "phase": "outbound",
+          "station": 2166,
+          "speed": 24.62622829744042,
+          "x": 2767.5407940329333,
+          "z": 1340.4668122621028,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 95744312,
+            "bufferPeak": 118817520,
+            "buffers": 7162
+          }
+        },
+        {
+          "elapsed": 26799.5,
+          "dt": 59.5,
+          "phase": "outbound",
+          "station": 2174,
+          "speed": 24.623012450411984,
+          "x": 2776.5591436701684,
+          "z": 1340.905668257762,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.20000000298023224,
+            "bufferDataCalls": 31,
+            "uploadBytes": 946304,
+            "events": [],
+            "bufferBytes": 97785452,
+            "bufferPeak": 118817520,
+            "buffers": 7227
+          }
+        },
+        {
+          "elapsed": 27444.79999999702,
+          "dt": 50.20000000298023,
+          "phase": "outbound",
+          "station": 2190,
+          "speed": 24.617852140352433,
+          "x": 2792.338551710496,
+          "z": 1341.6735346749654,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0.10000000149011612,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 99723684,
+            "bufferPeak": 118817520,
+            "buffers": 7320
+          }
+        },
+        {
+          "elapsed": 27503,
+          "dt": 58.20000000298023,
+          "phase": "outbound",
+          "station": 2192,
+          "speed": 24.61747353434865,
+          "x": 2793.567980029133,
+          "z": 1341.7333618063346,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 99723684,
+            "bufferPeak": 118817520,
+            "buffers": 7320
+          }
+        },
+        {
+          "elapsed": 27562.59999999404,
+          "dt": 59.599999994039536,
+          "phase": "outbound",
+          "station": 2194,
+          "speed": 24.617035937358793,
+          "x": 2795.002289284232,
+          "z": 1341.8031589688994,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 99723684,
+            "bufferPeak": 118817520,
+            "buffers": 7320
+          }
+        },
+        {
+          "elapsed": 28114.89999999851,
+          "dt": 54.600000001490116,
+          "phase": "outbound",
+          "station": 2206,
+          "speed": 24.613289641530905,
+          "x": 2807.9099609684727,
+          "z": 1342.4312793377542,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 102736380,
+            "bufferPeak": 118817520,
+            "buffers": 7398
+          }
+        },
+        {
+          "elapsed": 28169.19999999553,
+          "dt": 54.29999999701977,
+          "phase": "outbound",
+          "station": 2208,
+          "speed": 24.612669627161743,
+          "x": 2810.1634840498577,
+          "z": 1342.5409415435295,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 102736380,
+            "bufferPeak": 118817520,
+            "buffers": 7398
+          }
+        },
+        {
+          "elapsed": 28223.69999999553,
+          "dt": 54.5,
+          "phase": "outbound",
+          "station": 2210,
+          "speed": 24.612335548244783,
+          "x": 2811.392654662552,
+          "z": 1342.6007561341823,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 102736380,
+            "bufferPeak": 118817520,
+            "buffers": 7398
+          }
+        },
+        {
+          "elapsed": 28706.59999999404,
+          "dt": 51.69999999552965,
+          "phase": "outbound",
+          "station": 2222,
+          "speed": 24.609250451046172,
+          "x": 2823.273801694881,
+          "z": 1343.1789231831488,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 108101508,
+            "bufferPeak": 118817520,
+            "buffers": 7532
+          }
+        },
+        {
+          "elapsed": 28965.29999999702,
+          "dt": 59.5,
+          "phase": "outbound",
+          "station": 2226,
+          "speed": 24.607948811699483,
+          "x": 2828.5993622166166,
+          "z": 1343.4380785998314,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 111775292,
+            "bufferPeak": 118817520,
+            "buffers": 7629
+          }
+        },
+        {
+          "elapsed": 29020.59999999404,
+          "dt": 55.29999999701977,
+          "phase": "outbound",
+          "station": 2230,
+          "speed": 24.60736426806994,
+          "x": 2831.0572193499734,
+          "z": 1343.5576842238697,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 111775292,
+            "bufferPeak": 118817520,
+            "buffers": 7629
+          }
+        },
+        {
+          "elapsed": 41509.59999999404,
+          "dt": 51.599999994039536,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.069867753807383,
+          "x": 3019.0103053126995,
+          "z": 1349.3737211861107,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 61395312,
+            "bufferPeak": 127662112,
+            "buffers": 3986
+          }
+        },
+        {
+          "elapsed": 58349.5,
+          "dt": 66.80000000447035,
+          "phase": "return",
+          "station": 2228,
+          "speed": 24.11340128172604,
+          "x": 2828.995946029418,
+          "z": 1332.8967691625746,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferDataMs": 0.10000000149011612,
+            "bufferDataCalls": 6,
+            "uploadBytes": 3352,
+            "events": [],
+            "bufferBytes": 66002976,
+            "bufferPeak": 127662112,
+            "buffers": 6255
+          }
+        },
+        {
+          "elapsed": 59120.29999999702,
+          "dt": 76.39999999850988,
+          "phase": "return",
+          "station": 2210,
+          "speed": 24.32969893506183,
+          "x": 2811.44143511888,
+          "z": 1332.0521507442993,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 6,
+            "uploadBytes": 3352,
+            "events": [],
+            "bufferBytes": 71104916,
+            "bufferPeak": 127662112,
+            "buffers": 7006
+          }
+        },
+        {
+          "elapsed": 59328.19999999553,
+          "dt": 80.10000000149012,
+          "phase": "return",
+          "station": 2204,
+          "speed": 24.365085874478478,
+          "x": 2805.3606563188578,
+          "z": 1331.778138905948,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 71010876,
+            "bufferPeak": 127662112,
+            "buffers": 6997
+          }
+        },
+        {
+          "elapsed": 59410.59999999404,
+          "dt": 82.39999999850988,
+          "phase": "return",
+          "station": 2202,
+          "speed": 24.37495154861189,
+          "x": 2803.5347111827573,
+          "z": 1331.696860382917,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 71010876,
+            "bufferPeak": 127662112,
+            "buffers": 6997
+          }
+        },
+        {
+          "elapsed": 59473.39999999851,
+          "dt": 62.80000000447035,
+          "phase": "return",
+          "station": 2200,
+          "speed": 24.382457097121456,
+          "x": 2802.114018709819,
+          "z": 1331.6337865126939,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 71010876,
+            "bufferPeak": 127662112,
+            "buffers": 6997
+          }
+        },
+        {
+          "elapsed": 59649.79999999702,
+          "dt": 76.70000000298023,
+          "phase": "return",
+          "station": 2196,
+          "speed": 24.401146252084445,
+          "x": 2798.45883063165,
+          "z": 1331.4716759927219,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 10,
+            "uploadBytes": 15820,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 59,
+            "events": [],
+            "bufferBytes": 71753060,
+            "bufferPeak": 127662112,
+            "buffers": 7032
+          }
+        }
+      ],
+      "publications": {
+        "count": 405,
+        "maxStep": 32.70000000298023,
+        "p95Step": 4.9000000059604645
+      },
+      "worker": {
+        "queued": 6,
+        "inFlight": "road:regional:S89:in:split190:split196:split210:lane256",
+        "samples": 1024,
+        "road": 711,
+        "terrain": 292,
+        "background": 21,
+        "maxActive": 394.69999999552965
+      },
+      "cache": {
+        "roadBytes": 61043244,
+        "terrainBytes": 18872624,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648
+      },
+      "warmup": {
+        "roots": 415,
+        "objects": 12500,
+        "representatives": 4367,
+        "submissions": 365,
+        "maxSubmitMs": 12.5,
+        "cacheHits": 6776,
+        "resourceBatches": 1582,
+        "maxResourceMs": 12.699999995529652,
+        "textureUploads": 453
+      }
+    },
+    "before-rain-night": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": true,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 80000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 11657.29999999702,
+      "loading": {
+        "count": 634,
+        "p50": 14.200000002980232,
+        "p95": 18.200000002980232,
+        "p99": 147.19999999552965,
+        "max": 1178.5,
+        "over33": 12,
+        "over50": 10,
+        "over100": 8
+      },
+      "first60": {
+        "count": 2429,
+        "p50": 24.799999997019768,
+        "p95": 36,
+        "p99": 60.899999998509884,
+        "max": 242.90000000596046,
+        "over33": 193,
+        "over50": 52,
+        "over100": 1
+      },
+      "fullDrive": {
+        "count": 3062,
+        "p50": 25.899999998509884,
+        "p95": 40.5,
+        "p99": 64.10000000149012,
+        "max": 242.90000000596046,
+        "over33": 390,
+        "over50": 79,
+        "over100": 1
+      },
+      "heapFirst60Bytes": 686092358,
+      "gpuPeakFirst60Bytes": 115406212,
+      "heapPeakBytes": 686092358,
+      "heapStartBytes": 423880675,
+      "heapEndBytes": 620589934,
+      "gpu": {
+        "bufferBytes": 71169176,
+        "bufferPeak": 115406212,
+        "buffers": 9989
+      },
+      "loadingGL": {
+        "texImage2DMs": 0.19999999552965164,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 13.200000017881393,
+        "bufferDataCalls": 2262,
+        "uploadBytes": 20881936,
+        "compileShaderMs": 0.5000000074505806,
+        "compileShaderCalls": 166,
+        "linkProgramMs": 1.3000000044703484,
+        "linkProgramCalls": 83,
+        "getProgramParameterMs": 11.80000003427267,
+        "getProgramParameterCalls": 1043,
+        "getUniformLocationMs": 7.299999974668026,
+        "getUniformLocationCalls": 4211,
+        "getAttribLocationMs": 0.20000000298023224,
+        "getAttribLocationCalls": 178,
+        "texSubImage2DMs": 5.699999988079071,
+        "texSubImage2DCalls": 36,
+        "generateMipmapMs": 0.10000000149011612,
+        "generateMipmapCalls": 25,
+        "events": [],
+        "bufferBytes": 20872908,
+        "bufferPeak": 20872908,
+        "buffers": 2221
+      },
+      "drivingNewShaderCalls": 24,
+      "drivingBufferAllocations": 16752,
+      "drivingGLCallTotalMs": 669.2999997660518,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": false,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 5,
+      "progressLast": {
+        "elapsed": 11657.29999999702,
+        "phase": "ready",
+        "message": ""
+      },
+      "longTasksFirst60": [
+        {
+          "start": 13460.5,
+          "duration": 240
+        },
+        {
+          "start": 15011.69999999553,
+          "duration": 52
+        },
+        {
+          "start": 16364.79999999702,
+          "duration": 57
+        },
+        {
+          "start": 37507.39999999851,
+          "duration": 52
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 242.90000000596046,
+          "dt": 242.90000000596046,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.11907044184404206,
+          "x": 2252.148514588112,
+          "z": 1315.3865036962954,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.5,
+            "texSubImage2DCalls": 5,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28940,
+            "compileShaderMs": 0,
+            "compileShaderCalls": 8,
+            "linkProgramMs": 0.20000000298023224,
+            "linkProgramCalls": 4,
+            "getProgramParameterMs": 1.5,
+            "getProgramParameterCalls": 12,
+            "getUniformLocationMs": 0,
+            "getUniformLocationCalls": 12,
+            "getAttribLocationMs": 0,
+            "getAttribLocationCalls": 7,
+            "bufferDataMs": 0,
+            "bufferDataCalls": 4,
+            "events": [],
+            "bufferBytes": 20873048,
+            "bufferPeak": 20873048,
+            "buffers": 2225
+          }
+        },
+        {
+          "elapsed": 528.9000000059605,
+          "dt": 60.600000001490116,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.5341526804281121,
+          "x": 2252.265763211119,
+          "z": 1315.3922093146398,
+          "sector": "4,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 20873048,
+            "bufferPeak": 20873048,
+            "buffers": 2225
+          }
+        },
+        {
+          "elapsed": 1606.4000000059605,
+          "dt": 56,
+          "phase": "outbound",
+          "station": 1652,
+          "speed": 2.7294978120037428,
+          "x": 2253.8384697507645,
+          "z": 1315.4687412435644,
+          "sector": "4,2",
+          "gl": {
+            "bufferDataMs": 0.7000000104308128,
+            "bufferDataCalls": 27,
+            "uploadBytes": 2127868,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "events": [],
+            "bufferBytes": 34985908,
+            "bufferPeak": 34985908,
+            "buffers": 3815
+          }
+        },
+        {
+          "elapsed": 1694.9000000059605,
+          "dt": 60.30000000447035,
+          "phase": "outbound",
+          "station": 1652,
+          "speed": 2.9521277065770817,
+          "x": 2254.074909973395,
+          "z": 1315.480247030472,
+          "sector": "4,2",
+          "gl": {
+            "bufferDataMs": 0.10000000149011612,
+            "bufferDataCalls": 48,
+            "uploadBytes": 10033184,
+            "bufferSubDataMs": 0.29999999701976776,
+            "bufferSubDataCalls": 7,
+            "texSubImage2DMs": 0.10000000149011612,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 35514272,
+            "bufferPeak": 35514272,
+            "buffers": 3911
+          }
+        },
+        {
+          "elapsed": 1908.8000000044703,
+          "dt": 63.600000001490116,
+          "phase": "outbound",
+          "station": 1652,
+          "speed": 3.607187560295751,
+          "x": 2254.866316900529,
+          "z": 1315.518758918845,
+          "sector": "4,2",
+          "gl": {
+            "bufferSubDataMs": 0.20000000298023224,
+            "bufferSubDataCalls": 8,
+            "uploadBytes": 9539744,
+            "texSubImage2DMs": 0.30000000447034836,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 35611776,
+            "bufferPeak": 35611776,
+            "buffers": 4017
+          }
+        },
+        {
+          "elapsed": 2279.9000000059605,
+          "dt": 70,
+          "phase": "outbound",
+          "station": 1654,
+          "speed": 4.641885777443357,
+          "x": 2256.4107189226484,
+          "z": 1315.59391347744,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.4999999925494194,
+            "texSubImage2DCalls": 5,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "events": [],
+            "bufferBytes": 36221220,
+            "bufferPeak": 36221220,
+            "buffers": 4301
+          }
+        },
+        {
+          "elapsed": 2344.3000000044703,
+          "dt": 64.39999999850988,
+          "phase": "outbound",
+          "station": 1654,
+          "speed": 4.826532239872472,
+          "x": 2256.7259607507717,
+          "z": 1315.6092539523322,
+          "sector": "4,2",
+          "gl": {
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0.10000000149011612,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0,
+            "getProgramParameterCalls": 4,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 36221220,
+            "bufferPeak": 36221220,
+            "buffers": 4301
+          }
+        },
+        {
+          "elapsed": 2443,
+          "dt": 59.29999999701977,
+          "phase": "outbound",
+          "station": 1656,
+          "speed": 5.103077972739953,
+          "x": 2257.2218594471974,
+          "z": 1315.633385653214,
+          "sector": "4,2",
+          "gl": {
+            "getProgramParameterMs": 0.19999998807907104,
+            "getProgramParameterCalls": 4,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.5,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 36221220,
+            "bufferPeak": 36221220,
+            "buffers": 4301
+          }
+        },
+        {
+          "elapsed": 2591.60000000149,
+          "dt": 51.29999999701977,
+          "phase": "outbound",
+          "station": 1656,
+          "speed": 5.493680262229775,
+          "x": 2257.9715933137227,
+          "z": 1315.6698696237056,
+          "sector": "4,2",
+          "gl": {
+            "getProgramParameterMs": 0,
+            "getProgramParameterCalls": 3,
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.5999999940395355,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 36221220,
+            "bufferPeak": 36221220,
+            "buffers": 4301
+          }
+        },
+        {
+          "elapsed": 2964.8000000044703,
+          "dt": 81.70000000298023,
+          "phase": "outbound",
+          "station": 1658,
+          "speed": 6.429025755847511,
+          "x": 2260.0062274601614,
+          "z": 1315.7688801332677,
+          "sector": "4,2",
+          "gl": {
+            "bufferDataMs": 33,
+            "bufferDataCalls": 6,
+            "uploadBytes": 20082848,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 2,
+            "events": [
+              {
+                "call": "bufferData",
+                "ms": 3.2999999970197678,
+                "pass": "offscreen"
+              },
+              {
+                "call": "bufferData",
+                "ms": 5,
+                "pass": "offscreen"
+              },
+              {
+                "call": "bufferData",
+                "ms": 24.600000001490116,
+                "pass": "offscreen"
+              }
+            ],
+            "bufferBytes": 48418912,
+            "bufferPeak": 48418912,
+            "buffers": 4572
+          }
+        },
+        {
+          "elapsed": 5632.70000000298,
+          "dt": 61.79999999701977,
+          "phase": "outbound",
+          "station": 1686,
+          "speed": 13.703604467055802,
+          "x": 2287.404736838401,
+          "z": 1317.1021617846773,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 62278468,
+            "bufferPeak": 62278468,
+            "buffers": 5502
+          }
+        },
+        {
+          "elapsed": 5722.80000000447,
+          "dt": 90.10000000149012,
+          "phase": "outbound",
+          "station": 1686,
+          "speed": 13.83031409342198,
+          "x": 2288.321452853441,
+          "z": 1317.1467715342637,
+          "sector": "4,2",
+          "gl": {
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0,
+            "getProgramParameterCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.5,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 62278468,
+            "bufferPeak": 62278468,
+            "buffers": 5502
+          }
+        },
+        {
+          "elapsed": 5772.9000000059605,
+          "dt": 50.100000001490116,
+          "phase": "outbound",
+          "station": 1686,
+          "speed": 13.940864077296904,
+          "x": 2289.1304888610307,
+          "z": 1317.1861412988505,
+          "sector": "4,2",
+          "gl": {
+            "getProgramParameterMs": 0.10000000149011612,
+            "getProgramParameterCalls": 1,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 62278468,
+            "bufferPeak": 62278468,
+            "buffers": 5502
+          }
+        },
+        {
+          "elapsed": 6056,
+          "dt": 60.69999999552965,
+          "phase": "outbound",
+          "station": 1692,
+          "speed": 14.510125726327596,
+          "x": 2293.393016751047,
+          "z": 1317.3935668250333,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 63642156,
+            "bufferPeak": 63642156,
+            "buffers": 5561
+          }
+        },
+        {
+          "elapsed": 6193.10000000149,
+          "dt": 66.19999999552965,
+          "phase": "outbound",
+          "station": 1694,
+          "speed": 14.780171109709864,
+          "x": 2295.465284856206,
+          "z": 1317.4944086994324,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 63642156,
+            "bufferPeak": 63642156,
+            "buffers": 5561
+          }
+        },
+        {
+          "elapsed": 6283.60000000149,
+          "dt": 52,
+          "phase": "outbound",
+          "station": 1694,
+          "speed": 14.939353974047126,
+          "x": 2296.7021332762965,
+          "z": 1317.5545969119123,
+          "sector": "4,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.4999999925494194,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 63642156,
+            "bufferPeak": 63642156,
+            "buffers": 5561
+          }
+        },
+        {
+          "elapsed": 6352.60000000149,
+          "dt": 69,
+          "phase": "outbound",
+          "station": 1696,
+          "speed": 15.082798095439859,
+          "x": 2297.8266323331773,
+          "z": 1317.6093179165798,
+          "sector": "4,2",
+          "gl": {
+            "bufferDataMs": 0.3999999910593033,
+            "bufferDataCalls": 36,
+            "uploadBytes": 1129444,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 64742800,
+            "bufferPeak": 64742800,
+            "buffers": 5597
+          }
+        },
+        {
+          "elapsed": 6526.20000000298,
+          "dt": 74.60000000149012,
+          "phase": "outbound",
+          "station": 1698,
+          "speed": 15.402139044174278,
+          "x": 2300.3640302454705,
+          "z": 1317.732794198889,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 3,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 64169076,
+            "bufferPeak": 64748624,
+            "buffers": 5563
+          }
+        },
+        {
+          "elapsed": 6576.4000000059605,
+          "dt": 50.20000000298023,
+          "phase": "outbound",
+          "station": 1698,
+          "speed": 15.46610155673092,
+          "x": 2300.877892776406,
+          "z": 1317.7578000659746,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 64169076,
+            "bufferPeak": 64748624,
+            "buffers": 5563
+          }
+        },
+        {
+          "elapsed": 6643.60000000149,
+          "dt": 67.19999999552965,
+          "phase": "outbound",
+          "station": 1700,
+          "speed": 15.658172112120987,
+          "x": 2302.4322648950583,
+          "z": 1317.8334397950075,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 7,
+            "uploadBytes": 1282176,
+            "events": [],
+            "bufferBytes": 64169076,
+            "bufferPeak": 64748624,
+            "buffers": 5563
+          }
+        },
+        {
+          "elapsed": 23963.90000000596,
+          "dt": 64.10000000149012,
+          "phase": "outbound",
+          "station": 2100,
+          "speed": 24.65648447770363,
+          "x": 2702.6574200268146,
+          "z": 1337.309421075916,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 66991372,
+            "bufferPeak": 68110076,
+            "buffers": 6146
+          }
+        },
+        {
+          "elapsed": 24020.80000000447,
+          "dt": 56.899999998509884,
+          "phase": "outbound",
+          "station": 2102,
+          "speed": 24.655661641507333,
+          "x": 2704.0939909891463,
+          "z": 1337.379328298923,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 66991372,
+            "bufferPeak": 68110076,
+            "buffers": 6146
+          }
+        },
+        {
+          "elapsed": 24102.60000000149,
+          "dt": 53.19999999552965,
+          "phase": "outbound",
+          "station": 2104,
+          "speed": 24.65507897734151,
+          "x": 2705.12008387271,
+          "z": 1337.4292606071172,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 13,
+            "uploadBytes": 31248,
+            "events": [],
+            "bufferBytes": 66991372,
+            "bufferPeak": 68110076,
+            "buffers": 6146
+          }
+        },
+        {
+          "elapsed": 24825.20000000298,
+          "dt": 69.5,
+          "phase": "outbound",
+          "station": 2122,
+          "speed": 24.645279814575627,
+          "x": 2723.585787941605,
+          "z": 1338.3278490692255,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 28,
+            "uploadBytes": 727288,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 72247064,
+            "bufferPeak": 72247064,
+            "buffers": 6539
+          }
+        },
+        {
+          "elapsed": 24987.30000000447,
+          "dt": 59.899999998509884,
+          "phase": "outbound",
+          "station": 2126,
+          "speed": 24.6431708829407,
+          "x": 2727.893429119209,
+          "z": 1338.5374699234487,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 72171016,
+            "bufferPeak": 72247064,
+            "buffers": 6530
+          }
+        },
+        {
+          "elapsed": 25044.70000000298,
+          "dt": 57.399999998509884,
+          "phase": "outbound",
+          "station": 2128,
+          "speed": 24.642481996331618,
+          "x": 2729.329228281834,
+          "z": 1338.607339588675,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 72171016,
+            "bufferPeak": 72247064,
+            "buffers": 6530
+          }
+        },
+        {
+          "elapsed": 25159,
+          "dt": 67.29999999701977,
+          "phase": "outbound",
+          "station": 2130,
+          "speed": 24.641220959854902,
+          "x": 2731.995606794385,
+          "z": 1338.7370923973556,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 72171016,
+            "bufferPeak": 72247064,
+            "buffers": 6530
+          }
+        },
+        {
+          "elapsed": 25218.40000000596,
+          "dt": 59.400000005960464,
+          "phase": "outbound",
+          "station": 2132,
+          "speed": 24.640551679775847,
+          "x": 2733.4312929180705,
+          "z": 1338.806956561828,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 72171016,
+            "bufferPeak": 72247064,
+            "buffers": 6530
+          }
+        },
+        {
+          "elapsed": 25886.5,
+          "dt": 62.29999999701977,
+          "phase": "outbound",
+          "station": 2148,
+          "speed": 24.633364231427574,
+          "x": 2749.8364728600523,
+          "z": 1339.6052746419894,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.19999999552965164,
+            "bufferDataCalls": 32,
+            "uploadBytes": 783608,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 77089656,
+            "bufferPeak": 77089656,
+            "buffers": 6871
+          }
+        },
+        {
+          "elapsed": 26768.5,
+          "dt": 73.5,
+          "phase": "outbound",
+          "station": 2170,
+          "speed": 24.62503300569444,
+          "x": 2771.56645769422,
+          "z": 1340.6627113688337,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.30000000447034836,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 83488412,
+            "bufferPeak": 83488412,
+            "buffers": 7022
+          }
+        },
+        {
+          "elapsed": 27037.90000000596,
+          "dt": 62.20000000298023,
+          "phase": "outbound",
+          "station": 2176,
+          "speed": 24.622758110919907,
+          "x": 2778.125066565153,
+          "z": 1340.981870077321,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 84583248,
+            "bufferPeak": 84583248,
+            "buffers": 7056
+          }
+        },
+        {
+          "elapsed": 27092.90000000596,
+          "dt": 55,
+          "phase": "outbound",
+          "station": 2178,
+          "speed": 24.622274311339883,
+          "x": 2779.5596823746296,
+          "z": 1341.051682157571,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.20000000298023224,
+            "bufferDataCalls": 31,
+            "uploadBytes": 977552,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 13,
+            "texSubImage2DMs": 0.30000000447034836,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 85529552,
+            "bufferPeak": 85529552,
+            "buffers": 7087
+          }
+        },
+        {
+          "elapsed": 27720.10000000149,
+          "dt": 73.79999999701977,
+          "phase": "outbound",
+          "station": 2194,
+          "speed": 24.617385804081717,
+          "x": 2794.928861959062,
+          "z": 1341.7995858059703,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 87467784,
+            "bufferPeak": 87467784,
+            "buffers": 7180
+          }
+        },
+        {
+          "elapsed": 27774.60000000149,
+          "dt": 54.5,
+          "phase": "outbound",
+          "station": 2194,
+          "speed": 24.61695592609756,
+          "x": 2796.3631663278215,
+          "z": 1341.8693827306736,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.29999998956918716,
+            "bufferDataCalls": 31,
+            "uploadBytes": 897504,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.30000000447034836,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 88336488,
+            "bufferPeak": 88336488,
+            "buffers": 7211
+          }
+        },
+        {
+          "elapsed": 28092,
+          "dt": 53.29999999701977,
+          "phase": "outbound",
+          "station": 2202,
+          "speed": 24.614812324303163,
+          "x": 2803.73920056216,
+          "z": 1342.2283194510321,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 12,
+            "uploadBytes": 2448,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 89994708,
+            "bufferPeak": 89994708,
+            "buffers": 7226
+          }
+        },
+        {
+          "elapsed": 28370.40000000596,
+          "dt": 57.600000001490116,
+          "phase": "outbound",
+          "station": 2210,
+          "speed": 24.612777057456366,
+          "x": 2811.114608847619,
+          "z": 1342.5872257112162,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 90480480,
+            "bufferPeak": 90480480,
+            "buffers": 7258
+          }
+        },
+        {
+          "elapsed": 28447,
+          "dt": 76.59999999403954,
+          "phase": "outbound",
+          "station": 2212,
+          "speed": 24.612338930061263,
+          "x": 2812.7535066751952,
+          "z": 1342.6669786777645,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.6000000014901161,
+            "bufferDataCalls": 29,
+            "uploadBytes": 2079060,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 92530740,
+            "bufferPeak": 92530740,
+            "buffers": 7287
+          }
+        },
+        {
+          "elapsed": 29302.5,
+          "dt": 51.899999998509884,
+          "phase": "outbound",
+          "station": 2232,
+          "speed": 24.60717360428324,
+          "x": 2833.6470220198025,
+          "z": 1343.6837106566334,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 99519392,
+            "bufferPeak": 99519392,
+            "buffers": 7489
+          }
+        },
+        {
+          "elapsed": 29380.90000000596,
+          "dt": 60.30000000447035,
+          "phase": "outbound",
+          "station": 2234,
+          "speed": 24.606660542169745,
+          "x": 2835.899990035905,
+          "z": 1343.7933458516957,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0.10000000149011612,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 99519392,
+            "bufferPeak": 99519392,
+            "buffers": 7489
+          }
+        },
+        {
+          "elapsed": 29437.40000000596,
+          "dt": 56.5,
+          "phase": "outbound",
+          "station": 2236,
+          "speed": 24.60638409629249,
+          "x": 2837.128861990553,
+          "z": 1343.853145908994,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 99519392,
+            "bufferPeak": 99519392,
+            "buffers": 7489
+          }
+        },
+        {
+          "elapsed": 29494.70000000298,
+          "dt": 57.29999999701977,
+          "phase": "outbound",
+          "station": 2236,
+          "speed": 24.606064579842876,
+          "x": 2838.5625285719148,
+          "z": 1343.9229117974473,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.19999999552965164,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 99519392,
+            "bufferPeak": 99519392,
+            "buffers": 7489
+          }
+        },
+        {
+          "elapsed": 29570.70000000298,
+          "dt": 76,
+          "phase": "outbound",
+          "station": 2238,
+          "speed": 24.605658476769673,
+          "x": 2840.4057869852,
+          "z": 1344.0126094736863,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.5999999940395355,
+            "bufferDataCalls": 11,
+            "uploadBytes": 2564596,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 102055188,
+            "bufferPeak": 102055188,
+            "buffers": 7500
+          }
+        },
+        {
+          "elapsed": 30281.20000000298,
+          "dt": 76.10000000149012,
+          "phase": "outbound",
+          "station": 2256,
+          "speed": 24.602071787312997,
+          "x": 2857.812900663239,
+          "z": 1344.8596842163925,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 105661132,
+            "bufferPeak": 107082120,
+            "buffers": 5905
+          }
+        },
+        {
+          "elapsed": 30916,
+          "dt": 59.29999999701977,
+          "phase": "outbound",
+          "station": 2272,
+          "speed": 24.599180596551015,
+          "x": 2873.579628219788,
+          "z": 1345.6269335674206,
+          "sector": "5,2",
+          "gl": {
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0.10000000149011612,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0,
+            "getProgramParameterCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 106869648,
+            "bufferPeak": 107082120,
+            "buffers": 5940
+          }
+        },
+        {
+          "elapsed": 30988.20000000298,
+          "dt": 72.20000000298023,
+          "phase": "outbound",
+          "station": 2274,
+          "speed": 24.59889818165457,
+          "x": 2875.2176258820627,
+          "z": 1345.7066427295429,
+          "sector": "5,2",
+          "gl": {
+            "getProgramParameterMs": 0,
+            "getProgramParameterCalls": 4,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 106869648,
+            "bufferPeak": 107082120,
+            "buffers": 5940
+          }
+        },
+        {
+          "elapsed": 32313.60000000149,
+          "dt": 60.899999998509884,
+          "phase": "approach",
+          "station": 2306,
+          "speed": 24.552430391356175,
+          "x": 2907.7633256400704,
+          "z": 1347.2903998493196,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 114315768,
+            "bufferPeak": 114329592,
+            "buffers": 6027
+          }
+        },
+        {
+          "elapsed": 32451.20000000298,
+          "dt": 60.79999999701977,
+          "phase": "approach",
+          "station": 2310,
+          "speed": 24.518452676165605,
+          "x": 2911.2351055147005,
+          "z": 1347.4593455516194,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.19999999552965164,
+            "bufferDataCalls": 30,
+            "uploadBytes": 941140,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.4999999925494194,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 115228108,
+            "bufferPeak": 115228108,
+            "buffers": 6057
+          }
+        },
+        {
+          "elapsed": 40307.20000000298,
+          "dt": 51.29999999701977,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.4354757019226425,
+          "x": 3017.085391545335,
+          "z": 1351.822137778539,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0.20000000298023224,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.30000000447034836,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 58047824,
+            "bufferPeak": 115406212,
+            "buffers": 3719
+          }
+        },
+        {
+          "elapsed": 50667.60000000149,
+          "dt": 70.19999999552965,
+          "phase": "return",
+          "station": 2384,
+          "speed": 12.878744479573067,
+          "x": 2985.3536133549505,
+          "z": 1340.5856521431397,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.5,
+            "texSubImage2DCalls": 2,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 59058700,
+            "bufferPeak": 115406212,
+            "buffers": 4289
+          }
+        },
+        {
+          "elapsed": 50722.60000000149,
+          "dt": 55,
+          "phase": "return",
+          "station": 2382,
+          "speed": 13.006646988864846,
+          "x": 2984.599434030724,
+          "z": 1340.5498975414978,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 5,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 2,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 59058700,
+            "bufferPeak": 115406212,
+            "buffers": 4289
+          }
+        },
+        {
+          "elapsed": 59824.80000000447,
+          "dt": 65.39999999850988,
+          "phase": "return",
+          "station": 2200,
+          "speed": 24.368237057097005,
+          "x": 2801.8921820264077,
+          "z": 1331.6351313884027,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.29999999701976776,
+            "bufferDataCalls": 21,
+            "uploadBytes": 2273748,
+            "bufferSubDataMs": 0.10000000149011612,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.20000000298023224,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 62421428,
+            "bufferPeak": 115406212,
+            "buffers": 5569
+          }
+        },
+        {
+          "elapsed": 59948.40000000596,
+          "dt": 54.80000000447035,
+          "phase": "return",
+          "station": 2196,
+          "speed": 24.38868481852562,
+          "x": 2798.0361001915976,
+          "z": 1331.4626549399572,
+          "sector": "5,2",
+          "gl": {
+            "bufferDataMs": 0.09999999403953552,
+            "bufferDataCalls": 48,
+            "uploadBytes": 34848,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "texSubImage2DMs": 0.3999999985098839,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 62912872,
+            "bufferPeak": 115406212,
+            "buffers": 5675
+          }
+        }
+      ],
+      "publications": {
+        "count": 236,
+        "maxStep": 33.20000000298023,
+        "p95Step": 6.9000000059604645
+      },
+      "worker": {
+        "queued": 0,
+        "samples": 835,
+        "road": 509,
+        "terrain": 256,
+        "background": 69,
+        "maxActive": 2015.2000000029802
+      },
+      "cache": {
+        "roadBytes": 36103636,
+        "terrainBytes": 21147772,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648
+      },
+      "warmup": {
+        "roots": 242,
+        "objects": 7357,
+        "representatives": 2439,
+        "submissions": 204,
+        "maxSubmitMs": 10.900000005960464,
+        "cacheHits": 3787,
+        "resourceBatches": 933,
+        "maxResourceMs": 14,
+        "textureUploads": 255
+      }
+    },
+    "after-cold-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 80000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 22866,
+      "loading": {
+        "count": 2867,
+        "p50": 6.0999999940395355,
+        "p95": 14.199999988079071,
+        "p99": 44.20000000298023,
+        "max": 646.5999999940395,
+        "over33": 87,
+        "over50": 12,
+        "over100": 6
+      },
+      "first60": {
+        "count": 5974,
+        "p50": 9.100000008940697,
+        "p95": 16.600000008940697,
+        "p99": 27.399999991059303,
+        "max": 314.90000000596046,
+        "over33": 36,
+        "over50": 13,
+        "over100": 2
+      },
+      "fullDrive": {
+        "count": 7169,
+        "p50": 9.900000005960464,
+        "p95": 19.700000002980232,
+        "p99": 32,
+        "max": 314.90000000596046,
+        "over33": 64,
+        "over50": 20,
+        "over100": 2
+      },
+      "heapFirst60Bytes": 723213129,
+      "gpuPeakFirst60Bytes": 158993100,
+      "heapPeakBytes": 723213129,
+      "heapStartBytes": 585031480,
+      "heapEndBytes": 649309431,
+      "gpu": {
+        "bufferBytes": 80780604,
+        "bufferPeak": 158993100,
+        "buffers": 10077
+      },
+      "loadingGL": {
+        "texImage2DMs": 0.09999999403953552,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 46.29999989271164,
+        "bufferDataCalls": 8388,
+        "uploadBytes": 118525456,
+        "compileShaderMs": 0.09999999403953552,
+        "compileShaderCalls": 166,
+        "linkProgramMs": 1.7000000178813934,
+        "linkProgramCalls": 83,
+        "getProgramParameterMs": 8.09999993443489,
+        "getProgramParameterCalls": 1272,
+        "getUniformLocationMs": 4.999999985098839,
+        "getUniformLocationCalls": 4598,
+        "getAttribLocationMs": 0,
+        "getAttribLocationCalls": 205,
+        "texSubImage2DMs": 9.800000071525574,
+        "texSubImage2DCalls": 154,
+        "generateMipmapMs": 0.09999999403953552,
+        "generateMipmapCalls": 143,
+        "events": [
+          {
+            "call": "bufferData",
+            "ms": 3.2000000029802322,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 3.2000000029802322,
+            "pass": "main"
+          }
+        ],
+        "bufferBytes": 118442700,
+        "bufferPeak": 118442700,
+        "buffers": 8344
+      },
+      "drivingNewShaderCalls": 6,
+      "drivingBufferAllocations": 12743,
+      "drivingGLCallTotalMs": 195.1000002026558,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": true,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 987,
+      "progressLast": {
+        "elapsed": 22866,
+        "phase": "驾驶就绪",
+        "message": "",
+        "resource": "首屏资源已准备完成",
+        "percent": 100,
+        "completed": 690,
+        "total": 690,
+        "elapsedMs": 22457.20000000298,
+        "status": "ready",
+        "attempt": 1
+      },
+      "longTasksFirst60": [
+        {
+          "start": 24737.09999999404,
+          "duration": 63
+        },
+        {
+          "start": 68702.89999999106,
+          "duration": 305
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 71.90000000596046,
+          "dt": 71.90000000596046,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.12031046514233802,
+          "x": 2252.148586254647,
+          "z": 1315.386507183773,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0.5999999940395355,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 118442700,
+            "bufferPeak": 118442700,
+            "buffers": 8344
+          }
+        },
+        {
+          "elapsed": 204,
+          "dt": 132.09999999403954,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.2283154014133484,
+          "x": 2252.166020659099,
+          "z": 1315.3873555865543,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 118442700,
+            "bufferPeak": 118442700,
+            "buffers": 8344
+          }
+        },
+        {
+          "elapsed": 1179,
+          "dt": 72.79999999701977,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 1.8859116955508686,
+          "x": 2253.0814325833976,
+          "z": 1315.4319018757453,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999998807907104,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 128617164,
+            "bufferPeak": 147417804,
+            "buffers": 8350
+          }
+        },
+        {
+          "elapsed": 40203.5,
+          "dt": 51.900000005960464,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.4614128162116455,
+          "x": 3017.233338718045,
+          "z": 1351.7094622075676,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 60650508,
+            "bufferPeak": 158993100,
+            "buffers": 3795
+          }
+        },
+        {
+          "elapsed": 44282.20000000298,
+          "dt": 314.90000000596046,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 1.8016465965897135,
+          "x": 3018.3848451402646,
+          "z": 1344.634644871345,
+          "sector": "6,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 4,
+            "uploadBytes": 2784,
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0.3999999910593033,
+            "getProgramParameterCalls": 3,
+            "getUniformLocationMs": 0,
+            "getUniformLocationCalls": 95,
+            "getAttribLocationMs": 0,
+            "getAttribLocationCalls": 4,
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "events": [],
+            "bufferBytes": 60732624,
+            "bufferPeak": 158993100,
+            "buffers": 3987
+          }
+        },
+        {
+          "elapsed": 57152,
+          "dt": 51.099999994039536,
+          "phase": "return",
+          "station": 2260,
+          "speed": 23.422170700725594,
+          "x": 2862.5168079023215,
+          "z": 1334.6259849200883,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 65478672,
+            "bufferPeak": 158993100,
+            "buffers": 5770
+          }
+        },
+        {
+          "elapsed": 57570.29999999702,
+          "dt": 51,
+          "phase": "return",
+          "station": 2250,
+          "speed": 23.71965187450274,
+          "x": 2852.5041362714405,
+          "z": 1334.1221995837004,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 65334692,
+            "bufferPeak": 158993100,
+            "buffers": 5834
+          }
+        },
+        {
+          "elapsed": 58220.20000000298,
+          "dt": 52.29999999701977,
+          "phase": "return",
+          "station": 2236,
+          "speed": 24.010121847444623,
+          "x": 2837.2082488827764,
+          "z": 1333.3208946082123,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 55,
+            "uploadBytes": 13260,
+            "events": [],
+            "bufferBytes": 67748904,
+            "bufferPeak": 158993100,
+            "buffers": 5901
+          }
+        },
+        {
+          "elapsed": 58357.90000000596,
+          "dt": 56.1000000089407,
+          "phase": "return",
+          "station": 2232,
+          "speed": 24.07126582083115,
+          "x": 2834.0070081684494,
+          "z": 1333.1540985493814,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 68267112,
+            "bufferPeak": 158993100,
+            "buffers": 5980
+          }
+        },
+        {
+          "elapsed": 58644.20000000298,
+          "dt": 50.79999999701977,
+          "phase": "return",
+          "station": 2226,
+          "speed": 24.143674159141025,
+          "x": 2826.9856896081956,
+          "z": 1332.7956285587493,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 68776296,
+            "bufferPeak": 158993100,
+            "buffers": 6180
+          }
+        },
+        {
+          "elapsed": 59273.59999999404,
+          "dt": 52.5,
+          "phase": "return",
+          "station": 2210,
+          "speed": 24.329036787379145,
+          "x": 2811.640973304403,
+          "z": 1332.0614022642612,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 72655344,
+            "bufferPeak": 158993100,
+            "buffers": 6550
+          }
+        },
+        {
+          "elapsed": 59501.5,
+          "dt": 51.099999994039536,
+          "phase": "return",
+          "station": 2204,
+          "speed": 24.360021611513705,
+          "x": 2806.371628222612,
+          "z": 1331.8233372846482,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 73001644,
+            "bufferPeak": 158993100,
+            "buffers": 6556
+          }
+        },
+        {
+          "elapsed": 59786.59999999404,
+          "dt": 53.5,
+          "phase": "return",
+          "station": 2198,
+          "speed": 24.396496385159377,
+          "x": 2799.4711931551597,
+          "z": 1331.5165106607092,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 1,
+            "events": [],
+            "bufferBytes": 73781240,
+            "bufferPeak": 158993100,
+            "buffers": 6656
+          }
+        }
+      ],
+      "publications": {
+        "count": 260,
+        "maxStep": 30.900000005960464,
+        "p95Step": 5.299999997019768
+      },
+      "worker": {
+        "queued": 0,
+        "samples": 963,
+        "road": 542,
+        "terrain": 249,
+        "background": 171,
+        "maxActive": 1228
+      },
+      "cache": {
+        "roadBytes": 36103636,
+        "terrainBytes": 21977284,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648,
+        "background": {
+          "queued": 0,
+          "queuedBytes": 0,
+          "queueBudgetBytes": 8388608,
+          "stagingBatches": 0,
+          "peakStagingBytes": 18874368
+        }
+      },
+      "warmup": {
+        "roots": 336,
+        "completedRoots": 336,
+        "cancelledRoots": 0,
+        "activity": "等待 GPU 完成资源提交",
+        "objects": 7838,
+        "representatives": 2765,
+        "submissions": 267,
+        "maxSubmitMs": 9.600000008940697,
+        "cacheHits": 4158,
+        "resourceBatches": 1196,
+        "maxResourceMs": 32.6000000089407,
+        "textureUploads": 291
+      }
+    },
+    "after-warm-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 60000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 11011.40000000596,
+      "loading": {
+        "count": 1468,
+        "p50": 6.0999999940395355,
+        "p95": 19.5,
+        "p99": 42.79999999701977,
+        "max": 52.599999994039536,
+        "over33": 43,
+        "over50": 2,
+        "over100": 0
+      },
+      "first60": {
+        "count": 5481,
+        "p50": 10.200000002980232,
+        "p95": 17.899999991059303,
+        "p99": 26.5,
+        "max": 66.20000000298023,
+        "over33": 39,
+        "over50": 5,
+        "over100": 0
+      },
+      "fullDrive": {
+        "count": 5481,
+        "p50": 10.200000002980232,
+        "p95": 17.899999991059303,
+        "p99": 26.5,
+        "max": 66.20000000298023,
+        "over33": 39,
+        "over50": 5,
+        "over100": 0
+      },
+      "heapFirst60Bytes": 645696753,
+      "gpuPeakFirst60Bytes": 158993100,
+      "heapPeakBytes": 645696753,
+      "heapStartBytes": 621502683,
+      "heapEndBytes": 516751808,
+      "gpu": {
+        "bufferBytes": 78126712,
+        "bufferPeak": 158993100,
+        "buffers": 6549
+      },
+      "loadingGL": {
+        "texSubImage2DMs": 4.000000059604645,
+        "texSubImage2DCalls": 105,
+        "bufferSubDataMs": 0.4999999701976776,
+        "bufferSubDataCalls": 225,
+        "uploadBytes": 85046196,
+        "bufferDataMs": 20.99999988079071,
+        "bufferDataCalls": 3136,
+        "generateMipmapMs": 0.19999998807907104,
+        "generateMipmapCalls": 96,
+        "events": [],
+        "bufferBytes": 145004596,
+        "bufferPeak": 158993100,
+        "buffers": 8498
+      },
+      "drivingNewShaderCalls": 0,
+      "drivingBufferAllocations": 6276,
+      "drivingGLCallTotalMs": 87.70000019669533,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": true,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 604,
+      "progressLast": {
+        "elapsed": 11011.40000000596,
+        "phase": "驾驶就绪",
+        "message": "",
+        "resource": "首屏资源已准备完成",
+        "percent": 100,
+        "completed": 690,
+        "total": 690,
+        "elapsedMs": 10988.60000000894,
+        "status": "ready",
+        "attempt": 2
+      },
+      "longTasksFirst60": [],
+      "slowFrames": [
+        {
+          "elapsed": 40196.09999999404,
+          "dt": 59.400000005960464,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.4681879063388665,
+          "x": 3017.193907476079,
+          "z": 1351.7339777884456,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 60682464,
+            "bufferPeak": 158993100,
+            "buffers": 3889
+          }
+        },
+        {
+          "elapsed": 57237.69999998808,
+          "dt": 58.19999998807907,
+          "phase": "return",
+          "station": 2254,
+          "speed": 23.634265846517156,
+          "x": 2856.051796525147,
+          "z": 1334.3038870073665,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 65776028,
+            "bufferPeak": 158993100,
+            "buffers": 5774
+          }
+        },
+        {
+          "elapsed": 58392.5,
+          "dt": 51.400000005960464,
+          "phase": "return",
+          "station": 2226,
+          "speed": 24.116455370990025,
+          "x": 2828.3941476365144,
+          "z": 1332.8663077321553,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 67795332,
+            "bufferPeak": 158993100,
+            "buffers": 5973
+          }
+        },
+        {
+          "elapsed": 58988.69999998808,
+          "dt": 50.099999994039536,
+          "phase": "return",
+          "station": 2212,
+          "speed": 24.313640885659577,
+          "x": 2813.8713371983536,
+          "z": 1332.1637892877002,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 72223688,
+            "bufferPeak": 158993100,
+            "buffers": 6204
+          }
+        },
+        {
+          "elapsed": 59716,
+          "dt": 66.20000000298023,
+          "phase": "return",
+          "station": 2194,
+          "speed": 24.41119591960647,
+          "x": 2796.42725405066,
+          "z": 1331.3813647130664,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 77390428,
+            "bufferPeak": 158993100,
+            "buffers": 6438
+          }
+        }
+      ],
+      "publications": {
+        "count": 409,
+        "maxStep": 30.900000005960464,
+        "p95Step": 4.0999999940395355
+      },
+      "worker": {
+        "queued": 2,
+        "inFlight": "9,-2:near",
+        "samples": 1024,
+        "road": 689,
+        "terrain": 282,
+        "background": 53,
+        "maxActive": 260.79999999701977
+      },
+      "cache": {
+        "roadBytes": 70075600,
+        "terrainBytes": 17366336,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648,
+        "background": {
+          "queued": 0,
+          "queuedBytes": 0,
+          "queueBudgetBytes": 8388608,
+          "stagingBatches": 0,
+          "peakStagingBytes": 18874368
+        }
+      },
+      "warmup": {
+        "roots": 512,
+        "completedRoots": 491,
+        "cancelledRoots": 1,
+        "activity": "纹理上传 · City sector 2,1",
+        "objects": 12782,
+        "representatives": 4579,
+        "submissions": 412,
+        "maxSubmitMs": 9.600000008940697,
+        "cacheHits": 6793,
+        "resourceBatches": 1733,
+        "maxResourceMs": 32.6000000089407,
+        "textureUploads": 472
+      }
+    },
+    "after-rain-night": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": true,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 80000,
+        "spawn": "preload-profile"
+      },
+      "loadMs": 19524.70000000298,
+      "loading": {
+        "count": 2448,
+        "p50": 6.0999999940395355,
+        "p95": 15.399999991059303,
+        "p99": 40.099999994039536,
+        "max": 909.3999999910593,
+        "over33": 54,
+        "over50": 11,
+        "over100": 5
+      },
+      "first60": {
+        "count": 6345,
+        "p50": 8.600000008940697,
+        "p95": 16.799999997019768,
+        "p99": 27.19999998807907,
+        "max": 66,
+        "over33": 33,
+        "over50": 7,
+        "over100": 0
+      },
+      "fullDrive": {
+        "count": 7830,
+        "p50": 9.200000002980232,
+        "p95": 18.299999997019768,
+        "p99": 28.299999997019768,
+        "max": 66,
+        "over33": 55,
+        "over50": 17,
+        "over100": 0
+      },
+      "heapFirst60Bytes": 704787891,
+      "gpuPeakFirst60Bytes": 158993100,
+      "heapPeakBytes": 704787891,
+      "heapStartBytes": 570570916,
+      "heapEndBytes": 635505078,
+      "gpu": {
+        "bufferBytes": 71220540,
+        "bufferPeak": 158993100,
+        "buffers": 10069
+      },
+      "loadingGL": {
+        "texImage2DMs": 0.09999999403953552,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 48.20000000298023,
+        "bufferDataCalls": 8388,
+        "uploadBytes": 118525456,
+        "compileShaderMs": 0.29999999701976776,
+        "compileShaderCalls": 166,
+        "linkProgramMs": 0.6999999731779099,
+        "linkProgramCalls": 83,
+        "getProgramParameterMs": 5.100000098347664,
+        "getProgramParameterCalls": 424,
+        "getUniformLocationMs": 5.199999988079071,
+        "getUniformLocationCalls": 4598,
+        "getAttribLocationMs": 0.29999999701976776,
+        "getAttribLocationCalls": 205,
+        "texSubImage2DMs": 7.899999916553497,
+        "texSubImage2DCalls": 154,
+        "generateMipmapMs": 0.20000000298023224,
+        "generateMipmapCalls": 143,
+        "events": [
+          {
+            "call": "bufferData",
+            "ms": 2.9000000059604645,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 2.7999999970197678,
+            "pass": "main"
+          }
+        ],
+        "bufferBytes": 118442700,
+        "bufferPeak": 118442700,
+        "buffers": 8344
+      },
+      "drivingNewShaderCalls": 6,
+      "drivingBufferAllocations": 12641,
+      "drivingGLCallTotalMs": 489.39999990165234,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": true,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 959,
+      "progressLast": {
+        "elapsed": 19524.59999999404,
+        "phase": "驾驶就绪",
+        "message": "",
+        "resource": "首屏资源已准备完成",
+        "percent": 100,
+        "completed": 690,
+        "total": 690,
+        "elapsedMs": 19280.39999999106,
+        "status": "ready",
+        "attempt": 1
+      },
+      "longTasksFirst60": [
+        {
+          "start": 21446.90000000596,
+          "duration": 63
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 66,
+          "dt": 66,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.11907044184404206,
+          "x": 2252.148514588112,
+          "z": 1315.3865036962954,
+          "sector": "4,2",
+          "gl": {
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.10000000894069672,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 118442700,
+            "bufferPeak": 118442700,
+            "buffers": 8344
+          }
+        },
+        {
+          "elapsed": 2092.2999999970198,
+          "dt": 56.1000000089407,
+          "phase": "outbound",
+          "station": 1654,
+          "speed": 4.4340390878342575,
+          "x": 2256.070773815524,
+          "z": 1315.5773708777112,
+          "sector": "4,2",
+          "gl": {
+            "bufferDataMs": 22.80000001192093,
+            "bufferDataCalls": 3,
+            "uploadBytes": 18903200,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 2,
+            "events": [
+              {
+                "call": "bufferData",
+                "ms": 21.5,
+                "pass": "main"
+              }
+            ],
+            "bufferBytes": 158993100,
+            "bufferPeak": 158993100,
+            "buffers": 8359
+          }
+        },
+        {
+          "elapsed": 32048.39999999106,
+          "dt": 50.20000000298023,
+          "phase": "approach",
+          "station": 2304,
+          "speed": 24.574889423052948,
+          "x": 2904.696383534625,
+          "z": 1347.1411545899805,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "events": [],
+            "bufferBytes": 128398872,
+            "bufferPeak": 158993100,
+            "buffers": 8220
+          }
+        },
+        {
+          "elapsed": 32184,
+          "dt": 57.1000000089407,
+          "phase": "approach",
+          "station": 2306,
+          "speed": 24.550593505766454,
+          "x": 2907.9676797561865,
+          "z": 1347.3003442440988,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.30000001192092896,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 128398872,
+            "bufferPeak": 158993100,
+            "buffers": 8220
+          }
+        },
+        {
+          "elapsed": 38345,
+          "dt": 54.70000000298023,
+          "phase": "approach",
+          "station": 2410,
+          "speed": 4.916812364593723,
+          "x": 3011.1154486364485,
+          "z": 1352.3904914997672,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 2,
+            "uploadBytes": 28832,
+            "texSubImage2DMs": 0.19999998807907104,
+            "texSubImage2DCalls": 1,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 85036440,
+            "bufferPeak": 158993100,
+            "buffers": 6870
+          }
+        },
+        {
+          "elapsed": 56331.5,
+          "dt": 52.5,
+          "phase": "return",
+          "station": 2278,
+          "speed": 22.384840533889385,
+          "x": 2880.450538379228,
+          "z": 1335.4673662734033,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.4000000059604645,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 60219400,
+            "bufferPeak": 158993100,
+            "buffers": 5608
+          }
+        },
+        {
+          "elapsed": 58370.5,
+          "dt": 51.900000005960464,
+          "phase": "return",
+          "station": 2230,
+          "speed": 24.040096521039384,
+          "x": 2832.752426664677,
+          "z": 1333.0842609683737,
+          "sector": "5,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 28800,
+            "texSubImage2DMs": 0.30000001192092896,
+            "texSubImage2DCalls": 4,
+            "generateMipmapMs": 0,
+            "generateMipmapCalls": 1,
+            "events": [],
+            "bufferBytes": 66402380,
+            "bufferPeak": 158993100,
+            "buffers": 6315
+          }
+        }
+      ],
+      "publications": {
+        "count": 259,
+        "maxStep": 29.599999994039536,
+        "p95Step": 4.5
+      },
+      "worker": {
+        "queued": 0,
+        "samples": 910,
+        "road": 542,
+        "terrain": 247,
+        "background": 120,
+        "maxActive": 1268.4000000059605
+      },
+      "cache": {
+        "roadBytes": 36103636,
+        "terrainBytes": 21977284,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648,
+        "background": {
+          "queued": 0,
+          "queuedBytes": 0,
+          "queueBudgetBytes": 8388608,
+          "stagingBatches": 0,
+          "peakStagingBytes": 18874368
+        }
+      },
+      "warmup": {
+        "roots": 314,
+        "completedRoots": 314,
+        "cancelledRoots": 0,
+        "activity": "等待 GPU 完成资源提交",
+        "objects": 7801,
+        "representatives": 2730,
+        "submissions": 266,
+        "maxSubmitMs": 11.5,
+        "cacheHits": 4078,
+        "resourceBatches": 1154,
+        "maxResourceMs": 23.100000008940697,
+        "textureUploads": 291
+      }
+    },
+    "final-cold-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 60000,
+        "spawn": "preload-profile",
+        "diagnostic": false
+      },
+      "loadMs": 18985.79999999702,
+      "loading": {
+        "count": 2323,
+        "p50": 6.0999999940395355,
+        "p95": 16.600000008940697,
+        "p99": 42.70000000298023,
+        "max": 907.7999999970198,
+        "over33": 78,
+        "over50": 8,
+        "over100": 5
+      },
+      "first60": {
+        "count": 5679,
+        "p50": 10.099999994039536,
+        "p95": 15.799999997019768,
+        "p99": 26.200000002980232,
+        "max": 372,
+        "over33": 39,
+        "over50": 9,
+        "over100": 2
+      },
+      "fullDrive": {
+        "count": 5679,
+        "p50": 10.099999994039536,
+        "p95": 15.799999997019768,
+        "p99": 26.200000002980232,
+        "max": 372,
+        "over33": 39,
+        "over50": 9,
+        "over100": 2
+      },
+      "heapFirst60Bytes": 740259745,
+      "gpuPeakFirst60Bytes": 158964300,
+      "heapPeakBytes": 740259745,
+      "heapStartBytes": 571606713,
+      "heapEndBytes": 545002299,
+      "gpu": {
+        "bufferBytes": 84781172,
+        "bufferPeak": 158964300,
+        "buffers": 6979
+      },
+      "loadingGL": {
+        "texImage2DMs": 0.09999999403953552,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 46.099999979138374,
+        "bufferDataCalls": 8243,
+        "uploadBytes": 118496656,
+        "compileShaderMs": 0,
+        "compileShaderCalls": 166,
+        "linkProgramMs": 0.5999999642372131,
+        "linkProgramCalls": 83,
+        "getProgramParameterMs": 8.7000000923872,
+        "getProgramParameterCalls": 1388,
+        "getUniformLocationMs": 5.799999937415123,
+        "getUniformLocationCalls": 4581,
+        "getAttribLocationMs": 0.09999999403953552,
+        "getAttribLocationCalls": 203,
+        "texSubImage2DMs": 9.399999961256981,
+        "texSubImage2DCalls": 154,
+        "generateMipmapMs": 0.30000001192092896,
+        "generateMipmapCalls": 143,
+        "events": [
+          {
+            "call": "bufferData",
+            "ms": 3.2000000029802322,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 2.7999999970197678,
+            "pass": "main"
+          }
+        ],
+        "bufferBytes": 118413900,
+        "bufferPeak": 118413900,
+        "buffers": 8199
+      },
+      "drivingNewShaderCalls": 6,
+      "drivingBufferAllocations": 7015,
+      "drivingGLCallTotalMs": 158.19999992847443,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": true,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 945,
+      "progressLast": {
+        "elapsed": 18985.79999999702,
+        "phase": "驾驶就绪",
+        "message": "",
+        "resource": "首屏资源已准备完成",
+        "percent": 100,
+        "completed": 690,
+        "total": 690,
+        "elapsedMs": 18768.20000000298,
+        "status": "ready",
+        "attempt": 1
+      },
+      "longTasksFirst60": [
+        {
+          "start": 20778.70000000298,
+          "duration": 62
+        },
+        {
+          "start": 64285.70000000298,
+          "duration": 372
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 65.1000000089407,
+          "dt": 65.1000000089407,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.12031046514233802,
+          "x": 2252.148586254647,
+          "z": 1315.386507183773,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.09999999403953552,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 118413900,
+            "bufferPeak": 118413900,
+            "buffers": 8199
+          }
+        },
+        {
+          "elapsed": 250.29999999701977,
+          "dt": 185.19999998807907,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.2283154014133484,
+          "x": 2252.166020659099,
+          "z": 1315.3873555865543,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.19999998807907104,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 118413900,
+            "bufferPeak": 118413900,
+            "buffers": 8199
+          }
+        },
+        {
+          "elapsed": 40256.79999999702,
+          "dt": 57.8999999910593,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 2.457981636146201,
+          "x": 3017.2505272341873,
+          "z": 1351.697020501229,
+          "sector": "6,2",
+          "gl": {
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 60623388,
+            "bufferPeak": 158964300,
+            "buffers": 3698
+          }
+        },
+        {
+          "elapsed": 43882,
+          "dt": 372,
+          "phase": "turn",
+          "station": 2412,
+          "speed": 1.8454890541380147,
+          "x": 3018.8742520029173,
+          "z": 1345.4868928423311,
+          "sector": "6,2",
+          "gl": {
+            "bufferDataMs": 0,
+            "bufferDataCalls": 4,
+            "uploadBytes": 2784,
+            "compileShaderMs": 0,
+            "compileShaderCalls": 2,
+            "linkProgramMs": 0,
+            "linkProgramCalls": 1,
+            "getProgramParameterMs": 0.699999988079071,
+            "getProgramParameterCalls": 3,
+            "getUniformLocationMs": 0.09999999403953552,
+            "getUniformLocationCalls": 95,
+            "getAttribLocationMs": 0,
+            "getAttribLocationCalls": 4,
+            "bufferSubDataMs": 0.09999999403953552,
+            "bufferSubDataCalls": 1,
+            "events": [],
+            "bufferBytes": 62539980,
+            "bufferPeak": 158964300,
+            "buffers": 4589
+          }
+        },
+        {
+          "elapsed": 56685.79999999702,
+          "dt": 56.5,
+          "phase": "return",
+          "station": 2274,
+          "speed": 22.796445705047507,
+          "x": 2875.7853331150905,
+          "z": 1335.2491104174492,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 65443792,
+            "bufferPeak": 158964300,
+            "buffers": 5699
+          }
+        },
+        {
+          "elapsed": 57752.40000000596,
+          "dt": 51.900000005960464,
+          "phase": "return",
+          "station": 2250,
+          "speed": 23.753756099319425,
+          "x": 2850.9237953303764,
+          "z": 1334.0404343956513,
+          "sector": "5,2",
+          "gl": {
+            "texSubImage2DMs": 0.10000000894069672,
+            "texSubImage2DCalls": 3,
+            "events": [],
+            "bufferBytes": 76063260,
+            "bufferPeak": 158964300,
+            "buffers": 6126
+          }
+        },
+        {
+          "elapsed": 57940.40000000596,
+          "dt": 66.90000000596046,
+          "phase": "return",
+          "station": 2246,
+          "speed": 23.837719764650934,
+          "x": 2846.7651000596748,
+          "z": 1333.8233275347948,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 76070908,
+            "bufferPeak": 158964300,
+            "buffers": 6183
+          }
+        },
+        {
+          "elapsed": 58872.5,
+          "dt": 58.3999999910593,
+          "phase": "return",
+          "station": 2222,
+          "speed": 24.19657881077635,
+          "x": 2824.169278476181,
+          "z": 1332.6555570980727,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 76870352,
+            "bufferPeak": 158964300,
+            "buffers": 6361
+          }
+        },
+        {
+          "elapsed": 59599.79999999702,
+          "dt": 57.19999998807907,
+          "phase": "return",
+          "station": 2204,
+          "speed": 24.358893851748224,
+          "x": 2806.5744207347097,
+          "z": 1331.8324133511037,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 83499480,
+            "bufferPeak": 158964300,
+            "buffers": 6719
+          }
+        }
+      ],
+      "publications": {
+        "count": 179,
+        "maxStep": 22.599999994039536,
+        "p95Step": 5.600000008940697
+      },
+      "worker": {
+        "queued": 13,
+        "inFlight": "road:regional:dongnan:E-to-S-semi",
+        "samples": 839,
+        "road": 489,
+        "terrain": 188,
+        "background": 161,
+        "maxActive": 1172.7000000029802
+      },
+      "cache": {
+        "roadBytes": 70758472,
+        "terrainBytes": 17556632,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648,
+        "background": {
+          "queued": 0,
+          "queuedBytes": 0,
+          "queueBudgetBytes": 8388608,
+          "stagingBatches": 0,
+          "peakStagingBytes": 18874368
+        }
+      },
+      "warmup": {
+        "roots": 272,
+        "completedRoots": 248,
+        "cancelledRoots": 1,
+        "activity": "等待 GPU 完成资源提交",
+        "objects": 6708,
+        "representatives": 2418,
+        "submissions": 228,
+        "maxSubmitMs": 8.799999997019768,
+        "cacheHits": 3438,
+        "resourceBatches": 882,
+        "maxResourceMs": 22.900000005960464,
+        "textureUploads": 243
+      }
+    },
+    "candidate-cold-day": {
+      "conditions": {
+        "width": 1186,
+        "height": 658,
+        "dpr": 1.5,
+        "rain": false,
+        "physicsHz": 120,
+        "mapVersion": 507,
+        "vehicle": "test-6at-sedan",
+        "durationMs": 60000,
+        "spawn": "preload-profile",
+        "diagnostic": false
+      },
+      "loadMs": 19282.79999999702,
+      "loading": {
+        "count": 2366,
+        "p50": 6.0999999940395355,
+        "p95": 14.799999997019768,
+        "p99": 42.6000000089407,
+        "max": 714.6000000089407,
+        "over33": 81,
+        "over50": 9,
+        "over100": 6
+      },
+      "first60": {
+        "count": 5719,
+        "p50": 10.099999994039536,
+        "p95": 16,
+        "p99": 25.599999994039536,
+        "max": 68.19999998807907,
+        "over33": 38,
+        "over50": 5,
+        "over100": 0
+      },
+      "fullDrive": {
+        "count": 5719,
+        "p50": 10.099999994039536,
+        "p95": 16,
+        "p99": 25.599999994039536,
+        "max": 68.19999998807907,
+        "over33": 38,
+        "over50": 5,
+        "over100": 0
+      },
+      "heapFirst60Bytes": 703958321,
+      "gpuPeakFirst60Bytes": 158964300,
+      "heapPeakBytes": 703958321,
+      "heapStartBytes": 562763157,
+      "heapEndBytes": 549728276,
+      "gpu": {
+        "bufferBytes": 83734588,
+        "bufferPeak": 158964300,
+        "buffers": 6783
+      },
+      "loadingGL": {
+        "texImage2DMs": 0,
+        "texImage2DCalls": 12,
+        "bufferDataMs": 48.800000101327896,
+        "bufferDataCalls": 8243,
+        "uploadBytes": 118496656,
+        "compileShaderMs": 0,
+        "compileShaderCalls": 178,
+        "linkProgramMs": 0.4999999701976776,
+        "linkProgramCalls": 89,
+        "getProgramParameterMs": 193.49999997019768,
+        "getProgramParameterCalls": 1323,
+        "getUniformLocationMs": 4.899999991059303,
+        "getUniformLocationCalls": 4967,
+        "getAttribLocationMs": 0.30000002682209015,
+        "getAttribLocationCalls": 223,
+        "texSubImage2DMs": 8.900000095367432,
+        "texSubImage2DCalls": 154,
+        "generateMipmapMs": 0.4000000059604645,
+        "generateMipmapCalls": 143,
+        "events": [
+          {
+            "call": "bufferData",
+            "ms": 3.5,
+            "pass": "main"
+          },
+          {
+            "call": "bufferData",
+            "ms": 3,
+            "pass": "main"
+          },
+          {
+            "call": "getProgramParameter",
+            "ms": 182.1000000089407,
+            "pass": "main",
+            "draw": {
+              "object": "",
+              "type": "MeshDepthMaterial",
+              "geometry": 2240,
+              "bytes": 22092,
+              "shadow": true
+            }
+          }
+        ],
+        "bufferBytes": 118413900,
+        "bufferPeak": 118413900,
+        "buffers": 8199
+      },
+      "drivingNewShaderCalls": 4,
+      "drivingBufferAllocations": 6855,
+      "drivingGLCallTotalMs": 166.60000002384186,
+      "turnFinished": true,
+      "phases": [
+        "outbound",
+        "approach",
+        "turn",
+        "return"
+      ],
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "distanceRange": [
+        1650,
+        2414
+      ],
+      "errors": [],
+      "overlayMounted": true,
+      "overlayDetachedAfterReady": true,
+      "progressMonotonic": true,
+      "progressEvents": 964,
+      "progressLast": {
+        "elapsed": 19282.79999999702,
+        "phase": "驾驶就绪",
+        "message": "",
+        "resource": "首屏资源已准备完成",
+        "percent": 100,
+        "completed": 691,
+        "total": 691,
+        "elapsedMs": 19095.70000000298,
+        "status": "ready",
+        "attempt": 1
+      },
+      "longTasksFirst60": [
+        {
+          "start": 21064.5,
+          "duration": 56
+        }
+      ],
+      "slowFrames": [
+        {
+          "elapsed": 58.900000005960464,
+          "dt": 58.900000005960464,
+          "phase": "outbound",
+          "station": 1650,
+          "speed": 0.12031046514233802,
+          "x": 2252.148586254647,
+          "z": 1315.386507183773,
+          "sector": "4,2",
+          "gl": {
+            "texSubImage2DMs": 0.29999999701976776,
+            "texSubImage2DCalls": 3,
+            "bufferSubDataMs": 0,
+            "bufferSubDataCalls": 1,
+            "uploadBytes": 32,
+            "events": [],
+            "bufferBytes": 118413900,
+            "bufferPeak": 118413900,
+            "buffers": 8199
+          }
+        },
+        {
+          "elapsed": 31988.60000000894,
+          "dt": 50.400000005960464,
+          "phase": "approach",
+          "station": 2304,
+          "speed": 24.569764174453404,
+          "x": 2905.387673237045,
+          "z": 1347.1747945187744,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 140608920,
+            "bufferPeak": 158964300,
+            "buffers": 8120
+          }
+        },
+        {
+          "elapsed": 58403.79999999702,
+          "dt": 68.19999998807907,
+          "phase": "return",
+          "station": 2224,
+          "speed": 24.155343306867252,
+          "x": 2826.3827068474106,
+          "z": 1332.7654423117974,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 68638368,
+            "bufferPeak": 158964300,
+            "buffers": 6074
+          }
+        },
+        {
+          "elapsed": 59001.5,
+          "dt": 52.3999999910593,
+          "phase": "return",
+          "station": 2210,
+          "speed": 24.327750601650607,
+          "x": 2811.843498348634,
+          "z": 1332.0706626518856,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 73119184,
+            "bufferPeak": 158964300,
+            "buffers": 6302
+          }
+        },
+        {
+          "elapsed": 59545.79999999702,
+          "dt": 52.599999994039536,
+          "phase": "return",
+          "station": 2196,
+          "speed": 24.4015938111798,
+          "x": 2798.455566036992,
+          "z": 1331.4714292408116,
+          "sector": "5,2",
+          "gl": {
+            "events": [],
+            "bufferBytes": 83035788,
+            "bufferPeak": 158964300,
+            "buffers": 6575
+          }
+        }
+      ],
+      "publications": {
+        "count": 179,
+        "maxStep": 23,
+        "p95Step": 6
+      },
+      "worker": {
+        "queued": 13,
+        "inFlight": "road:regional:G4516:in:split178:split184",
+        "samples": 839,
+        "road": 489,
+        "terrain": 188,
+        "background": 161,
+        "maxActive": 1194.5999999940395
+      },
+      "cache": {
+        "roadBytes": 70552684,
+        "terrainBytes": 17696752,
+        "budget": {
+          "maxRoads": 128,
+          "maxBytes": 33554432
+        },
+        "terrainBudget": 50331648,
+        "background": {
+          "queued": 0,
+          "queuedBytes": 0,
+          "queueBudgetBytes": 8388608,
+          "stagingBatches": 0,
+          "peakStagingBytes": 18874368
+        }
+      },
+      "warmup": {
+        "roots": 274,
+        "completedRoots": 248,
+        "cancelledRoots": 0,
+        "activity": "等待 GPU 完成资源提交",
+        "objects": 6731,
+        "representatives": 2440,
+        "submissions": 229,
+        "maxSubmitMs": 9.700000002980232,
+        "cacheHits": 3421,
+        "resourceBatches": 903,
+        "maxResourceMs": 29.900000005960464,
+        "textureUploads": 240
+      }
+    }
+  },
+  "heaps": {
+    "before-cold-day-page": {
+      "samples": 10,
+      "usedSize": 365502860,
+      "backingStorageSize": 291784395,
+      "last": {
+        "case": "cold-day",
+        "time": 1794071573416,
+        "type": "page",
+        "backingStorageSize": 234674639,
+        "embedderHeapUsedSize": 28791632,
+        "totalSize": 431185920,
+        "usedSize": 345585284
+      }
+    },
+    "before-cold-day-worker": {
+      "samples": 10,
+      "usedSize": 379233684,
+      "backingStorageSize": 194902347,
+      "last": {
+        "case": "cold-day",
+        "time": 1794071573416,
+        "type": "worker",
+        "backingStorageSize": 194902347,
+        "embedderHeapUsedSize": 3000568,
+        "totalSize": 449802240,
+        "usedSize": 379233684
+      }
+    },
+    "before-warm-day-page": {
+      "samples": 6,
+      "usedSize": 390962516,
+      "backingStorageSize": 277993310,
+      "last": {
+        "case": "warm-day",
+        "time": 1794071633433,
+        "type": "page",
+        "backingStorageSize": 140319808,
+        "embedderHeapUsedSize": 21840856,
+        "totalSize": 403533824,
+        "usedSize": 328214912
+      }
+    },
+    "before-warm-day-worker": {
+      "samples": 6,
+      "usedSize": 416054104,
+      "backingStorageSize": 211196843,
+      "last": {
+        "case": "warm-day",
+        "time": 1794071633433,
+        "type": "worker",
+        "backingStorageSize": 147311115,
+        "embedderHeapUsedSize": 2171264,
+        "totalSize": 382717952,
+        "usedSize": 340605352
+      }
+    },
+    "before-rain-night-page": {
+      "samples": 9,
+      "usedSize": 389320748,
+      "backingStorageSize": 258791416,
+      "last": {
+        "case": "rain-night",
+        "time": 1794071728838,
+        "type": "page",
+        "backingStorageSize": 238083118,
+        "embedderHeapUsedSize": 31079296,
+        "totalSize": 419332096,
+        "usedSize": 357038828
+      }
+    },
+    "before-rain-night-worker": {
+      "samples": 9,
+      "usedSize": 403532644,
+      "backingStorageSize": 199766355,
+      "last": {
+        "case": "rain-night",
+        "time": 1794071728839,
+        "type": "worker",
+        "backingStorageSize": 128688651,
+        "embedderHeapUsedSize": 2034992,
+        "totalSize": 384016384,
+        "usedSize": 327135392
+      }
+    },
+    "after-cold-day-page": {
+      "samples": 10,
+      "usedSize": 368658892,
+      "backingStorageSize": 271646864,
+      "last": {
+        "case": "cold-day",
+        "time": 1794110389629,
+        "type": "page",
+        "backingStorageSize": 264877001,
+        "embedderHeapUsedSize": 33766712,
+        "totalSize": 424198144,
+        "usedSize": 368658892
+      }
+    },
+    "after-cold-day-worker": {
+      "samples": 10,
+      "usedSize": 417680888,
+      "backingStorageSize": 195274098,
+      "last": {
+        "case": "cold-day",
+        "time": 1794110389629,
+        "type": "worker",
+        "backingStorageSize": 134453358,
+        "embedderHeapUsedSize": 2357152,
+        "totalSize": 418226176,
+        "usedSize": 361762180
+      }
+    },
+    "after-warm-day-page": {
+      "samples": 7,
+      "usedSize": 383898360,
+      "backingStorageSize": 348369708,
+      "last": {
+        "case": "warm-day",
+        "time": 1794110459647,
+        "type": "page",
+        "backingStorageSize": 137904741,
+        "embedderHeapUsedSize": 23169184,
+        "totalSize": 399482880,
+        "usedSize": 343578328
+      }
+    },
+    "after-warm-day-worker": {
+      "samples": 7,
+      "usedSize": 281100784,
+      "backingStorageSize": 109786826,
+      "last": {
+        "case": "warm-day",
+        "time": 1794110459647,
+        "type": "worker",
+        "backingStorageSize": 48024194,
+        "embedderHeapUsedSize": 963888,
+        "totalSize": 290877440,
+        "usedSize": 236298596
+      }
+    },
+    "after-rain-night-page": {
+      "samples": 10,
+      "usedSize": 379942604,
+      "backingStorageSize": 275574556,
+      "last": {
+        "case": "rain-night",
+        "time": 1794110566230,
+        "type": "page",
+        "backingStorageSize": 246394695,
+        "embedderHeapUsedSize": 37872576,
+        "totalSize": 430723072,
+        "usedSize": 358350808
+      }
+    },
+    "after-rain-night-worker": {
+      "samples": 10,
+      "usedSize": 423806356,
+      "backingStorageSize": 198395098,
+      "last": {
+        "case": "rain-night",
+        "time": 1794110566230,
+        "type": "worker",
+        "backingStorageSize": 117914982,
+        "embedderHeapUsedSize": 2040472,
+        "totalSize": 402071552,
+        "usedSize": 356893456
+      }
+    },
+    "final-cold-day-page": {
+      "samples": 8,
+      "usedSize": 396027336,
+      "backingStorageSize": 336599691,
+      "last": {
+        "case": "cold-day",
+        "time": 1794111380162,
+        "type": "page",
+        "backingStorageSize": 187916626,
+        "embedderHeapUsedSize": 22065592,
+        "totalSize": 400560128,
+        "usedSize": 335842756
+      }
+    },
+    "final-cold-day-worker": {
+      "samples": 8,
+      "usedSize": 419820328,
+      "backingStorageSize": 190777422,
+      "last": {
+        "case": "cold-day",
+        "time": 1794111380162,
+        "type": "worker",
+        "backingStorageSize": 84917794,
+        "embedderHeapUsedSize": 1478872,
+        "totalSize": 336801792,
+        "usedSize": 271023300
+      }
+    },
+    "final-warm-day-page": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "final-warm-day-worker": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "final-rain-night-page": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "final-rain-night-worker": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "candidate-cold-day-page": {
+      "samples": 8,
+      "usedSize": 380140276,
+      "backingStorageSize": 295244854,
+      "last": {
+        "case": "cold-day",
+        "time": 1794112078498,
+        "type": "page",
+        "backingStorageSize": 186620990,
+        "embedderHeapUsedSize": 21520712,
+        "totalSize": 410259456,
+        "usedSize": 341196212
+      }
+    },
+    "candidate-cold-day-worker": {
+      "samples": 8,
+      "usedSize": 397212336,
+      "backingStorageSize": 185195810,
+      "last": {
+        "case": "cold-day",
+        "time": 1794112078498,
+        "type": "worker",
+        "backingStorageSize": 106603742,
+        "embedderHeapUsedSize": 1689088,
+        "totalSize": 368521216,
+        "usedSize": 311002128
+      }
+    },
+    "candidate-warm-day-page": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "candidate-warm-day-worker": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "candidate-rain-night-page": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    },
+    "candidate-rain-night-worker": {
+      "samples": 0,
+      "usedSize": 0,
+      "backingStorageSize": 0
+    }
+  },
+  "release": {
+    "before-day": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 127662112,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    },
+    "before-rain": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 115406212,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    },
+    "after-day": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 158993100,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    },
+    "after-rain": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 158993100,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    },
+    "final-day": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 158964300,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    },
+    "candidate-day": {
+      "resourcesReleased": true,
+      "gpu": {
+        "bufferBytes": 0,
+        "bufferPeak": 158964300,
+        "buffers": 0
+      },
+      "roadBytes": 0,
+      "terrainBytes": 0,
+      "publications": 0,
+      "errors": []
+    }
+  }
+}

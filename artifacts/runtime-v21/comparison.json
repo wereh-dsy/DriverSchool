@@ -1,0 +1,1153 @@
+{
+  "before21": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 21689.20000000298,
+    "loadingFrames": {
+      "n": 1169,
+      "p50": 16.69999998807907,
+      "p95": 21.099999994039536,
+      "p99": 60.20000000298023,
+      "max": 410.90000000596046
+    },
+    "raf": {
+      "n": 3293,
+      "p50": 17.600000008940697,
+      "p95": 24.299999997019768,
+      "p99": 34,
+      "max": 68
+    },
+    "slow": {
+      "over33": 36,
+      "over50": 6,
+      "over100": 0
+    },
+    "calls": {
+      "n": 3293,
+      "p50": 653,
+      "p95": 943,
+      "p99": 975,
+      "max": 1035
+    },
+    "shadowCalls": {
+      "n": 3293,
+      "p50": 123,
+      "p95": 127,
+      "p99": 128,
+      "max": 128
+    },
+    "triangles": {
+      "n": 3293,
+      "p50": 610663,
+      "p95": 727759,
+      "p99": 838535,
+      "max": 890583
+    },
+    "gpu": {
+      "n": 54,
+      "p50": 11.947936,
+      "p95": 19.795904,
+      "p99": 20.589952,
+      "max": 20.589952
+    },
+    "heapPeakMiB": 552.4016675949097,
+    "glBufferMiB": 65.8165168762207,
+    "gl": {
+      "bufferBytes": 69012960,
+      "bufferPeak": 69013620,
+      "buffers": 12753
+    },
+    "cpu": {
+      "scene": {
+        "n": 3295,
+        "p50": 1.5,
+        "p95": 3,
+        "p99": 4,
+        "max": 14.599999994039536
+      },
+      "render": {
+        "n": 3295,
+        "p50": 12.399999991059303,
+        "p95": 17,
+        "p99": 21.200000002980232,
+        "max": 34.20000000298023
+      },
+      "all": {
+        "n": 3295,
+        "p50": 15.800000011920929,
+        "p95": 22,
+        "p99": 28.5,
+        "max": 60.900000005960464
+      }
+    },
+    "geometry": {
+      "n": 3295,
+      "p50": 2538,
+      "p95": 2611,
+      "p99": 2611,
+      "max": 2611
+    },
+    "textures": {
+      "n": 3295,
+      "p50": 88,
+      "p95": 94,
+      "p99": 94,
+      "max": 94
+    },
+    "programs": {
+      "n": 3295,
+      "p50": 77,
+      "p95": 78,
+      "p99": 78,
+      "max": 78
+    },
+    "world": {
+      "owners": 56,
+      "cells": 211,
+      "revision": 128,
+      "batching": {
+        "sources": 3687,
+        "batches": 2662,
+        "instances": 12680,
+        "vertices": 1830690
+      },
+      "resources": {
+        "hits": 73,
+        "misses": 2013,
+        "releases": 79,
+        "evictions": 0,
+        "entries": 2013,
+        "bytes": 69521016,
+        "idleBytes": 11162502,
+        "idleBudgetBytes": 12582912
+      }
+    },
+    "workerJobs": {
+      "completed": 460,
+      "cancelledQueued": 147,
+      "cancelledInFlight": 0,
+      "coalescedRequests": 20053,
+      "disposed": false
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "finalPhase": "return",
+      "maxSpeedKph": 89.13366374367514,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ]
+    },
+    "presentation": {
+      "origin": 1794843921096,
+      "states": 161,
+      "allFocused": true,
+      "batteryStates": [
+        "not recorded"
+      ],
+      "events": [],
+      "bounds": [
+        "1186x658@1.5"
+      ]
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 354.07164001464844,
+          "p95": 370.47675704956055,
+          "p99": 370.47675704956055,
+          "max": 370.47675704956055
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 139.8880157470703,
+          "p95": 159.99555587768555,
+          "p99": 159.99555587768555,
+          "max": 159.99555587768555
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 173.32841110229492,
+          "p95": 269.54524993896484,
+          "p99": 269.54524993896484,
+          "max": 269.54524993896484
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 19.838598251342773,
+          "p95": 47.86480903625488,
+          "p99": 47.86480903625488,
+          "max": 47.86480903625488
+        }
+      }
+    },
+    "lifecycle": {
+      "released": true,
+      "gl": 0,
+      "world": {
+        "hits": 73,
+        "misses": 2014,
+        "releases": 2018,
+        "evictions": 0,
+        "entries": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "recipeBytes": 0,
+      "errors": []
+    },
+    "errors": [],
+    "warmup": {
+      "roots": 280,
+      "completedRoots": 280,
+      "cancelledRoots": 0,
+      "activity": "等待 GPU 完成资源提交",
+      "objects": 3481,
+      "representatives": 1079,
+      "submissions": 122,
+      "maxSubmitMs": 14.599999994039536,
+      "cacheHits": 1551,
+      "resourceBatches": 746,
+      "maxResourceMs": 7.399999991059303,
+      "textureUploads": 89
+    },
+    "commonCpu": {
+      "fromMs": 0,
+      "all": {
+        "n": 3293,
+        "p50": 15.800000011920929,
+        "p95": 22,
+        "p99": 28.399999991059303,
+        "max": 43.099999994039536
+      },
+      "scene": {
+        "n": 3293,
+        "p50": 1.5,
+        "p95": 3,
+        "p99": 3.9000000059604645,
+        "max": 8.099999994039536
+      },
+      "render": {
+        "n": 3293,
+        "p50": 12.399999991059303,
+        "p95": 17,
+        "p99": 20.5,
+        "max": 33.099999994039536
+      },
+      "assets": {
+        "n": 3293,
+        "p50": 0,
+        "p95": 0.3999999910593033,
+        "p99": 1.2999999970197678,
+        "max": 3.7999999970197678
+      },
+      "background": {
+        "n": 3293,
+        "p50": 0,
+        "p95": 0.09999999403953552,
+        "p99": 0.19999998807907104,
+        "max": 4.699999988079071
+      },
+      "maintenance": {
+        "n": 3293,
+        "p50": 0,
+        "p95": 0.09999999403953552,
+        "p99": 0.20000000298023224,
+        "max": 0.5
+      }
+    }
+  },
+  "after21": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 24650.30000001192,
+    "loadingFrames": {
+      "n": 1376,
+      "p50": 16.69999998807907,
+      "p95": 20,
+      "p99": 42.29999999701977,
+      "max": 1032.9000000059605
+    },
+    "raf": {
+      "n": 3375,
+      "p50": 17.399999991059303,
+      "p95": 22.30000001192093,
+      "p99": 28.599999994039536,
+      "max": 92.69999998807907
+    },
+    "slow": {
+      "over33": 25,
+      "over50": 8,
+      "over100": 0
+    },
+    "calls": {
+      "n": 3375,
+      "p50": 651,
+      "p95": 937,
+      "p99": 969,
+      "max": 1029
+    },
+    "shadowCalls": {
+      "n": 3375,
+      "p50": 122,
+      "p95": 126,
+      "p99": 127,
+      "max": 130
+    },
+    "triangles": {
+      "n": 3375,
+      "p50": 611570,
+      "p95": 738014,
+      "p99": 837780,
+      "max": 863299
+    },
+    "gpu": {
+      "n": 55,
+      "p50": 10.67184,
+      "p95": 17.82048,
+      "p99": 27.748256,
+      "max": 27.748256
+    },
+    "heapPeakMiB": 954.8559093475342,
+    "glBufferMiB": 47.62631607055664,
+    "gl": {
+      "bufferBytes": 49939812,
+      "bufferPeak": 49939812,
+      "buffers": 6345
+    },
+    "cpu": {
+      "scene": {
+        "n": 3377,
+        "p50": 1.2000000029802322,
+        "p95": 2.5999999940395355,
+        "p99": 3.5,
+        "max": 15.400000005960464
+      },
+      "render": {
+        "n": 3377,
+        "p50": 12.299999997019768,
+        "p95": 16.299999997019768,
+        "p99": 17.899999991059303,
+        "max": 83.30000001192093
+      },
+      "all": {
+        "n": 3377,
+        "p50": 15.700000002980232,
+        "p95": 20.200000002980232,
+        "p99": 23.299999997019768,
+        "max": 91.70000000298023
+      }
+    },
+    "geometry": {
+      "n": 3377,
+      "p50": 2095,
+      "p95": 2172,
+      "p99": 2172,
+      "max": 2204
+    },
+    "textures": {
+      "n": 3377,
+      "p50": 89,
+      "p95": 95,
+      "p99": 95,
+      "max": 102
+    },
+    "programs": {
+      "n": 3377,
+      "p50": 82,
+      "p95": 82,
+      "p99": 82,
+      "max": 82
+    },
+    "world": {
+      "owners": 57,
+      "cells": 165,
+      "revision": 127,
+      "batching": {
+        "sources": 3373,
+        "batches": 2282,
+        "instances": 12730,
+        "vertices": 1426710
+      },
+      "resources": {
+        "hits": 74,
+        "misses": 1604,
+        "releases": 66,
+        "evictions": 0,
+        "entries": 1604,
+        "buffers": 3185,
+        "bytes": 50629596,
+        "idleBytes": 3921170,
+        "idleBudgetBytes": 12582912
+      }
+    },
+    "models": {
+      "templates": 36,
+      "proxies": {
+        "sourceTriangles": 1164,
+        "proxyTriangles": 956,
+        "reusedSource": 48
+      },
+      "preparation": {
+        "completed": 118,
+        "total": 118,
+        "ready": true
+      }
+    },
+    "workerJobs": {
+      "completed": 415,
+      "cancelledQueued": 114,
+      "cancelledInFlight": 1,
+      "coalescedRequests": 19976,
+      "disposed": false
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "finalPhase": "return",
+      "maxSpeedKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ]
+    },
+    "presentation": {
+      "origin": 1794844005454.2,
+      "states": 167,
+      "allFocused": true,
+      "batteryStates": [
+        "not recorded"
+      ],
+      "events": [],
+      "bounds": [
+        "1186x658@1.5"
+      ]
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 9,
+          "p50": 630.6357841491699,
+          "p95": 718.947078704834,
+          "p99": 718.947078704834,
+          "max": 718.947078704834
+        },
+        "backingMiB": {
+          "n": 9,
+          "p50": 148.12852573394775,
+          "p95": 215.36294555664062,
+          "p99": 215.36294555664062,
+          "max": 215.36294555664062
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 9,
+          "p50": 166.39129257202148,
+          "p95": 249.13603591918945,
+          "p99": 249.13603591918945,
+          "max": 249.13603591918945
+        },
+        "backingMiB": {
+          "n": 9,
+          "p50": 23.893367767333984,
+          "p95": 44.84216785430908,
+          "p99": 44.84216785430908,
+          "max": 44.84216785430908
+        }
+      }
+    },
+    "lifecycle": {
+      "released": true,
+      "gl": 0,
+      "world": {
+        "hits": 74,
+        "misses": 1605,
+        "releases": 1609,
+        "evictions": 0,
+        "entries": 0,
+        "buffers": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "recipeBytes": 0,
+      "errors": []
+    },
+    "errors": [],
+    "warmup": {
+      "roots": 270,
+      "completedRoots": 268,
+      "cancelledRoots": 1,
+      "activity": "几何与绘制资源 · 28 / 93",
+      "objects": 3163,
+      "representatives": 1112,
+      "submissions": 125,
+      "maxSubmitMs": 16.19999998807907,
+      "cacheHits": 1564,
+      "resourceBatches": 966,
+      "maxResourceMs": 6.899999991059303,
+      "textureUploads": 96
+    },
+    "commonCpu": {
+      "fromMs": 0,
+      "all": {
+        "n": 3375,
+        "p50": 15.700000002980232,
+        "p95": 20.200000002980232,
+        "p99": 23.200000002980232,
+        "max": 91.70000000298023
+      },
+      "scene": {
+        "n": 3375,
+        "p50": 1.2000000029802322,
+        "p95": 2.5999999940395355,
+        "p99": 3.5,
+        "max": 5.800000011920929
+      },
+      "render": {
+        "n": 3375,
+        "p50": 12.299999997019768,
+        "p95": 16.200000002980232,
+        "p99": 17.899999991059303,
+        "max": 83.30000001192093
+      },
+      "assets": {
+        "n": 3375,
+        "p50": 0,
+        "p95": 0.5,
+        "p99": 2,
+        "max": 3
+      },
+      "background": {
+        "n": 3375,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0.10000000894069672,
+        "max": 0.699999988079071
+      },
+      "maintenance": {
+        "n": 3375,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0.19999998807907104,
+        "max": 0.30000001192092896
+      }
+    }
+  },
+  "final21": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 24894.20000000298,
+    "loadingFrames": {
+      "n": 1316,
+      "p50": 16.600000008940697,
+      "p95": 20.5,
+      "p99": 46.1000000089407,
+      "max": 1183.2000000029802
+    },
+    "raf": {
+      "n": 3066,
+      "p50": 17.299999997019768,
+      "p95": 23.5,
+      "p99": 27.799999997019768,
+      "max": 5032.4000000059605
+    },
+    "slow": {
+      "over33": 13,
+      "over50": 5,
+      "over100": 1
+    },
+    "calls": {
+      "n": 3066,
+      "p50": 648,
+      "p95": 937,
+      "p99": 958,
+      "max": 1032
+    },
+    "shadowCalls": {
+      "n": 3066,
+      "p50": 123,
+      "p95": 126,
+      "p99": 127,
+      "max": 129
+    },
+    "triangles": {
+      "n": 3066,
+      "p50": 615712,
+      "p95": 740606,
+      "p99": 755904,
+      "max": 782133
+    },
+    "gpu": {
+      "n": 51,
+      "p50": 10.959552,
+      "p95": 17.138336,
+      "p99": 114.234304,
+      "max": 114.234304
+    },
+    "heapPeakMiB": 538.7561416625977,
+    "glBufferMiB": 44.48720741271973,
+    "gl": {
+      "bufferBytes": 46648218,
+      "bufferPeak": 46648218,
+      "buffers": 7877
+    },
+    "cpu": {
+      "scene": {
+        "n": 3068,
+        "p50": 1.2000000029802322,
+        "p95": 2.699999988079071,
+        "p99": 3.7000000029802322,
+        "max": 14.899999991059303
+      },
+      "render": {
+        "n": 3068,
+        "p50": 12.099999994039536,
+        "p95": 17.700000002980232,
+        "p99": 19.600000008940697,
+        "max": 36.80000001192093
+      },
+      "all": {
+        "n": 3068,
+        "p50": 15.5,
+        "p95": 21.799999997019768,
+        "p99": 24.899999991059303,
+        "max": 72.70000000298023
+      }
+    },
+    "geometry": {
+      "n": 3068,
+      "p50": 2091,
+      "p95": 2154,
+      "p99": 2156,
+      "max": 2156
+    },
+    "textures": {
+      "n": 3068,
+      "p50": 89,
+      "p95": 94,
+      "p99": 94,
+      "max": 94
+    },
+    "programs": {
+      "n": 3068,
+      "p50": 82,
+      "p95": 82,
+      "p99": 82,
+      "max": 82
+    },
+    "world": {
+      "owners": 60,
+      "cells": 168,
+      "revision": 114,
+      "batching": {
+        "sources": 3258,
+        "batches": 2233,
+        "instances": 10444,
+        "vertices": 1267410
+      },
+      "resources": {
+        "hits": 74,
+        "misses": 1578,
+        "releases": 47,
+        "evictions": 0,
+        "entries": 1578,
+        "buffers": 4712,
+        "bytes": 44185446,
+        "idleBytes": 3277220,
+        "idleBudgetBytes": 12582912
+      }
+    },
+    "models": {
+      "templates": 36,
+      "proxies": {
+        "sourceTriangles": 1164,
+        "proxyTriangles": 956,
+        "reusedSource": 48
+      },
+      "preparation": {
+        "completed": 118,
+        "total": 118,
+        "ready": true
+      }
+    },
+    "workerJobs": {
+      "completed": 346,
+      "cancelledQueued": 113,
+      "cancelledInFlight": 1,
+      "coalescedRequests": 9462,
+      "disposed": false
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "finalPhase": "return",
+      "maxSpeedKph": 89.13366374367514,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ]
+    },
+    "presentation": {
+      "origin": 1794844809043.2,
+      "states": 168,
+      "allFocused": false,
+      "batteryStates": [
+        true
+      ],
+      "events": [
+        {
+          "variant": "final21",
+          "event": "blur",
+          "time": 1794844843265
+        }
+      ],
+      "bounds": [
+        "1186x658@1.5"
+      ]
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 337.26883697509766,
+          "p95": 355.1475410461426,
+          "p99": 355.1475410461426,
+          "max": 355.1475410461426
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 107.60520935058594,
+          "p95": 127.78982639312744,
+          "p99": 127.78982639312744,
+          "max": 127.78982639312744
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 154.27055740356445,
+          "p95": 277.3802947998047,
+          "p99": 277.3802947998047,
+          "max": 277.3802947998047
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 10.588229179382324,
+          "p95": 46.885172843933105,
+          "p99": 46.885172843933105,
+          "max": 46.885172843933105
+        }
+      }
+    },
+    "lifecycle": {
+      "released": true,
+      "gl": 0,
+      "world": {
+        "hits": 74,
+        "misses": 1578,
+        "releases": 1582,
+        "evictions": 0,
+        "entries": 0,
+        "buffers": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "recipeBytes": 0,
+      "errors": []
+    },
+    "errors": [],
+    "warmup": {
+      "roots": 249,
+      "completedRoots": 242,
+      "cancelledRoots": 0,
+      "activity": "几何与绘制资源 · 0 / 2",
+      "objects": 3028,
+      "representatives": 1034,
+      "submissions": 116,
+      "maxSubmitMs": 14,
+      "cacheHits": 1468,
+      "resourceBatches": 897,
+      "maxResourceMs": 5.9000000059604645,
+      "textureUploads": 88
+    },
+    "commonCpu": {
+      "fromMs": 0,
+      "all": {
+        "n": 3108,
+        "p50": 15.5,
+        "p95": 21.700000002980232,
+        "p99": 24.799999997019768,
+        "max": 72.70000000298023
+      },
+      "scene": {
+        "n": 3108,
+        "p50": 1.2000000029802322,
+        "p95": 2.699999988079071,
+        "p99": 3.7000000029802322,
+        "max": 6.200000002980232
+      },
+      "render": {
+        "n": 3108,
+        "p50": 12,
+        "p95": 17.69999998807907,
+        "p99": 19.599999994039536,
+        "max": 36.80000001192093
+      },
+      "assets": {
+        "n": 3108,
+        "p50": 0,
+        "p95": 0.3999999910593033,
+        "p99": 2.1000000089406967,
+        "max": 3.1000000089406967
+      },
+      "background": {
+        "n": 3108,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0.10000000894069672,
+        "max": 0.6000000089406967
+      },
+      "maintenance": {
+        "n": 3108,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0.10000000894069672,
+        "max": 0.4000000059604645
+      }
+    }
+  },
+  "verified21": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 20024.40000000596,
+    "loadingFrames": {
+      "n": 1112,
+      "p50": 16.69999998807907,
+      "p95": 20.099999994039536,
+      "p99": 38.79999999701977,
+      "max": 411.40000000596046
+    },
+    "raf": {
+      "n": 3548,
+      "p50": 16.700000002980232,
+      "p95": 21.099999994039536,
+      "p99": 27.400000005960464,
+      "max": 61.20000000298023
+    },
+    "slow": {
+      "over33": 15,
+      "over50": 2,
+      "over100": 0
+    },
+    "calls": {
+      "n": 3548,
+      "p50": 652,
+      "p95": 1042,
+      "p99": 1071,
+      "max": 1075
+    },
+    "shadowCalls": {
+      "n": 3548,
+      "p50": 122,
+      "p95": 126,
+      "p99": 128,
+      "max": 130
+    },
+    "triangles": {
+      "n": 3548,
+      "p50": 625565,
+      "p95": 774451,
+      "p99": 838316,
+      "max": 863945
+    },
+    "gpu": {
+      "n": 58,
+      "p50": 11.00288,
+      "p95": 15.216064,
+      "p99": 17.659296,
+      "max": 17.659296
+    },
+    "heapPeakMiB": 542.6445426940918,
+    "glBufferMiB": 58.65006637573242,
+    "gl": {
+      "bufferBytes": 61499052,
+      "bufferPeak": 61499052,
+      "buffers": 9540
+    },
+    "cpu": {
+      "scene": {
+        "n": 3550,
+        "p50": 1,
+        "p95": 2,
+        "p99": 2.9000000059604645,
+        "max": 12.799999997019768
+      },
+      "render": {
+        "n": 3550,
+        "p50": 8.200000002980232,
+        "p95": 13.599999994039536,
+        "p99": 16.399999991059303,
+        "max": 34.900000005960464
+      },
+      "all": {
+        "n": 3550,
+        "p50": 11.299999997019768,
+        "p95": 17.5,
+        "p99": 21.30000001192093,
+        "max": 54.79999999701977
+      }
+    },
+    "geometry": {
+      "n": 3550,
+      "p50": 2094,
+      "p95": 2527,
+      "p99": 2527,
+      "max": 2527
+    },
+    "textures": {
+      "n": 3550,
+      "p50": 89,
+      "p95": 148,
+      "p99": 148,
+      "max": 148
+    },
+    "programs": {
+      "n": 3550,
+      "p50": 82,
+      "p95": 82,
+      "p99": 82,
+      "max": 82
+    },
+    "world": {
+      "owners": 56,
+      "cells": 184,
+      "revision": 128,
+      "batching": {
+        "sources": 4489,
+        "batches": 2523,
+        "instances": 17867,
+        "vertices": 1897946
+      },
+      "resources": {
+        "hits": 83,
+        "misses": 1680,
+        "releases": 115,
+        "evictions": 37,
+        "entries": 1643,
+        "buffers": 4912,
+        "bytes": 65232814,
+        "idleBytes": 12077618,
+        "idleBudgetBytes": 12582912
+      }
+    },
+    "models": {
+      "templates": 36,
+      "proxies": {
+        "sourceTriangles": 1164,
+        "proxyTriangles": 956,
+        "reusedSource": 48
+      },
+      "preparation": {
+        "completed": 118,
+        "total": 118,
+        "ready": true
+      }
+    },
+    "workerJobs": {
+      "completed": 502,
+      "cancelledQueued": 98,
+      "cancelledInFlight": 1,
+      "coalescedRequests": 27447,
+      "disposed": false
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "finalPhase": "return",
+      "maxSpeedKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ]
+    },
+    "presentation": {
+      "origin": 1794845175713.3,
+      "states": 158,
+      "allFocused": true,
+      "batteryStates": [
+        true
+      ],
+      "events": [],
+      "bounds": [
+        "1186x658@1.5"
+      ]
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 339.6035385131836,
+          "p95": 349.83288955688477,
+          "p99": 349.83288955688477,
+          "max": 349.83288955688477
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 121.5697431564331,
+          "p95": 166.11230373382568,
+          "p99": 166.11230373382568,
+          "max": 166.11230373382568
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 203.89782333374023,
+          "p95": 260.2638740539551,
+          "p99": 260.2638740539551,
+          "max": 260.2638740539551
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 22.76231288909912,
+          "p95": 47.00765132904053,
+          "p99": 47.00765132904053,
+          "max": 47.00765132904053
+        }
+      }
+    },
+    "lifecycle": {
+      "released": true,
+      "gl": 0,
+      "world": {
+        "hits": 87,
+        "misses": 1685,
+        "releases": 1698,
+        "evictions": 37,
+        "entries": 0,
+        "buffers": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "recipeBytes": 0,
+      "errors": []
+    },
+    "errors": [],
+    "warmup": {
+      "roots": 292,
+      "completedRoots": 286,
+      "cancelledRoots": 6,
+      "activity": "等待 GPU 完成资源提交",
+      "objects": 3962,
+      "representatives": 1486,
+      "submissions": 176,
+      "maxSubmitMs": 13.5,
+      "cacheHits": 1864,
+      "resourceBatches": 1370,
+      "maxResourceMs": 6.4000000059604645,
+      "textureUploads": 142
+    },
+    "commonCpu": {
+      "fromMs": 0,
+      "all": {
+        "n": 3549,
+        "p50": 11.299999997019768,
+        "p95": 17.400000005960464,
+        "p99": 21.299999997019768,
+        "max": 54.79999999701977
+      },
+      "scene": {
+        "n": 3549,
+        "p50": 1,
+        "p95": 2,
+        "p99": 2.8999999910593033,
+        "max": 12.799999997019768
+      },
+      "render": {
+        "n": 3549,
+        "p50": 8.200000002980232,
+        "p95": 13.599999994039536,
+        "p99": 16.399999991059303,
+        "max": 20.69999998807907
+      },
+      "assets": {
+        "n": 3549,
+        "p50": 0,
+        "p95": 0.4000000059604645,
+        "p99": 2.4000000059604645,
+        "max": 3
+      },
+      "background": {
+        "n": 3549,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0.10000000894069672,
+        "max": 0.5000000149011612
+      },
+      "maintenance": {
+        "n": 3549,
+        "p50": 0,
+        "p95": 0.09999999403953552,
+        "p99": 0.20000000298023224,
+        "max": 0.4000000059604645
+      }
+    }
+  }
+}

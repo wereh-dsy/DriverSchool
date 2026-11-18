@@ -25,11 +25,12 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
   private lastTick=-1;
   constructor(private readonly map:CityMapData) {
     super(map.intersections.length,map.intersections.map(j=>j.signals?.offsetSeconds??0),{greenSeconds:25,amberSeconds:3,allRedSeconds:2});
+    const roads = new Map(map.roads.map(road => [road.id, road]));
     for(const [index,j] of map.intersections.entries()) {
       this.indices.set(j.id,index);if(!j.signalized)continue;
       const lanes:Lane[]=[];
       for(const c of j.connections) {
-        const r=map.roads.find(r=>r.id===c.roadId)!;
+        const r=roads.get(c.roadId)!;
         if(r.travelDirection!=='two-way'&&(r.travelDirection==='forward')!==(c.end==='end'))continue;
         const count=r.travelDirection==='two-way'?r.laneCount/2:r.laneCount;
         for(let lane=0;lane<count;lane++) {

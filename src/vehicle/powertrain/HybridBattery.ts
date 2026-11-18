@@ -1,4 +1,4 @@
-import type { P2HybridConfig } from '../config/P2HybridConfig';
+import type { HybridBatteryConfig } from '../config/HybridBatteryConfig';
 import { BatteryPack } from './BatteryPack';
 import { clamp } from '../physics/math';
 
@@ -11,7 +11,7 @@ export class HybridBattery extends BatteryPack {
   public chargerLossKWh = 0;
   public terminalPowerW = 0;
   private requestedPower = 0;
-  public constructor(private readonly hybrid: P2HybridConfig, ambient = 20) { super(hybrid.battery, ambient); }
+  public constructor(private readonly hybrid: HybridBatteryConfig, ambient = 20) { super(hybrid.battery, ambient); }
   public connect(type: 'AC' | 'DC', requestedPower?: number): void {
     this.connector = type;
     this.requestedPower = Math.max(0, requestedPower ?? (type === 'AC' ? this.hybrid.charging.acPower : this.hybrid.charging.dcPower));

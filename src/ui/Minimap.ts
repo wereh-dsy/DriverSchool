@@ -19,6 +19,7 @@ export class Minimap {
   private readonly roadLayer = document.createElement('canvas');
   private readonly drawing: CanvasRenderingContext2D | null;
   private network: RoadNetworkData | undefined;
+  private roadLayerDirty=false;
   private position: MinimapPosition = 'top-right';
   private elapsed = Infinity;
   private readonly size = 208;
@@ -47,8 +48,14 @@ export class Minimap {
 
   public setNetwork(network: RoadNetworkData | undefined): void {
     this.network = network;
+    this.roadLayerDirty=true;
     this.elapsed = Infinity;
     this.refreshVisibility();
+  }
+
+  private prepareRoadLayer():void {
+    if(!this.roadLayerDirty)return;this.roadLayerDirty=false;
+    const network=this.network;
     const ctx = this.roadLayer.getContext('2d');
     if (!ctx) return;
     ctx.setTransform(2, 0, 0, 2, 0, 0);
@@ -67,6 +74,7 @@ export class Minimap {
     const ctx = this.drawing;
     ctx.clearRect(0, 0, this.size, this.size);
     if(this.localMap){this.localMap.draw(ctx,{x:0,y:0,width:this.size,height:this.size},x,z,yaw,650,'rgba(14,20,24,.72)');return;}
+    this.prepareRoadLayer();
     ctx.drawImage(this.roadLayer, 0, 0, this.size, this.size);
     const point = this.mapPoint(x, z);
     ctx.save();

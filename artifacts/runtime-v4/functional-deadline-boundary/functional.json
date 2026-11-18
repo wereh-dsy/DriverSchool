@@ -1,0 +1,159 @@
+{
+  "stage": "loading",
+  "elapsed": 153333.10000002384,
+  "loading": {
+    "phase": "warmingRenderer",
+    "message": "正在准备独立渲染线程",
+    "progress": {
+      "phase": "出生区域加载",
+      "resource": "区域装配与发布",
+      "percent": 38,
+      "completed": 55,
+      "total": 180,
+      "elapsedMs": 111804.10000002384,
+      "status": "running",
+      "attempt": 1
+    }
+  },
+  "renderer": {
+    "owner": "RendererWorker",
+    "webgl2": true,
+    "ready": true,
+    "frames": 10475,
+    "sequence": 1385,
+    "overlayVisible": true,
+    "mirrors": {
+      "left": true,
+      "right": true
+    },
+    "shadow": true,
+    "debugText": "",
+    "info": {
+      "render": {
+        "frame": 12170,
+        "calls": 233,
+        "triangles": 73136,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1422,
+        "textures": 15
+      },
+      "programs": 32
+    },
+    "renderGraph": {
+      "backend": "webgl2",
+      "frames": 10475,
+      "passes": [
+        {
+          "name": "world.visibility",
+          "after": [],
+          "cpuMs": 0.19999998807907104
+        },
+        {
+          "name": "additional.views",
+          "after": [
+            "world.visibility"
+          ],
+          "cpuMs": 0
+        },
+        {
+          "name": "main.composite",
+          "after": [
+            "additional.views"
+          ],
+          "cpuMs": 2.5999999940395355
+        },
+        {
+          "name": "hud.composite",
+          "after": [
+            "main.composite"
+          ],
+          "cpuMs": 0
+        }
+      ],
+      "fusedStages": [
+        "sky/weather",
+        "opaque world",
+        "transparent",
+        "3D cockpit"
+      ],
+      "shadowCpuMs": 0.5999999940395355,
+      "draws": {
+        "main": 129,
+        "additional": 0,
+        "shadow": 104,
+        "skyWeather": 0,
+        "transparent": 13,
+        "cockpit": 52,
+        "overlay": 0
+      },
+      "residency": {
+        "geometry": 1280,
+        "instances": 165,
+        "texture": 8,
+        "target": 3,
+        "registered": 1456,
+        "prepared": 1450,
+        "released": 1,
+        "cpuBackingBytes": 6242274,
+        "gpuBytes": null,
+        "gpuBytesLimitation": "WebGL does not expose driver residency; use allocation instrumentation for GL buffers"
+      },
+      "multiDrawAvailable": true,
+      "multiDrawUsed": false,
+      "offscreenAvailable": true,
+      "offscreen": true
+    },
+    "world": {
+      "sector": "4,2",
+      "active": 0,
+      "publishing": 56,
+      "retiring": 0,
+      "roads": 4524804,
+      "terrain": 10085164,
+      "backgroundPages": 0,
+      "worker": {
+        "queued": 0
+      },
+      "incompleteVisible": 0,
+      "decorationJobs": 0,
+      "releasing": 0
+    },
+    "performance": {
+      "time": 152876.1,
+      "rafMs": 14.300000000017462,
+      "cpuMs": 2.800000011920929,
+      "simulation": 0,
+      "scene": 0.5999999940395355,
+      "render": 2.2000000178813934,
+      "streaming": 0,
+      "assets": 0,
+      "background": 0,
+      "maintenance": 0,
+      "steps": 0,
+      "debtMs": 0,
+      "surrenderedMs": 0,
+      "simulationSeconds": 0,
+      "queued": 0,
+      "calls": 233,
+      "triangles": 73136,
+      "viewCalls": 233,
+      "shadowCalls": 104,
+      "backgroundCalls": 0,
+      "visibleObjects": 162,
+      "geometries": 1422,
+      "textures": 15,
+      "programs": 32,
+      "heapBytes": null
+    }
+  },
+  "contexts": [
+    {
+      "kind": "webgl2",
+      "time": 474.7000000178814
+    }
+  ],
+  "errors": []
+}

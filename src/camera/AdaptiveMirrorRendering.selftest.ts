@@ -11,9 +11,15 @@ export function runAdaptiveMirrorSelfTest() {
     rightSignal: false, selector: 'D', parking: false, steering: 0, lateralActive: false, laneChange: false, junction: false, preview: null };
   const policy = new AdaptiveMirrorRendering(), counts = [0, 0, 0];
   for (let i = 0; i < 600; i++) { const mask = policy.update(1 / 120, c, 5); if (i >= 120) for (let j = 0; j < 3; j++) if (mask & 1 << j) counts[j] = counts[j]! + 1; }
-  check(counts[0] === 480 && counts[1] === 0 && counts[2] === 480, 'visible mirrors render every frame; invisible right view skipped');
+  check(counts[0] === 240 && counts[1] === 0 && counts[2] === 240, 'unfocused visible mirrors stay live at 60 Hz on a 120 Hz display; invisible right view skipped');
+  const focused=new AdaptiveMirrorRendering();let focusedCount=0;
+  for(let i=0;i<120;i++)if(focused.update(1/120,{...c,rightSignal:true},2)&2)focusedCount++;
+  check(focusedCount===120,'observed/requested side retains the complete display cadence');
+  const sixty=new AdaptiveMirrorRendering();let sixtyCount=0;
+  for(let i=0;i<60;i++)if(sixty.update(1/60,c,1)&1)sixtyCount++;
+  check(sixtyCount===60,'ordinary 60 Hz displays retain every visible frame');
   check(!policy.showRightOverlay, 'neutral highway hides dedicated right overlay');
-  check(policy.update(0, c, 7) === 7, 'a mirror entering view renders immediately, even with zero elapsed time');
+  check(!!(policy.update(0, c, 7)&2), 'a mirror entering view renders immediately, even with zero elapsed time');
   c.rightSignal = true; check(!!(policy.update(0, c) & 2), 'right signal immediately refreshes');
   check(!policy.showRightOverlay && !!(policy.update(0, c, 0) & 2), 'right signal restores entity mirror without high-speed overlay');
   c.rightSignal = false; policy.update(0, c); c.headTargetYaw = -.35; check(!!(policy.update(0, c) & 2), 'target head movement refreshes before smoothing');
@@ -43,7 +49,8 @@ export function runAdaptiveMirrorSelfTest() {
   const mirrors = new MirrorSystem(renderer, new Scene(), { driverCamera: driver, vehicleRoot: vehicle,
     mirrors: { left: { position: [-.4, 1, -1], size: [.3, .2] }, right: { position: [.4, 1, -1], size: [.3, .2] } } });
   c.lateralActive = false; mirrors.renderAdaptive(0, c); check(passes === 2, 'initial textures rendered');
-  mirrors.renderAdaptive(0, c); check(passes === 4, 'visible mirrors render again without a frequency timer');
+  mirrors.renderAdaptive(0, c); check(passes === 2, 'unchanged time reuses live images without duplicate passes');
+  mirrors.renderAdaptive(1/60, c); check(passes === 4, 'visible mirrors refresh at the next 60 Hz deadline');
   const left = mirrors.getView('left').textureMatrix.clone(); driver.setDriverEyePosition([.05, 1, 0]); c.rightSignal = true;
   driver.setHeadLook(-1.4, 0); c.headYaw = c.headTargetYaw = -1.4;
   driver.update(vehicle);

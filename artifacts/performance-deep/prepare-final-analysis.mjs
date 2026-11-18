@@ -1,0 +1,1 @@
+import fs from'node:fs';let s=fs.readFileSync('artifacts/performance-deep/analyze-native.mjs','utf8').replace("['native-before','native-after']","['native-before','native-final']").replace('native-comparison.json','final-comparison.json');fs.writeFileSync('artifacts/performance-deep/analyze-final.mjs',s);

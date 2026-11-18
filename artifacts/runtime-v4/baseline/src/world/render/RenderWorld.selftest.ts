@@ -1,0 +1,41 @@
+import {BoxGeometry,Group,Matrix4,Mesh,MeshStandardMaterial,PerspectiveCamera,Scene,Vector3,WebGLRenderTarget,type WebGLRenderer} from 'three';
+import {drain} from '../../loading/Loading';
+import {RenderWorld} from './RenderWorld';
+import {GPUResourceResidency} from './GPUResourceResidency';
+import {WorldRenderGraph} from '../../game/runtime/WorldRenderGraph';
+import type {DrivingGround} from '../DrivingGround';
+
+export function runRenderWorldSelfTest(){
+  let assertions=0;const check=(ok:boolean,message:string)=>{assertions++;if(!ok)throw Error('RenderWorld: '+message);};
+  const world=new RenderWorld(),root=new Group(),geometry=new BoxGeometry(5,5,5),material=new MeshStandardMaterial();
+  const front=new Mesh(geometry,material),back=new Mesh(geometry,material);front.position.z=-1200;back.position.z=1200;front.castShadow=back.castShadow=true;root.add(front,back);root.updateMatrixWorld(true);
+  drain(world.registerSteps(root,[front,back]));const eye=new Vector3(),camera=new PerspectiveCamera(60,1,.1,3000),mirror=new PerspectiveCamera(60,1,.1,3000);mirror.lookAt(0,0,1);
+  world.configure(eye,2500,[camera,mirror],[camera]);world.visit(root);world.finish();
+  check(world.ready&&world.state.records===2,'published numeric records are acknowledged');
+  world.beforeView(camera);check(front.visible&&!back.visible,'main packet has its independent frustum');
+  world.beforeView(mirror);check(!front.visible&&back.visible,'mirror packet does not borrow main visibility');
+  world.beforeView(camera,true);check(front.visible&&!back.visible&&front.frustumCulled,'shadow packet restores exact backend shadow culling');
+  world.beforeView(camera);check(!front.frustumCulled,'main adapter does not repeat Worker mesh frustum tests');
+  world.beforeView(new PerspectiveCamera());check(front.visible&&back.visible&&front.frustumCulled,'unregistered additional camera uses conservative visibility and exact backend culling');world.beforeView(camera);
+  const added=new Mesh(geometry,material);added.position.z=-1250;root.add(added);root.updateMatrixWorld(true);drain(world.registerSteps(root,[added]));world.beforeView(camera);
+  check(added.visible,'unacknowledged additions stay visible rather than disappearing behind an old packet');
+  world.release(front);root.remove(front);const replacement=new Mesh(geometry,material);replacement.position.z=1300;root.add(replacement);root.updateMatrixWorld(true);drain(world.registerSteps(root,[replacement]));world.beforeView(camera);
+  check(replacement.visible,'reused slot does not apply its old generation visibility');
+  world.configure(eye,2500,[camera,mirror],[camera]);world.visit(root);world.finish();world.beforeView(camera);
+  check(!replacement.visible&&added.visible,'replacement is culled only after its own snapshot is acknowledged');
+  world.updateTransform(replacement,new Matrix4().makeTranslation(0,0,-1000));world.beforeView(camera);
+  check(replacement.matrixWorld.elements[14]===-1000,'backend matrix comes from the numeric transform database');
+  world.configure(eye,2500,[camera]);world.visit(root);world.finish();world.beforeView(camera);check(replacement.visible,'local transform update patches Worker bounds without rebuilding the world');
+  const proxy=new BoxGeometry(5,5,5),lodMesh=new Mesh(geometry,material);lodMesh.position.z=-1200;lodMesh.userData.worldLODGeometries=[geometry,proxy,proxy];root.add(lodMesh);root.updateMatrixWorld(true);drain(world.registerSteps(root,[lodMesh]));world.configure(eye,2500,[camera]);world.visit(root);world.finish();world.beforeView(camera);
+  check(lodMesh.geometry===proxy,'Worker LOD selection changes to a prepared geometry only');
+  world.release(lodMesh);check(lodMesh.geometry===geometry,'release restores borrowed geometry ownership');
+  world.dispose();check(world.state.records===0&&world.state.cpuBytes===0,'world teardown releases databases and adapters');
+  const ledger=new GPUResourceResidency();ledger.geometry(geometry);ledger.geometry(geometry);check(ledger.state.geometry===1,'shared geometry has one residency handle');
+  const target=new WebGLRenderTarget(4,4);ledger.target(target);check(ledger.state.target===1&&ledger.state.texture===1,'targets and their texture resources are registered');target.dispose();check(ledger.state.target===0&&ledger.state.texture===0,'target destruction releases borrowed texture metadata');ledger.dispose();
+  const scene=new Scene(),trace:string[]=[],ground={prepareRenderView:(_camera:unknown,shadow:boolean)=>trace.push(shadow?'shadow.select':'view.select')} as unknown as DrivingGround;
+  const renderer={shadowMap:{enabled:true,autoUpdate:true,needsUpdate:false,render:()=>{trace.push('shadow.draw');}},getRenderTarget:()=>null,setOpaqueSort:()=>{},renderBufferDirect:()=>{},render:()=>{(renderer as unknown as WebGLRenderer).shadowMap.render([],scene,camera);trace.push('main.draw');}} as unknown as WebGLRenderer;
+  const original=renderer.render,graph=new WorldRenderGraph(renderer,scene,()=>ground);graph.add('visibility',[],()=>trace.push('visibility'));graph.add('main',['visibility'],()=>renderer.render(scene,camera));graph.execute();
+  check(trace.join(',')==='visibility,view.select,shadow.select,shadow.draw,view.select,main.draw','graph controls real view/shadow ordering and restores the main packet');
+  let rejected=false;try{graph.add('invalid',['missing'],()=>{});}catch{rejected=true;}check(rejected,'invalid pass dependencies are rejected');graph.dispose();check(renderer.render===original,'backend hooks are restored without stacking renderers');
+  geometry.dispose();proxy.dispose();material.dispose();return{passed:true,assertions};
+}

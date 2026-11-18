@@ -1,0 +1,242 @@
+{
+  "saved": "D:\\dsy\\drivergame\\artifacts\\road-geometry-round6\\scenery-after.json",
+  "id": "preview-1",
+  "revision": 0,
+  "label": "Agent edit",
+  "created": [],
+  "modified": [
+    "urban-junction-167",
+    "v91-ring-west-outer-junction",
+    "v6-road-trees-417",
+    "regional:extension-tree:G65:460:1",
+    "v5-west-lane-split-m91",
+    "v8-hankou-road-split-2-c91",
+    "v5-west-lane-split-split-m91",
+    "v8-hankou-road-split-c91",
+    "urban-junction-174",
+    "v4-west-split-split-4-m91",
+    "v4-west-split-split-4-split-m91",
+    "urban-junction-176",
+    "v8-shanghai-road-split-2-split-v91-m91",
+    "v8-hankou-road-c91",
+    "v8-shanghai-road-split-2-split-split-m91",
+    "urban-junction-117",
+    "regional:v8:airport-city-road-split-c91",
+    "v8-shanghai-road-split-2-split-split-split-m91",
+    "urban-junction-123",
+    "v8-beijing-road-split-split-split-section",
+    "regional:v8:airport-city-road",
+    "v8-beijing-road-split-split-split-split",
+    "v8-airport-gateway",
+    "regional:v8:airport-city-out",
+    "regional:v8:airport-city-in",
+    "v91-ring-west-distributor-section-2",
+    "v91-ring-west-distributor-section",
+    "v91-ring-west-underpass",
+    "v91-local-junction-8",
+    "v4-south-c91",
+    "v4-south-c91-section",
+    "v8-beijing-road-split-split-split-split-section"
+  ],
+  "deleted": [],
+  "area": {
+    "minX": -4723.75,
+    "maxX": 4131.642933982816,
+    "minZ": -4990.59685310217,
+    "maxZ": 1691.7009280589502
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "urban-junction-167",
+        "signal:urban-junction-167:east",
+        "v91-ring-west-outer-junction",
+        "signal:v91-ring-west-outer-junction:east",
+        "v6-road-trees-417",
+        "regional:extension-tree:G65:460:1",
+        "v5-west-lane-split-m91",
+        "v8-hankou-road-split-2-c91",
+        "v5-west-lane-split-split-m91",
+        "v8-hankou-road-split-c91",
+        "urban-junction-174",
+        "v4-west-split-split-4-m91",
+        "v4-west-split-split-4-split-m91",
+        "urban-junction-176",
+        "v8-shanghai-road-split-2-split-v91-m91",
+        "v8-hankou-road-c91",
+        "v8-shanghai-road-split-2-split-split-m91",
+        "urban-junction-117",
+        "regional:v8:airport-city-road-split-c91",
+        "v8-shanghai-road-split-2-split-split-split-m91",
+        "urban-junction-123",
+        "v8-beijing-road-split-split-split-section",
+        "regional:v8:airport-city-road",
+        "v8-beijing-road-split-split-split-split",
+        "v8-airport-gateway",
+        "regional:v8:airport-city-out",
+        "regional:v8:airport-city-in",
+        "v91-ring-west-distributor-section-2",
+        "v91-ring-west-distributor-section",
+        "v91-ring-west-underpass",
+        "v91-local-junction-8",
+        "v4-south-c91",
+        "v4-south-c91-section",
+        "v8-beijing-road-split-split-split-split-section",
+        "diamond-east:west-local-split-v91",
+        "v5-civic-north-split-split-m91",
+        "diamond-east:west-local-split-v91-section",
+        "v5-civic-north-split-split-m91-section",
+        "direction-mingyuan-main-section-section-section-section",
+        "v4-inner-1-split-2-m91-section",
+        "urban-junction-25",
+        "v91-local-jinhua-fuqian",
+        "regional:v2:northwest:E-to-S-loop",
+        "regional:G65:out:0:revision234",
+        "regional:v2:northwest:N-to-W-right"
+      ],
+      "message": "roads: 9 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "regional:v2:northwest:E-to-S-loop",
+        "regional:v2:G42:out:17:revision206:revision216"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "regional:G65:out:0:revision234",
+        "regional:v2:northwest:N-to-W-right"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v4-inner-1-split-2-m91-section",
+        "v4-access-16-m91"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    }
+  ],
+  "valid": true,
+  "metrics": {
+    "brush": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "tree",
+        "objectIds": [
+          "v6-road-trees-417",
+          "regional:extension-tree:G65:460:1"
+        ],
+        "heightMode": "GROUND",
+        "lateralOffset": 5,
+        "minDistanceToObject": 2,
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 12,
+        "seed": 6
+      },
+      "stats": {
+        "planned": 2,
+        "valid": 2,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 2,
+        "removed": 0
+      },
+      "candidates": [
+        {
+          "id": "v6-road-trees-417",
+          "state": "VALID",
+          "position": {
+            "x": 1058.214918379533,
+            "y": -0.04,
+            "z": -538
+          },
+          "rotation": -1.5707963267948966,
+          "anchor": {
+            "anchorRoadId": "v5-civic-north-split-split-m91",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 259.96491837953295,
+            "lateralOffset": 12,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-road-trees-417",
+              "properties": {
+                "position": {
+                  "x": 1058.214918379533,
+                  "y": -0.04,
+                  "z": -538
+                },
+                "rotation": -1.5707963267948966
+              }
+            }
+          ],
+          "sourceId": "v6-road-trees-417",
+          "heightMode": "GROUND",
+          "autoMove": 1.75
+        },
+        {
+          "id": "regional:extension-tree:G65:460:1",
+          "state": "VALID",
+          "position": {
+            "x": 4091.6429339828164,
+            "y": 54.98692389796642,
+            "z": -4950.59685310217
+          },
+          "rotation": 0.3771534082555338,
+          "anchor": {
+            "anchorRoadId": "regional:v2:northwest:E-to-S-loop",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 290.8693415283672,
+            "lateralOffset": 8.949999999999822,
+            "verticalOffset": -3.0064449762048326,
+            "facingDirection": "forward",
+            "expectedHeading": 0.3771534082555338,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:extension-tree:G65:460:1",
+              "properties": {
+                "position": {
+                  "x": 4091.6429339828164,
+                  "y": 54.98692389796642,
+                  "z": -4950.59685310217
+                },
+                "rotation": 0.3771534082555338
+              }
+            }
+          ],
+          "sourceId": "regional:extension-tree:G65:460:1",
+          "heightMode": "GROUND",
+          "autoMove": 6.140129006216639
+        }
+      ]
+    }
+  }
+}

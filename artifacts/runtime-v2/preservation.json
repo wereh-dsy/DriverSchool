@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "head": "e42346815360428daf9d90f4e805f527d6b739f1",
+  "checkedExistingFiles": 1100,
+  "mapSHA256": "8bb57f70c146b41d3264829190b00c100d36e521757cc6816374179c84e0ab7a",
+  "releases": [
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-Performance-Round2-20261109-final/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "4ee75f2135b943a504c07646bd5128637d54362739f839f1f54aaa0965f6217d",
+      "actualSHA256": "4ee75f2135b943a504c07646bd5128637d54362739f839f1f54aaa0965f6217d"
+    },
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "ad38a12dd73faf69287ade0d2be3f23c925d52b9c26f5a5c774b6e06decc6b45",
+      "actualSHA256": "ad38a12dd73faf69287ade0d2be3f23c925d52b9c26f5a5c774b6e06decc6b45"
+    }
+  ],
+  "changedExisting": [
+    "scripts/performance-preload.ts",
+    "src/game/StreamingShaderWarmup.ts",
+    "src/game/DrivingGame.ts",
+    "src/world/DrivingGround.ts",
+    "src/world/city/CityGround.ts",
+    "src/world/city/SectorManager.ts",
+    "src/world/city/VisualStreamingWorker.ts"
+  ],
+  "concurrentChanges": [
+    "src/ui/HybridControlPanel.ts",
+    "src/vehicle/config/P2HybridConfig.ts",
+    "src/vehicle/config/tank500Hi4TPhysicsConfig.ts",
+    "src/vehicle/config/validateP2HybridConfig.ts",
+    "src/vehicle/physics/VehicleDynamics.ts",
+    "src/vehicle/physics/WheelRotationSystem.ts",
+    "src/vehicle/powertrain/ICEHeatState.ts",
+    "src/vehicle/powertrain/MechanicalTransferCase.ts",
+    "src/vehicle/powertrain/P2HybridPowertrain.ts",
+    "src/vehicle/powertrain/Powertrain.ts",
+    "src/vehicle/transmission/P2HybridTransmission.ts",
+    "src/vehicle/transmission/TransmissionSystem.ts",
+    "src/vehicle/transmission/automatic/AutomaticShiftController.ts",
+    "src/vehicle/visual/Tank500Displays.ts"
+  ],
+  "newRuntime": [
+    "src/game/runtime/FixedStepClock.ts",
+    "src/game/runtime/RuntimeCoordinator.ts",
+    "src/game/runtime/RuntimePerformance.ts",
+    "src/game/runtime/VehicleRenderPose.ts",
+    "src/game/runtime/RuntimeCoordinator.selftest.ts"
+  ],
+  "newValidation": [
+    "scripts/run-runtime-selftests.mjs"
+  ],
+  "concurrency": "Other ongoing vehicle work is recorded independently and never reverted by this task."
+}

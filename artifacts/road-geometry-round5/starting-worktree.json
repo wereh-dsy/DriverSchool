@@ -1,0 +1,346 @@
+{
+  "head": "e42346815360428daf9d90f4e805f527d6b739f1",
+  "status": [
+    "M src/world/city/CityGround.ts",
+    " M src/world/city/CityGroundGeometry.ts",
+    " M src/world/city/IntersectionBuilder.ts",
+    " M src/world/city/JunctionSurface.ts",
+    " M src/world/city/MarkingOwnership.ts",
+    " M src/world/city/RoadBuilder.ts",
+    " M src/world/city/RoadCarriageway.ts",
+    " M src/world/city/RoadEdgeChain.ts",
+    " M src/world/city/RoadInfrastructure.ts",
+    " M src/world/city/RoadVisualCompiler.ts",
+    " M src/world/city/SectorManager.ts",
+    " M src/world/city/VisualStreaming.worker.ts",
+    " M src/world/city/VisualStreamingData.ts",
+    " M src/world/city/VisualStreamingWorker.ts",
+    " M src/world/regional/RegionalTerrain.ts",
+    " M src/world/regional/RegionalTerrainClearance.ts",
+    "?? artifacts/road-geometry-round2/",
+    "?? artifacts/road-geometry-round3/",
+    "?? artifacts/road-geometry-round4/",
+    "?? artifacts/road-geometry-round5/",
+    "?? artifacts/road-geometry-trial/",
+    "?? docs/ROAD_GEOMETRY_ROUND2_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_ROUND3_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_ROUND4_2026-11-06.md",
+    "?? docs/ROAD_GEOMETRY_TRIAL_2026-11-06.md",
+    "?? scripts/check-road-geometry-round3.mjs",
+    "?? scripts/check-road-geometry-round4.mjs",
+    "?? scripts/inspect-road-geometry-round4.mjs",
+    "?? scripts/prepare-road-geometry-round3.mjs",
+    "?? scripts/prepare-road-geometry-round5.mjs",
+    "?? scripts/profile-road-geometry-round3.mjs",
+    "?? scripts/road-geometry-round1-projection.fixture.ts",
+    "?? scripts/road-geometry-round2-data.ts",
+    "?? scripts/road-geometry-round2-server.mjs",
+    "?? scripts/road-geometry-round2.html",
+    "?? scripts/road-geometry-round2.ts",
+    "?? scripts/road-geometry-round2.tsconfig.json",
+    "?? scripts/road-geometry-round3-node-worker.mjs",
+    "?? scripts/road-geometry-round3-server.mjs",
+    "?? scripts/road-geometry-round3.html",
+    "?? scripts/road-geometry-round3.ts",
+    "?? scripts/road-geometry-round3.tsconfig.json",
+    "?? scripts/road-geometry-round4-data.ts",
+    "?? scripts/road-geometry-round4-server.mjs",
+    "?? scripts/road-geometry-round4.html",
+    "?? scripts/road-geometry-round4.ts",
+    "?? scripts/road-geometry-round4.tsconfig.json",
+    "?? scripts/road-geometry-trial-data.ts",
+    "?? scripts/road-geometry-trial-server.mjs",
+    "?? scripts/road-geometry-trial.html",
+    "?? scripts/road-geometry-trial.ts",
+    "?? scripts/road-geometry-trial.tsconfig.json",
+    "?? scripts/run-road-geometry-round2.mjs",
+    "?? scripts/run-road-geometry-round2.ts",
+    "?? scripts/run-road-geometry-round3.mjs",
+    "?? scripts/run-road-geometry-trial.mjs",
+    "?? scripts/run-road-geometry-trial.ts",
+    "?? scripts/summarize-road-geometry-round2.mjs",
+    "?? scripts/summarize-road-geometry-round3.mjs",
+    "?? src/world/city/ContinuousRoadGeometry.selftest.ts",
+    "?? src/world/city/ContinuousRoadGeometry.ts",
+    "?? src/world/city/PavementProjection.ts",
+    "?? src/world/city/RoadCompileSampling.ts",
+    "?? src/world/city/RoadGeometryTrial.ts",
+    "?? src/world/city/RoadGeometryTrialCache.ts"
+  ],
+  "mapSHA256": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+  "files": [
+    {
+      "path": "src/loading/Loading.ts",
+      "sha256": "6526e2f480f0231e1b8725d7cdf3c1124b31c4dd60bc70765ed85ea590285e3d"
+    },
+    {
+      "path": "src/world/subject3/geometry.ts",
+      "sha256": "e3e0c5e147f0f52b204ef6b5422233a6147e848cfdd3b68a4422b77c0009c74f"
+    },
+    {
+      "path": "src/world/city/CityMapData.ts",
+      "sha256": "b97f3592b662fa28c0ce2f28c731fb67ee3dc1e4c13a555534ed8209e27ad872"
+    },
+    {
+      "path": "src/world/city/geometry.ts",
+      "sha256": "7d7e767502dfada7261bdfbdbadf331e21dd14a634719ee3d179372bb8a450c2"
+    },
+    {
+      "path": "src/vehicle/physics/CollisionSystem.ts",
+      "sha256": "cd087714e82460b663a5a84d29e6ba7ac0328b994d875d05b922e5eb4f11d9d0"
+    },
+    {
+      "path": "src/world/city/RoadCompileSampling.ts",
+      "sha256": "0c494a0aaaf2a1ead9dcf83c3422a53e3f2477b2c862db24b85608eaefdd720d"
+    },
+    {
+      "path": "src/world/city/RoadEdgeChain.ts",
+      "sha256": "e5b7e6ceb2e04d54a98417cb37b2898706710e7603406af7e8736975186ee3ef"
+    },
+    {
+      "path": "src/world/city/JunctionSurface.ts",
+      "sha256": "73211f9d3ef0d79c75d1d808dafaac8fcb031f5409719507de732998cabcb2ed"
+    },
+    {
+      "path": "src/world/city/RoadClearance.ts",
+      "sha256": "5e014229ced57ff8fc712d9545619abd784ae5a7511b0ef3b59dc714f815b052"
+    },
+    {
+      "path": "src/world/regional/RegionalTerrainClearance.ts",
+      "sha256": "e07d3c0b3fd5f6d058c364b22acdf189b8f3bc6f776f0a42bf85acbb94c002a7"
+    },
+    {
+      "path": "src/world/city/VisualStreamingData.ts",
+      "sha256": "77115fc3dbc4348edb695b3f3c3b9cf22e1c5a361890a6f00dc569ba478a0666"
+    },
+    {
+      "path": "src/world/city/CityTerrain.ts",
+      "sha256": "868e47cc2706c5054f1d500442a4455db1b4ddb7eaa249f7dc6de5caeafb437b"
+    },
+    {
+      "path": "src/world/regional/RegionalTerrain.ts",
+      "sha256": "303a600dd1faec5a144f34f9dbbf8498515f97ed742fc11f27e57af751dacd1b"
+    },
+    {
+      "path": "src/world/city/RoadClassification.ts",
+      "sha256": "fcf447c6e613ac8d7dbf9997c81c210d864a560395e4850fe33df7c94caa9940"
+    },
+    {
+      "path": "src/world/city/RoadPavementSurface.ts",
+      "sha256": "bd2a784978bf8d7f1c3a00627893d962af7b6203c6ee8f4af26aeff4b02152ec"
+    },
+    {
+      "path": "src/world/city/RoadCarriageway.ts",
+      "sha256": "612256ff29f45e07c5446fbf335c7c48734efade437bc4e7df0a53fa051df603"
+    },
+    {
+      "path": "src/world/city/RoadInfrastructure.ts",
+      "sha256": "4292af4c4b1c100d7bf88eb668996dfc0263197f42a94b4b832ca19ee04016ee"
+    },
+    {
+      "path": "src/world/city/MarkingOwnership.ts",
+      "sha256": "3237d54c1a9a980fa88e1087e9175c8bebf02c870f74ffa95cead0caa9acf539"
+    },
+    {
+      "path": "src/world/city/RoadSignTemplates.ts",
+      "sha256": "e83ed14233d0579b07c344df21d09229e57eeab845165118b359a3b610bd0606"
+    },
+    {
+      "path": "src/world/city/CityBuildingGeometry.ts",
+      "sha256": "8dd4db95a784f2f2f1fc3a5402f43f4ddc274e0003ad04e9983747bc9fb0a2ee"
+    },
+    {
+      "path": "src/world/city/CityLandmarkGeometry.ts",
+      "sha256": "7183a8835a3ab3cb0960e5cb103341a147fab7b44931d9c9ef75ae7002c4bfb8"
+    },
+    {
+      "path": "src/world/city/PrefabRegistry.ts",
+      "sha256": "15c6f1e537c1163287e80cdacbedc4253eedb2c76799a5c4d11b8fec82c12129"
+    },
+    {
+      "path": "src/world/environment/WetRoadMaterial.ts",
+      "sha256": "55bba9f37d36b1a88f556c339e1339b3088a4d4276825aed8d17a7cd426ea899"
+    },
+    {
+      "path": "src/world/environment/VisualEnvironmentConfig.ts",
+      "sha256": "4428adb21894b3772e0f417cae66311aeccbb7d5f6a1ebb3d274dc40930f313f"
+    },
+    {
+      "path": "src/world/environment/RoadSurfaceDetail.ts",
+      "sha256": "e05632f0bed06aa3a3daa8fe20eeb75548477ae4659a822a3c4dce42858133a8"
+    },
+    {
+      "path": "src/world/subject3/materials.ts",
+      "sha256": "bf670317f747b231f09814e17918e6b6096cbaf458570227cc6ca04aac48e5bb"
+    },
+    {
+      "path": "src/world/city/RoadsidePlacement.ts",
+      "sha256": "53ceaf6812d74b28db2c795d3037aa94495649656e497d3576aca62a4e1d45c4"
+    },
+    {
+      "path": "src/world/regional/HighwayLaneRenderer.ts",
+      "sha256": "73f3b383fe0ac1f5b89bdd5bd680f41dd2abe58298fcbf7bdad6e88296343f30"
+    },
+    {
+      "path": "src/world/city/PavementProjection.ts",
+      "sha256": "f0b007233dae4c2b574a9c1c8e61f188d9c6c76c7382c067a421466a737de439"
+    },
+    {
+      "path": "src/world/city/ContinuousRoadGeometry.ts",
+      "sha256": "4892db80ee11e7a89205ccb74596092c13736b78290bb00c8d175c692d58d678"
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrialCache.ts",
+      "sha256": "12c5a22fc969adc85698ddd5124f8de6fc4b54b8df663b32996375709ef1a598"
+    },
+    {
+      "path": "src/world/city/RoadGeometryTrial.ts",
+      "sha256": "04f1d923bf1d75fd1d7046e440e7def25f2d1321f63923c02409214091ef3ea1"
+    },
+    {
+      "path": "src/world/city/RoadBuilder.ts",
+      "sha256": "31bf536abfd438cee61c600cd99b83db576540893872c3849816081f96dbf845"
+    },
+    {
+      "path": "src/world/city/RoadVisualCompiler.ts",
+      "sha256": "a07e38a9ffe9c5528bfea427c6b501975e66042ae65002496c007a802f8f77c7"
+    },
+    {
+      "path": "src/world/subject3/math.ts",
+      "sha256": "5b410ec8a6ae2c69dccd74fbf4d4c085c069d10c36ebda80d00c70bc4b3b4879"
+    },
+    {
+      "path": "src/world/subject3/trafficSignals.ts",
+      "sha256": "491dcb0589ac4dcefd48336841bbe86944bf50d271429931023616c840053f3f"
+    },
+    {
+      "path": "src/world/city/SignalPlacement.ts",
+      "sha256": "17915bd116aa69227b5b77cc008877f2320e5d2c2b775daa25fa9b4c3fde1c65"
+    },
+    {
+      "path": "src/world/city/CitySignalVisual.ts",
+      "sha256": "23dbd741e73dc47b341d44f164c46c226e0c45298ff981fda4d8a47948c49cd7"
+    },
+    {
+      "path": "src/world/city/CityTrafficSignals.ts",
+      "sha256": "2c587add8ab5f74ec2cdc134ac236b1d2cd5594809f04ca52a5a9205e0d3aa30"
+    },
+    {
+      "path": "src/world/city/IntersectionBuilder.ts",
+      "sha256": "413e2fe9f000d3e2867004193afcea9f3fb62977585e54a035ae0e5446d8a231"
+    },
+    {
+      "path": "src/world/SurfaceProfile.ts",
+      "sha256": "d8d25152c321c1f5297eadb507ff919624fe60b0087f217b4ad23edfa27fbe95"
+    },
+    {
+      "path": "src/world/SurfaceMaterial.ts",
+      "sha256": "16a981cf7679ebc8a8077e25266414813e50a157a86af2a579b6c7d50b367fcb"
+    },
+    {
+      "path": "src/world/city/RoadStyles.ts",
+      "sha256": "6b30ad0c6b0c75a6b56a96612d4c4770f2fd97870bf862ab135c30af2e983d42"
+    },
+    {
+      "path": "src/world/city/RoadCrossSection.ts",
+      "sha256": "c07e819c9da89e83783f4a70263f026708da7e2aaab75a683aab06945fbe1a0c"
+    },
+    {
+      "path": "src/world/city/presets/catalog.json",
+      "sha256": "8ece4ba150b1bdfd6c9f52ca9af0e951b6064ddef8f5e7c9f2457578b32c6da8"
+    },
+    {
+      "path": "src/world/city/CityRoadNetwork.ts",
+      "sha256": "33a43deda57b132e4e06f400373b64337c0f9e61971e916e7330f42977bfec1b"
+    },
+    {
+      "path": "src/world/city/presets/PresetGeometryValidation.ts",
+      "sha256": "022e1b4e9432c8ae96583427ec91632d1f46f755653264a0c7cfb02835b111e5"
+    },
+    {
+      "path": "src/world/city/RoadSignValidation.ts",
+      "sha256": "7bce2337c7c0e2c28ddd53cecaf2b78e5a73d839b18147d6afd22f3c768f2374"
+    },
+    {
+      "path": "src/world/regional/HighwayValidation.ts",
+      "sha256": "02bcec081d471ac70a5505a227a3e5c24274cd4131a32844e0a794da411cff2d"
+    },
+    {
+      "path": "src/world/city/CityMapValidation.ts",
+      "sha256": "de33432c6a7fed4e9434f6c11d8df41d41faf14106323a48c46d0bd8d32e28c2"
+    },
+    {
+      "path": "src/world/city/CityMapLoader.ts",
+      "sha256": "34d87bbf7e0590731d4d5b52ceab5dcac0f53bee713edc05d31b0ab61d2d9c51"
+    },
+    {
+      "path": "src/world/city/RoadSignData.ts",
+      "sha256": "b18bb272ce00207f8141b9c5884fd60636dc5e41ac836fd0872ea2e4246d3188"
+    },
+    {
+      "path": "src/world/city/RoadSignRenderer.ts",
+      "sha256": "2a6de7b96b0555df61e0482388783aa4e1111e30d89cd2ee89ae1209632b4cb1"
+    },
+    {
+      "path": "src/world/regional/RegionalStreaming.ts",
+      "sha256": "51f596f25f7fecd96dcbbe565c417eba0067df894eb4698ce5a3d99d635d8524"
+    },
+    {
+      "path": "src/world/city/CityMainResource.ts",
+      "sha256": "f12b4450754d95ad23fb3e8b9281de9e4a9ad9b4c5b960e2a8370b56f9b86a95"
+    },
+    {
+      "path": "src/world/city/VisualStreamingWorker.ts",
+      "sha256": "918e10d5da6662089e73b45843cb476284c8f01d88e64a4fb910e2d561f51aa9"
+    },
+    {
+      "path": "src/world/regional/RegionalBackgroundBatches.ts",
+      "sha256": "dc001b29021b290807d84b46f2414d2e51f74d0da262b28f1b22e27f453e3f8c"
+    },
+    {
+      "path": "src/world/city/FogVisibility.ts",
+      "sha256": "537e9109ea36b89e0f22b3fbddcfc1460a2e901bc6ca36cca07fdbed3a7fd99a"
+    },
+    {
+      "path": "src/world/city/CityGroundGeometry.ts",
+      "sha256": "99cbe794a15136a9660fc653b7c81e7174c0a76ec0de5e026b8290c23c5e1e03"
+    },
+    {
+      "path": "src/world/city/SectorManager.ts",
+      "sha256": "260d2d593f8f356615312ae540d669d9a23cdc4c6ecd2593b24f3a73e011bbb8"
+    },
+    {
+      "path": "src/world/regional/RegionalDebug.ts",
+      "sha256": "54961ff3e7928326014fca1092dfed933f0c1039ef2331180b54d07306e1155f"
+    },
+    {
+      "path": "src/world/city/CityPhysicsSectors.ts",
+      "sha256": "20566f494212968e609194eb6ff9915ff2a5cd213719b04611dff0c479991966"
+    },
+    {
+      "path": "src/world/city/CityGround.ts",
+      "sha256": "31e6fe6762b293466dd58dac3f3ab1a8aefb20f22c4d8178af852d80812cfd07"
+    },
+    {
+      "path": "src/world/city/CityRuntimeData.ts",
+      "sha256": "83bce11aa461947e8b3ce37292850ba86040b1070f0e2685076b51b9ce3f11fc"
+    },
+    {
+      "path": "scripts/road-geometry-trial-data.ts",
+      "sha256": "640d48ec44f656ff127246c836f9c656ab8d477d50893118f0d05136924806ef"
+    },
+    {
+      "path": "scripts/road-geometry-round2-data.ts",
+      "sha256": "7c4a70a38fa3f20fe77f987829c70bbdb77ca83706be87adbbf2d6c18cda6188"
+    },
+    {
+      "sha256": "4d70af2998873d3bf026e5c20a86e47e7cad12659003d9b6a168017d5ac6ec2b",
+      "path": "src/world/city/VisualStreaming.selftest.ts"
+    },
+    {
+      "additionalAuthorization": "User approved 11mm Tank wheelarch trim offset for Release",
+      "path": "src/vehicle/visual/Tank500BodyExterior.ts",
+      "sha256": "1aaa2d18518fc34f16ce13e371bd7327f7bd208f810b912b86715b21e82d7458"
+    }
+  ]
+}

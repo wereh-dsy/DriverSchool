@@ -14,6 +14,7 @@ export interface OpposingCarriageway {
 }
 interface Segment {road:CityRoad;a:CityPoint;b:CityPoint;length:number;tx:number;tz:number}
 const cache=new WeakMap<CityMapData,RoadCarriageways>();
+export function invalidateRoadCarriageways(map:CityMapData):void {cache.delete(map);}
 export function roadCarriageways(map:CityMapData):RoadCarriageways {
   let index=cache.get(map);if(!index){index=new RoadCarriageways(map);cache.set(map,index);}return index;
 }
@@ -27,7 +28,7 @@ export function* prepareRoadCarriagewaysSteps(map:CityMapData):Generator<void,Ro
  * It does not infer a shared carriageway from a road name or identifier. */
 export class RoadCarriageways {
   private readonly buckets=new Map<string,Segment[]>();
-  private readonly paving=new Map<string,ReturnType<typeof roadPavementTriangle>[]>();
+  private readonly paving=new Map<string,{planes:ReturnType<typeof roadPavementTriangle>[];cells:Map<string,number[]>}>();
   private readonly initialization:Generator<void>;
   constructor(private readonly map:CityMapData,deferred=false){
     this.initialization=this.initialize();if(!deferred)drain(this.initialization);
@@ -53,12 +54,20 @@ export class RoadCarriageways {
   /** Exact load-time footing plane. Nominal shoulder overlap alone is not
    * sufficient at a mitered road-ID seam or a masked junction mouth. */
   pavedHeight(roadId:string,p:CityPoint):number|undefined {
-    let planes=this.paving.get(roadId);
-    if(!planes){
+    let paving=this.paving.get(roadId);
+    if(!paving){
       const road=this.map.roads.find(r=>r.id===roadId)!;const edges=roadEdges(road),chains=roadEdgeChains(this.map),left=chains.edge(road,edges.left),right=chains.edge(road,edges.right),masks=this.map.intersections.filter(j=>j.pavementFootprint&&j.connections.some(c=>c.roadId===roadId)).map(compileJunctionSurface);
-      planes=[];for(let i=1;i<left.length;i++)for(const [a,b,c]of [[left[i-1]!,right[i-1]!,left[i]!],[right[i-1]!,right[i]!,left[i]!]])if(Math.abs((b!.x-a!.x)*(c!.z-a!.z)-(b!.z-a!.z)*(c!.x-a!.x))>1e-8)planes.push(roadPavementTriangle(a!,b!,c!,1,masks));this.paving.set(roadId,planes);
+      const planes:ReturnType<typeof roadPavementTriangle>[]=[],cells=new Map<string,number[]>();
+      for(let i=1;i<left.length;i++)for(const [a,b,c]of [[left[i-1]!,right[i-1]!,left[i]!],[right[i-1]!,right[i]!,left[i]!]])if(Math.abs((b!.x-a!.x)*(c!.z-a!.z)-(b!.z-a!.z)*(c!.x-a!.x))>1e-8){
+        const id=planes.length,minX=Math.min(a!.x,b!.x,c!.x),maxX=Math.max(a!.x,b!.x,c!.x),minZ=Math.min(a!.z,b!.z,c!.z),maxZ=Math.max(a!.z,b!.z,c!.z);
+        // Include the original barycentric epsilon at cell boundaries. Buckets
+        // retain original triangle order, including equal-height tie-breaking.
+        const epsilon=1e-6+(maxX-minX+maxZ-minZ)*3e-7;
+        planes.push(roadPavementTriangle(a!,b!,c!,1,masks));
+        for(let x=Math.floor((minX-epsilon)/32);x<=Math.floor((maxX+epsilon)/32);x++)for(let z=Math.floor((minZ-epsilon)/32);z<=Math.floor((maxZ+epsilon)/32);z++){const key=x+','+z,list=cells.get(key)??[];list.push(id);cells.set(key,list);}
+      }paving={planes,cells};this.paving.set(roadId,paving);
     }
-    let height:number|undefined,error=Infinity;for(const plane of planes)if(plane.contains(0)(p.x,p.z)){const y=plane.heightAt(p.x,p.z),e=Math.abs(y-(p.y??0));if(e<error){height=y;error=e;}}
+    let height:number|undefined,error=Infinity;for(const id of paving.cells.get(Math.floor(p.x/32)+','+Math.floor(p.z/32))??[]){const plane=paving.planes[id]!;if(plane.contains(0)(p.x,p.z)){const y=plane.heightAt(p.x,p.z),e=Math.abs(y-(p.y??0));if(e<error){height=y;error=e;}}}
     return error<=.2?height:undefined;
   }
   opposing(road:CityRoad,p:CityPoint,tangent:CityPoint):OpposingCarriageway|undefined {

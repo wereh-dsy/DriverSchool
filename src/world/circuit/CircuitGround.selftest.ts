@@ -347,10 +347,20 @@ function runHairpinAcceptance(ground: CircuitGround) {
       const target=ground.routeCurve.getPointAt((route[nearest]!.distance+lookahead)/ground.metadata.lapLength);
       const targetYaw=Math.atan2(-(target.x-state.x),-(target.z-state.z));
       const speedError=85-state.speedKmh;
+      const line=route[nearest]!,crossTrack=(state.x-line.x)*-line.tangentZ+(state.z-line.z)*line.tangentX;
+      // Preview heading alone leaves a vehicle-dependent lateral bias. Add
+      // positional feedback and damp lateral motion in the route frame; this
+      // remains one bounded test driver, through each car's normal steering rack.
+      const lineYaw=Math.atan2(-line.tangentX,-line.tangentZ);
+      const crossVelocity=state.speed*Math.sin(wrapAngle(lineYaw-(state.yaw-state.bodySlipAngle)));
+      const lateralCorrection=crossTrack*.08+crossVelocity*.12;
+      const preview=route[nearest]!.distance+Math.abs(state.speed)*.5;
+      const a=ground.routeCurve.getTangentAt(preview/ground.metadata.lapLength);
+      const b=ground.routeCurve.getTangentAt((preview+2)/ground.metadata.lapLength);
+      const curvature=wrapAngle(Math.atan2(-b.x,-b.z)-Math.atan2(-a.x,-a.z))/2;
+      const yawCorrection=(curvature*state.speed-state.yawRate)*1.5;
       const after=contacts.step(1/120,makeInput({
-        // The same bounded test driver must also track slower steering racks
-        // on the newly registered large SUV; no vehicle calibration is changed.
-        steering:clamp(-wrapAngle(targetYaw-(state.yaw-state.bodySlipAngle))*1.8,-1,1),
+        steering:clamp(-wrapAngle(targetYaw-(state.yaw-state.bodySlipAngle))*1.8-lateralCorrection-yawCorrection,-1,1),
         throttle:clamp(.28+speedError*.11,0,1),brake:clamp((-speedError-2)*.06,0,.3),
       }),car);
       if(contacts.collision?.collided)collisions++;

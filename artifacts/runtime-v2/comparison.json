@@ -1,0 +1,1445 @@
+{
+  "before": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 10879.79999999702,
+    "loadingFrames": {
+      "n": 1430,
+      "p50": 6.0999999940395355,
+      "p95": 10.200000002980232,
+      "p99": 36.70000000298023,
+      "max": 409.20000000298023,
+      "over33": 16,
+      "over50": 9,
+      "over100": 4
+    },
+    "loadingTasksOver50Ms": [
+      {
+        "start": 12522,
+        "duration": 58
+      },
+      {
+        "start": 13366.39999999106,
+        "duration": 156
+      },
+      {
+        "start": 13525.39999999106,
+        "duration": 72
+      },
+      {
+        "start": 15102.79999999702,
+        "duration": 63
+      },
+      {
+        "start": 15167.199999988079,
+        "duration": 129
+      },
+      {
+        "start": 21725.59999999404,
+        "duration": 406
+      },
+      {
+        "start": 22224.5,
+        "duration": 195
+      }
+    ],
+    "loadingBatchesMs": [
+      {
+        "activeMs": 1315.1000000536442,
+        "maxSliceMs": 42.6000000089407,
+        "batches": 145
+      }
+    ],
+    "startupCpu": {
+      "phasesMs": {
+        "loadCityMap": 0.19999998807907104,
+        "roadNetwork": 0,
+        "sectorSetup": 17.100000008940697,
+        "groundGeometry": 3.5999999940395355,
+        "sectorManager": 928.1000000089407,
+        "clearanceIndex": 85.79999999701977,
+        "colliders": 28.599999994039536,
+        "physicsPreparation": 58,
+        "surfaceIndex": 263.1000000089407,
+        "spawnPreparation": 9.099999994039536
+      },
+      "screen": [
+        {
+          "name": "loading:firstScreen:驾驶界面与小地图",
+          "start": 21655.09999999404,
+          "ms": 8.200000002980232,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:首屏可见区域",
+          "start": 21704.09999999404,
+          "ms": 2.0999999940395355,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:主视图与实际阴影",
+          "start": 21725.69999998808,
+          "ms": 406.20000000298023,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:左侧后视镜",
+          "start": 22140.19999998808,
+          "ms": 31.900000005960464,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:右侧后视镜",
+          "start": 22176.39999999106,
+          "ms": 2.7999999970197678,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:完整首屏",
+          "start": 22190.09999999404,
+          "ms": 25.400000005960464,
+          "detail": null
+        }
+      ],
+      "construction": [
+        {
+          "name": "loading:renderer",
+          "start": 15096.39999999106,
+          "ms": 0,
+          "detail": null
+        },
+        {
+          "name": "loading:environmentMap",
+          "start": 15102.79999999702,
+          "ms": 63.29999999701977,
+          "detail": null
+        },
+        {
+          "name": "loading:gameConstruction",
+          "start": 15167.199999988079,
+          "ms": 128.5,
+          "detail": null
+        }
+      ]
+    },
+    "loadingOverlay": {
+      "mounted": true,
+      "released": true,
+      "updates": 440,
+      "monotonic": true
+    },
+    "driving": {
+      "n": 3830,
+      "p50": 14.599999994039536,
+      "p95": 27.599999994039536,
+      "p99": 52.6000000089407,
+      "max": 305.6000000089407,
+      "over33": 116,
+      "over50": 53,
+      "over100": 6
+    },
+    "byPhase": {
+      "outbound": {
+        "n": 2514,
+        "p50": 11.100000008940697,
+        "p95": 24.200000002980232,
+        "p99": 55.599999994039536,
+        "max": 305.6000000089407,
+        "over33": 85,
+        "over50": 43,
+        "over100": 6
+      },
+      "approach": {
+        "n": 421,
+        "p50": 17.5,
+        "p95": 22.299999997019768,
+        "p99": 40.1000000089407,
+        "max": 59,
+        "over33": 5,
+        "over50": 3,
+        "over100": 0
+      },
+      "turn": {
+        "n": 381,
+        "p50": 17.799999997019768,
+        "p95": 25.5,
+        "p99": 30.899999991059303,
+        "max": 61.5,
+        "over33": 3,
+        "over50": 1,
+        "over100": 0
+      },
+      "return": {
+        "n": 514,
+        "p50": 22.100000008940697,
+        "p95": 31,
+        "p99": 51.29999999701977,
+        "max": 59.099999994039536,
+        "over33": 23,
+        "over50": 6,
+        "over100": 0
+      }
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "station": 2242
+    },
+    "measuredSlowCallbackCpu": {
+      "n": 1711,
+      "p50": 17,
+      "p95": 25.30000001192093,
+      "p99": 31,
+      "max": 61.19999998807907
+    },
+    "peakCallbackDetails": [
+      {
+        "start": 22467.5,
+        "cpuMs": 61.19999998807907,
+        "renderMs": 15.199999988079071,
+        "streamMs": 0.29999999701976776,
+        "drivingElapsed": 3.300000011920929
+      },
+      {
+        "start": 31048.09999999404,
+        "cpuMs": 60.599999994039536,
+        "renderMs": 0,
+        "streamMs": 4.199999988079071,
+        "drivingElapsed": 8583.90000000596
+      },
+      {
+        "start": 31594.5,
+        "cpuMs": 56.599999994039536,
+        "renderMs": 0,
+        "streamMs": 1.4000000059604645,
+        "drivingElapsed": 9130.300000011921
+      },
+      {
+        "start": 31390.79999999702,
+        "cpuMs": 55,
+        "renderMs": 0,
+        "streamMs": 1.7999999970197678,
+        "drivingElapsed": 8926.60000000894
+      },
+      {
+        "start": 48423.59999999404,
+        "cpuMs": 50.29999999701977,
+        "renderMs": 13.399999991059303,
+        "streamMs": 0,
+        "drivingElapsed": 25959.40000000596
+      },
+      {
+        "start": 80453.79999999702,
+        "cpuMs": 50.099999994039536,
+        "renderMs": 46.20000000298023,
+        "streamMs": 0.10000000894069672,
+        "drivingElapsed": 57989.60000000894
+      }
+    ],
+    "sampledGpuExecution": {
+      "n": 62,
+      "p50": 8.235008,
+      "p95": 15.76736,
+      "p99": 20.895648,
+      "max": 20.895648
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 3830,
+      "p50": 471.45587825775146,
+      "p95": 503.46575450897217,
+      "p99": 516.0687971115112,
+      "max": 543.5292224884033
+    },
+    "cdpUsedJSHeapMiB": {
+      "page": {
+        "n": 8,
+        "p50": 330.76954650878906,
+        "p95": 353.10556411743164,
+        "p99": 353.10556411743164,
+        "max": 353.10556411743164
+      },
+      "worker": {
+        "n": 7,
+        "p50": 352.6325988769531,
+        "p95": 436.09534072875977,
+        "p99": 436.09534072875977,
+        "max": 436.09534072875977
+      }
+    },
+    "cdpBackingStorageMiB": {
+      "page": {
+        "n": 8,
+        "p50": 114.9822473526001,
+        "p95": 154.14377212524414,
+        "p99": 154.14377212524414,
+        "max": 154.14377212524414
+      },
+      "worker": {
+        "n": 7,
+        "p50": 78.99196338653564,
+        "p95": 113.23280429840088,
+        "p99": 113.23280429840088,
+        "max": 113.23280429840088
+      }
+    },
+    "glBufferPeakMiB": 99.68457412719727,
+    "initialBufferDataCalls": 5485,
+    "initialUploadMiB": 35.80825424194336,
+    "recipeResidency": {
+      "cachedRoadBytes": 33474752,
+      "terrainCacheBytes": 10089192,
+      "recipeBudgetBytes": 44040192,
+      "pinnedRoadBytes": 20861756,
+      "borrowedTerrainBytes": 8447280
+    },
+    "background": {
+      "queued": 0,
+      "queuedBytes": 0,
+      "queueBudgetBytes": 8388608,
+      "publishedBytes": 13096188,
+      "pages": 57,
+      "stagingBatches": 0,
+      "stagingBytes": 0,
+      "peakStagingBytes": 4325616,
+      "pageTargetBytes": 524288
+    },
+    "worker": {
+      "jobs": {
+        "completed": 680,
+        "cancelledQueued": 0,
+        "cancelledInFlight": 0,
+        "coalescedRequests": 20252,
+        "disposed": false
+      },
+      "remaining": {
+        "queued": 2,
+        "inFlight": "2,3:near"
+      },
+      "perType": {
+        "ready": {
+          "activeMs": {
+            "n": 1,
+            "p50": 1187.2999999970198,
+            "p95": 1187.2999999970198,
+            "p99": 1187.2999999970198,
+            "max": 1187.2999999970198
+          },
+          "roundTripMs": {
+            "n": 1,
+            "p50": 1188.3999999910593,
+            "p95": 1188.3999999910593,
+            "p99": 1188.3999999910593,
+            "max": 1188.3999999910593
+          },
+          "queueWaitMs": {
+            "n": 1,
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "max": 0
+          },
+          "receiveWaitMs": {
+            "n": 1,
+            "p50": 0.5,
+            "p95": 0.5,
+            "p99": 0.5,
+            "max": 0.5
+          }
+        },
+        "road": {
+          "activeMs": {
+            "n": 384,
+            "p50": 25.00000001490116,
+            "p95": 139.69999998807907,
+            "p99": 213.50000002980232,
+            "max": 246.00000001490116
+          },
+          "roundTripMs": {
+            "n": 384,
+            "p50": 31.700000002980232,
+            "p95": 176,
+            "p99": 305.59999999403954,
+            "max": 360.09999999403954
+          },
+          "queueWaitMs": {
+            "n": 384,
+            "p50": 337.5,
+            "p95": 2078.2999999970198,
+            "p99": 3140.4000000059605,
+            "max": 3286.9000000059605
+          },
+          "receiveWaitMs": {
+            "n": 384,
+            "p50": 6,
+            "p95": 18.300048828125,
+            "p99": 25.10009765625,
+            "max": 67
+          }
+        },
+        "terrain": {
+          "activeMs": {
+            "n": 178,
+            "p50": 5.9000000059604645,
+            "p95": 21.30000001192093,
+            "p99": 44.1000000089407,
+            "max": 54.89999997615814
+          },
+          "roundTripMs": {
+            "n": 178,
+            "p50": 14.400000005960464,
+            "p95": 34.29999999701977,
+            "p99": 59.3999999910593,
+            "max": 76.5
+          },
+          "queueWaitMs": {
+            "n": 178,
+            "p50": 54.70000000298023,
+            "p95": 1292.3999999910593,
+            "p99": 2289.7000000029802,
+            "max": 2588.3999999910593
+          },
+          "receiveWaitMs": {
+            "n": 178,
+            "p50": 6.5,
+            "p95": 17.5,
+            "p99": 42.900146484375,
+            "max": 54.800048828125
+          }
+        },
+        "background": {
+          "activeMs": {
+            "n": 117,
+            "p50": 1,
+            "p95": 76.2000000178814,
+            "p99": 273.1000000089407,
+            "max": 485.59999999403954
+          },
+          "roundTripMs": {
+            "n": 117,
+            "p50": 10.200000002980232,
+            "p95": 82.59999999403954,
+            "p99": 279.5,
+            "max": 489.59999999403954
+          },
+          "queueWaitMs": {
+            "n": 117,
+            "p50": 534.9000000059605,
+            "p95": 1420.300000011921,
+            "p99": 1423.2000000029802,
+            "max": 1425.7999999970198
+          },
+          "receiveWaitMs": {
+            "n": 117,
+            "p50": 8.2001953125,
+            "p95": 15.800048828125,
+            "p99": 22.5,
+            "max": 36
+          }
+        }
+      }
+    },
+    "maxStreamUpdateMs": 28,
+    "warmup": {
+      "roots": 253,
+      "completedRoots": 248,
+      "cancelledRoots": 3,
+      "activity": "纹理上传 · City sector 8,0",
+      "objects": 4885,
+      "representatives": 1902,
+      "submissions": 166,
+      "maxSubmitMs": 9.099999994039536,
+      "cacheHits": 2668,
+      "resourceBatches": 831,
+      "maxResourceMs": 22.400000005960464,
+      "textureUploads": 186
+    },
+    "publicationCount": 176,
+    "release": {
+      "disposed": true,
+      "resourcesReleased": true,
+      "glBufferBytes": 0,
+      "recipes": 0,
+      "workerDisposed": true
+    },
+    "errors": []
+  },
+  "after": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 9909.10000000894,
+    "loadingFrames": {
+      "n": 1154,
+      "p50": 6.0999999940395355,
+      "p95": 11,
+      "p99": 44.30000001192093,
+      "max": 1089.6000000089407,
+      "over33": 15,
+      "over50": 10,
+      "over100": 5
+    },
+    "loadingTasksOver50Ms": [
+      {
+        "start": 4441.600000008941,
+        "duration": 147
+      },
+      {
+        "start": 6060.5,
+        "duration": 70
+      },
+      {
+        "start": 6131.600000008941,
+        "duration": 143
+      },
+      {
+        "start": 11523.70000000298,
+        "duration": 247
+      },
+      {
+        "start": 11848.90000000596,
+        "duration": 138
+      }
+    ],
+    "loadingBatchesMs": [
+      {
+        "activeMs": 1240.7999999970198,
+        "maxSliceMs": 27.099999994039536,
+        "batches": 139
+      }
+    ],
+    "startupCpu": {
+      "phasesMs": {
+        "loadCityMap": 0,
+        "roadNetwork": 0.09999999403953552,
+        "sectorSetup": 10.900000005960464,
+        "groundGeometry": 1.7999999970197678,
+        "sectorManager": 803.0999999940395,
+        "clearanceIndex": 99.90000000596046,
+        "colliders": 33.099999994039536,
+        "physicsPreparation": 68.20000000298023,
+        "surfaceIndex": 288.70000000298023,
+        "spawnPreparation": 5
+      },
+      "screen": [
+        {
+          "name": "loading:firstScreen:驾驶界面与小地图",
+          "start": 11461.40000000596,
+          "ms": 7.5,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:首屏可见区域",
+          "start": 11510.300000011921,
+          "ms": 2.0999999940395355,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:主视图与实际阴影",
+          "start": 11523.800000011921,
+          "ms": 247.5,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:左侧后视镜",
+          "start": 11778.800000011921,
+          "ms": 19,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:右侧后视镜",
+          "start": 11812.70000000298,
+          "ms": 2.1000000089406967,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:完整首屏",
+          "start": 11825,
+          "ms": 13,
+          "detail": null
+        }
+      ],
+      "construction": [
+        {
+          "name": "loading:renderer",
+          "start": 6054.300000011921,
+          "ms": 0,
+          "detail": null
+        },
+        {
+          "name": "loading:environmentMap",
+          "start": 6060.5,
+          "ms": 70.6000000089407,
+          "detail": null
+        },
+        {
+          "name": "loading:gameConstruction",
+          "start": 6131.600000008941,
+          "ms": 143.09999999403954,
+          "detail": null
+        }
+      ]
+    },
+    "loadingOverlay": {
+      "mounted": true,
+      "released": true,
+      "updates": 393,
+      "monotonic": true
+    },
+    "driving": {
+      "n": 5353,
+      "p50": 10.200000002980232,
+      "p95": 18.700000002980232,
+      "p99": 36.30000001192093,
+      "max": 205.29999999701977,
+      "over33": 60,
+      "over50": 15,
+      "over100": 1
+    },
+    "byPhase": {
+      "outbound": {
+        "n": 3031,
+        "p50": 9.200000002980232,
+        "p95": 17.600000008940697,
+        "p99": 41.29999999701977,
+        "max": 205.29999999701977,
+        "over33": 45,
+        "over50": 10,
+        "over100": 1
+      },
+      "approach": {
+        "n": 651,
+        "p50": 10.699999988079071,
+        "p95": 18.099999994039536,
+        "p99": 47,
+        "max": 75.20000000298023,
+        "over33": 8,
+        "over50": 4,
+        "over100": 0
+      },
+      "turn": {
+        "n": 648,
+        "p50": 10.700000002980232,
+        "p95": 15.100000008940697,
+        "p99": 17.600000008940697,
+        "max": 26.5,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "return": {
+        "n": 1023,
+        "p50": 13.400000005960464,
+        "p95": 21,
+        "p99": 27.299999997019768,
+        "max": 52.29999999701977,
+        "over33": 7,
+        "over50": 1,
+        "over100": 0
+      }
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "station": 2184
+    },
+    "measuredSlowCallbackCpu": {
+      "n": 619,
+      "p50": 15.900000005960464,
+      "p95": 20.599999994039536,
+      "p99": 25.599999994039536,
+      "max": 47.3999999910593
+    },
+    "peakCallbackDetails": [
+      {
+        "start": 12023.300000011921,
+        "cpuMs": 47.3999999910593,
+        "renderMs": 12.599999979138374,
+        "streamMs": 0.09999999403953552,
+        "drivingElapsed": 5
+      },
+      {
+        "start": 58807.40000000596,
+        "cpuMs": 37.5,
+        "renderMs": 33.1000000089407,
+        "streamMs": 0,
+        "drivingElapsed": 46789.09999999404
+      },
+      {
+        "start": 45284.40000000596,
+        "cpuMs": 37.20000000298023,
+        "renderMs": 32.20000000298023,
+        "streamMs": 0.09999999403953552,
+        "drivingElapsed": 33266.09999999404
+      },
+      {
+        "start": 48637.80000001192,
+        "cpuMs": 30.399999991059303,
+        "renderMs": 12.799999997019768,
+        "streamMs": 0,
+        "drivingElapsed": 36619.5
+      },
+      {
+        "start": 41040,
+        "cpuMs": 27.80000001192093,
+        "renderMs": 12.400000005960464,
+        "streamMs": 0,
+        "drivingElapsed": 29021.69999998808
+      },
+      {
+        "start": 69464.70000000298,
+        "cpuMs": 25.700000002980232,
+        "renderMs": 21.49999998509884,
+        "streamMs": 0,
+        "drivingElapsed": 57446.39999999106
+      }
+    ],
+    "sampledGpuExecution": {
+      "n": 87,
+      "p50": 6.735072,
+      "p95": 14.820928,
+      "p99": 18.127104,
+      "max": 18.127104
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 5353,
+      "p50": 457.2598886489868,
+      "p95": 505.54906463623047,
+      "p99": 519.6433258056641,
+      "max": 534.2780170440674
+    },
+    "cdpUsedJSHeapMiB": {
+      "page": {
+        "n": 7,
+        "p50": 329.2959098815918,
+        "p95": 357.0672607421875,
+        "p99": 357.0672607421875,
+        "max": 357.0672607421875
+      },
+      "worker": {
+        "n": 7,
+        "p50": 309.6490821838379,
+        "p95": 401.09709548950195,
+        "p99": 401.09709548950195,
+        "max": 401.09709548950195
+      }
+    },
+    "cdpBackingStorageMiB": {
+      "page": {
+        "n": 7,
+        "p50": 122.2656602859497,
+        "p95": 141.1935110092163,
+        "p99": 141.1935110092163,
+        "max": 141.1935110092163
+      },
+      "worker": {
+        "n": 7,
+        "p50": 65.53839015960693,
+        "p95": 113.58623313903809,
+        "p99": 113.58623313903809,
+        "max": 113.58623313903809
+      }
+    },
+    "glBufferPeakMiB": 82.95187759399414,
+    "initialBufferDataCalls": 5485,
+    "initialUploadMiB": 35.80825424194336,
+    "recipeResidency": {
+      "cachedRoadBytes": 32598780,
+      "terrainCacheBytes": 9425104,
+      "recipeBudgetBytes": 44040192,
+      "pinnedRoadBytes": 23916668,
+      "borrowedTerrainBytes": 8017320
+    },
+    "background": {
+      "queued": 0,
+      "queuedBytes": 0,
+      "queueBudgetBytes": 8388608,
+      "publishedBytes": 13096188,
+      "pages": 61,
+      "stagingBatches": 0,
+      "stagingBytes": 0,
+      "peakStagingBytes": 4325616,
+      "pageTargetBytes": 524288
+    },
+    "worker": {
+      "jobs": {
+        "completed": 607,
+        "cancelledQueued": 11,
+        "cancelledInFlight": 1,
+        "coalescedRequests": 16284,
+        "disposed": false
+      },
+      "remaining": {
+        "queued": 16,
+        "inFlight": "road:ring-cw-2-split-4-split"
+      },
+      "perType": {
+        "ready": {
+          "activeMs": {
+            "n": 1,
+            "p50": 1095.4000000059605,
+            "p95": 1095.4000000059605,
+            "p99": 1095.4000000059605,
+            "max": 1095.4000000059605
+          },
+          "roundTripMs": {
+            "n": 1,
+            "p50": 1104.1000000089407,
+            "p95": 1104.1000000089407,
+            "p99": 1104.1000000089407,
+            "max": 1104.1000000089407
+          },
+          "queueWaitMs": {
+            "n": 1,
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "max": 0
+          },
+          "receiveWaitMs": {
+            "n": 1,
+            "p50": 8.60009765625,
+            "p95": 8.60009765625,
+            "p99": 8.60009765625,
+            "max": 8.60009765625
+          }
+        },
+        "road": {
+          "activeMs": {
+            "n": 346,
+            "p50": 22.50000001490116,
+            "p95": 140.79999995231628,
+            "p99": 181.90000002086163,
+            "max": 254.90000000596046
+          },
+          "roundTripMs": {
+            "n": 346,
+            "p50": 27.600000008940697,
+            "p95": 188.29999999701977,
+            "p99": 254.5,
+            "max": 365
+          },
+          "queueWaitMs": {
+            "n": 346,
+            "p50": 480,
+            "p95": 3352,
+            "p99": 4436.100000008941,
+            "max": 4601
+          },
+          "receiveWaitMs": {
+            "n": 346,
+            "p50": 4.10009765625,
+            "p95": 13.10009765625,
+            "p99": 17.60009765625,
+            "max": 21.5
+          }
+        },
+        "terrain": {
+          "activeMs": {
+            "n": 144,
+            "p50": 4.899999991059303,
+            "p95": 19.299999997019768,
+            "p99": 43.1000000089407,
+            "max": 56.099999979138374
+          },
+          "roundTripMs": {
+            "n": 144,
+            "p50": 10.200000002980232,
+            "p95": 23.5,
+            "p99": 47.900000005960464,
+            "max": 56.8999999910593
+          },
+          "queueWaitMs": {
+            "n": 144,
+            "p50": 184.40000000596046,
+            "p95": 2649.7999999970198,
+            "p99": 3937.2000000029802,
+            "max": 4242.79999999702
+          },
+          "receiveWaitMs": {
+            "n": 144,
+            "p50": 2,
+            "p95": 10.800048828125,
+            "p99": 14.699951171875,
+            "max": 22.400146484375
+          }
+        },
+        "background": {
+          "activeMs": {
+            "n": 116,
+            "p50": 1.0999999940395355,
+            "p95": 86.70000000298023,
+            "p99": 349.79999999701977,
+            "max": 622.5999999940395
+          },
+          "roundTripMs": {
+            "n": 116,
+            "p50": 7.4000000059604645,
+            "p95": 89,
+            "p99": 361.40000000596046,
+            "max": 627.7999999970198
+          },
+          "queueWaitMs": {
+            "n": 116,
+            "p50": 2043.5,
+            "p95": 5124.29999999702,
+            "p99": 5427,
+            "max": 5429.5999999940395
+          },
+          "receiveWaitMs": {
+            "n": 116,
+            "p50": 2.800048828125,
+            "p95": 17.60009765625,
+            "p99": 18.800048828125,
+            "max": 19.10009765625
+          }
+        },
+        "cancelled": {
+          "activeMs": {
+            "n": 1,
+            "p50": 65.29999999701977,
+            "p95": 65.29999999701977,
+            "p99": 65.29999999701977,
+            "max": 65.29999999701977
+          },
+          "roundTripMs": {
+            "n": 1,
+            "p50": 80.09999999403954,
+            "p95": 80.09999999403954,
+            "p99": 80.09999999403954,
+            "max": 80.09999999403954
+          },
+          "queueWaitMs": {
+            "n": 1,
+            "p50": 926.0999999940395,
+            "p95": 926.0999999940395,
+            "p99": 926.0999999940395,
+            "max": 926.0999999940395
+          },
+          "receiveWaitMs": {
+            "n": 1,
+            "p50": 6.300048828125,
+            "p95": 6.300048828125,
+            "p99": 6.300048828125,
+            "max": 6.300048828125
+          }
+        }
+      }
+    },
+    "maxStreamUpdateMs": 29.100000008940697,
+    "warmup": {
+      "roots": 216,
+      "completedRoots": 211,
+      "cancelledRoots": 2,
+      "activity": "几何与绘制资源 · 0 / 2",
+      "objects": 4104,
+      "representatives": 1618,
+      "submissions": 225,
+      "maxSubmitMs": 8.800000011920929,
+      "cacheHits": 2247,
+      "resourceBatches": 720,
+      "maxResourceMs": 12.099999994039536,
+      "textureUploads": 154
+    },
+    "publicationCount": 137,
+    "release": {
+      "disposed": true,
+      "resourcesReleased": true,
+      "glBufferBytes": 0,
+      "recipes": 0,
+      "workerDisposed": true
+    },
+    "errors": []
+  },
+  "final": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 9286.5,
+    "loadingFrames": {
+      "n": 1243,
+      "p50": 6.100000008940697,
+      "p95": 11.299999997019768,
+      "p99": 36.5,
+      "max": 287,
+      "over33": 15,
+      "over50": 7,
+      "over100": 4
+    },
+    "loadingTasksOver50Ms": [
+      {
+        "start": 2667.7999999970198,
+        "duration": 118
+      },
+      {
+        "start": 2788.0999999940395,
+        "duration": 78
+      },
+      {
+        "start": 4154.5999999940395,
+        "duration": 77
+      },
+      {
+        "start": 4233,
+        "duration": 100
+      },
+      {
+        "start": 10497.79999999702,
+        "duration": 284
+      },
+      {
+        "start": 10882.20000000298,
+        "duration": 150
+      }
+    ],
+    "loadingBatchesMs": [
+      {
+        "activeMs": 1156.199999988079,
+        "maxSliceMs": 37.5,
+        "batches": 129
+      }
+    ],
+    "startupCpu": {
+      "phasesMs": {
+        "loadCityMap": 0,
+        "roadNetwork": 0.09999999403953552,
+        "sectorSetup": 26.700000002980232,
+        "groundGeometry": 3.5,
+        "sectorManager": 782.6000000089407,
+        "clearanceIndex": 95.29999999701977,
+        "colliders": 25.299999997019768,
+        "physicsPreparation": 60.900000005960464,
+        "surfaceIndex": 221.69999998807907,
+        "spawnPreparation": 11.5
+      },
+      "screen": [
+        {
+          "name": "loading:firstScreen:驾驶界面与小地图",
+          "start": 10446.5,
+          "ms": 5.299999997019768,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:首屏可见区域",
+          "start": 10489.29999999702,
+          "ms": 2.5999999940395355,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:主视图与实际阴影",
+          "start": 10497.89999999106,
+          "ms": 283.80000001192093,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:左侧后视镜",
+          "start": 10796.09999999404,
+          "ms": 23.900000005960464,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:右侧后视镜",
+          "start": 10834.59999999404,
+          "ms": 3,
+          "detail": null
+        },
+        {
+          "name": "loading:firstScreen:完整首屏",
+          "start": 10852.70000000298,
+          "ms": 20.799999997019768,
+          "detail": null
+        }
+      ],
+      "construction": [
+        {
+          "name": "loading:renderer",
+          "start": 4148.20000000298,
+          "ms": 0,
+          "detail": null
+        },
+        {
+          "name": "loading:environmentMap",
+          "start": 4154.70000000298,
+          "ms": 77.59999999403954,
+          "detail": null
+        },
+        {
+          "name": "loading:gameConstruction",
+          "start": 4233,
+          "ms": 100,
+          "detail": null
+        }
+      ]
+    },
+    "loadingOverlay": {
+      "mounted": true,
+      "released": true,
+      "updates": 424,
+      "monotonic": true
+    },
+    "driving": {
+      "n": 5719,
+      "p50": 9.900000005960464,
+      "p95": 16.299999997019768,
+      "p99": 31.899999991059303,
+      "max": 151.5,
+      "over33": 55,
+      "over50": 12,
+      "over100": 1
+    },
+    "byPhase": {
+      "outbound": {
+        "n": 3144,
+        "p50": 9.199999988079071,
+        "p95": 15.100000008940697,
+        "p99": 37.70000000298023,
+        "max": 62.29999999701977,
+        "over33": 39,
+        "over50": 8,
+        "over100": 0
+      },
+      "approach": {
+        "n": 676,
+        "p50": 10.5,
+        "p95": 16.299999997019768,
+        "p99": 39.29999999701977,
+        "max": 151.5,
+        "over33": 10,
+        "over50": 3,
+        "over100": 1
+      },
+      "turn": {
+        "n": 687,
+        "p50": 10.299999997019768,
+        "p95": 13.099999994039536,
+        "p99": 16.599999994039536,
+        "max": 26.5,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "return": {
+        "n": 1212,
+        "p50": 11.399999991059303,
+        "p95": 17.599999994039536,
+        "p99": 25.100000008940697,
+        "max": 54.099999994039536,
+        "over33": 6,
+        "over50": 1,
+        "over100": 0
+      }
+    },
+    "route": {
+      "turnFinished": true,
+      "turnDistance": 2407.770422687363,
+      "station": 2184
+    },
+    "measuredSlowCallbackCpu": {
+      "n": 273,
+      "p50": 15.099999994039536,
+      "p95": 18.30000001192093,
+      "p99": 27.299999997019768,
+      "max": 41.400000005960464
+    },
+    "peakCallbackDetails": [
+      {
+        "start": 11063.29999999702,
+        "cpuMs": 41.400000005960464,
+        "renderMs": 11.599999994039536,
+        "streamMs": 0.09999999403953552,
+        "drivingElapsed": 3.2000000029802322
+      },
+      {
+        "start": 44329,
+        "cpuMs": 29.299999997019768,
+        "renderMs": 27.100000008940697,
+        "streamMs": 0,
+        "drivingElapsed": 33268.90000000596
+      },
+      {
+        "start": 17411.79999999702,
+        "cpuMs": 27.299999997019768,
+        "renderMs": 12,
+        "streamMs": 0,
+        "drivingElapsed": 6351.70000000298
+      },
+      {
+        "start": 34710.79999999702,
+        "cpuMs": 26.5,
+        "renderMs": 9.400000005960464,
+        "streamMs": 0.09999999403953552,
+        "drivingElapsed": 23650.70000000298
+      },
+      {
+        "start": 54657.79999999702,
+        "cpuMs": 25.900000005960464,
+        "renderMs": 24.200000002980232,
+        "streamMs": 0,
+        "drivingElapsed": 43597.70000000298
+      },
+      {
+        "start": 70538.20000000298,
+        "cpuMs": 24.69999998807907,
+        "renderMs": 12.399999991059303,
+        "streamMs": 0,
+        "drivingElapsed": 59478.10000000894
+      }
+    ],
+    "sampledGpuExecution": {
+      "n": 93,
+      "p50": 6.384288,
+      "p95": 12.242592,
+      "p99": 14.813472,
+      "max": 14.813472
+    },
+    "mainPerformanceMemoryMiB": {
+      "n": 5719,
+      "p50": 467.11346340179443,
+      "p95": 541.1436433792114,
+      "p99": 561.8252277374268,
+      "max": 580.6096782684326
+    },
+    "cdpUsedJSHeapMiB": {
+      "page": {
+        "n": 7,
+        "p50": 340.7057113647461,
+        "p95": 368.46207427978516,
+        "p99": 368.46207427978516,
+        "max": 368.46207427978516
+      },
+      "worker": {
+        "n": 7,
+        "p50": 306.58383560180664,
+        "p95": 410.4735641479492,
+        "p99": 410.4735641479492,
+        "max": 410.4735641479492
+      }
+    },
+    "cdpBackingStorageMiB": {
+      "page": {
+        "n": 7,
+        "p50": 129.07971954345703,
+        "p95": 140.29491519927979,
+        "p99": 140.29491519927979,
+        "max": 140.29491519927979
+      },
+      "worker": {
+        "n": 7,
+        "p50": 61.46839427947998,
+        "p95": 110.3698034286499,
+        "p99": 110.3698034286499,
+        "max": 110.3698034286499
+      }
+    },
+    "glBufferPeakMiB": 83.77560997009277,
+    "initialBufferDataCalls": 5485,
+    "initialUploadMiB": 35.80825424194336,
+    "recipeResidency": {
+      "cachedRoadBytes": 33355240,
+      "terrainCacheBytes": 8622336,
+      "recipeBudgetBytes": 44040192,
+      "pinnedRoadBytes": 28491996,
+      "borrowedTerrainBytes": 7259728
+    },
+    "background": {
+      "queued": 0,
+      "queuedBytes": 0,
+      "queueBudgetBytes": 8388608,
+      "publishedBytes": 13096188,
+      "pages": 65,
+      "stagingBatches": 0,
+      "stagingBytes": 0,
+      "peakStagingBytes": 4325616,
+      "pageTargetBytes": 524288
+    },
+    "worker": {
+      "jobs": {
+        "completed": 622,
+        "cancelledQueued": 12,
+        "cancelledInFlight": 0,
+        "coalescedRequests": 16111,
+        "disposed": false
+      },
+      "remaining": {
+        "queued": 4,
+        "inFlight": "road:v4-south-logistics-east"
+      },
+      "perType": {
+        "ready": {
+          "activeMs": {
+            "n": 1,
+            "p50": 1083.9000000059605,
+            "p95": 1083.9000000059605,
+            "p99": 1083.9000000059605,
+            "max": 1083.9000000059605
+          },
+          "roundTripMs": {
+            "n": 1,
+            "p50": 1091.5999999940395,
+            "p95": 1091.5999999940395,
+            "p99": 1091.5999999940395,
+            "max": 1091.5999999940395
+          },
+          "queueWaitMs": {
+            "n": 1,
+            "p50": 0,
+            "p95": 0,
+            "p99": 0,
+            "max": 0
+          },
+          "receiveWaitMs": {
+            "n": 1,
+            "p50": 7.500244140625,
+            "p95": 7.500244140625,
+            "p99": 7.500244140625,
+            "max": 7.500244140625
+          }
+        },
+        "road": {
+          "activeMs": {
+            "n": 362,
+            "p50": 19.399999991059303,
+            "p95": 125.50000004470348,
+            "p99": 160.99999997019768,
+            "max": 244.09999999403954
+          },
+          "roundTripMs": {
+            "n": 362,
+            "p50": 24.700000002980232,
+            "p95": 148.40000000596046,
+            "p99": 191.59999999403954,
+            "max": 352.1000000089407
+          },
+          "queueWaitMs": {
+            "n": 362,
+            "p50": 419.6000000089407,
+            "p95": 3779.7000000029802,
+            "p99": 4603.399999991059,
+            "max": 4801.29999999702
+          },
+          "receiveWaitMs": {
+            "n": 362,
+            "p50": 3.60009765625,
+            "p95": 11.300048828125,
+            "p99": 14.400146484375,
+            "max": 75.400146484375
+          }
+        },
+        "terrain": {
+          "activeMs": {
+            "n": 143,
+            "p50": 4.4000000059604645,
+            "p95": 16.200000002980232,
+            "p99": 41.50000001490116,
+            "max": 56.3999999910593
+          },
+          "roundTripMs": {
+            "n": 143,
+            "p50": 9.600000008940697,
+            "p95": 19.700000002980232,
+            "p99": 44.099999994039536,
+            "max": 57.29999999701977
+          },
+          "queueWaitMs": {
+            "n": 143,
+            "p50": 190.1000000089407,
+            "p95": 2302.2000000029802,
+            "p99": 3730.8999999910593,
+            "max": 3774.7000000029802
+          },
+          "receiveWaitMs": {
+            "n": 143,
+            "p50": 2.10009765625,
+            "p95": 10.5,
+            "p99": 12.699951171875,
+            "max": 14.7001953125
+          }
+        },
+        "background": {
+          "activeMs": {
+            "n": 116,
+            "p50": 0.8999999910593033,
+            "p95": 52.5,
+            "p99": 193.1000000089407,
+            "max": 408.79999999701977
+          },
+          "roundTripMs": {
+            "n": 116,
+            "p50": 6.4000000059604645,
+            "p95": 58.900000005960464,
+            "p99": 196.30000001192093,
+            "max": 409.19999998807907
+          },
+          "queueWaitMs": {
+            "n": 116,
+            "p50": 1456.6000000089407,
+            "p95": 4093.5999999940395,
+            "p99": 4457.0999999940395,
+            "max": 4470.100000008941
+          },
+          "receiveWaitMs": {
+            "n": 116,
+            "p50": 1.400146484375,
+            "p95": 11.300048828125,
+            "p99": 13.60009765625,
+            "max": 18.30029296875
+          }
+        }
+      }
+    },
+    "maxStreamUpdateMs": 19.5,
+    "warmup": {
+      "roots": 220,
+      "completedRoots": 220,
+      "cancelledRoots": 0,
+      "activity": "等待 GPU 完成资源提交",
+      "objects": 4093,
+      "representatives": 1609,
+      "submissions": 225,
+      "maxSubmitMs": 8.799999997019768,
+      "cacheHits": 2265,
+      "resourceBatches": 736,
+      "maxResourceMs": 12.099999994039536,
+      "textureUploads": 153
+    },
+    "publicationCount": 140,
+    "release": {
+      "disposed": true,
+      "resourcesReleased": true,
+      "glBufferBytes": 0,
+      "recipes": 0,
+      "workerDisposed": true
+    },
+    "errors": []
+  }
+}

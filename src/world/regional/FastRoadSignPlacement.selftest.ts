@@ -8,7 +8,7 @@ import { validateRoadSignData } from '../city/RoadSignValidation';
 import { roadSignColliders, signDimensions } from '../city/RoadSignTemplates';
 import { RoadClearance } from '../city/RoadClearance';
 import { polylineLength, roadPoints, rotatePoint, sampleAt } from '../city/geometry';
-import { auditFastRoadSigns, isSafetySign, optimizeFastRoadSigns, signReadingConflict } from './FastRoadSignPlacement';
+import { auditFastRoadSigns, isSafetySign, optimizeFastRoadSigns, RoadSignPlacement, signReadingConflict } from './FastRoadSignPlacement';
 
 export function runFastRoadSignPlacementSelfTest(maps: readonly CityMapData[]) {
   let assertions = 0;
@@ -38,6 +38,11 @@ export function runFastRoadSignPlacementSelfTest(maps: readonly CityMapData[]) {
   check(!signReadingConflict(board, { ...nearby, heading: Math.PI }), 'opposing directions stay independent');
   check(!signReadingConflict(board, { ...nearby, position: { x: 0, y: 15, z: -550 } }), 'separate decks stay independent');
   check(!signReadingConflict(board, { ...nearby, position: { x: 30, y: 0, z: -550 } }), 'separate lateral reading bands stay independent');
+  const mileage={...board,type:'EXPRESSWAY_DISTANCE' as const,stationMetres:500,destinations:[{roadNameId:'route',arrow:'straight' as const,distanceMetres:900}]};
+  const placement=new RoadSignPlacement(fixture),downstream=placement.move(mileage,30)!;
+  check(downstream.position.z===-530&&downstream.destinations[0]!.distanceMetres===870,'mileage changes by actual travel distance without advance metadata');
+  check(placement.move({...mileage,laneDirection:'reverse',heading:Math.PI},30)!.stationMetres===470&&placement.move(mileage,-15)!.destinations[0]!.distanceMetres===915,'mileage movement respects travel direction and upstream shifts');
+  check(placement.move(mileage,910)===undefined&&mileage.destinations[0]!.distanceMetres===900,'do not relocate beyond the destination or mutate the original board');
   const linked = structuredClone(fixture); linked.roads = [0, 1].map(i => ({ ...fixture.roads[0]!, id: 'link-' + i, travelDirection: 'forward',
     centerline: [{ x: 0, y: 0, z: -1000 * i }, { x: 0, y: 0, z: -1000 * (i + 1) }] }));
   linked.roadLinks = [{ id: 'seam', from: { roadId: 'link-0', end: 'end' }, to: { roadId: 'link-1', end: 'start' } }];

@@ -1,7 +1,9 @@
 import type { StorageService } from '../../platform/Platform';
 import type { GameUIState, HudProfile, UIScreen } from '../state/GameUIState';
+import {LoadingProgress} from '../../loading/LoadingProgress';
 export interface GameUICommands {
   startDrive(restart: boolean): void | Promise<void>;
+  cancelStart?():void;
   selectVehicle(id: string): void;
   selectMap(id: string): void;
   openSettings(section: 'vehicle' | 'controls' | 'world'): void;
@@ -12,6 +14,8 @@ export interface GameUICommands {
 export class GameUIController {
   readonly state: GameUIState;
   onChange?: (state: Readonly<GameUIState>) => void;
+  readonly loadingProgress=new LoadingProgress(progress=>{this.state.loading.progress=progress;this.emit();});
+  private startGeneration=0;
   private settingsReturn: UIScreen = 'main';
   get freezesSimulation(): boolean { return this.state.screen !== 'driving' && !(this.state.screen === 'settings' && this.settingsReturn === 'driving'); }
   constructor(private readonly commands: GameUICommands, private readonly storage: StorageService,
@@ -35,19 +39,25 @@ export class GameUIController {
     this.enterDrive(this.state.hasSession);
   }
   private enterDrive(restart: boolean): void {
-    const result = this.commands.startDrive(restart);
+    const generation=++this.startGeneration;
+    this.state.loading.phase='starting';this.state.loading.message='正在开始准备';
+    this.loadingProgress.begin();this.setBusy(true);this.navigate('loading');
+    let result:void|Promise<void>;
+    try{result=this.commands.startDrive(restart);}catch(error){this.startFailed(error,generation);return;}
     if (result instanceof Promise) {
       this.setBusy(true); this.navigate('loading');
       void result.then(() => {
+        if(generation!==this.startGeneration)return;
         this.state.hasSession = true; this.setBusy(false); this.setLoading('ready'); this.navigate('driving');
       }, error => {
-        console.error('Drive loading failed', error);
-        this.setBusy(false); this.setLoading('error', '场景暂时无法载入，请返回主菜单重试。');
+        this.startFailed(error,generation);
       });
-    } else { this.state.hasSession = true; this.navigate('driving'); }
+    } else { this.state.hasSession = true;this.setBusy(false); this.navigate('driving'); }
   }
+  private startFailed(error:unknown,generation:number):void {if(generation!==this.startGeneration)return;this.loadingProgress.fail(String(error));console.error('Drive loading failed',error);this.setBusy(false);this.setLoading('error','场景暂时无法载入，请返回主菜单重试。');}
+  cancelLoading():void {if(this.state.screen!=='loading')return;this.startGeneration++;this.loadingProgress.cancel();this.commands.cancelStart?.();this.state.hasSession=false;this.setBusy(false);this.navigate('main');}
   setLoading(phase: GameUIState['loading']['phase'], message = ''): void {
-    this.state.loading = { phase, message }; this.emit();
+    this.state.loading = { phase, message,progress:this.state.loading.progress }; this.emit();
   }
   resume(): void { if (!this.state.busy) this.navigate('driving'); }
   pause(): void { if (this.state.screen === 'driving') this.navigate('pause'); }

@@ -12,7 +12,7 @@ export interface VehicleViewModel {
 }
 export interface MapViewModel { id: string; name: string; description: string }
 export interface GameUIState {
-  loading: { phase: 'idle' | 'starting' | 'loadingWorld' | 'loadingVehicle' | 'warmingRenderer' | 'ready' | 'error'; message: string };
+  loading: { phase: 'idle' | 'starting' | 'loadingWorld' | 'loadingVehicle' | 'warmingRenderer' | 'ready' | 'error'; message: string; progress?:import('../../loading/LoadingProgress').LoadingSnapshot };
   screen: UIScreen; hasSession: boolean; busy: boolean; hudProfile: HudProfile;
   vehicleId: string; mapId: string;
 }

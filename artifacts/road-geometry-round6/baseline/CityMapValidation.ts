@@ -1,0 +1,203 @@
+import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, type CityMapData, type CityPoint, type CityRoad, type RoadEndpoint } from './CityMapData';
+import { directionalPortLabel, portsFor, roadPoints } from './geometry';
+import { ROAD_STYLES } from './RoadStyles';
+import { ROAD_CROSS_SECTIONS } from './RoadCrossSection';
+import catalog from './presets/catalog.json';
+import { validatePresetGeometry } from './presets/PresetGeometryValidation';
+import { validateRoadSignData } from './RoadSignValidation';
+import { validateHighwayData } from '../regional/HighwayValidation';
+export interface MapIssue { severity: 'error' | 'warning'; code: string; path: string; message: string }
+export interface MapValidation { valid: boolean; errors: MapIssue[]; warnings: MapIssue[]; errorCount: number; warningCount: number }
+export const RECOMMENDED_GRADE = 0.12;
+export const MAXIMUM_GRADE = 0.25;
+export const pointHeight = (p: CityPoint): number => p.y ?? 0;
+export function validateMap(value: unknown): MapValidation {
+  const errors: MapIssue[] = [], warnings: MapIssue[] = [];
+  const result = (): MapValidation => ({ valid: errors.length === 0, errors, warnings, errorCount: errors.length, warningCount: warnings.length });
+  const issue = (code: string, path: string, message: string, severity: 'error' | 'warning' = 'error') => (severity === 'error' ? errors : warnings).push({ severity, code, path, message });
+  const finite = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+  const point = (v: CityPoint | undefined): boolean => !!v && finite(v.x) && finite(v.z) && (v.y === undefined || finite(v.y) && v.y >= -50 && v.y <= 100);
+  if (!value || typeof value !== 'object') { issue('map.invalid', '$', 'Expected CityMap object.'); return result(); }
+  const m = value as CityMapData;
+  if (typeof m.id !== 'string' || !m.id || typeof m.name !== 'string') issue('metadata.invalid', '$', 'Nonempty id and name required.');
+  if (!Number.isInteger(m.version) || m.version < 1) issue('version.invalid', 'version', 'Expected positive integer.');
+  if (m.schemaVersion !== undefined && ![1, 2].includes(m.schemaVersion)) issue('schema.invalid', 'schemaVersion', 'Supported schema versions: 1, 2.');
+  if (!finite(m.sectorSize) || m.sectorSize < 50 || m.sectorSize > 2000) issue('sector.invalid', 'sectorSize', 'Expected 50–2000 metres.');
+  if(m.regional?.coast){const c=m.regional.coast;
+    if(![c.minX,c.maxX,c.seaLevel,c.landHeight,c.transitionWidth].every(finite)||c.minX>=c.maxX||c.transitionWidth<100||c.transitionWidth>5000||c.seaLevel<-40||c.seaLevel>50||c.landHeight<=c.seaLevel||c.landHeight>100||!Array.isArray(c.shoreline)||c.shoreline.length<2||c.shoreline.some((p,i)=>!p||!finite(p.x)||!finite(p.z)||i>0&&p.x<=c.shoreline[i-1]!.x)||c.shoreline[0]?.x!==c.minX||c.shoreline.at(-1)?.x!==c.maxX)
+      issue('coast.invalid','regional.coast','Coast requires ordered finite shoreline knots, matching X limits and a 100–5000m shore transition.');
+  }
+  const b = m.bounds;
+  if (!b || ![b.minX, b.maxX, b.minZ, b.maxZ].every(finite) || b.minX >= b.maxX || b.minZ >= b.maxZ || b.maxX - b.minX > 200000 || b.maxZ - b.minZ > 200000) issue('bounds.invalid', 'bounds', 'Finite ordered bounds, at most 200km per axis, required.');
+  for (const key of ['roads', 'intersections', 'objects'] as const) if (!Array.isArray(m[key])) issue('array.required', key, 'Expected array.');
+  if (errors.some(e => e.code === 'array.required')) return result();
+  errors.push(...validateRoadSignData(m));
+  const ids = new Set<string>();
+  for (const key of ['roads', 'intersections', 'objects', 'roadLinks', 'connectionPorts'] as const) {
+    const list = m[key]; if (list === undefined) continue;
+    if (!Array.isArray(list)) { issue('array.invalid', key, 'Expected array.'); continue; }
+    list.forEach((e, index) => {
+      const path = `${key}[${index}]`;
+      if (!e || typeof e.id !== 'string' || !e.id || ids.has(e.id)) issue('id.duplicate', path, 'Missing or duplicate element ID.'); else ids.add(e.id);
+      if (e && typeof e === 'object' && 'presetSource' in e && e.presetSource && !catalog.presets.some(p => p.id === e.presetSource)) issue('preset.invalid', path, `Unknown presetSource: ${e.presetSource}`);
+    });
+  }
+  for (let index = 0; index < m.roads.length; index++) {
+    const r = m.roads[index], path = `roads[${index}]`; if (!r) continue;
+    if (r.type !== undefined && !Object.hasOwn(ROAD_LANES, r.type) || !Number.isInteger(r.laneCount) || (r.crossSection || r.type === 'highway' ? r.laneCount < 1 || r.laneCount > (r.crossSection ? 8 : 6) : r.type === undefined || r.laneCount !== ROAD_LANES[r.type])) issue('lanes.invalid', path, 'Cross sections support 1–8 lanes; legacy highway supports 1–6 and urban/ramp types fix count.');
+    if (r.type === undefined && r.roadClass === undefined) issue('road.class', path, 'New roads require an explicit traffic function.');
+    if(r.pavementSurface!==undefined&&r.pavementSurface!=='ribbon')issue('road.pavementSurface',path,'Unknown pavement support geometry.');
+    if (r.crossSection !== undefined && !Object.hasOwn(ROAD_CROSS_SECTIONS, r.crossSection)) issue('road.crossSection', path, 'Unknown geometric cross-section preset.');
+    if (!finite(r.laneWidth) || r.laneWidth < 2 || r.laneWidth > 6 || !finite(r.speedLimit) || r.speedLimit <= 0 || r.speedLimit > 200) issue('road.properties', path, 'Lane width 2–6m, speed 1–200km/h required.');
+    if (!['two-way', 'forward', 'reverse'].includes(r.travelDirection) || r.travelDirection === 'two-way' && r.laneCount % 2 !== 0) issue('direction.invalid', path, 'Two-way roads require an even lane count.');
+    if (r.styleId && !ROAD_STYLES.some(s => s.id === r.styleId)) issue('style.invalid', path, `Unknown road style: ${r.styleId}`);
+    if (r.designProfile !== undefined && !['urban','motorway'].includes(r.designProfile)) issue('design.profile',path,'Expected urban or motorway design profile.');
+    if(r.roadClass!==undefined&&!['expressway','arterial','collector','local','frontage','ramp','connector','avenue','alley','industrial'].includes(r.roadClass))issue('road.class',path,'Unknown road function.');
+    if(r.displayName!==undefined&&(typeof r.displayName!=='string'||r.displayName.length>100))issue('road.displayName',path,'Optional player name must be a string of at most 100 characters; empty means unnamed.');
+    if(r.decorationProfile!==undefined&&(typeof r.decorationProfile!=='string'||!r.decorationProfile.length||r.decorationProfile.length>64))issue('road.decoration',path,'Decoration profile must be a nonempty key of at most 64 characters.');
+    if (r.curve && !['polyline', 'smooth'].includes(r.curve)) issue('curve.invalid', path, 'Expected polyline or smooth.');
+    if (r.elevationMode && !['ground', 'elevated', 'custom'].includes(r.elevationMode)) issue('elevation.mode', path, 'Expected ground/elevated/custom.');
+    if (r.elevationMode === 'elevated' && (!finite(r.elevation ?? 6) || (r.elevation ?? 6) < 2.5 || (r.elevation ?? 6) > 100)) issue('elevation.invalid', path, 'Elevated height must be 2.5–100m.');
+    if (r.sidewalk && (typeof r.sidewalk.enabled !== 'boolean' || !finite(r.sidewalk.width) || r.sidewalk.width < 0.5 || r.sidewalk.width > 10)) issue('sidewalk.invalid', path, 'Sidewalk width must be 0.5–10m.');
+    if (r.shoulders && ![r.shoulders.left, r.shoulders.right].every(v=>finite(v)&&v>=0&&v<=5)) issue('shoulders.invalid',path,'Paved shoulder widths must be 0–5m.');
+    if (r.structure?.barrierOffset !== undefined && (!finite(r.structure.barrierOffset)||r.structure.barrierOffset<0||r.structure.barrierOffset>2)) issue('barrier.offset',path,'Barrier offset must be 0–2m outside pavement.');
+    if (r.gore && (typeof r.gore.start!=='boolean'||typeof r.gore.end!=='boolean'||!finite(r.gore.length)||r.gore.length<10||r.gore.length>300)) issue('gore.invalid',path,'Gore needs boolean endpoints and 10–300m length.');
+    if (r.gore?.clipToPavement !== undefined && typeof r.gore.clipToPavement !== 'boolean') issue('gore.invalid',path,'Gore pavement clipping must be boolean.');
+    const s = r.structure;
+    if(s&&[s.barrierStyle,s.medianBarrierStyle].some(style=>style!==undefined&&!['metal','concrete'].includes(style)))issue('barrier.style',path,'Expected metal or concrete barriers.');
+    if (s?.enclosure && (!['tunnel','underpass','cutting'].includes(s.enclosure.kind) || !finite(s.enclosure.clearance) || s.enclosure.clearance < 5 || s.enclosure.clearance > 10)) issue('enclosure.invalid',path,'Enclosed roads require a known kind and 5–10m clear height.');
+    if (s?.enclosure?.branchOpenings !== undefined && (!Array.isArray(s.enclosure.branchOpenings) || s.enclosure.branchOpenings.some((id:unknown)=>typeof id!=='string'||id===r.id||!m.roads.some((road:CityRoad)=>road.id===id)))) issue('enclosure.branchOpenings',path,'Tunnel branch openings must reference other existing roads.');
+    if (s && (s.pierSpacing !== undefined && (!finite(s.pierSpacing) || s.pierSpacing < 10 || s.pierSpacing > 100) || s.pierStyle !== undefined && !['round', 'rectangular'].includes(s.pierStyle) || s.barrierEnabled !== undefined && typeof s.barrierEnabled !== 'boolean' || s.piersEnabled !== undefined && typeof s.piersEnabled !== 'boolean')) issue('structure.invalid', path, 'Pier spacing 10–100m, style round/rectangular, flags boolean.');
+    if (!Array.isArray(r.centerline) || r.centerline.length < 2 || !r.centerline.every(point)) { issue('elevation.node', path, 'Two finite {x,y?,z} nodes required; Y range -50–100m.'); continue; }
+    const separation = (a: CityPoint, b: CityPoint) => Math.hypot(a.x - b.x, a.z - b.z);
+    if (separation(r.centerline[0]!, r.centerline.at(-1)!) < 0.05 || r.centerline.some((p, i) => i > 0 && separation(p, r.centerline[i - 1]!) < 0.05)) {
+      issue('road.degenerate', `${path}.centerline`, 'Distinct start/end and consecutive nodes need at least 0.05m horizontal separation.'); continue;
+    }
+    let maxGrade = 0;
+    const points = roadPoints(r);
+    for (let i = 1; i < points.length; i++) {
+      const a = points[i - 1]!, c = points[i]!, length = Math.hypot(c.x - a.x, c.z - a.z);
+      if (length < 0.05) { issue('road.degenerate', `${path}.centerline`, 'Consecutive nodes need horizontal separation.'); break; }
+      maxGrade = Math.max(maxGrade, Math.abs(pointHeight(c) - pointHeight(a)) / length);
+    }
+    if (maxGrade > MAXIMUM_GRADE) issue('slope.extreme', path, `Grade ${(maxGrade * 100).toFixed(1)}% exceeds hard limit 25%.`);
+    else if (maxGrade > RECOMMENDED_GRADE) issue('slope.recommended', path, `Grade ${(maxGrade * 100).toFixed(1)}% exceeds recommended 12%.`, 'warning');
+  }
+  const endpoint = (e: RoadEndpoint | undefined, path: string): CityPoint | undefined => {
+    const r = e && m.roads.find(r => r?.id === e.roadId);
+    if (!e || !r || !['start', 'end'].includes(e.end) || !Array.isArray(r.centerline) || !r.centerline.length) { issue('connection.broken', path, 'Unknown roadId or invalid endpoint.'); return; }
+    const p = e.end === 'start' ? r.centerline[0] : r.centerline.at(-1);
+    return p && { ...p, y: r.elevationMode === 'ground' ? 0 : r.elevationMode === 'elevated' ? r.elevation ?? 6 : pointHeight(p) };
+  };
+  const used = new Set<string>();
+  for (let index = 0; index < m.intersections.length; index++) {
+    const j = m.intersections[index], path = `intersections[${index}]`; if (!j) continue;
+    if (!Object.hasOwn(INTERSECTION_LANES, j.type) || !point(j.position) || !finite(j.rotation) || typeof j.signalized !== 'boolean' || !Array.isArray(j.connections)) { issue('junction.invalid', path, 'Invalid type, position, rotation, signalized or connections.'); continue; }
+    const ports = new Set<string>();
+    if(j.pavementFootprint&&(!Array.isArray(j.pavementFootprint)||j.pavementFootprint.length<3||!j.pavementFootprint.every(point)))issue('junction.pavement',path,'Pavement outline needs at least three finite local points.');
+    if(j.pavementHeights&&Object.values(j.pavementHeights).some(y=>!finite(y)||y<-50||y>100))issue('junction.pavementHeight',path,'Approach heights must be finite metres.');
+    if(j.pavementProfile!==undefined&&j.pavementProfile!=='local-landing')issue('junction.pavementProfile',path,'Unknown pavement profile policy.');
+    const expected = j.type==='divided_cross'?6:j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
+    if(j.approachOffsets&&Object.entries(j.approachOffsets).some(([port,p])=>!portsFor(j).includes(port as never)||!point(p)))issue('junction.offset',path,'Finite approach offsets on valid ports required.');
+    if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');
+    if(j.channelized!==undefined&&typeof j.channelized!=='boolean')issue('junction.channelized',path,'Channelized flag must be boolean.');
+    if(j.signals?.profile!==undefined&&!['standard','lane-countdown'].includes(j.signals.profile))issue('signal.profile',path,'Unknown signal profile.');
+    if(j.signals?.placements)for(const [port,placement] of Object.entries(j.signals.placements))if(!portsFor(j).includes(port as typeof j.connections[number]['port'])||!placement||!point(placement.position)||!finite(placement.heading)||placement.headHeight!==undefined&&(!finite(placement.headHeight)||placement.headHeight<(j.signals.profile?7.2:3)||placement.headHeight>12))issue('signal.placement',path,'Signal placement requires a valid approach, XYZ and heading.');
+    for(const [key,min,max] of [['throughGreenSeconds',8,90],['leftGreenSeconds',5,45],['amberSeconds',2,6],['allRedSeconds',1,5]] as const){const duration=j.signals?.[key];if(duration!==undefined&&(!finite(duration)||duration<min||duration>max))issue('signal.timing',path,`${key} must be ${min}–${max} seconds.`);}
+    if (j.connections.length < expected) issue('junction.weak', path, `${j.id}: ${j.connections.length}/${expected} arms. Preserve the authored junction; inspect missing approaches.`, 'warning');
+    for (const c of j.connections) {
+      const p = endpoint(c, path), key = `${c?.roadId}:${c?.end}`;
+      if (!c || !portsFor(j).includes(c.port) || ports.has(c.port) || used.has(key)) issue('port.conflict', path, 'A port and road endpoint each allow one junction connection.');
+      if (c) { ports.add(c.port); used.add(key); }
+      const expectedHeight=j.pavementHeights?.[c.port]??pointHeight(j.position);
+      if (p && Math.abs(pointHeight(p) - expectedHeight) > 0.2) issue('height.mismatch', path, `Road ${c.roadId}:${c.end} Y=${p.y} differs from junction mouth Y=${expectedHeight}.`);
+    }
+    if (j.signals && (j.signals.offsetSeconds !== undefined && !finite(j.signals.offsetSeconds) || j.signals.headHeight !== undefined && (!finite(j.signals.headHeight) || j.signals.headHeight < 3 || j.signals.headHeight > 12))) issue('signals.invalid', path, 'Invalid signal offset/head height.');
+    const f=j.markingFootprint;
+    if(f&&(f.kind==='junction'?(f.margin!==undefined&&(!finite(f.margin)||f.margin<0||f.margin>5)):f.kind==='rectangle'?![f.halfWidth,f.halfDepth].every(v=>finite(v)&&v>=2&&v<=100):f.kind==='polygon'?(!Array.isArray(f.points)||f.points.length<3||!f.points.every(point)):true))issue('marking.footprint',path,'Invalid marking suppression footprint.');
+    if(j.approaches)for(const [port,a] of Object.entries(j.approaches))if(!portsFor(j).includes(port as never)||!a||!Array.isArray(a.lanes)||a.lanes.some(l=>!['straight','left','right','straight-left','straight-right','left-right'].includes(l))||a.arrowDistance!==undefined&&(!finite(a.arrowDistance)||a.arrowDistance<25||a.arrowDistance>50))issue('marking.approach',path,'Lane arrow metadata requires valid movements and a 25–50m approach distance.');
+  }
+  const linkedPairs = new Set<string>();
+  if (Array.isArray(m.roadLinks)) for (const link of m.roadLinks) {
+    for (const e of [link?.from, link?.to]) if (e && Object.keys(e).some(k => k !== 'roadId' && k !== 'end')) issue('connection.shape', `roadLinks.${link?.id}`, 'Expected exactly {roadId,end}; not a node/port object.');
+    if (link?.from && link?.to) {
+      const pair = [`${link.from.roadId}:${link.from.end}`, `${link.to.roadId}:${link.to.end}`].sort().join('|');
+      if (linkedPairs.has(pair)) issue('connection.duplicate', `roadLinks.${link.id}`, 'Duplicate undirected endpoint connection.');
+      linkedPairs.add(pair);
+    }
+    const a = endpoint(link?.from, `roadLinks.${link?.id}`), c = endpoint(link?.to, `roadLinks.${link?.id}`);
+    if (a && c && Math.abs(pointHeight(a) - pointHeight(c)) > 0.2) issue('height.mismatch', `roadLinks.${link.id}`, 'Linked endpoints have different heights.');
+    if (a && c && Math.hypot(a.x - c.x, a.z - c.z) > 0.2) issue('connection.gap', `roadLinks.${link.id}`, 'Linked endpoints must coincide within 0.2m.');
+    if ([link?.from, link?.to].some(e => e && used.has(`${e.roadId}:${e.end}`))) issue('port.conflict', `roadLinks.${link?.id}`, 'An endpoint attached to a junction cannot also use a roadLink.');
+    if (link?.from?.roadId === link?.to?.roadId && link?.from?.end === link?.to?.end) issue('connection.self', `roadLinks.${link?.id}`, 'Cannot connect an endpoint to itself.');
+  }
+  if (Array.isArray(m.connectionPorts)) for (const port of m.connectionPorts) {
+    const p = endpoint(port?.endpoint, `connectionPorts.${port?.id}`);
+    if (!port || typeof port.label !== 'string' || !port.label) issue('port.invalid', `connectionPorts.${port?.id}`, 'Nonempty port label required.');
+    if (port?.endpoint && Object.keys(port.endpoint).some(k => k !== 'roadId' && k !== 'end')) issue('connection.shape', `connectionPorts.${port.id}`, 'Port endpoint must be exactly {roadId,end}.');
+    const e = port?.endpoint;
+    if(port?.position && (!point(port.position)||p&&Math.hypot(port.position.x-p.x,port.position.z-p.z,(port.position.y??0)-(p.y??0))>0.2)) issue('port.endpointMismatch',`connectionPorts.${port.id}`,'Port pose differs from its actual endpoint.');
+    if(port?.heading!==undefined) {
+      const r=m.roads.find(r=>r.id===e?.roadId);
+      if(!finite(port.heading)) issue('port.headingMismatch',`connectionPorts.${port.id}`,'Finite port heading required.');
+      else if(r&&e&&r.centerline.length>=2&&r.centerline.every(point)) {
+        if(directionalPortLabel(port.label,port.heading)!==port.label) issue('port.directionMismatch',`connectionPorts.${port.id}`,'Directional label does not match world heading.');
+        const pts=roadPoints(r),a=e.end==='start'?pts[0]!:pts.at(-1)!,b=e.end==='start'?pts[1]!:pts.at(-2)!;
+        const expected=Math.atan2(a.x-b.x,-(a.z-b.z));
+        if(Math.abs(Math.atan2(Math.sin(port.heading-expected),Math.cos(port.heading-expected)))>0.05) issue('port.headingMismatch',`connectionPorts.${port.id}`,'Port heading differs from outward endpoint tangent.');
+      }
+    }
+    if (p && e && !used.has(`${e.roadId}:${e.end}`) && !(Array.isArray(m.roadLinks) && m.roadLinks.some(l => [l?.from, l?.to].some(q => q?.roadId === e.roadId && q.end === e.end)))) {
+      issue('port.unused', `connectionPorts.${port.id}`, `${port.label}: external endpoint reserved for future continuation.`, 'warning');
+    }
+  }
+  m.objects.forEach((o, i) => {
+    if (!o || !PREFAB_IDS.includes(o.prefabId) || !point(o.position) || !finite(o.rotation)) issue('prefab.invalid', `objects[${i}]`, 'Unknown prefab or invalid transform.');
+    if (o?.scale && ![o.scale.x, o.scale.y, o.scale.z].every(v => finite(v) && v > 0 && v <= 20)) issue('scale.invalid', `objects[${i}]`, 'Scale axes must be positive and ≤20.');
+    if (o?.color && !/^#[0-9a-f]{6}$/i.test(o.color)) issue('color.invalid', `objects[${i}]`, 'Color must be #RRGGBB.');
+    if(o?.label!==undefined&&(typeof o.label!=='string'||o.label.length>64))issue('label.invalid',`objects[${i}]`,'Sign label must be at most 64 characters.');
+    if(o?.facade!==undefined&&!['residential','office','old-town','industrial','campus'].includes(o.facade))issue('facade.invalid',`objects[${i}]`,'Unknown shared facade profile.');
+    if(o?.buildingShape!==undefined&&!['box','chamfered','slab','courtyard'].includes(o.buildingShape))issue('building.shape',`objects[${i}]`,'Unknown shared building footprint.');
+    if(o?.landmarkModel!==undefined&&!['station','government','museum','university','exhibition','tower','stadium','arena'].includes(o.landmarkModel))issue('building.landmark',`objects[${i}]`,'Unknown landmark model.');
+  });
+  if (!m.environment || !Array.isArray(m.environment.districts) || !Array.isArray(m.environment.spawnPoints) || !m.environment.spawnPoints.length) issue('spawn.missing', 'environment', 'District array and at least one spawn required.');
+  else for (const s of m.environment.spawnPoints) if (!s || typeof s.id !== 'string' || !point(s.position) || !finite(s.rotation)) issue('spawn.invalid', 'environment.spawnPoints', 'Invalid spawn.');
+  if(m.environment?.corridors!==undefined&&!Array.isArray(m.environment.corridors))issue('corridor.invalid','environment.corridors','Corridors must be an array.');
+  else for(const corridor of m.environment?.corridors??[])if(!corridor||typeof corridor.id!=='string'||!corridor.id||typeof corridor.name!=='string'||!corridor.name||!['waterway','railway'].includes(corridor.kind)||!finite(corridor.width)||corridor.width<1||corridor.width>100||(corridor.bankWidth!==undefined&&(!finite(corridor.bankWidth)||corridor.bankWidth<corridor.width))||!Array.isArray(corridor.centerline)||corridor.centerline.length<2||!corridor.centerline.every(point))issue('corridor.invalid','environment.corridors','Invalid geographic corridor.');
+  if(m.environment?.landmarks!==undefined&&!Array.isArray(m.environment.landmarks))issue('landmark.invalid','environment.landmarks','Landmarks must be an array.');
+  if(m.environment?.landforms!==undefined&&!Array.isArray(m.environment.landforms))issue('terrain.invalid','environment.landforms','Landforms must be an array.');
+  else for(const f of m.environment?.landforms??[])if(!f||typeof f.id!=='string'||!f.id||!point(f.center)||!finite(f.radiusX)||!finite(f.radiusZ)||f.radiusX<30||f.radiusZ<30||!finite(f.height)||Math.abs(f.height)>6)issue('terrain.invalid','environment.landforms','Landforms require a center, radii of at least 30m and a height within ±6m.');
+  else for(const landmark of m.environment?.landmarks??[])if(!landmark||typeof landmark.id!=='string'||!landmark.id||typeof landmark.name!=='string'||!landmark.name||!point(landmark.position)||!Array.isArray(landmark.roadIds)||!landmark.roadIds.length||landmark.roadIds.some(id=>!m.roads.some(r=>r.id===id)))issue('landmark.invalid','environment.landmarks','Landmark must refer to real access roads.');
+  if (errors.length === 0 && b) for (const e of [...m.roads.flatMap(r => r.centerline), ...m.intersections.map(j => j.position), ...m.objects.map(o => o.position)]) {
+    if (e.x < b.minX || e.x > b.maxX || e.z < b.minZ || e.z > b.maxZ) { issue('bounds.outside', 'bounds', 'Elements outside bounds; expand before driving there.', 'warning'); break; }
+  }
+  if (!errors.length && m.roads.length > 1) {
+    const parent = new Map(m.roads.map(r => [r.id, r.id]));
+    const root = (id: string): string => {
+      let current = id;
+      while (parent.get(current) !== current) current = parent.get(current)!;
+      while (id !== current) { const next = parent.get(id)!; parent.set(id, current); id = next; }
+      return current;
+    };
+    const join = (a: string, b: string): void => { parent.set(root(a), root(b)); };
+    for (const l of m.roadLinks ?? []) join(l.from.roadId, l.to.roadId);
+    for (const j of m.intersections) for (const c of j.connections.slice(1)) join(j.connections[0]!.roadId, c.roadId);
+    const components = new Set(m.roads.map(r => root(r.id))).size;
+    if (components > 1) issue('network.sparse', 'roads', `${components} separate road components; projected crossings do not imply connectivity.`, 'warning');
+  }
+  if(m.editing){
+    const editor=m.editing,roadIds=new Set(m.roads.map(r=>r.id)),entityIds=new Set([...m.roads,...m.intersections,...m.objects].map(e=>e.id)),editorIds=new Set([...ids,...(m.signs??[]).map(s=>s.id)]);
+    for(const key of ['corridors','groups','attachments','ramps'] as const){
+      if(!Array.isArray(editor[key])){issue('editing.invalid',`editing.${key}`,'Expected authoring collection.');continue;}
+      for(const e of editor[key]){if(!e||typeof e.id!=='string'||!e.id||editorIds.has(e.id))issue('editing.id',`editing.${key}`,'Authoring IDs must be stable and unique.');else editorIds.add(e.id);}
+    }
+    if(Array.isArray(editor.corridors))for(const c of editor.corridors)if(typeof c.name!=='string'||!Array.isArray(c.roadIds)||c.roadIds.some(id=>!roadIds.has(id)))issue('editing.corridor','editing.corridors','Corridors need a name and existing road references.');
+    if(Array.isArray(editor.groups))for(const g of editor.groups)if(typeof g.name!=='string'||typeof g.locked!=='boolean'||!['corridor','intersection','interchange'].includes(g.kind)||!Array.isArray(g.memberIds)||g.memberIds.some(id=>!entityIds.has(id)))issue('editing.group','editing.groups','Groups need ordinary existing members and a lock state.');
+    if(Array.isArray(editor.attachments))for(const a of editor.attachments)if(!roadIds.has(a.sourceRoadId)||!roadIds.has(a.roadId)||a.sourceRoadId===a.roadId||!finite(a.offset))issue('editing.attachment','editing.attachments','Attachments need distinct existing source/child roads and a finite offset.');
+    if(Array.isArray(editor.ramps))for(const r of editor.ramps)if(!roadIds.has(r.roadId)||!roadIds.has(r.from?.roadId)||!roadIds.has(r.to?.roadId)||!['on','off'].includes(r.kind))issue('editing.ramp','editing.ramps','Ramp metadata must reference existing roads.');
+    for(const[id,handles]of Object.entries(editor.curves??{}))if(!roadIds.has(id)||!Array.isArray(handles)||handles.length!==4||!handles.every(point))issue('editing.curve','editing.curves','Cubic authoring handles need an existing road and four finite points.');
+  }
+  if (!errors.length && m.environment.metadata?.productionGeometry === 'true') errors.push(...validatePresetGeometry(m));
+  if(!errors.length)errors.push(...validateHighwayData(m));
+  return result();
+}

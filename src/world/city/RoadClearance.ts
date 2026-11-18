@@ -1,6 +1,7 @@
 import type { CityIntersection, CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { junctionExtent, roadEdges, roadPoints } from './geometry';
 import {junctionSurfaceContains,junctionSurfaceHeight} from './JunctionSurface';
+import { drain } from '../../loading/Loading';
 
 interface FootprintSegment { roadId: string; a: CityPoint; b: CityPoint; left: number; right: number;laneHalf:number }
 const runtimeCache = new WeakMap<CityMapData, RoadClearance>();
@@ -10,18 +11,31 @@ export function invalidateRoadClearance(map:CityMapData):void {runtimeCache.dele
 export function runtimeRoadClearance(map: CityMapData): RoadClearance {
   let index = runtimeCache.get(map); if(!index){index=new RoadClearance(map);runtimeCache.set(map,index);}return index;
 }
+export function* prepareRoadClearanceSteps(map: CityMapData): Generator<void> {
+  if (runtimeCache.has(map)) return;
+  const clearance = new RoadClearance(map, true);
+  yield* clearance.initialization;
+  runtimeCache.set(map, clearance);
+}
 /** Authoring/load-time index. No queries or allocations in the 120 Hz vehicle loop. */
 export class RoadClearance {
   private readonly buckets = new Map<string, FootprintSegment[]>();
   private readonly junctionBuckets=new Map<string,CityIntersection[]>();
-  constructor(private readonly map: CityMapData) {
+  readonly initialization: Generator<void>;
+  constructor(private readonly map: CityMapData, deferred = false) {
+    this.initialization = this.initialize(map);
+    if (!deferred) drain(this.initialization);
+  }
+  private *initialize(map: CityMapData): Generator<void> {
     if(map.regional)for(const junction of map.intersections){
+      yield;
       const radius=(junction.pavementFootprint?Math.max(...junction.pavementFootprint.map(p=>Math.hypot(p.x,p.z))):Math.SQRT2*junctionExtent(junction,map))+1e-5;
       for(let x=Math.floor((junction.position.x-radius)/50);x<=Math.floor((junction.position.x+radius)/50);x++)for(let z=Math.floor((junction.position.z-radius)/50);z<=Math.floor((junction.position.z+radius)/50);z++){const key=x+','+z,list=this.junctionBuckets.get(key)??[];list.push(junction);this.junctionBuckets.set(key,list);}
     }
     for (const road of map.roads) {
       const points = roadPoints(road), edges = roadEdges(road), margin = Math.max(-edges.left, edges.right) + 6;
       for (let i = 1; i < points.length; i++) {
+        if (i % 64 === 1) yield;
         const a = points[i - 1]!, b = points[i]!, segment = { roadId: road.id, a, b, ...edges,laneHalf:road.laneCount*road.laneWidth/2 };
         for (let x = Math.floor((Math.min(a.x, b.x) - margin) / 50); x <= Math.floor((Math.max(a.x, b.x) + margin) / 50); x++)
           for (let z = Math.floor((Math.min(a.z, b.z) - margin) / 50); z <= Math.floor((Math.max(a.z, b.z) + margin) / 50); z++) {
@@ -74,7 +88,7 @@ export class RoadClearance {
   }
 }
 
-export function barrierOffset(road: CityRoad, side: number): number {
+export function barrierOffset(road: CityRoad, side: number,enclosureWall=false): number {
   const edges = roadEdges(road);
-  return (side < 0 ? edges.left : edges.right) + side * (road.structure?.barrierOffset ?? 0);
+  return (side < 0 ? edges.left : edges.right) + side * (enclosureWall?(road.structure?.enclosure?.wallOffset??road.structure?.barrierOffset??0):(road.structure?.barrierOffset??0));
 }

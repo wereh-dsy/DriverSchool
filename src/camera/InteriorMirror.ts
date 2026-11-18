@@ -61,14 +61,14 @@ export class InteriorMirror {
   public render(): void {
     if (!this.update()) return;
     const renderer = this.renderer, target = renderer.getRenderTarget(), cube = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
-    const visible = this.reflectiveRoot.visible, xr = renderer.xr.enabled, shadows = renderer.shadowMap.autoUpdate, autoClear = renderer.autoClear;
+    const visible = this.reflectiveRoot.visible, xr = renderer.xr.enabled, shadows = renderer.shadowMap.autoUpdate, pendingShadow=renderer.shadowMap.needsUpdate, autoClear = renderer.autoClear;
     renderer.getViewport(this.viewport); renderer.getScissor(this.scissor); const scissorTest = renderer.getScissorTest();
     try {
-      this.reflectiveRoot.visible = false; renderer.xr.enabled = false; renderer.shadowMap.autoUpdate = false; renderer.autoClear = true;
+      this.reflectiveRoot.visible = false; renderer.xr.enabled = false; renderer.shadowMap.autoUpdate = false;renderer.shadowMap.needsUpdate=false; renderer.autoClear = true;
       renderer.setRenderTarget(this.renderTarget); renderer.setScissorTest(false); renderer.render(this.scene, this.camera);
       this.capturedLocalTexture.copy(this.computation.textureMatrix).multiply(this.surface.matrixWorld); this.hasImage = true;
     } finally {
-      this.reflectiveRoot.visible = visible; renderer.xr.enabled = xr; renderer.shadowMap.autoUpdate = shadows; renderer.autoClear = autoClear;
+      this.reflectiveRoot.visible = visible; renderer.xr.enabled = xr; renderer.shadowMap.autoUpdate = shadows;renderer.shadowMap.needsUpdate=pendingShadow; renderer.autoClear = autoClear;
       renderer.setRenderTarget(target, cube, mip); renderer.setViewport(this.viewport); renderer.setScissor(this.scissor); renderer.setScissorTest(scissorTest);
     }
   }

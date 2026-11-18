@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import type {CityMapData} from '../src/world/city/CityMapData';
+import {rampOverlaps,rampProfile} from '../src/editor/RampProfileAudit';
+const root='artifacts/ramp-profile-audit/',dir=root+'round2/',map:CityMapData=JSON.parse(fs.readFileSync(dir+'candidate-map.json','utf8')),prior=JSON.parse(fs.readFileSync(dir+'baseline-deferred.json','utf8')).rows,baselineRegions=JSON.parse(fs.readFileSync(dir+'baseline-crossing-clearance-audit.json','utf8')).regions;
+const ids=new Set<string>(prior.map((r:any)=>r.roadId));for(const r of baselineRegions)if(r.roadIds.some((id:string)=>ids.has(id)))for(const id of r.roadIds)ids.add(id);
+for(const l of map.roadLinks??[])if(ids.has(l.from.roadId)||ids.has(l.to.roadId)){ids.add(l.from.roadId);ids.add(l.to.roadId);}for(const j of map.intersections)if(j.connections.some(c=>ids.has(c.roadId)))for(const c of j.connections)ids.add(c.roadId);
+const local={...map,roads:map.roads.filter(r=>ids.has(r.id)),roadLinks:map.roadLinks?.filter(l=>ids.has(l.from.roadId)&&ids.has(l.to.roadId)),intersections:map.intersections.filter(j=>j.connections.every(c=>ids.has(c.roadId)))};
+const regions=rampOverlaps(local).filter(r=>r.roadIds[0]!==r.roadIds[1]),issues=regions.filter(r=>r.minGap<2.5?r.maxGap>.05:r.minClearance<5.5&&r.maxGap-r.minGap>=.03),rows=prior.map((r:any)=>{const road=map.roads.find(p=>p.id===r.roadId)!,p=rampProfile(road);return {roadId:r.roadId,category:r.category,roadClass:road.roadClass,profile:p,issues:issues.filter(o=>o.roadIds.includes(r.roadId))};});
+fs.writeFileSync(dir+'current-scan.json',JSON.stringify({contextRoads:local.roads.length,regions,issues,rows}));
+console.log(JSON.stringify({contextRoads:local.roads.length,reviewed:rows.length,regions:regions.length,issues:issues.length,unresolvedRows:rows.filter((r:any)=>r.issues.length||r.profile.maxGradeBreak>.04).length,remainingOwners:rows.filter((r:any)=>(r.issues.length||r.profile.maxGradeBreak>.04)&&r.roadClass==='ramp').map((r:any)=>({id:r.roadId,issues:r.issues.length,gradeBreak:r.profile.maxGradeBreak})).slice(0,55)},null,2));

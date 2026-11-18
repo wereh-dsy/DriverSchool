@@ -1,0 +1,308 @@
+{
+  "source": "src/world/regional/regional-main.json",
+  "sourceSHA256": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+  "unit": {
+    "assertions": 138
+  },
+  "assertions": 548490,
+  "lifecycle": {
+    "assertions": 10
+  },
+  "budget": {
+    "maximumStructureSpacing": 4,
+    "postSpacing": 4,
+    "markingClearance": 0.008,
+    "maxTrianglesRatio": 2.5,
+    "maxBufferRatio": 2.5,
+    "maxExtraSectorDraws": 4,
+    "maxAddedGenerationMs": 150,
+    "maxGenerationRatio": 2
+  },
+  "results": [
+    {
+      "id": "arterial",
+      "label": "城市主干道 · 连续路缘",
+      "selectedRoads": [
+        "v4-south-logistics-west"
+      ],
+      "selectedJunctions": [],
+      "contextRoads": 5,
+      "comparedRoads": 1,
+      "paintVertices": 56334,
+      "junctionPaintVertices": 0,
+      "missingPaint": 0,
+      "maxPaintHeightError": 0.000014139809723985597,
+      "roofHits": 0,
+      "intrusionSamples": 7492,
+      "piersChecked": 3,
+      "legacy": {
+        "draws": 24,
+        "triangles": 60188,
+        "bufferBytes": 5695680,
+        "geometries": 22,
+        "generationMs": 712.3982000000005,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 24,
+        "triangles": 72513,
+        "bufferBytes": 6878880,
+        "geometries": 22,
+        "generationMs": 778.0624000000003,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.2047750382135973,
+        "buffers": 1.2077363896848137,
+        "generation": 1.092173450185584
+      }
+    },
+    {
+      "id": "median",
+      "label": "快速路 · 中央隔离带",
+      "selectedRoads": [
+        "direction-mingyuan-main-section-section"
+      ],
+      "selectedJunctions": [],
+      "contextRoads": 25,
+      "comparedRoads": 1,
+      "paintVertices": 25794,
+      "junctionPaintVertices": 0,
+      "missingPaint": 0,
+      "maxPaintHeightError": 0.0000017158744398601544,
+      "roofHits": 0,
+      "intrusionSamples": 4650,
+      "piersChecked": 8,
+      "legacy": {
+        "draws": 88,
+        "triangles": 42689,
+        "bufferBytes": 3674176,
+        "geometries": 68,
+        "generationMs": 169.4432999999999,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 90,
+        "triangles": 53671,
+        "bufferBytes": 4444232,
+        "geometries": 69,
+        "generationMs": 192.1190000000006,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.2572559675794701,
+        "buffers": 1.2095860405162953,
+        "generation": 1.1338247071439278
+      }
+    },
+    {
+      "id": "junction",
+      "label": "普通平交 · 铺面与标线",
+      "selectedRoads": [
+        "v4-inner-1-m91-section",
+        "v5-finance-road-m91",
+        "v4-inner-1-split-2-m91",
+        "access-finance-north-section-section"
+      ],
+      "selectedJunctions": [
+        "urban-junction-83"
+      ],
+      "contextRoads": 7,
+      "comparedRoads": 4,
+      "paintVertices": 51531,
+      "junctionPaintVertices": 819,
+      "missingPaint": 0,
+      "maxPaintHeightError": 1.9837018035151477e-9,
+      "roofHits": 0,
+      "intrusionSamples": 3051,
+      "piersChecked": 0,
+      "legacy": {
+        "draws": 179,
+        "triangles": 32452,
+        "bufferBytes": 2523440,
+        "geometries": 139,
+        "generationMs": 97.39189999999871,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 180,
+        "triangles": 38366,
+        "bufferBytes": 3076068,
+        "geometries": 140,
+        "generationMs": 167.61089999999967,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.1822383828423517,
+        "buffers": 1.218997875915417,
+        "generation": 1.720994251061966
+      }
+    },
+    {
+      "id": "divided",
+      "label": "分离式六臂路口",
+      "selectedRoads": [
+        "v4-inner-0-v91-m91",
+        "v4-inner-0-split-2-v91-m91",
+        "v91-ew-0-a-3",
+        "v91-ew-0-a-4",
+        "v91-ew-0-b-3",
+        "v91-ew-0-b-4"
+      ],
+      "selectedJunctions": [
+        "urban-junction"
+      ],
+      "contextRoads": 21,
+      "comparedRoads": 6,
+      "paintVertices": 18585,
+      "junctionPaintVertices": 822,
+      "missingPaint": 0,
+      "maxPaintHeightError": 1.3113021848920603e-9,
+      "roofHits": 0,
+      "intrusionSamples": 1246,
+      "piersChecked": 0,
+      "legacy": {
+        "draws": 324,
+        "triangles": 54527,
+        "bufferBytes": 4104078,
+        "geometries": 251,
+        "generationMs": 137.3724000000002,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 325,
+        "triangles": 57330,
+        "bufferBytes": 4268078,
+        "geometries": 252,
+        "generationMs": 159.5466000000015,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.0514057256038294,
+        "buffers": 1.0399602541667092,
+        "generation": 1.1614167037920373
+      }
+    },
+    {
+      "id": "bridge",
+      "label": "高架 · 护栏与桥墩",
+      "selectedRoads": [
+        "ew-wb-split"
+      ],
+      "selectedJunctions": [],
+      "contextRoads": 30,
+      "comparedRoads": 1,
+      "paintVertices": 3636,
+      "junctionPaintVertices": 0,
+      "missingPaint": 0,
+      "maxPaintHeightError": 3.7384033203108347e-7,
+      "roofHits": 0,
+      "intrusionSamples": 832,
+      "piersChecked": 2,
+      "legacy": {
+        "draws": 168,
+        "triangles": 190133,
+        "bufferBytes": 17431266,
+        "geometries": 128,
+        "generationMs": 1401.636699999999,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 170,
+        "triangles": 191705,
+        "bufferBytes": 17548202,
+        "geometries": 129,
+        "generationMs": 1259.1045999999988,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.0082678966828482,
+        "buffers": 1.0067084054594773,
+        "generation": 0.8983102397361595
+      }
+    },
+    {
+      "id": "underground",
+      "label": "地下通道与下沉挡墙",
+      "selectedRoads": [
+        "urban-rail-underpass:underpass",
+        "urban-underpass-end-approach"
+      ],
+      "selectedJunctions": [],
+      "contextRoads": 12,
+      "comparedRoads": 2,
+      "paintVertices": 25941,
+      "junctionPaintVertices": 0,
+      "missingPaint": 0,
+      "maxPaintHeightError": 0.0000027121367320789846,
+      "roofHits": 5,
+      "intrusionSamples": 3049,
+      "piersChecked": 0,
+      "legacy": {
+        "draws": 77,
+        "triangles": 45166,
+        "bufferBytes": 4151412,
+        "geometries": 66,
+        "generationMs": 183.02019999999902,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 77,
+        "triangles": 50957,
+        "bufferBytes": 4707348,
+        "geometries": 66,
+        "generationMs": 169.93559999999707,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.1282159146260462,
+        "buffers": 1.1339149185867363,
+        "generation": 0.9285073450908586
+      }
+    },
+    {
+      "id": "skew",
+      "label": "附加验证 · 斜交五臂",
+      "selectedRoads": [
+        "urban-diagonal-split-split-split-split-3",
+        "v5-east-garden-split",
+        "urban-east-arterial-split-split-3-split-2-split",
+        "v5-east-garden-c91",
+        "urban-east-arterial-split-split-3-split"
+      ],
+      "selectedJunctions": [
+        "urban-junction-97"
+      ],
+      "contextRoads": 11,
+      "comparedRoads": 5,
+      "paintVertices": 31725,
+      "junctionPaintVertices": 2703,
+      "missingPaint": 0,
+      "maxPaintHeightError": 5.207653849814697e-9,
+      "roofHits": 0,
+      "intrusionSamples": 1984,
+      "piersChecked": 0,
+      "legacy": {
+        "draws": 267,
+        "triangles": 31419,
+        "bufferBytes": 2378990,
+        "geometries": 234,
+        "generationMs": 75.41969999999856,
+        "reloadStable": true
+      },
+      "continuous": {
+        "draws": 268,
+        "triangles": 36496,
+        "bufferBytes": 2801594,
+        "geometries": 235,
+        "generationMs": 107.98849999999948,
+        "reloadStable": true
+      },
+      "ratios": {
+        "triangles": 1.1615901206276458,
+        "buffers": 1.1776400909629716,
+        "generation": 1.4318341229148557
+      }
+    }
+  ]
+}

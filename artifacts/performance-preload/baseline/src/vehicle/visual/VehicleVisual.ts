@@ -1,0 +1,663 @@
+import { buildVehicleStaticExterior, buildVehicleStaticWheels, prepareVehicleExterior } from './VehicleStaticAssets';
+import * as THREE from 'three';
+import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
+
+import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
+
+import { Cockpit } from './Cockpit';
+import { SU7Spoiler } from './SU7MaxExterior';
+import { buildBMW530SideMirror } from './BMW530Exterior';
+import { buildMercedesE300LSideMirror } from './MercedesE300LExterior';
+import { frontDoorSkinAnchor } from './VehicleExterior';
+import { exteriorMirrorHousing } from './ExteriorMirrorGeometry';
+import { buildTeslaModel3SideMirror } from './TeslaModel3Exterior';
+import type { InstrumentTelemetry } from './InstrumentCluster';
+import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
+import type { VehicleInteractionDefinition } from '../interaction/VehicleInteractionDefinition';
+import {
+  DEFAULT_SEDAN_VISUAL_CONFIG,
+  type MirrorVisualConfig,
+  type VehicleVisualConfig,
+  type Vector3Tuple,
+} from './VehicleVisualConfig';
+
+export type MirrorSide = 'left' | 'right';
+export type MirrorSurfaceMesh = THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
+
+export interface MirrorWorldTransform {
+  readonly position: THREE.Vector3;
+  readonly quaternion: THREE.Quaternion;
+  /** World-space normal; mirror PlaneGeometry has local +Z normal. */
+  readonly normal: THREE.Vector3;
+  readonly size: THREE.Vector2;
+  readonly surface: MirrorSurfaceMesh;
+}
+
+export interface VehicleVisualPose {
+  readonly position: THREE.Vector3Like;
+  readonly yawRadians: number;
+  readonly pitchRadians?: number;
+  readonly rollRadians?: number;
+}
+
+const setPosition = (object: THREE.Object3D, value: Vector3Tuple): void => {
+  object.position.set(value[0], value[1], value[2]);
+};
+
+/** Only enough cabin geometry to read as occupied space; no upholstery detail. */
+const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
+  const seats = new THREE.Group();
+  seats.name = 'Simplified cabin seats';
+  const sport = config.body.profile === 'sport-coupe';
+  const upholstery = new THREE.MeshStandardMaterial({
+    color: config.body.interiorColor, roughness: 0.96, metalness: 0,
+  });
+  const seatBox = (name: string, size: Vector3Tuple, position: Vector3Tuple, tilt = 0): void => {
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), upholstery);
+    mesh.name = name;
+    mesh.userData.vehicleInteriorPart = 'seat';
+    mesh.position.set(...position);
+    mesh.rotation.x = tilt;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
+    seats.add(mesh);
+  };
+  const supercar = config.body.design === 'mid-supercar';
+  const cushionY = supercar ? .32 : config.body.profile === 'suv' ? .73 : sport ? 0.43 : 0.48;
+  const backY = supercar ? .61 : config.body.profile === 'suv' ? 1.09 : sport ? 0.79 : 0.84;
+  for (const [label, x] of [
+    ['Driver', config.driverEyePosition[0]],
+    ['Passenger', Math.max(0.49, config.cabin.width * 0.5 - 0.28)],
+  ] as const) {
+    seatBox(`${label} seat cushion`, [0.4, 0.11, 0.47], [x, cushionY, supercar ? .24 : .4]);
+    seatBox(`${label} seat back`, [0.39, sport ? 0.5 : 0.55, 0.095],
+      [x, backY, supercar ? .45 : .65], THREE.MathUtils.degToRad(10));
+    seatBox(`${label} headrest`, [0.23, 0.15, 0.1], [x, backY + (supercar ? .30 : .38), supercar ? .51 : .73]);
+  }
+  if (supercar) return seats;
+  seatBox('Rear bench cushion', [config.cabin.width * 0.8, 0.1, 0.27], [0, cushionY, config.body.profile === 'suv' ? 1.35 : .88]);
+  seatBox('Rear bench back', [config.cabin.width * 0.8, 0.43, 0.08],
+    [0, cushionY + 0.33, config.body.profile === 'suv' ? 1.55 : .95], THREE.MathUtils.degToRad(-8));
+  return seats;
+};
+
+/**
+ * Complete visual hierarchy for one car.
+ *
+ * Coordinate convention: +X right, +Y up, -Z forward.  The root origin is
+ * midway between the axles at tyre-contact height.  `exteriorRoot` is kept
+ * separate from `cockpitRoot` so mirror cameras can include only the car's
+ * exterior while avoiding recursive interior/mirror rendering.
+ */
+export class VehicleVisual {
+  public static prepareAssets(config: VehicleVisualConfig, assets: VehicleAssetRegistry): void {
+    prepareVehicleExterior(config, assets);
+  }
+  public readonly root = new THREE.Group();
+  public readonly exteriorRoot = new THREE.Group();
+  public readonly mirrorSurfaceRoot = new THREE.Group();
+  public readonly cockpitRoot: Cockpit;
+  public readonly mirrorSurfaces: Readonly<Record<MirrorSide, MirrorSurfaceMesh>>;
+  public readonly centerMirrorSurface: MirrorSurfaceMesh | null;
+  public readonly frontWheelPivots: readonly [THREE.Group, THREE.Group];
+  private mirrorFold = 0;
+  private readonly foldingMirrorPivots: { side: number; body: THREE.Group; glass: THREE.Group }[] = [];
+  private driverDoorHinge: THREE.Group | null = null;
+  private driverDoorGroup: THREE.Group | null = null;
+  private driverWindowMount: THREE.Group | null = null;
+  public readonly interactionDefinition: VehicleInteractionDefinition | null;
+
+  private readonly wheelMeshes: THREE.Mesh[] = [];
+  private disposed = false;
+  private su7Spoiler?: SU7Spoiler;
+  private jeskoWing?: THREE.Object3D;
+  private jeskoFrontFlaps?: THREE.Object3D;
+  public readonly wheelPivots = {} as Record<VehicleWheelId, THREE.Group>;
+
+  public constructor(
+    public readonly config: VehicleVisualConfig = DEFAULT_SEDAN_VISUAL_CONFIG,
+    private readonly assets?: VehicleAssetRegistry,
+  ) {
+    this.root.name = `Vehicle visual: ${config.name}`;
+    this.root.userData.coordinateConvention = '+X right, +Y up, -Z forward';
+    this.root.rotation.order = 'YXZ';
+    this.exteriorRoot.name = 'Car exterior';
+    this.exteriorRoot.userData.renderCategory = 'CAR_EXTERIOR';
+    this.assets?.retain(config);
+    this.cockpitRoot = new Cockpit(config, assets);
+    this.cockpitRoot.userData.renderCategory = 'COCKPIT';
+    if (config.body.exterior !== 'xiaomi-su7' && config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
+      config.body.design !== 'mercedes-v214' && config.body.design !== 'maybach-z223' && config.body.design !== 'jesko-attack' && config.body.design !== 'tank-500') this.cockpitRoot.add(buildSimplifiedSeats(config));
+    this.mirrorSurfaceRoot.name = 'Mirror surfaces';
+    this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
+    this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
+
+    if (assets) {
+      this.exteriorRoot.add(assets.section(config, 'exterior', root => {
+        buildVehicleStaticExterior(root, config, assets);
+      }));
+      this.exteriorRoot.add(assets.section(config, 'wheels', root => {
+        this.buildWheels();
+        for (const id of VEHICLE_WHEEL_IDS) root.add(this.wheelPivots[id]);
+        this.wheelMeshes.length = 0;
+      }));
+      this.exteriorRoot.traverse(object => {
+        const id = object.userData.wheelId as VehicleWheelId | undefined;
+        if (id && object instanceof THREE.Group) {
+          this.wheelPivots[id] = object;
+          this.wheelMeshes.push(object.children[0] as THREE.Mesh);
+        }
+      });
+      // Wheel spin order must follow the physics wheel order, not traversal order.
+      this.wheelMeshes.length = 0;
+      for (const id of VEHICLE_WHEEL_IDS) this.wheelMeshes.push(this.wheelPivots[id].children[0] as THREE.Mesh);
+      this.frontWheelPivots = [this.wheelPivots.frontLeft, this.wheelPivots.frontRight];
+    } else {
+      this.buildExterior(); this.frontWheelPivots = this.buildWheels();
+    }
+
+    const leftMirror = this.buildMirror('left', config.leftMirrorTransform);
+    const rightMirror = this.buildMirror('right', config.rightMirrorTransform);
+    this.mirrorSurfaces = { left: leftMirror, right: rightMirror };
+    this.centerMirrorSurface = null;
+    if (config.centerMirrorTransform && config.centerMirrorTransform.reflection !== 'dark') {
+      const m = config.centerMirrorTransform;
+      const surface: MirrorSurfaceMesh = new THREE.Mesh(new THREE.PlaneGeometry(...m.size),
+        new THREE.MeshStandardMaterial({ color: 0xafbcc8, roughness: .04, metalness: .95 }));
+      surface.name = 'Centre rear-view mirror surface'; surface.userData.mirrorSide = 'center';
+      surface.position.set(...m.position); surface.rotation.set(...m.rotation);
+      surface.position.add(new THREE.Vector3(0, 0, m.housingDepth / 2 + .002).applyEuler(surface.rotation));
+      surface.renderOrder = 3; this.mirrorSurfaceRoot.add(surface); this.centerMirrorSurface = surface;
+    }
+    const spoiler=this.exteriorRoot.getObjectByName('SU7 electric spoiler');
+    if (spoiler) this.su7Spoiler=new SU7Spoiler(spoiler);
+    this.jeskoWing=this.exteriorRoot.getObjectByName('Jesko active rear wing');
+    this.jeskoFrontFlaps=this.exteriorRoot.getObjectByName('Jesko active front flaps');
+    this.exteriorRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR));
+    this.cockpitRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR));
+    this.mirrorSurfaceRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.MIRROR));
+
+    const hinge = this.exteriorRoot.getObjectByName('Driver door hinge');
+    const windowMount = this.exteriorRoot.getObjectByName('Driver window glass mount');
+    this.driverDoorHinge = hinge instanceof THREE.Group ? hinge : null;
+    this.driverWindowMount = windowMount instanceof THREE.Group ? windowMount : null;
+    this.attachCockpitDriverDoor();
+    this.interactionDefinition = this.createInteractionDefinition();
+  }
+
+  public setPose(
+    positionOrPose: THREE.Vector3Like | VehicleVisualPose,
+    yawRadians?: number,
+    pitchRadians = 0,
+    rollRadians = 0,
+  ): void {
+    const isPose = 'position' in positionOrPose;
+    const position = isPose ? positionOrPose.position : positionOrPose;
+    const yaw = isPose ? positionOrPose.yawRadians : (yawRadians ?? 0);
+    const pitch = isPose ? (positionOrPose.pitchRadians ?? 0) : pitchRadians;
+    const roll = isPose ? (positionOrPose.rollRadians ?? 0) : rollRadians;
+
+    this.root.position.set(position.x, position.y, position.z);
+    this.root.rotation.set(
+      Number.isFinite(pitch) ? pitch : 0,
+      Number.isFinite(yaw) ? yaw : 0,
+      Number.isFinite(roll) ? roll : 0,
+      'YXZ',
+    );
+  }
+
+  public setWorldPose(
+    x: number,
+    y: number,
+    z: number,
+    yawRadians: number,
+    pitchRadians = 0,
+    rollRadians = 0,
+  ): void {
+    this.setPose({ x, y, z }, yawRadians, pitchRadians, rollRadians);
+  }
+
+  public setSteeringInput(normalizedInput: number): void {
+    this.cockpitRoot.setSteeringInput(normalizedInput);
+  }
+
+  public setSteeringWheelAngle(angleRadians: number): void {
+    this.cockpitRoot.setSteeringWheelAngle(angleRadians);
+  }
+
+  /** True when this vehicle authored a separate driver door and glass. */
+  public get hasDriverAccessVisual(): boolean {
+    return this.interactionDefinition !== null;
+  }
+
+  /** Feeds the physical cockpit cluster without exposing its mesh internals. */
+  public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    this.cockpitRoot.updateInstruments(telemetry, deltaTime);
+    this.su7Spoiler?.update(telemetry);
+    const deployment=telemetry.activeSpoilerDeployment??0;
+    if(this.jeskoWing)this.jeskoWing.rotation.x=-.04-deployment*.16;
+    if(this.jeskoFrontFlaps)this.jeskoFrontFlaps.rotation.x=-deployment*.12;
+    const fold = this.config.automaticMirrorFold;
+    if (fold) {
+      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+      this.mirrorFold = THREE.MathUtils.damp(this.mirrorFold, on ? 0 : 1, fold.response, deltaTime);
+      for (const pivot of this.foldingMirrorPivots) {
+        const angle = -pivot.side * fold.angleRadians * this.mirrorFold;
+        pivot.body.rotation.y = angle; pivot.glass.rotation.y = angle;
+      }
+    }
+  }
+
+  public setFrontWheelSteeringAngle(angleRadians: number): void {
+    const safeAngle = Number.isFinite(angleRadians) ? angleRadians : 0;
+    for (const pivot of this.frontWheelPivots) {
+      pivot.rotation.y = safeAngle;
+    }
+  }
+
+  /** Applies the Ackermann-corrected left/right angles to the visible wheels. */
+  public setFrontWheelSteeringAngles(
+    leftAngleRadians: number,
+    rightAngleRadians: number,
+  ): void {
+    this.frontWheelPivots[0].rotation.y = Number.isFinite(leftAngleRadians)
+      ? leftAngleRadians
+      : 0;
+    this.frontWheelPivots[1].rotation.y = Number.isFinite(rightAngleRadians)
+      ? rightAngleRadians
+      : 0;
+  }
+
+  /** Wheel spin is local X rotation, positive when the car rolls forward. */
+  public setWheelAlignment(wheels: Readonly<Record<VehicleWheelId, { steeringAngle: number; camberAngle?: number }>>): void {
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const left = id === 'frontLeft' || id === 'rearLeft';
+      this.wheelPivots[id].rotation.y = -wheels[id].steeringAngle;
+      this.wheelPivots[id].rotation.z = (left ? 1 : -1) * (wheels[id].camberAngle ?? 0);
+    }
+  }
+
+  public setWheelRotation(angleRadians: number): void {
+    const safeAngle = Number.isFinite(angleRadians) ? angleRadians : 0;
+    for (const wheel of this.wheelMeshes) {
+      wheel.rotation.x = -safeAngle;
+    }
+  }
+
+  /** Read the four physical spin phases, including locking and wheelspin. */
+  public setWheelRotationAngles(angles: Readonly<Record<VehicleWheelId, number>>): void {
+    VEHICLE_WHEEL_IDS.forEach((id, index) => {
+      this.wheelMeshes[index]!.rotation.x = Number.isFinite(angles[id]) ? -angles[id] : 0;
+    });
+  }
+
+  /** Physics-supplied wheel displacement relative to the chassis; no visual force model. */
+  public setWheelSuspensionOffsets(offsets: Readonly<Record<VehicleWheelId, number>>): void {
+    for (const id of VEHICLE_WHEEL_IDS) {
+      this.wheelPivots[id].position.y = this.config.dimensions.wheelRadius
+        - (this.config.staticBodyOffsetY ?? 0)
+        + (Number.isFinite(offsets[id]) ? offsets[id] : 0);
+    }
+  }
+
+  /**
+   * Keep tyre bottoms on sampled ground even while the body pitches/rolls.
+   * The planar yaw anchors match physics exactly, then the full inverse body
+   * transform removes any unwanted X/Z displacement caused by pitch/roll.
+   */
+  public setWheelGroundHeights(heights: Readonly<Record<VehicleWheelId, number>>): void {
+    this.root.updateWorldMatrix(true, false);
+    const localPositions = localWheelPositions(this.config.dimensions);
+    const position = this.root.getWorldPosition(new THREE.Vector3());
+    const cosine = Math.cos(this.root.rotation.y);
+    const sine = Math.sin(this.root.rotation.y);
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const anchor = localPositions[id];
+      const worldCentre = new THREE.Vector3(
+        position.x + anchor.x * cosine + anchor.z * sine,
+        heights[id] + this.config.dimensions.wheelRadius,
+        position.z - anchor.x * sine + anchor.z * cosine,
+      );
+      this.wheelPivots[id].position.copy(this.root.worldToLocal(worldCentre));
+    }
+  }
+
+  /** Explicit physical wheel centres, useful when later geometry includes camber or banking. */
+  public setWheelWorldPositions(points: Readonly<Record<VehicleWheelId, THREE.Vector3Like>>): void {
+    this.root.updateWorldMatrix(true, false);
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const point = points[id];
+      this.wheelPivots[id].position.copy(this.root.worldToLocal(new THREE.Vector3(point.x, point.y, point.z)));
+    }
+  }
+
+  /** Body-only envelope excludes protruding mirror housings, matching the contact footprint. */
+  public getVisualBodyBounds(target = new THREE.Box3()): THREE.Box3 {
+    this.root.updateWorldMatrix(true, true);
+    target.makeEmpty();
+    this.exteriorRoot.traverse((object) => {
+      if (!(object instanceof THREE.Mesh) || object.userData.vehicleBodyPart === 'mirror-housing' || object.userData.mirrorSide !== undefined) return;
+      if (object.geometry.boundingBox === null) object.geometry.computeBoundingBox();
+      if (object.geometry.boundingBox !== null) {
+        target.union(object.geometry.boundingBox.clone().applyMatrix4(object.matrixWorld));
+      }
+    });
+    return target;
+  }
+
+  public getMirrorSurface(side: MirrorSide): MirrorSurfaceMesh {
+    return this.mirrorSurfaces[side];
+  }
+
+  public getMirrorWorldTransform(side: MirrorSide): MirrorWorldTransform {
+    this.root.updateWorldMatrix(true, true);
+    const surface = this.getMirrorSurface(side);
+    const position = surface.getWorldPosition(new THREE.Vector3());
+    const quaternion = surface.getWorldQuaternion(new THREE.Quaternion());
+    const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(quaternion).normalize();
+    const mirrorConfig = side === 'left'
+      ? this.config.leftMirrorTransform
+      : this.config.rightMirrorTransform;
+
+    return {
+      position,
+      quaternion,
+      normal,
+      size: new THREE.Vector2(mirrorConfig.size[0], mirrorConfig.size[1]),
+      surface,
+    };
+  }
+
+  /** Assigns a reflection target produced by the mirror subsystem. */
+  public applyMirrorTexture(side: MirrorSide, texture: THREE.Texture | null): void {
+    const material = this.getMirrorSurface(side).material;
+    material.map = texture;
+    material.color.set(texture === null ? 0x9cb8bf : 0xffffff);
+    material.needsUpdate = true;
+  }
+
+  /**
+   * Releases the per-car procedural meshes when a vehicle is switched.
+   * Mirror render-target textures are owned by MirrorSystem and deliberately
+   * excluded; every other texture here was created by this visual hierarchy.
+   */
+  public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+
+    this.root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      geometries.add(object.geometry);
+      const meshMaterials = Array.isArray(object.material)
+        ? object.material
+        : [object.material];
+      for (const material of meshMaterials) {
+        materials.add(material);
+        if (object.userData.mirrorSide !== undefined) continue;
+        for (const value of Object.values(material)) {
+          if (value instanceof THREE.Texture) textures.add(value);
+        }
+      }
+    });
+
+    this.root.removeFromParent();
+    textures.forEach((texture) => { if (!this.assets?.owns(texture)) texture.dispose(); });
+    materials.forEach((material) => { if (!this.assets?.owns(material)) material.dispose(); });
+    geometries.forEach((geometry) => { if (!this.assets?.owns(geometry)) geometry.dispose(); });
+    this.assets?.release(this.config);
+  }
+
+  /** Moves the driver-side cockpit trim and light ribbon onto the exterior hinge. */
+  private attachCockpitDriverDoor(): void {
+    const hinge = this.driverDoorHinge;
+    if (hinge === null) return;
+    const door = hinge.getObjectByName('Driver door');
+    const target = door instanceof THREE.Group ? door : hinge;
+    this.driverDoorGroup = target;
+    const access = this.config.driverAccess;
+    if (access === null || access === undefined) return;
+    const move = (part: THREE.Object3D): void => {
+      // Cockpit sections carry vehicle-local geometry; offsetting by the hinge
+      // keeps the closed pose identical while letting the trim swing open.
+      part.position.sub(hinge.position);
+      target.add(part);
+      part.traverse(object => {
+        object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
+        object.userData.vehicleInteractionInterior = true;
+      });
+    };
+    for (const name of access.doorMountedPartNames ?? []) {
+      const part = this.cockpitRoot.getObjectByName(name);
+      if (part !== undefined) move(part);
+    }
+    for (const name of access.doorMountedExteriorPartNames ?? []) {
+      const part = this.root.getObjectByName(name);
+      if (part !== undefined) {
+        part.position.sub(hinge.position);
+        target.add(part);
+      }
+    }
+
+    const ambientName = access.doorAmbientTrimName;
+    if (ambientName === undefined) return;
+    const candidates: THREE.Mesh[] = [];
+    this.cockpitRoot.traverse(object => {
+      if (object instanceof THREE.Mesh && object.name === ambientName) candidates.push(object);
+    });
+    const selected = access.doorAmbientTrimByPosition === true
+      ? candidates.filter(object => object.position.x < 0 &&
+        object.position.z >= access.doorFrontZ && object.position.z <= access.doorRearZ)
+      : candidates;
+    for (const light of selected) move(light);
+  }
+
+  /**
+   * Assembles the standard interaction contract from this vehicle's authored
+   * nodes and transforms. Vehicles without a driver door simply return null.
+   */
+  private createInteractionDefinition(): VehicleInteractionDefinition | null {
+    const access = this.config.driverAccess;
+    const hinge = this.driverDoorHinge;
+    const door = this.driverDoorGroup;
+    const windowMount = this.driverWindowMount;
+    if (access === undefined || hinge === null || door === null || windowMount === null) return null;
+    let clipPlane = windowMount.userData.driverWindowClipPlane;
+    let clipPlaneLocal = windowMount.userData.driverWindowClipPlaneLocal;
+    // Numeric belt datum survives asset-template cloning. Rebind a plane per
+    // instance rather than relying on Object3D.userData to clone class objects.
+    if (typeof windowMount.userData.driverWindowBeltHeight === 'number') {
+      clipPlaneLocal = new THREE.Plane(new THREE.Vector3(0, 1, 0), -windowMount.userData.driverWindowBeltHeight);
+      clipPlane = clipPlaneLocal.clone();
+      windowMount.traverse(object => {
+        if (object instanceof THREE.Mesh) for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+          material.clippingPlanes = [clipPlane];
+        }
+      });
+    }
+    const hingeClosedPosition = [hinge.position.x, hinge.position.y, hinge.position.z] as const;
+    const hingeClosedRotation = [hinge.rotation.x, hinge.rotation.y, hinge.rotation.z] as const;
+    const windowClosedPosition = [windowMount.position.x, windowMount.position.y, windowMount.position.z] as const;
+    const windowClosedRotation = [windowMount.rotation.x, windowMount.rotation.y, windowMount.rotation.z] as const;
+    return {
+      id: this.config.name,
+      driverDoor: {
+        doorNode: door,
+        hingeNode: hinge,
+        closedTransform: { position: hingeClosedPosition, rotation: hingeClosedRotation },
+        openTransform: {
+          position: [
+            hingeClosedPosition[0] + (access.openPositionOffset?.[0] ?? 0),
+            hingeClosedPosition[1] + (access.openPositionOffset?.[1] ?? 0),
+            hingeClosedPosition[2] + (access.openPositionOffset?.[2] ?? 0),
+          ],
+          rotation: access.openRotationRadians ?? [hingeClosedRotation[0], hingeClosedRotation[1] + access.openAngleRadians,
+            hingeClosedRotation[2]] as const,
+        },
+        openSeconds: access.openSeconds,
+        closeSeconds: access.closeSeconds,
+        softClose: access.softClose,
+      },
+      driverWindow: {
+        node: windowMount,
+        closedTransform: { position: windowClosedPosition, rotation: windowClosedRotation },
+        localTravelDirection: access.windowTravelDirection,
+        travelDistance: access.windowTravelDistance,
+        movementSeconds: access.windowTravelSeconds,
+        ...(clipPlane instanceof THREE.Plane ? { beltClipPlane: clipPlane } : {}),
+        ...(clipPlaneLocal instanceof THREE.Plane ? { beltClipPlaneLocal: clipPlaneLocal } : {}),
+      },
+      driverEyePoint: this.config.driverEyePosition,
+      driverEntryPoint: access.driverEntryPoint,
+      driverExitPoint: access.driverExitPoint,
+      driverInteractionZone: access.driverInteractionZone,
+      stationarySpeedEpsilon: access.stationarySpeedEpsilon,
+    };
+  }
+
+  private buildExterior(): void { buildVehicleStaticExterior(this.exteriorRoot, this.config, this.assets); }
+
+  private buildWheels(): readonly [THREE.Group, THREE.Group] {
+    const { pivots, wheels } = buildVehicleStaticWheels(this.exteriorRoot, this.config);
+    Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+    return [pivots.frontLeft, pivots.frontRight];
+  }
+
+  private buildMirror(side: MirrorSide, mirrorConfig: MirrorVisualConfig): MirrorSurfaceMesh {
+    if (this.config.body.exterior === 'tesla-model-3' && this.config.automaticMirrorFold === undefined) {
+      return buildTeslaModel3SideMirror(this.exteriorRoot, this.mirrorSurfaceRoot, side, mirrorConfig, this.config);
+    }
+    if (this.config.body.design === 'bmw-g38') return buildBMW530SideMirror(this.exteriorRoot,
+      this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
+    if (this.config.body.design === 'mercedes-v214') return buildMercedesE300LSideMirror(this.exteriorRoot,
+      this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
+    const assembly = new THREE.Group();
+    assembly.name = `${side} mirror assembly`;
+    setPosition(assembly, mirrorConfig.position);
+    assembly.rotation.set(...mirrorConfig.rotation);
+
+    const housingMaterial = new THREE.MeshStandardMaterial({
+      color: this.config.body.trimColor,
+      roughness: 0.42,
+      metalness: 0.12,
+      side: THREE.DoubleSide,
+    });
+    // A rounded cap and open rim surround the unchanged reflection plane.
+    const housingWidth = mirrorConfig.size[0] + 0.03;
+    const housingHeight = mirrorConfig.size[1] + 0.028;
+    const housingGeometry = exteriorMirrorHousing(
+      housingWidth,
+      housingHeight,
+      mirrorConfig.housingDepth,
+    );
+    const housing = new THREE.Mesh(housingGeometry, housingMaterial);
+    housing.name = `${side} mirror housing`;
+    housing.position.z = -mirrorConfig.housingDepth * 0.5;
+    housing.castShadow = true;
+    housing.userData.vehicleBodyPart = 'mirror-housing';
+    assembly.add(housing);
+
+    // A narrow raised bezel makes the reflective rectangle read as glass
+    // instead of a texture placed on the face of a box.  The bars remain
+    // outside the configured optical aperture, so they cannot crop the view.
+    const bezelThickness = 0.011;
+    const bezelDepth = 0.012;
+    const horizontalBezelGeometry = new THREE.BoxGeometry(
+      housingWidth,
+      bezelThickness,
+      bezelDepth,
+    );
+    const verticalBezelGeometry = new THREE.BoxGeometry(
+      bezelThickness,
+      mirrorConfig.size[1],
+      bezelDepth,
+    );
+    for (const y of [-(mirrorConfig.size[1] + bezelThickness) * 0.5,
+      (mirrorConfig.size[1] + bezelThickness) * 0.5]) {
+      const bezel = new THREE.Mesh(horizontalBezelGeometry, housingMaterial);
+      bezel.name = `${side} mirror horizontal bezel`;
+      bezel.userData.vehicleBodyPart = 'mirror-housing';
+      bezel.position.set(0, y, 0.002);
+      assembly.add(bezel);
+    }
+    for (const x of [-(mirrorConfig.size[0] + bezelThickness) * 0.5,
+      (mirrorConfig.size[0] + bezelThickness) * 0.5]) {
+      const bezel = new THREE.Mesh(verticalBezelGeometry, housingMaterial);
+      bezel.name = `${side} mirror vertical bezel`;
+      bezel.userData.vehicleBodyPart = 'mirror-housing';
+      bezel.position.set(x, 0, 0.002);
+      assembly.add(bezel);
+    }
+
+    const reflectiveMaterial = new THREE.MeshStandardMaterial({
+      color: 0x9cb8bf,
+      roughness: 0.06,
+      metalness: 0.9,
+      side: THREE.FrontSide,
+    });
+    const surface: MirrorSurfaceMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(mirrorConfig.size[0], mirrorConfig.size[1]),
+      reflectiveMaterial,
+    );
+    surface.name = `${side} mirror surface`;
+    surface.position.copy(new THREE.Vector3(...mirrorConfig.position))
+      .add(new THREE.Vector3(0, 0, 0.004).applyEuler(new THREE.Euler(...mirrorConfig.rotation)));
+    surface.rotation.set(...mirrorConfig.rotation);
+    surface.userData.mirrorSide = side;
+    surface.userData.mirrorShape = 'rectangular';
+    surface.userData.localNormal = new THREE.Vector3(0, 0, 1);
+    surface.renderOrder = 3;
+    this.mirrorSurfaceRoot.add(surface);
+
+    const sign = side === 'left' ? -1 : 1;
+    const mountZ = mirrorConfig.mountPosition?.[2] ?? this.config.cabin.windshieldBottomZ + .065;
+    const doorEdge = frontDoorSkinAnchor(this.config, mountZ);
+    const mount = this.config.body.design === 'jesko-attack' && mirrorConfig.mountPosition
+      ? new THREE.Vector3(...mirrorConfig.mountPosition)
+      : new THREE.Vector3(sign * (doorEdge.x + .004), doorEdge.y + .06, mountZ);
+    // Attach the sail to the actual upper front-door skin, rather than a
+    // width-based point suspended outside the tapered body. Optical glass
+    // position/orientation remains exactly the configured reflective plane.
+    const sailShape = new THREE.Shape();
+    // Shape X maps to longitudinal Z after rotation. Its forward tip sits in
+    // the door's triangle region, below the main side-window opening.
+    sailShape.moveTo(sign * .055, -.065);
+    sailShape.lineTo(-sign * .095, -.065);
+    sailShape.lineTo(sign * .045, .07);
+    sailShape.closePath();
+    const sail = new THREE.Mesh(new THREE.ExtrudeGeometry(sailShape,
+      { depth: .028, bevelEnabled: false, steps: 1 }), housingMaterial);
+    sail.name = `${side} door mirror sail mount`;
+    sail.position.copy(mount); sail.rotation.y = sign * Math.PI / 2;
+    sail.userData.vehicleBodyPart = 'mirror-housing';
+    this.exteriorRoot.add(sail);
+    const housingConnection = new THREE.Vector3(-sign * .1, -housingHeight * .18, -mirrorConfig.housingDepth * .68)
+      .applyEuler(assembly.rotation).add(assembly.position);
+    const start = mount.clone().add(new THREE.Vector3(sign * .014, -.015, .005));
+    const delta = housingConnection.clone().sub(start);
+    const stalk = new THREE.Mesh(new THREE.CylinderGeometry(.019, .026, delta.length(), 8), housingMaterial);
+    stalk.name = `${side} mirror stalk`;
+    stalk.position.copy(start).add(housingConnection).multiplyScalar(.5);
+    stalk.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize());
+    stalk.castShadow = true;
+    stalk.userData.vehicleBodyPart = 'mirror-housing';
+    this.exteriorRoot.add(stalk);
+
+    this.exteriorRoot.add(assembly);
+    if (this.config.automaticMirrorFold) {
+      // The sail stays bolted to the door. Housing, hinge arm and optical plane
+      // share one physical hinge, across their existing separate render layers.
+      const bodyPivot = new THREE.Group(), glassPivot = new THREE.Group();
+      bodyPivot.name = `${side} mirror folding hinge`; glassPivot.name = `${side} mirror optical folding hinge`;
+      bodyPivot.position.copy(start); glassPivot.position.copy(start);
+      for (const part of [assembly, stalk]) { part.position.sub(start); bodyPivot.add(part); }
+      surface.position.sub(start); glassPivot.add(surface);
+      this.exteriorRoot.add(bodyPivot); this.mirrorSurfaceRoot.add(glassPivot);
+      this.foldingMirrorPivots.push({ side: sign, body: bodyPivot, glass: glassPivot });
+    }
+    return surface;
+  }
+}

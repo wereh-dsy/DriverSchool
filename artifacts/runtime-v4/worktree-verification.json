@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "changed": [
+    "scripts/performance-deep-instrument.ts",
+    "scripts/run-runtime-selftests.mjs",
+    "src/game/StreamingShaderWarmup.ts",
+    "src/game/runtime/RuntimeCoordinator.ts",
+    "src/game/runtime/RuntimePerformance.ts",
+    "src/game/runtime/VehicleRenderPose.ts",
+    "src/game/runtime/WorldRenderGraph.ts",
+    "src/world/render/RenderWorld.ts",
+    "docs/CURRENT_CODE_CONTEXT.md",
+    "src/game/DrivingGame.ts",
+    "src/game/VehicleVisualDebugView.ts",
+    "src/game/createGameRenderer.ts",
+    "src/game/startup/MenuScene.ts",
+    "src/game/startup/StartupApplication.ts",
+    "src/ui/MirrorOverlayRenderer.ts",
+    "src/world/DrivingGround.ts",
+    "src/world/DrivingGroundCatalog.ts",
+    "src/world/city/CityGround.ts",
+    "src/world/city/CityMainResource.ts",
+    "src/world/city/CityPhysicsSectors.ts",
+    "src/world/city/PrefabRegistry.ts",
+    "src/world/city/SectorManager.ts",
+    "src/world/subject3/Subject3Ground.ts",
+    "src/world/subject3/trafficSignals.ts",
+    "vite.config.ts"
+  ],
+  "added": [
+    "docs/RUNTIME_V2_PHASE4_2026-11-18.md",
+    "src/game/render/RenderDebugOverlays.ts",
+    "src/game/render/RenderLightingState.ts",
+    "src/game/render/RenderStateBuffer.ts",
+    "src/game/render/RenderTelemetry.ts",
+    "src/game/render/Renderer.worker.ts",
+    "src/game/render/RendererProtocol.ts",
+    "src/game/render/RendererRuntime.selftest.ts",
+    "src/game/render/RendererRuntime.ts",
+    "src/game/render/RendererWorkerClient.ts",
+    "src/game/render/SimulationGroundVisuals.ts",
+    "src/game/render/SimulationVehicleRig.ts",
+    "src/game/render/WorkerCanvasEnvironment.ts",
+    "src/world/city/CitySimulationSectors.ts",
+    "src/world/city/PrefabContracts.json"
+  ],
+  "unexpected": [],
+  "mapUnchanged": true,
+  "headUnchanged": true,
+  "physicsLoopUnchanged": true,
+  "vehicleSourceUnchanged": true,
+  "oldReleases": [
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "bcbb042ec363df0525d0ad13df41f8ce771e3c52d771650bcb54cf33ed0f3526",
+      "unchanged": true
+    },
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-RuntimeV2-Phase21-20261117/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "d89a61564a6f5b964deaa8e69777855b79a07eb708b16421d8ddfd1cdb10d67c",
+      "unchanged": true
+    },
+    {
+      "path": "D:/DriverSchoolRelease/DriverSchool-RuntimeV2-Phase3-20261117/DriverSchool-win32-x64/resources/app.asar",
+      "sha256": "a915e457d0c634d6e0713d7b0725f35739c94e667fb473bab553ec600525e923",
+      "unchanged": true
+    }
+  ]
+}

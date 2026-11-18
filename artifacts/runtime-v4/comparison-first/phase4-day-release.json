@@ -1,0 +1,102 @@
+{
+  "remote": true,
+  "state": {
+    "disposed": true,
+    "acknowledged": true,
+    "terminated": true,
+    "resources": {
+      "contextLost": true,
+      "renderWorld": {
+        "backend": "renderer-worker",
+        "records": 0,
+        "capacity": 0,
+        "cpuBytes": 0,
+        "revision": 8907,
+        "packetRevision": 0,
+        "pendingPatches": 0,
+        "ready": false,
+        "jobs": {
+          "submitted": 4635,
+          "completed": 4635,
+          "coalesced": 0,
+          "stale": 0,
+          "patches": 469,
+          "cpuMs": 0.4000000059604645,
+          "maxCpuMs": 4.5999999940395355,
+          "roundTripMs": 0.4000000059604645,
+          "maxRoundTripMs": 4.5999999940395355,
+          "queueMessageAndMainWaitMs": 0,
+          "applyMs": 0.09999999403953552,
+          "maxApplyMs": 0.5999999940395355,
+          "fallbackViews": 0
+        }
+      },
+      "graph": {
+        "backend": "webgl2",
+        "frames": 4634,
+        "passes": [
+          {
+            "name": "world.visibility",
+            "after": [],
+            "cpuMs": 0.5999999940395355
+          },
+          {
+            "name": "additional.views",
+            "after": [
+              "world.visibility"
+            ],
+            "cpuMs": 4.299999982118607
+          },
+          {
+            "name": "main.composite",
+            "after": [
+              "additional.views"
+            ],
+            "cpuMs": 7.5
+          },
+          {
+            "name": "hud.composite",
+            "after": [
+              "main.composite"
+            ],
+            "cpuMs": 0
+          }
+        ],
+        "fusedStages": [
+          "sky/weather",
+          "opaque world",
+          "transparent",
+          "3D cockpit"
+        ],
+        "shadowCpuMs": 1,
+        "draws": {
+          "main": 461,
+          "additional": 225,
+          "shadow": 114,
+          "skyWeather": 0,
+          "transparent": 31,
+          "cockpit": 52,
+          "overlay": 0
+        },
+        "residency": {
+          "geometry": 0,
+          "instances": 0,
+          "texture": 0,
+          "target": 0,
+          "registered": 0,
+          "prepared": 0,
+          "released": 3267,
+          "cpuBackingBytes": 0,
+          "gpuBytes": null,
+          "gpuBytesLimitation": "WebGL does not expose driver residency; use allocation instrumentation for GL buffers"
+        },
+        "multiDrawAvailable": true,
+        "multiDrawUsed": false,
+        "offscreenAvailable": true,
+        "offscreen": true
+      }
+    }
+  },
+  "gpu": null,
+  "errors": []
+}

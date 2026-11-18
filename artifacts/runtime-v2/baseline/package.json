@@ -1,0 +1,50 @@
+{
+  "name": "drivergame-v0.1",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "editor": "node scripts/start-editor.mjs",
+    "map": "node scripts/map-cli.mjs",
+    "mapctl": "node scripts/mapctl.mjs",
+    "selftest:editor": "node scripts/run-editor-selftests.mjs",
+    "selftest:road-quality": "node scripts/run-road-quality-selftests.mjs",
+    "selftest:mapctl": "node scripts/run-mapctl-selftests.mjs && node scripts/validate-mapctl-engineering.mjs",
+    "start": "vite --host 127.0.0.1 --port 5173 --open",
+    "build": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1",
+    "preview": "vite preview",
+    "clean:generated": "node scripts/clean-generated.mjs --apply",
+    "typecheck": "tsc -b",
+    "selftest:blackbox": "node scripts/run-vehicle-blackbox-selftests.mjs",
+    "selftest": "esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs",
+    "selftest:vehicles": "esbuild scripts/run-vehicle-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-catalog-selftest.mjs && node .tmp-vehicle-catalog-selftest.mjs",
+    "selftest:grounds": "esbuild scripts/run-ground-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-ground-catalog-selftest.mjs && node .tmp-ground-catalog-selftest.mjs",
+    "selftest:experience": "esbuild scripts/run-vehicle-experience-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-experience-selftests.mjs && node .tmp-vehicle-experience-selftests.mjs",
+    "selftest:systems": "esbuild scripts/run-system-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-system-selftests.mjs && node .tmp-system-selftests.mjs",
+    "selftest:navigation": "esbuild scripts/run-navigation-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-navigation-selftests.mjs && node .tmp-navigation-selftests.mjs",
+    "desktop:dev": "node scripts/desktop-dev.mjs",
+    "desktop:build": "tsc -p desktop/tsconfig.json && node scripts/desktop-build.mjs",
+    "desktop:start": "electron .desktop/main.cjs",
+    "desktop:package": "pnpm run build && pnpm run desktop:build && node scripts/desktop-package.mjs",
+    "selftest:ui": "node scripts/run-ui-selftests.mjs",
+    "selftest:loading": "node scripts/run-loading-selftests.mjs",
+    "selftest:physics-streaming": "node scripts/run-physics-sector-selftests.mjs"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "@types/node": "^26.6.5",
+    "@types/three": "^0.180.0",
+    "electron": "^45.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7"
+  }
+}

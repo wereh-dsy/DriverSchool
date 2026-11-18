@@ -1,0 +1,45 @@
+{
+  "exe": "D:\\DriverSchoolRelease\\DriverSchool-win32-x64\\DriverSchool.exe",
+  "automationFlags": [
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows"
+  ],
+  "packageIndexMatchesDist": true,
+  "indexSHA256": "546132675426149695920af6a12e841c8d9ad734da35f283308dbcccdd823bb7",
+  "pid": 26528,
+  "errors": [],
+  "requestsFailed": [],
+  "passed": false,
+  "menu": {
+    "url": "driverschool://game/index.html",
+    "phase": "menu",
+    "startEnabled": true,
+    "platform": "desktop",
+    "nodeExposed": false
+  },
+  "directories": {
+    "config": "D:\\dsy\\drivergame\\.tmp-road-round5-release-profile\\config",
+    "saves": "D:\\dsy\\drivergame\\.tmp-road-round5-release-profile\\saves",
+    "logs": "D:\\dsy\\drivergame\\.tmp-road-round5-release-profile\\logs",
+    "mods": "D:\\dsy\\drivergame\\.tmp-road-round5-release-profile\\mods"
+  },
+  "progress": {
+    "phase": "loading",
+    "screen": "loading",
+    "message": "DRIVER SCHOOL / LOADING正在准备驾驶正在准备车辆显示返回主菜单",
+    "canvases": 3,
+    "map": "清江市 · City Main",
+    "elapsedMs": 9558.7277
+  },
+  "entryVerified": true,
+  "verificationEvidence": "Reviewed release-game.png captured only after uiPhase=driving; execution reached Browser.close after screenshot and preference restoration",
+  "automationCompleted": false,
+  "harnessExitCode": 1,
+  "harnessIssue": "CDP Browser.close closed socket without a reply; Node exited at unsettled top-level await before final result persistence. Earlier persisted fields are partial; passed=false is not a game load failure.",
+  "finalErrorCollectionPersisted": false,
+  "screenshot": {
+    "path": "release-game.png",
+    "sha256": "7df9491e75339bdb1be4f880a1e7c8bc36be0c8a524fb18f0a3f55e313889ff9"
+  }
+}

@@ -1,0 +1,24 @@
+import type { CityPoint } from '../city/CityMapData';
+
+export interface RegionalRoute {
+  number?: string;
+  id: string; name: string; lanes: number; speed: number; terrain: string;
+  roadIds: string[]; centerline: CityPoint[]; connectedRoutes: string[];
+}
+export interface RegionalStructure {
+  id: string; name: string; kind: 'interchange' | 'bridge' | 'tunnel' | 'service';
+  center: CityPoint; roadIds: string[]; radius: number; routes: string[];
+  form: string; reference: string;
+}
+export interface RegionalData {
+  /** Optional broad south-facing coast. Coordinates and elevations are metres. */
+  coast?: { minX:number; maxX:number; seaLevel:number; landHeight:number; transitionWidth:number; shoreline:{x:number;z:number}[] };
+  highways?: import('./HighwayData').HighwaySystem;
+  version: 1;
+  terrainBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
+  cityBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
+  /** Non-overlapping flat urban additions; the original terrain envelope stays intact. */
+  cityExtensions?: { minX: number; maxX: number; minZ: number; maxZ: number }[];
+  routes: RegionalRoute[]; structures: RegionalStructure[];
+  exits: { id: string; name: string; route: string; roadIds: string[] }[];
+}

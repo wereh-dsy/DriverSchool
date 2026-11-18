@@ -1,5 +1,6 @@
 import { MaybachS680Instruments } from './MaybachS680Displays';
 import { Tank500Display } from './Tank500Displays';
+import { QinPlusDisplay } from './QinPlusDisplays';
 import * as THREE from 'three';
 import { JeskoAttackInstruments } from './JeskoAttackInstruments';
 import { SU7MaxInstruments } from './SU7MaxInstruments';
@@ -69,6 +70,7 @@ export interface InstrumentIndicatorState {
  */
 export interface InstrumentTelemetry {
   readonly hybrid?: import('../powertrain/P2HybridPowertrain').HybridTelemetry;
+  readonly ehs?: import('../powertrain/EhsHybridSystem').EhsTelemetry;
   /** Borrowed physical actuator state; rendering never selects active aero. */
   readonly activeSpoilerDeployment?: number;
   readonly tpmsState?: import('../TPMSState').TPMSState;
@@ -128,7 +130,7 @@ export type InstrumentDisplayStyle =
   | 'maybach-mbux'
   | 'mercedes-mbux'
   | 'su7-digital'
-  | 'tank-hybrid';
+  | 'tank-hybrid' | 'qin-ehs';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1602,6 +1604,7 @@ export class InstrumentCluster extends THREE.Group {
   private readonly su7Face?: SU7MaxInstruments;
   private readonly jeskoFace?: JeskoAttackInstruments;
   private readonly tankFace?: Tank500Display;
+  private readonly qinFace?: QinPlusDisplay;
   private readonly config: InstrumentClusterConfig;
   private readonly tachometerNeedle: THREE.Group;
   private readonly speedometerNeedle: THREE.Group;
@@ -1678,6 +1681,13 @@ export class InstrumentCluster extends THREE.Group {
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'qin-ehs') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas); this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.qinFace = new QinPlusDisplay(); this.add(this.qinFace); return;
+    }
     if (this.config.displayStyle === 'tank-hybrid') {
       this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
       this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
@@ -2127,6 +2137,7 @@ export class InstrumentCluster extends THREE.Group {
   public setDisplaySteeringAngle(angle: number): void { this.jeskoFace?.setSteeringAngle(angle); }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.qinFace) { this.qinFace.update(telemetry, deltaTime); return; }
     if (this.tankFace) { this.tankFace.update(telemetry, deltaTime); return; }
     if (this.jeskoFace) { this.jeskoFace.update(telemetry, deltaTime); return; }
     if (this.su7Face) {this.su7Face.update(telemetry,deltaTime);return;}

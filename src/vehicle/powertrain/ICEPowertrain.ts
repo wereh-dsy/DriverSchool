@@ -43,7 +43,7 @@ export class ICEPowertrain implements Powertrain {
   private clutchPedal = 1;
   private readonly engineTorqueAtRPM = (rpm: number): number => this.engine.getTorqueAtRPM(rpm);
   private readonly output: PowertrainOutput = { drivenWheelTorque: 0, inputLoadTorque: 0, couplingSlipAngularVelocity: 0, parkingLocked: false };
-  public constructor(public readonly config: VehiclePhysicsConfig) {
+  public constructor(public readonly config: VehiclePhysicsConfig, installedTransmission?: TransmissionSystem) {
     this.engine = new Engine(config.engine);
     if (config.engine.thermal) this.thermal = new ICEHeatState(config.engine.thermal);
     if (config.mildHybrid) this.mildHybrid = new MildHybridSystem(config.mildHybrid);
@@ -51,7 +51,7 @@ export class ICEPowertrain implements Powertrain {
     this.clutch = new Clutch(config.clutch);
     this.autoClutch = new AutoClutchController(config.autoClutch, config.engine.idleRPM);
     this.gearbox = new Gearbox(config.transmission);
-    this.transmission = createTransmissionSystem(config.transmission, this.gearbox, this.clutch, this.autoClutch, config.wheelRadius);
+    this.transmission = installedTransmission ?? createTransmissionSystem(config.transmission, this.gearbox, this.clutch, this.autoClutch, config.wheelRadius);
     this.drivetrainLash = new DrivetrainLash(this.transmission.type === 'MANUAL' ? config.transmission.drivetrainLash : undefined);
     this.upshiftAdvisor = new UpshiftAdvisor(config.engine.shiftRecommendation, this.gearbox.getMaximumForwardGear());
     this.setStartStopEnabled(config.startStop?.enabledByDefault ?? false);

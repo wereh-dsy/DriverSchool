@@ -1,0 +1,7 @@
+import{readFile,writeFile}from'node:fs/promises';
+const dir='artifacts/road-remediation',q=(a,p)=>a.toSorted((a,b)=>a-b)[Math.min(a.length-1,Math.ceil(a.length*p)-1)],out=[];
+for(const variant of['baseline-light','optimized-light']){
+ const r=JSON.parse(await readFile(`${dir}/runtime-${variant}.json`,'utf8')),f=r.rows,stats=rows=>({frames:rows.length,p50:q(rows.map(x=>x.dt),.5),p95:q(rows.map(x=>x.dt),.95),p99:q(rows.map(x=>x.dt),.99),max:Math.max(...rows.map(x=>x.dt)),over50:rows.filter(x=>x.dt>50).length});
+ out.push({variant,frame:stats(f),stableDay:stats(f.filter(x=>x.elapsed>10000&&x.phase==='day')),wetNight:stats(f.filter(x=>x.phase==='wet-night')),heapPeakMiB:Math.max(...f.map(x=>x.heap??0))/2**20,callsMedian:q(f.map(x=>x.calls),.5),trianglesMedian:q(f.map(x=>x.triangles),.5),gpuRenderPassP95:q(r.gpuSamples,.95),gpuRenderPassP99:q(r.gpuSamples,.99),progress:r.progress,sectors:[...new Set(f.map(x=>x.sector))],worker:r.worker,warmup:r.warmup,errors:r.errors,sectionP99:Object.fromEntries([...new Set(f.flatMap(x=>Object.keys(x.sections)))].map(k=>[k,q(f.map(x=>x.sections[k]??0),.99)])),slowFrames:f.filter(x=>x.dt>50),longAnimationFrames:r.loaf.filter(e=>e.startTime>=r.measuredStart)});
+}
+await writeFile(`${dir}/performance-final.json`,JSON.stringify(out,null,2));console.log(JSON.stringify(out.map(({slowFrames,longAnimationFrames,sectionP99,worker,...r})=>({...r,workerCompleted:worker.completed,workerCancelled:worker.cancelled})),null,2));

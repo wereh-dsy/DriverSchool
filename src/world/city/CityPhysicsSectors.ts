@@ -30,7 +30,7 @@ export class CityPhysicsSectors {
   private maxSingleBuildStepMs = 0;
   private synchronousFallbacks = 0;
   private completedRoads = 0;
-  constructor(private readonly sectors: SectorManager, private readonly publish: (roads: readonly StaticCollider[][]) => void) {
+  constructor(private readonly sectors: Pick<SectorManager,'map'|'sectorKey'|'roadsForSector'>, private readonly publish: (roads: readonly StaticCollider[][]) => void) {
     const size = sectors.map.sectorSize;
     this.activeRadius = size * .6;
     this.preloadRadius = this.activeRadius + size;
@@ -108,14 +108,18 @@ export class CityPhysicsSectors {
     }
     this.finishBatch(started);
   }
+  get preloadProgress(): {done:number;total:number} {
+    let done=0;for(const road of this.wanted)if(this.jobs.get(road)?.ready)done++;
+    return {done,total:this.wanted.length};
+  }
   private finishBatch(started:number): void {
     this.commit(); const elapsed=performance.now()-started;
     this.buildActiveMs+=elapsed;this.maxBatchMs=Math.max(this.maxBatchMs,elapsed);
   }
-  async prepareSpawn(x:number,z:number,yaw:number): Promise<void> {
+  async prepareSpawn(x:number,z:number,yaw:number,signal?:AbortSignal): Promise<void> {
     this.select(x,z,-Math.sin(yaw),-Math.cos(yaw));
     const started=performance.now();
-    while([...this.required].some(road=>!this.jobs.get(road)?.ready)) {this.advance(5,true);await nextPaint();}
+    while([...this.required].some(road=>!this.jobs.get(road)?.ready)) {if(signal?.aborted)throw new DOMException('Loading cancelled','AbortError');this.advance(5,true);await nextPaint();}
     this.commit();
     performance.mark('loading:spawnPhysicsReady');
     performance.measure('physics:spawnReady',{start:started,end:performance.now(),detail:this.statistics});

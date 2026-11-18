@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>道路三维几何局部试验</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#131b23;color:#e4eaf0;font:14px system-ui,sans-serif}header{padding:14px 22px;display:flex;align-items:center;gap:18px;border-bottom:1px solid #31414e}h1{font-size:18px;margin:0}header span{color:#94aaba;font-size:12px}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px 22px}button,select{background:#253540;color:#dfe9ee;border:1px solid #435864;border-radius:5px;padding:7px 10px;cursor:pointer}button.active{background:#286757;border-color:#54b69b}#view{position:relative;margin:0 22px;background:#a0abb2}canvas{display:block;width:100%;height:100%}.label{position:absolute;top:12px;background:#14212bd9;padding:8px 12px;border-radius:4px;pointer-events:none}.left{left:12px}.right{left:calc(50% + 12px);color:#96e0bf}#divider{position:absolute;left:50%;top:0;height:100%;width:1px;background:#e6f3fa88;pointer-events:none}footer{padding:12px 22px;color:#adc0cc;line-height:1.8}#stats{white-space:pre-wrap;font:12px ui-monospace,monospace;color:#d3e4e9}#status{color:#9bdbbb}a{color:#95c7ea}
+  </style>
+</head>
+<body>
+  <header><h1>连续道路主体 × 模块化结构</h1><span>regional-main v494 · 真实对象局部对比 · 默认地图渲染未启用试验</span></header>
+  <nav id="regions"></nav>
+  <nav><button id="overview">整体视图</button><button id="detail">结构近看</button><button id="inside">通道内部</button><button id="wire">线框</button><button id="capture">保存当前对比</button><button id="run">采集全部样本与 Worker 检查</button></nav>
+  <main id="view"><div class="label left">旧版 · 原生成机制</div><div class="label right">新版 · 连续截面与实体结构</div><div id="divider"></div></main>
+  <footer><div id="status">正在读取地图…</div><div id="stats"></div><div>拖动旋转 · 滚轮缩放 · 两侧共用相机和材质。仅显示道路及结构，地面基板位于最低路面下方，不用遮罩隐藏交叉道路。</div></footer>
+  <script type="module" src="./road-geometry-trial.ts"></script>
+</body>
+</html>

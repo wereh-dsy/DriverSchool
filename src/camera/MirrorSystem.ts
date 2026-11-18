@@ -385,6 +385,7 @@ export class MirrorSystem {
     const previousMipmapLevel = this.renderer.getActiveMipmapLevel();
     const previousXrEnabled = this.renderer.xr.enabled;
     const previousShadowAutoUpdate = this.renderer.shadowMap.autoUpdate;
+    const previousShadowNeedsUpdate=this.renderer.shadowMap.needsUpdate;
     const previousAutoClear = this.renderer.autoClear;
     const previousViewport = this.renderer.getViewport(this.savedViewport);
     const previousScissor = this.renderer.getScissor(this.savedScissor);
@@ -397,6 +398,7 @@ export class MirrorSystem {
       this.hideReflectionObjects(visibility);
       this.renderer.xr.enabled = false;
       this.renderer.shadowMap.autoUpdate = false;
+      this.renderer.shadowMap.needsUpdate=false;
       // Let Three clear each render target with scene.background. With
       // autoClear disabled, the manual clear used the renderer's stale black
       // clear colour and erased the sky portion of both side mirrors.
@@ -411,6 +413,7 @@ export class MirrorSystem {
       visibility.clear();
       this.renderer.xr.enabled = previousXrEnabled;
       this.renderer.shadowMap.autoUpdate = previousShadowAutoUpdate;
+      this.renderer.shadowMap.needsUpdate=previousShadowNeedsUpdate;
       this.renderer.autoClear = previousAutoClear;
       this.renderer.setRenderTarget(
         previousTarget,

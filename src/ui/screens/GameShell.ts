@@ -7,6 +7,8 @@ const button = (action: string, label: string, extra = '') => `<button type="but
 export class GameShell {
   readonly root = document.createElement('div');
   private previousScreen = '';
+  private loadingClock:ReturnType<typeof setInterval>|undefined;
+  private readonly loadingPanel:HTMLElement;
   private readonly abort = new AbortController();
   constructor(private readonly host: HTMLElement, private readonly ui: GameUIController, private readonly platform: Platform,
     private readonly vehicles: readonly VehicleViewModel[], maps: readonly MapViewModel[]) {
@@ -36,9 +38,18 @@ export class GameShell {
         <h1>暂停驾驶</h1><nav class="ds-menu" aria-label="暂停操作">${button('resume', '继续驾驶 <small>RESUME</small>')}${button('settings', '驾驶设置')}${button('controls', '控制')}${button('vehicle-settings', '车辆设置')}${button('restart', '重新开始')}${button('main', '返回主菜单')}</nav>
         <fieldset class="ds-profile"><legend>DRIVING HUD</legend>${HUD_PROFILES.map(p => button(`hud-${p.id}`, p.label, `title="${p.description}" aria-pressed="false"`)).join('')}</fieldset>
       </section>
-      <section class="ds-screen ds-loading" data-screen="loading" aria-label="加载驾驶场景" hidden><span class="ds-eyebrow">DRIVER SCHOOL / LOADING</span><h1 data-loading-title>正在准备驾驶</h1><p data-loading-message role="status"></p>${button('back', '返回主菜单', 'data-loading-back hidden')}</section>
+      <section class="ds-screen ds-loading" data-screen="loading" aria-label="加载驾驶场景" hidden>
+        <div class="ds-load-panel" data-loading-progress><span class="ds-eyebrow">DRIVER SCHOOL / PREPARING YOUR DRIVE</span>
+          <div class="ds-load-heading"><span class="ds-load-indicator" aria-hidden="true"></span><h1 data-loading-title>正在准备驾驶</h1></div>
+          <p data-loading-message role="status"></p><div class="ds-load-value"><strong data-loading-percent>0%</strong><span data-loading-tasks>正在发现资源</span></div>
+          <div class="ds-load-track" role="progressbar" aria-label="驾驶准备进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-loading-bar></span></div>
+          <div class="ds-load-meta"><span data-loading-phase>基础初始化</span><span data-loading-elapsed>已用时 0 秒</span></div>
+          <small>提前准备您附近的道路、场景与显示资源，完成后即可驾驶。</small>
+        </div>${button('cancel-loading','返回主菜单','data-loading-cancel')}${button('start','重试加载','data-loading-retry hidden')}
+      </section>
       <footer class="ds-footer"><span data-shell-status role="status"></span>${button('fullscreen', '全屏 / 窗口', 'title="切换显示模式"')}</footer>`;
     host.append(this.root);
+    this.loadingPanel=this.find('[data-loading-progress]');
     const vehiclePicker=this.find<HTMLSelectElement>('[data-vehicle-picker]');
     for(const vehicle of vehicles) {const option=document.createElement('option');option.value=vehicle.id;option.textContent=vehicle.name;vehiclePicker.append(option);}
     vehiclePicker.addEventListener('change',()=>this.ui.selectVehicle(vehiclePicker.value),{signal:this.abort.signal});
@@ -63,6 +74,7 @@ export class GameShell {
       case 'start': this.ui.startDrive(); break;
       case 'resume': this.ui.resume(); break;
       case 'restart': this.ui.restart(); break;
+      case 'cancel-loading': this.ui.cancelLoading();break;
       case 'settings': case 'vehicle-settings': this.ui.openSettings('vehicle'); break;
       case 'controls': this.ui.openSettings('controls'); break;
       case 'previous': this.cycle(-1); break;
@@ -81,6 +93,7 @@ export class GameShell {
     if (next) this.ui.selectVehicle(next.id);
   }
   private render(state: Readonly<GameUIState>): void {
+    if(state.screen==='loading'&&this.previousScreen==='loading'){this.renderLoading(state);return;}
     // Effects follow the actual simulation budget, including live settings.
     this.host.dataset.uiPhase = state.screen === 'loading' ? 'loading' :
       !this.ui.freezesSimulation ? 'driving' : state.screen === 'pause' || state.screen === 'settings' && state.hasSession ? 'paused' : 'menu';
@@ -107,22 +120,40 @@ export class GameShell {
       if (action.startsWith('hud-')) item.setAttribute('aria-pressed', String(action === `hud-${state.hudProfile}`));
     });
     this.find('[data-shell-status]').textContent = '';
-    this.find('[data-loading-title]').textContent = state.loading.phase === 'error' ? '暂时无法进入驾驶' : '正在准备驾驶';
-    this.find('[data-loading-message]').textContent = state.loading.message || '正在准备场景';
-    this.find('[data-loading-back]').hidden = state.loading.phase !== 'error';
+    if(state.screen==='loading'){
+      this.find('[data-screen="loading"]').prepend(this.loadingPanel);this.renderLoading(state);
+      this.loadingClock??=setInterval(()=>this.renderLoadingElapsed(),250);
+    }else{if(this.loadingClock!==undefined)clearInterval(this.loadingClock);this.loadingClock=undefined;this.loadingPanel.remove();}
     if (this.previousScreen !== state.screen && !this.root.hidden) {
       this.find<HTMLElement>(`[data-screen="${state.screen}"] button:not(:disabled)`)?.focus({ preventScroll: true });
     }
     this.previousScreen = state.screen;
   }
+  private renderLoading(state:Readonly<GameUIState>):void {
+    const progress=state.loading.progress;
+    this.find('[data-loading-title]').textContent=state.loading.phase==='error'?'暂时无法进入驾驶':progress?.phase??'正在准备驾驶';
+    this.find('[data-loading-message]').textContent=state.loading.phase==='error'?state.loading.message:progress?.resource||state.loading.message||'正在发现资源';
+    this.find('[data-loading-percent]').textContent=(progress?.percent??0)+'%';
+    this.find('[data-loading-tasks]').textContent=progress?.total?`${progress.completed} / ${progress.total} 项任务`:'正在发现资源';
+    this.find('[data-loading-phase]').textContent=state.loading.phase==='error'?'加载失败 · 可以重试':`第 ${progress?.attempt??1} 次准备`;
+    this.find('[data-loading-bar]').style.width=(progress?.percent??0)+'%';
+    this.find('[role="progressbar"]').setAttribute('aria-valuenow',String(progress?.percent??0));
+    this.find('[data-loading-retry]').hidden=state.loading.phase!=='error';
+    this.find<HTMLButtonElement>('[data-loading-retry]').disabled=state.busy;
+    this.renderLoadingElapsed();
+  }
+  private renderLoadingElapsed():void {if(this.ui.state.screen==='loading'&&this.loadingPanel.isConnected)this.find('[data-loading-elapsed]').textContent=`已用时 ${Math.floor(this.ui.loadingProgress.snapshot.elapsedMs/1000)} 秒`;}
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     const screen = this.ui.state.screen;
     if (screen === 'settings') return;
     if(event.target instanceof HTMLSelectElement&&event.code!=='F3'){event.stopImmediatePropagation();return;}
-    if (screen === 'loading' && this.ui.state.loading.phase !== 'error') { event.preventDefault(); event.stopImmediatePropagation(); return; }
+    if(screen==='loading'&&this.ui.state.loading.phase!=='error'){
+      if(event.code==='Escape'&&!event.repeat){event.preventDefault();event.stopImmediatePropagation();this.ui.cancelLoading();return;}
+      if(!['Tab','Enter','Space'].includes(event.code)){event.preventDefault();event.stopImmediatePropagation();return;}
+    }
     if (event.code === 'Escape' && !event.repeat) {
       event.preventDefault(); event.stopImmediatePropagation();
-      if (screen === 'driving') this.ui.pause(); else if (screen === 'pause') this.ui.resume(); else this.ui.navigate('main');
+      if (screen === 'driving') this.ui.pause(); else if (screen === 'pause') this.ui.resume(); else if(screen==='loading')this.ui.cancelLoading();else this.ui.navigate('main');
       return;
     }
     if (screen === 'driving') return;
@@ -141,5 +172,5 @@ export class GameShell {
     }
     if (event.code !== 'F3') event.stopImmediatePropagation();
   };
-  dispose(): void { this.abort.abort(); this.ui.onChange = undefined; this.root.remove(); }
+  dispose(): void {if(this.loadingClock!==undefined)clearInterval(this.loadingClock); this.abort.abort(); this.ui.onChange = undefined; this.root.remove(); }
 }

@@ -1,5 +1,7 @@
 import { buildMaybachS680Exterior, buildMaybachS680Wheels } from './MaybachS680Exterior';
 import { buildTank500Exterior, buildTank500Wheels } from './Tank500Exterior';
+import { buildQinPlusExterior } from './QinPlusExterior';
+import { buildQinPlusWheels } from './QinPlusWheels';
 import * as THREE from 'three';
 import { buildJeskoAttackExterior, buildJeskoAttackWheels } from './JeskoAttackExterior';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
@@ -19,7 +21,8 @@ import { exteriorShapeProfile } from './ExteriorShapeProfiles';
 import { buildRefinedWheels } from './RefinedVehicleExterior';
 import { fitExteriorOverhangs } from './ExteriorEnvelope';
 export function buildVehicleStaticExterior(root: THREE.Group, config: VehicleVisualConfig, assets?: VehicleAssetRegistry): void {
-  if (config.body.design === 'tank-500') buildTank500Exterior(root, config);
+  if (config.body.design === 'qin-plus') buildQinPlusExterior(root, config);
+  else if (config.body.design === 'tank-500') buildTank500Exterior(root, config);
   else if (config.body.design === 'maybach-z223') buildMaybachS680Exterior(root, config);
   else if (config.body.design === 'jesko-attack') buildJeskoAttackExterior(root, config);
   else if (config.body.exterior === 'xiaomi-su7') buildSU7MaxExterior(root, config);
@@ -30,6 +33,10 @@ export function buildVehicleStaticExterior(root: THREE.Group, config: VehicleVis
   // OEM bumper datums where available; unverified overhangs keep the declared
   // symmetric game envelope. Wheel centres are not part of this operation.
   if (config.body.exterior === 'tesla-model-3') fitExteriorOverhangs(root, config, .868, .977);
+  else if (config.body.design === 'qin-plus') {
+    const overhang = (config.dimensions.length - config.wheelBase) / 2;
+    fitExteriorOverhangs(root, config, overhang, overhang);
+  }
   else if (config.body.design === 'golf-gti') fitExteriorOverhangs(root, config, .869, .768);
   else if (config.body.design === 'bmw-g38' || config.body.design === 'mercedes-v214') {
     const overhang = (config.dimensions.length - config.wheelBase) / 2;
@@ -40,6 +47,7 @@ export function prepareVehicleExterior(config: VehicleVisualConfig, assets: Vehi
   assets.prepareSection(config, 'exterior', root => buildVehicleStaticExterior(root, config, assets));
 }
 export function buildVehicleStaticWheels(root: THREE.Group, config: VehicleVisualConfig): { pivots: Record<VehicleWheelId, THREE.Group>; wheels: THREE.Mesh[] } {
+    if (config.body.design === 'qin-plus') return buildQinPlusWheels(root, config);
     if (config.body.design === 'tank-500') return buildTank500Wheels(root, config);
     if (config.body.design === 'maybach-z223') return buildMaybachS680Wheels(root, config);
     if (config.body.design === 'jesko-attack') return buildJeskoAttackWheels(root, config);

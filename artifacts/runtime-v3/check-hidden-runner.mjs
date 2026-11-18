@@ -1,0 +1,5 @@
+import {spawn} from 'node:child_process';import {createServer} from 'node:net';import {setTimeout as delay} from 'node:timers/promises';import fs from 'node:fs';import {hideStartupWindow} from './hide-startup-window.mjs';
+const server=createServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const port=server.address().port;await new Promise(resolve=>server.close(resolve));
+const env={...process.env};delete env.ELECTRON_RUN_AS_NODE;
+const child=spawn('node_modules/electron/dist/electron.exe',['--inspect-brk=127.0.0.1:'+port,'artifacts/runtime-v3/hide-window-check.cjs'],{env,stdio:'ignore',windowsHide:true});
+try{const exited=new Promise(resolve=>child.once('exit',resolve));await hideStartupWindow(port);const code=await Promise.race([exited,delay(10000).then(()=>-1)]);fs.writeFileSync('artifacts/runtime-v3/hidden-runner-check.json',JSON.stringify({passed:code===0,exitCode:code,scope:'presentation-only; no game code or performance measurement'}));if(code!==0)throw Error('Hidden window check failed: '+code);console.log('Hidden functional presentation: PASS');}finally{if(child.exitCode===null)child.kill();}

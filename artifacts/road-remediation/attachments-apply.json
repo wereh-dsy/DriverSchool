@@ -1,0 +1,97 @@
+{
+  "saved": "D:\\dsy\\drivergame\\artifacts\\road-remediation\\attachments-candidate.json",
+  "id": "preview-1",
+  "revision": 0,
+  "label": "Agent edit",
+  "created": [
+    "ew-eb-split-4-split-split-section-2-section",
+    "ew-wb-split-split-split-split-4-section-section-2"
+  ],
+  "modified": [
+    "access-ew-west-eb-on",
+    "ew-eb-split-4-split-split-section-2",
+    "access-ew-west-wb-off",
+    "ew-wb-split-split-split-split-4-section",
+    "road-safety:access-ew-west-eb-on:false:speed:65",
+    "road-safety:access-ew-west-wb-off:false:guide:130",
+    "road-safety:access-ew-west-wb-off:false:speed:65"
+  ],
+  "deleted": [],
+  "area": {
+    "minX": -776.880139209326,
+    "maxX": -468.125,
+    "minZ": -238.27355455371574,
+    "maxZ": -62.53347665561192
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "access-ew-west-eb-on",
+        "ew-eb-split-4-split-split-section-2",
+        "ew-eb-split-4-split-split-section-2-section",
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section",
+        "ew-wb-split-split-split-split-4-section-section-2",
+        "road-safety:access-ew-west-eb-on:false:speed:65",
+        "road-safety:access-ew-west-wb-off:false:guide:130",
+        "road-safety:access-ew-west-wb-off:false:speed:65",
+        "ew-eb-split-4-split-split",
+        "v91-ew-0-a-6-section",
+        "ew-wb-split-split-split-split-4-section-section",
+        "v91-ew-0-b-6",
+        "v91-ew-0-b-6-section",
+        "urban-junction-6",
+        "v91-ew-0-a-6"
+      ],
+      "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "access-ew-west-eb-on",
+        "v91-ew-0-a-6-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "access-ew-west-eb-on",
+        "ew-eb-split-4-split-split-section-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "access-ew-west-wb-off",
+        "v91-ew-0-b-6-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "roadSign.insideLane",
+      "ids": [
+        "road-safety:access-ew-west-wb-off:false:guide:130",
+        "access-ew-west-wb-off"
+      ],
+      "message": "Sign support intersects carriageway"
+    }
+  ],
+  "valid": true
+}

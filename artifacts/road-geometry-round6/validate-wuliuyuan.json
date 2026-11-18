@@ -1,0 +1,48 @@
+{
+  "valid": true,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "regional:G4516:out:split192:split402",
+        "regional:G4516:in:split410",
+        "regional:wuliuyuan:on:-1",
+        "regional:v3:S36-extension54:out:24",
+        "regional:v3:S36-extension54:in:6",
+        "regional:wuliuyuan:lamp:-1:-65",
+        "regional:wuliuyuan:local:-1",
+        "regional:wuliuyuan:parking:-1",
+        "regional:wuliuyuan:building:-1",
+        "regional:wuliuyuan:lamp:-1:65",
+        "regional:wuliuyuan:off:-1",
+        "regional:v3:S36-extension54:in:5"
+      ],
+      "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "object.insideLane",
+      "ids": [
+        "regional:wuliuyuan:parking:-1"
+      ],
+      "message": "Object envelope intersects carriageway"
+    },
+    {
+      "severity": "warning",
+      "code": "object.floating",
+      "ids": [
+        "regional:wuliuyuan:parking:-1"
+      ],
+      "message": "Base differs from selected support surface"
+    },
+    {
+      "severity": "warning",
+      "code": "object.buried",
+      "ids": [
+        "regional:wuliuyuan:lamp:-1:-65"
+      ],
+      "message": "Base differs from selected support surface"
+    }
+  ]
+}

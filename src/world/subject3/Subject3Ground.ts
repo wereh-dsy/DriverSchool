@@ -128,6 +128,8 @@ export class Subject3Ground implements DrivingGround {
   public update(deltaSeconds: number): void {
     this.signals.update(deltaSeconds);
   }
+  getRenderClock():number{return this.signals.presentationSeconds;}
+  applyRenderClock(seconds:number):void{this.signals.synchronizePresentation(seconds);}
 
   public getTrafficSignalSnapshot(junctionId?: string): Subject3TrafficSignalSnapshot {
     const index = junctionId === undefined

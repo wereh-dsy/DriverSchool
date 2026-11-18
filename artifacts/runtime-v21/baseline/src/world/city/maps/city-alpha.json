@@ -1,0 +1,6104 @@
+{
+  "id": "city-alpha",
+  "name": "City Alpha",
+  "version": 2,
+  "sectorSize": 500,
+  "bounds": {
+    "minX": -1000,
+    "maxX": 1950,
+    "minZ": -1000,
+    "maxZ": 1000
+  },
+  "roads": [
+    {
+      "id": "boulevard-north",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": -382.5
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "z": -17.5
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "boulevard-south",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 17.5
+        },
+        {
+          "x": 0,
+          "z": 150,
+          "y": 0
+        },
+        {
+          "x": 70,
+          "z": 290,
+          "y": 0
+        },
+        {
+          "x": 80,
+          "z": 350,
+          "y": 0
+        },
+        {
+          "x": 80,
+          "y": 0,
+          "z": 412.5
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "central-east",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 17.5,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "x": 120,
+          "z": 0,
+          "y": 0
+        },
+        {
+          "x": 280,
+          "z": 30,
+          "y": 0
+        },
+        {
+          "x": 370,
+          "z": 30,
+          "y": 0
+        },
+        {
+          "x": 432.5,
+          "y": 0,
+          "z": 30
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "central-west",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -386,
+          "y": 0,
+          "z": -60
+        },
+        {
+          "x": -300,
+          "z": -60,
+          "y": 0
+        },
+        {
+          "x": -190,
+          "z": 0,
+          "y": 0
+        },
+        {
+          "x": -90,
+          "z": 0,
+          "y": 0
+        },
+        {
+          "x": -17.5,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "residential"
+    },
+    {
+      "id": "north-housing",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -386,
+          "y": 0,
+          "z": -400
+        },
+        {
+          "x": -17.5,
+          "y": 0,
+          "z": -400
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "housing-link",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -400,
+          "y": 0,
+          "z": -386
+        },
+        {
+          "x": -400,
+          "y": 0,
+          "z": -74
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "housing-west-link",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -746,
+          "y": 0,
+          "z": -420
+        },
+        {
+          "x": -640,
+          "z": -420,
+          "y": 0
+        },
+        {
+          "x": -500,
+          "z": -400,
+          "y": 0
+        },
+        {
+          "x": -414,
+          "y": 0,
+          "z": -400
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "residential"
+    },
+    {
+      "id": "housing-north-spur",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -400,
+          "y": 0,
+          "z": -414
+        },
+        {
+          "x": -400,
+          "z": -820,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "residential"
+    },
+    {
+      "id": "north-extension",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": -417.5
+        },
+        {
+          "x": 0,
+          "z": -930,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "housing-outer",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -760,
+          "y": 0,
+          "z": -434
+        },
+        {
+          "x": -760,
+          "z": -620,
+          "y": 0
+        },
+        {
+          "x": -800,
+          "z": -750,
+          "y": 0
+        },
+        {
+          "x": -800,
+          "z": -850,
+          "y": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "residential"
+    },
+    {
+      "id": "old-east-link",
+      "type": "urban_2lane",
+      "centerline": [
+        {
+          "x": -709.5,
+          "y": 0,
+          "z": -30
+        },
+        {
+          "x": -600,
+          "z": -30,
+          "y": 0
+        },
+        {
+          "x": -510,
+          "z": -60,
+          "y": 0
+        },
+        {
+          "x": -414,
+          "y": 0,
+          "z": -60
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 2,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 30,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "old-town"
+    },
+    {
+      "id": "old-west-street",
+      "type": "urban_2lane",
+      "centerline": [
+        {
+          "x": -730.5,
+          "y": 0,
+          "z": -30
+        },
+        {
+          "x": -810,
+          "z": -30,
+          "y": 0
+        },
+        {
+          "x": -865,
+          "z": -80,
+          "y": 0
+        },
+        {
+          "x": -940,
+          "z": -80,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 2,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 30,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "old-town"
+    },
+    {
+      "id": "old-winding-lane",
+      "type": "urban_2lane",
+      "centerline": [
+        {
+          "x": -720,
+          "y": 0,
+          "z": -19.5
+        },
+        {
+          "x": -720,
+          "z": 120,
+          "y": 0
+        },
+        {
+          "x": -610,
+          "z": 210,
+          "y": 0
+        },
+        {
+          "x": -530,
+          "z": 330,
+          "y": 0
+        },
+        {
+          "x": -260,
+          "z": 390,
+          "y": 0
+        },
+        {
+          "x": -80,
+          "z": 430,
+          "y": 0
+        },
+        {
+          "x": 62.5,
+          "y": 0,
+          "z": 430
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 2,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 30,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "old-town"
+    },
+    {
+      "id": "west-south-street",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": -400,
+          "y": 0,
+          "z": -46
+        },
+        {
+          "x": -400,
+          "z": 80,
+          "y": 0
+        },
+        {
+          "x": -390,
+          "z": 190,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "residential"
+    },
+    {
+      "id": "south-extension",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 80,
+          "y": 0,
+          "z": 447.5
+        },
+        {
+          "x": 80,
+          "z": 610,
+          "y": 0
+        },
+        {
+          "x": 130,
+          "z": 780,
+          "y": 0
+        },
+        {
+          "x": 130,
+          "z": 900,
+          "y": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "central"
+    },
+    {
+      "id": "commercial-avenue",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 97.5,
+          "y": 0,
+          "z": 430
+        },
+        {
+          "x": 230,
+          "z": 430,
+          "y": 0
+        },
+        {
+          "x": 370,
+          "z": 450,
+          "y": 0
+        },
+        {
+          "x": 486,
+          "y": 0,
+          "z": 450
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "commercial"
+    },
+    {
+      "id": "business-link",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 450,
+          "y": 0,
+          "z": 47.5
+        },
+        {
+          "x": 450,
+          "z": 180,
+          "y": 0
+        },
+        {
+          "x": 500,
+          "z": 300,
+          "y": 0
+        },
+        {
+          "x": 500,
+          "y": 0,
+          "z": 436
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "commercial"
+    },
+    {
+      "id": "east-extension",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 467.5,
+          "y": 0,
+          "z": 30
+        },
+        {
+          "x": 610,
+          "z": 30,
+          "y": 0
+        },
+        {
+          "x": 800,
+          "z": 90,
+          "y": 0
+        },
+        {
+          "x": 960,
+          "z": 90,
+          "y": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "commercial"
+    },
+    {
+      "id": "east-north-street",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 450,
+          "y": 0,
+          "z": 12.5
+        },
+        {
+          "x": 450,
+          "z": -240,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "commercial"
+    },
+    {
+      "id": "commercial-industrial",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 500,
+          "y": 0,
+          "z": 464
+        },
+        {
+          "x": 500,
+          "z": 570,
+          "y": 0
+        },
+        {
+          "x": 680,
+          "z": 660,
+          "y": 0
+        },
+        {
+          "x": 760,
+          "z": 760,
+          "y": 0
+        },
+        {
+          "x": 760,
+          "z": 850,
+          "y": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "commercial"
+    },
+    {
+      "id": "north-outer-link",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 17.5,
+          "y": 0,
+          "z": -400
+        },
+        {
+          "x": 150,
+          "z": -400,
+          "y": 0
+        },
+        {
+          "x": 400,
+          "z": -310,
+          "y": 0
+        },
+        {
+          "x": 650,
+          "z": -380,
+          "y": 0
+        },
+        {
+          "x": 782.5,
+          "y": 0,
+          "z": -380
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 40,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "outer"
+    },
+    {
+      "id": "outer-reserve-east",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 817.5,
+          "y": 0,
+          "z": -380
+        },
+        {
+          "x": 900,
+          "z": -380,
+          "y": 0
+        },
+        {
+          "x": 965,
+          "z": -440,
+          "y": 0
+        }
+      ],
+      "curve": "polyline",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "outer"
+    },
+    {
+      "id": "outer-reserve-north",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 800,
+          "y": 0,
+          "z": -397.5
+        },
+        {
+          "x": 800,
+          "z": -580,
+          "y": 0
+        },
+        {
+          "x": 850,
+          "z": -720,
+          "y": 0
+        },
+        {
+          "x": 850,
+          "z": -930,
+          "y": 0
+        }
+      ],
+      "curve": "smooth",
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "travelDirection": "two-way",
+      "speedLimit": 60,
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "district": "outer"
+    },
+    {
+      "id": "alpha-v2-overpass:overpass:1",
+      "groupId": "alpha-v2-overpass",
+      "presetSource": "urban_overpass",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1300,
+          "y": 0,
+          "z": 110
+        },
+        {
+          "x": 1300,
+          "y": 6,
+          "z": -10
+        },
+        {
+          "x": 1300,
+          "y": 6,
+          "z": -290
+        },
+        {
+          "x": 1300,
+          "y": 0,
+          "z": -410
+        }
+      ],
+      "laneCount": 6,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "two-way",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-overpass:cross-street:2",
+      "groupId": "alpha-v2-overpass",
+      "presetSource": "urban_overpass",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1090,
+          "y": 0,
+          "z": -150
+        },
+        {
+          "x": 1510,
+          "y": 0,
+          "z": -150
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:northbound:1",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 960
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 810
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:northbound:3",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 810
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 490
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:northbound:5",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 490
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 340
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:southbound:8",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 340
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 490
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:southbound:10",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 490
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 810
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:southbound:12",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 810
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 960
+        }
+      ],
+      "laneCount": 3,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "forward",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:west-local:17",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 990,
+          "y": 0,
+          "z": 650
+        },
+        {
+          "x": 1175.8,
+          "y": 0,
+          "z": 650
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:local-link:18",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1204.2,
+          "y": 0,
+          "z": 650
+        },
+        {
+          "x": 1395.8,
+          "y": 0,
+          "z": 650
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:east-local:19",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1424.2,
+          "y": 0,
+          "z": 650
+        },
+        {
+          "x": 1610,
+          "y": 0,
+          "z": 650
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "highway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:northbound-exit:22",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "ramp_1",
+      "centerline": [
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 810
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 785
+        },
+        {
+          "x": 1370,
+          "y": 3,
+          "z": 715
+        },
+        {
+          "x": 1410,
+          "y": 0,
+          "z": 695
+        },
+        {
+          "x": 1410,
+          "y": 0,
+          "z": 664.2
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "ramp_1",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth"
+    },
+    {
+      "id": "alpha-v2-diamond:northbound-entry:24",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "ramp_1",
+      "centerline": [
+        {
+          "x": 1410,
+          "y": 0,
+          "z": 635.8
+        },
+        {
+          "x": 1410,
+          "y": 0,
+          "z": 605
+        },
+        {
+          "x": 1370,
+          "y": 3,
+          "z": 585
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 515
+        },
+        {
+          "x": 1307.2,
+          "y": 6,
+          "z": 490
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "ramp_1",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth"
+    },
+    {
+      "id": "alpha-v2-diamond:southbound-exit:26",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "ramp_1",
+      "centerline": [
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 490
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 515
+        },
+        {
+          "x": 1230,
+          "y": 3,
+          "z": 585
+        },
+        {
+          "x": 1190,
+          "y": 0,
+          "z": 605
+        },
+        {
+          "x": 1190,
+          "y": 0,
+          "z": 635.8
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "ramp_1",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth"
+    },
+    {
+      "id": "alpha-v2-diamond:southbound-entry:28",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "ramp_1",
+      "centerline": [
+        {
+          "x": 1190,
+          "y": 0,
+          "z": 664.2
+        },
+        {
+          "x": 1190,
+          "y": 0,
+          "z": 695
+        },
+        {
+          "x": 1230,
+          "y": 3,
+          "z": 715
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 785
+        },
+        {
+          "x": 1292.8,
+          "y": 6,
+          "z": 810
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "ramp_1",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth"
+    },
+    {
+      "id": "alpha-v2-overpass-access",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 960,
+          "z": 90,
+          "y": 0
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 40
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": -80
+        },
+        {
+          "x": 1090,
+          "y": 0,
+          "z": -150
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "urban_street_4",
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth",
+      "groupId": "alpha-v2-demo"
+    },
+    {
+      "id": "alpha-v2-diamond-access",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 760,
+          "z": 850,
+          "y": 0
+        },
+        {
+          "x": 890,
+          "y": 0,
+          "z": 850
+        },
+        {
+          "x": 940,
+          "y": 0,
+          "z": 720
+        },
+        {
+          "x": 990,
+          "y": 0,
+          "z": 650
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "urban_street_4",
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "curve": "smooth",
+      "groupId": "alpha-v2-demo"
+    },
+    {
+      "id": "alpha-v2-ramp",
+      "type": "urban_4lane",
+      "centerline": [
+        {
+          "x": 1610,
+          "y": 0,
+          "z": 650
+        },
+        {
+          "x": 1630,
+          "y": 0,
+          "z": 650
+        },
+        {
+          "x": 1750,
+          "y": 6,
+          "z": 650
+        }
+      ],
+      "laneCount": 4,
+      "laneWidth": 3.5,
+      "speedLimit": 40,
+      "travelDirection": "two-way",
+      "styleId": "urban_street_4",
+      "sidewalk": {
+        "enabled": true,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round"
+      },
+      "groupId": "alpha-v2-demo"
+    },
+    {
+      "id": "alpha-v2-elevated",
+      "type": "highway",
+      "centerline": [
+        {
+          "x": 1750,
+          "y": 6,
+          "z": 650
+        },
+        {
+          "x": 1880,
+          "y": 6,
+          "z": 650
+        }
+      ],
+      "laneCount": 6,
+      "laneWidth": 3.6,
+      "speedLimit": 80,
+      "travelDirection": "two-way",
+      "styleId": "elevated_expressway_6",
+      "sidewalk": {
+        "enabled": false,
+        "width": 2.5
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": true,
+      "elevationMode": "elevated",
+      "elevation": 6,
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "groupId": "alpha-v2-demo"
+    },
+    {
+      "id": "alpha-v2-overpass-main-access",
+      "type": "urban_6lane",
+      "centerline": [
+        {
+          "x": 960,
+          "z": 90,
+          "y": 0
+        },
+        {
+          "x": 1100,
+          "y": 0,
+          "z": 230
+        },
+        {
+          "x": 1300,
+          "y": 0,
+          "z": 230
+        },
+        {
+          "x": 1300,
+          "y": 0,
+          "z": 110
+        }
+      ],
+      "laneCount": 6,
+      "laneWidth": 3.5,
+      "speedLimit": 60,
+      "travelDirection": "two-way",
+      "styleId": "urban_boulevard_6",
+      "sidewalk": {
+        "enabled": true,
+        "width": 3
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "ground",
+      "elevation": 0,
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true
+      },
+      "groupId": "alpha-v2-demo",
+      "curve": "smooth"
+    }
+  ],
+  "intersections": [
+    {
+      "id": "central-square",
+      "type": "cross_6lane",
+      "position": {
+        "x": 0,
+        "z": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "boulevard-north",
+          "end": "end",
+          "port": "north"
+        },
+        {
+          "roadId": "boulevard-south",
+          "end": "start",
+          "port": "south"
+        },
+        {
+          "roadId": "central-east",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "central-west",
+          "end": "end",
+          "port": "west"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 0,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "north-boulevard",
+      "type": "cross_6lane",
+      "position": {
+        "x": 0,
+        "z": -400,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "boulevard-north",
+          "end": "start",
+          "port": "south"
+        },
+        {
+          "roadId": "north-housing",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "north-extension",
+          "end": "start",
+          "port": "north"
+        },
+        {
+          "roadId": "north-outer-link",
+          "end": "start",
+          "port": "east"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 7,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "south-gateway",
+      "type": "cross_4lane",
+      "position": {
+        "x": 80,
+        "z": 430,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "boulevard-south",
+          "end": "end",
+          "port": "north"
+        },
+        {
+          "roadId": "old-winding-lane",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "south-extension",
+          "end": "start",
+          "port": "south"
+        },
+        {
+          "roadId": "commercial-avenue",
+          "end": "start",
+          "port": "east"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 14,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "east-business",
+      "type": "cross_6lane",
+      "position": {
+        "x": 450,
+        "z": 30,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "central-east",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "business-link",
+          "end": "start",
+          "port": "south"
+        },
+        {
+          "roadId": "east-extension",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "east-north-street",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 21,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "west-residential",
+      "type": "cross_4lane",
+      "position": {
+        "x": -400,
+        "z": -60,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "central-west",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "housing-link",
+          "end": "end",
+          "port": "north"
+        },
+        {
+          "roadId": "old-east-link",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "west-south-street",
+          "end": "start",
+          "port": "south"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 28,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "housing-square",
+      "type": "cross_4lane",
+      "position": {
+        "x": -400,
+        "z": -400,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "north-housing",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "housing-link",
+          "end": "start",
+          "port": "south"
+        },
+        {
+          "roadId": "housing-west-link",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "housing-north-spur",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": false,
+      "signals": {
+        "offsetSeconds": 35,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "housing-west",
+      "type": "t_4lane",
+      "position": {
+        "x": -760,
+        "z": -420,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "housing-west-link",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "housing-outer",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": false,
+      "signals": {
+        "offsetSeconds": 42,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "old-market",
+      "type": "t_2lane",
+      "position": {
+        "x": -720,
+        "z": -30,
+        "y": 0
+      },
+      "rotation": 3.141592653589793,
+      "connections": [
+        {
+          "roadId": "old-east-link",
+          "end": "start",
+          "port": "west"
+        },
+        {
+          "roadId": "old-west-street",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "old-winding-lane",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": false,
+      "signals": {
+        "offsetSeconds": 49,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "commercial-corner",
+      "type": "t_4lane",
+      "position": {
+        "x": 500,
+        "z": 450,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "connections": [
+        {
+          "roadId": "commercial-avenue",
+          "end": "end",
+          "port": "north"
+        },
+        {
+          "roadId": "business-link",
+          "end": "end",
+          "port": "east"
+        },
+        {
+          "roadId": "commercial-industrial",
+          "end": "start",
+          "port": "west"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 56,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "outer-gateway",
+      "type": "t_4lane",
+      "position": {
+        "x": 800,
+        "z": -380,
+        "y": 0
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "north-outer-link",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "outer-reserve-east",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "outer-reserve-north",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": true,
+      "signals": {
+        "offsetSeconds": 63,
+        "headHeight": 6
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:west-signal:15",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "cross_4lane",
+      "position": {
+        "x": 1190,
+        "y": 0,
+        "z": 650
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "alpha-v2-diamond:west-local:17",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "alpha-v2-diamond:local-link:18",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "alpha-v2-diamond:southbound-exit:26",
+          "end": "end",
+          "port": "north"
+        },
+        {
+          "roadId": "alpha-v2-diamond:southbound-entry:28",
+          "end": "start",
+          "port": "south"
+        }
+      ],
+      "signalized": true
+    },
+    {
+      "id": "alpha-v2-diamond:east-signal:16",
+      "groupId": "alpha-v2-diamond",
+      "presetSource": "diamond_interchange",
+      "type": "cross_4lane",
+      "position": {
+        "x": 1410,
+        "y": 0,
+        "z": 650
+      },
+      "rotation": 0,
+      "connections": [
+        {
+          "roadId": "alpha-v2-diamond:local-link:18",
+          "end": "end",
+          "port": "west"
+        },
+        {
+          "roadId": "alpha-v2-diamond:east-local:19",
+          "end": "start",
+          "port": "east"
+        },
+        {
+          "roadId": "alpha-v2-diamond:northbound-exit:22",
+          "end": "end",
+          "port": "south"
+        },
+        {
+          "roadId": "alpha-v2-diamond:northbound-entry:24",
+          "end": "start",
+          "port": "north"
+        }
+      ],
+      "signalized": true
+    }
+  ],
+  "objects": [
+    {
+      "id": "residential_mid-1",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -450,
+        "z": -290,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-2",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -345,
+        "z": -300,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-3",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -465,
+        "z": -180,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-4",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -345,
+        "z": -150,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-5",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -600,
+        "z": -465,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-6",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -585,
+        "z": -355,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_mid-7",
+      "prefabId": "residential_mid",
+      "position": {
+        "x": -700,
+        "z": -510,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "color": "#e1d3bd"
+    },
+    {
+      "id": "residential_low-8",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -780,
+        "z": 20,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "residential_low-9",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -850,
+        "z": -115,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "residential_low-10",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -645,
+        "z": 70,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "residential_low-11",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -570,
+        "z": 170,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "residential_low-12",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -635,
+        "z": -80,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "residential_low-13",
+      "prefabId": "residential_low",
+      "position": {
+        "x": -800,
+        "z": 110,
+        "y": 0
+      },
+      "rotation": 0.12,
+      "district": "old-town",
+      "color": "#dcb994"
+    },
+    {
+      "id": "office-14",
+      "prefabId": "office",
+      "position": {
+        "x": 60,
+        "z": -60,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "color": "#b0c9d9"
+    },
+    {
+      "id": "office-15",
+      "prefabId": "office",
+      "position": {
+        "x": 90,
+        "z": 95,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "color": "#b0c9d9"
+    },
+    {
+      "id": "office-16",
+      "prefabId": "office",
+      "position": {
+        "x": -75,
+        "z": -100,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "color": "#b0c9d9"
+    },
+    {
+      "id": "office-17",
+      "prefabId": "office",
+      "position": {
+        "x": 330,
+        "z": 100,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "color": "#b0c9d9"
+    },
+    {
+      "id": "office-18",
+      "prefabId": "office",
+      "position": {
+        "x": 370,
+        "z": -55,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "color": "#b0c9d9"
+    },
+    {
+      "id": "school-19",
+      "prefabId": "school",
+      "position": {
+        "x": -475,
+        "z": -650,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential"
+    },
+    {
+      "id": "commercial-20",
+      "prefabId": "commercial",
+      "position": {
+        "x": 570,
+        "z": 360,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial"
+    },
+    {
+      "id": "commercial-21",
+      "prefabId": "commercial",
+      "position": {
+        "x": 380,
+        "z": 520,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial"
+    },
+    {
+      "id": "parking-22",
+      "prefabId": "parking",
+      "position": {
+        "x": 548,
+        "z": 409,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 2,
+        "y": 1,
+        "z": 2
+      }
+    },
+    {
+      "id": "garage-23",
+      "prefabId": "garage",
+      "position": {
+        "x": 603,
+        "z": 435,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial"
+    },
+    {
+      "id": "industrial-24",
+      "prefabId": "industrial",
+      "position": {
+        "x": 735,
+        "z": 720,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial"
+    },
+    {
+      "id": "parking-25",
+      "prefabId": "parking",
+      "position": {
+        "x": 760,
+        "z": 775,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial"
+    },
+    {
+      "id": "bus_stop-26",
+      "prefabId": "bus_stop",
+      "position": {
+        "x": 23,
+        "z": -190,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "bus_stop-27",
+      "prefabId": "bus_stop",
+      "position": {
+        "x": 470,
+        "z": 225,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "bus_stop-28",
+      "prefabId": "bus_stop",
+      "position": {
+        "x": -420,
+        "z": -255,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "parked_car-29",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 525,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#cccccc"
+    },
+    {
+      "id": "parked_car-30",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 530,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#5785bb"
+    },
+    {
+      "id": "parked_car-31",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 535,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#b3574b"
+    },
+    {
+      "id": "parked_car-32",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 540,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#cccccc"
+    },
+    {
+      "id": "parked_car-33",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 545,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#5785bb"
+    },
+    {
+      "id": "parked_car-34",
+      "prefabId": "parked_car",
+      "position": {
+        "x": 550,
+        "z": 414,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "color": "#b3574b"
+    },
+    {
+      "id": "streetlight-35",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": -352.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-36",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": -364.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-37",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": -287.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-38",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": -299.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-39",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": -222.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-40",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": -234.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-41",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": -157.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-42",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": -169.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-43",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": -92.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-44",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": -104.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-45",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": 47.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-46",
+      "prefabId": "tree",
+      "position": {
+        "x": -12.1,
+        "z": 35.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-47",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -12.1,
+        "z": 112.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-48",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 24.238976876097716,
+        "z": 171.42153122444796,
+        "y": 0
+      },
+      "rotation": 1.1071487177940904,
+      "district": "central"
+    },
+    {
+      "id": "tree-49",
+      "prefabId": "tree",
+      "position": {
+        "x": 18.872413730098224,
+        "z": 160.68840493244898,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-50",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 53.30786058359499,
+        "z": 229.55929863944252,
+        "y": 0
+      },
+      "rotation": 1.1071487177940904,
+      "district": "central"
+    },
+    {
+      "id": "tree-51",
+      "prefabId": "tree",
+      "position": {
+        "x": 47.941297437595495,
+        "z": 218.82617234744353,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-52",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 62.996603140791784,
+        "z": 321.5810454613591,
+        "y": 0
+      },
+      "rotation": -1.7359450042095235,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-53",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 92.1,
+        "z": 380,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-54",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 47.5,
+        "z": 12.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-55",
+      "prefabId": "tree",
+      "position": {
+        "x": 35.5,
+        "z": 12.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-56",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 151.7160568821369,
+        "z": -6.364097410399735,
+        "y": 0
+      },
+      "rotation": 0.18534794999569476,
+      "district": "central"
+    },
+    {
+      "id": "tree-57",
+      "prefabId": "tree",
+      "position": {
+        "x": 139.92159063892504,
+        "z": -8.575559831001959,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-58",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 215.60274903286782,
+        "z": 5.614657367862312,
+        "y": 0
+      },
+      "rotation": 0.18534794999569476,
+      "district": "central"
+    },
+    {
+      "id": "tree-59",
+      "prefabId": "tree",
+      "position": {
+        "x": 203.80828278965595,
+        "z": 3.403194947260088,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-60",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 310,
+        "z": 42.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-61",
+      "prefabId": "tree",
+      "position": {
+        "x": 298,
+        "z": 42.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-62",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 400,
+        "z": 17.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-63",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -356,
+        "z": -51.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "residential"
+    },
+    {
+      "id": "tree-64",
+      "prefabId": "tree",
+      "position": {
+        "x": -368,
+        "z": -51.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-65",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -269.5450044887155,
+        "z": -53.184338006646506,
+        "y": 0
+      },
+      "rotation": 0.49934672168013006,
+      "district": "residential"
+    },
+    {
+      "id": "tree-66",
+      "prefabId": "tree",
+      "position": {
+        "x": -280.0797513636881,
+        "z": -58.930563574813384,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-67",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -212.48179224928055,
+        "z": -22.058949512409246,
+        "y": 0
+      },
+      "rotation": 0.49934672168013006,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-68",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -160,
+        "z": 8.6,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "residential"
+    },
+    {
+      "id": "tree-69",
+      "prefabId": "tree",
+      "position": {
+        "x": -172,
+        "z": 8.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-70",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -60,
+        "z": -8.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-71",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -356,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-72",
+      "prefabId": "tree",
+      "position": {
+        "x": -368,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-73",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -291,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-74",
+      "prefabId": "tree",
+      "position": {
+        "x": -303,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-75",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -226,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-76",
+      "prefabId": "tree",
+      "position": {
+        "x": -238,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-77",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -161,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-78",
+      "prefabId": "tree",
+      "position": {
+        "x": -173,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-79",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -96,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "central"
+    },
+    {
+      "id": "tree-80",
+      "prefabId": "tree",
+      "position": {
+        "x": -108,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-81",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -356,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-82",
+      "prefabId": "tree",
+      "position": {
+        "x": -408.6,
+        "z": -368,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-83",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -291,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-84",
+      "prefabId": "tree",
+      "position": {
+        "x": -408.6,
+        "z": -303,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-85",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -226,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-86",
+      "prefabId": "tree",
+      "position": {
+        "x": -408.6,
+        "z": -238,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-87",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -161,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-88",
+      "prefabId": "tree",
+      "position": {
+        "x": -408.6,
+        "z": -173,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-89",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -96,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-90",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -716,
+        "z": -411.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "residential"
+    },
+    {
+      "id": "tree-91",
+      "prefabId": "tree",
+      "position": {
+        "x": -728,
+        "z": -411.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-92",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -609.0852915265241,
+        "z": -424.2709249583668,
+        "y": 0
+      },
+      "rotation": 0.1418970546041639,
+      "district": "residential"
+    },
+    {
+      "id": "tree-93",
+      "prefabId": "tree",
+      "position": {
+        "x": -620.9646854504581,
+        "z": -425.9679812332145,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-94",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -544.7385744385483,
+        "z": -415.07853680294164,
+        "y": 0
+      },
+      "rotation": 0.1418970546041639,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-95",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -470,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "residential"
+    },
+    {
+      "id": "tree-96",
+      "prefabId": "tree",
+      "position": {
+        "x": -482,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-97",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -444,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-98",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -432,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-99",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -509,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-100",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -497,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-101",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -574,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-102",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -562,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-103",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -639,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-104",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -627,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-105",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -704,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-106",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -692,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-107",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -391.4,
+        "z": -769,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-108",
+      "prefabId": "tree",
+      "position": {
+        "x": -391.4,
+        "z": -757,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-109",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -447.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-110",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -435.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-111",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -512.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-112",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -500.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-113",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -577.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-114",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -565.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-115",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -642.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-116",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -630.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-117",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -707.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-118",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -695.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-119",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -772.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-120",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -760.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-121",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -837.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-122",
+      "prefabId": "tree",
+      "position": {
+        "x": 12.1,
+        "z": -825.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-123",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 12.1,
+        "z": -902.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-124",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -751.4,
+        "z": -464,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-125",
+      "prefabId": "tree",
+      "position": {
+        "x": -751.4,
+        "z": -452,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-126",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -751.4,
+        "z": -529,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-127",
+      "prefabId": "tree",
+      "position": {
+        "x": -751.4,
+        "z": -517,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-128",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -751.4,
+        "z": -594,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-129",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -777.0422749401345,
+        "z": -646.1442319616558,
+        "y": 0
+      },
+      "rotation": -1.869295258381076,
+      "district": "residential"
+    },
+    {
+      "id": "tree-130",
+      "prefabId": "tree",
+      "position": {
+        "x": -773.5132447540842,
+        "z": -634.6748838569924,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-131",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -796.1578551145734,
+        "z": -708.2698675285825,
+        "y": 0
+      },
+      "rotation": -1.869295258381076,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-132",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -791.4,
+        "z": -780,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-133",
+      "prefabId": "tree",
+      "position": {
+        "x": -791.4,
+        "z": -768,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-134",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -679.5,
+        "z": -24.9,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-135",
+      "prefabId": "tree",
+      "position": {
+        "x": -691.5,
+        "z": -24.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-136",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -573.1522626651705,
+        "z": -44.32511780056275,
+        "y": 0
+      },
+      "rotation": -0.3217505543966422,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-137",
+      "prefabId": "tree",
+      "position": {
+        "x": -584.5364622417767,
+        "z": -40.5303846083607,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-138",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -480,
+        "z": -54.9,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-139",
+      "prefabId": "tree",
+      "position": {
+        "x": -492,
+        "z": -54.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-140",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -760.5,
+        "z": -35.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-141",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -835.6288334512595,
+        "z": -46.40648944557007,
+        "y": 0
+      },
+      "rotation": -2.403777593469328,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-142",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -895,
+        "z": -85.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-143",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -725.1,
+        "z": 10.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-144",
+      "prefabId": "tree",
+      "position": {
+        "x": -725.1,
+        "z": -1.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-145",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -725.1,
+        "z": 75.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-146",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -693.5517682935883,
+        "z": 135.04995148178094,
+        "y": 0
+      },
+      "rotation": 0.6857295109062863,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-147",
+      "prefabId": "tree",
+      "position": {
+        "x": -702.8392558840281,
+        "z": 127.45109799869378,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-148",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -643.2445438453724,
+        "z": 176.21040784850302,
+        "y": 0
+      },
+      "rotation": 0.6857295109062863,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-149",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -597.6024506143661,
+        "z": 237.79047983088398,
+        "y": 0
+      },
+      "rotation": -2.1587989303424644,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-150",
+      "prefabId": "tree",
+      "position": {
+        "x": -604.2588529690689,
+        "z": 227.80587629882984,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-151",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -561.5469378597262,
+        "z": 291.8737489628438,
+        "y": 0
+      },
+      "rotation": -2.1587989303424644,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-152",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -499.6080428596063,
+        "z": 331.5293597276215,
+        "y": 0
+      },
+      "rotation": 0.21866894587394195,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-153",
+      "prefabId": "tree",
+      "position": {
+        "x": -511.3222875818137,
+        "z": 328.9261942337976,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-154",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -436.1558839476494,
+        "z": 345.62983948583417,
+        "y": 0
+      },
+      "rotation": 0.21866894587394195,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-155",
+      "prefabId": "tree",
+      "position": {
+        "x": -447.8701286698568,
+        "z": 343.0266739920103,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-156",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -372.70372503569246,
+        "z": 359.7303192440468,
+        "y": 0
+      },
+      "rotation": 0.21866894587394195,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-157",
+      "prefabId": "tree",
+      "position": {
+        "x": -384.41796975789987,
+        "z": 357.12715375022293,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-158",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -309.25156612373553,
+        "z": 373.8307990022595,
+        "y": 0
+      },
+      "rotation": 0.21866894587394195,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-159",
+      "prefabId": "tree",
+      "position": {
+        "x": -320.96581084594294,
+        "z": 371.2276335084356,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-160",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -231.82073352935657,
+        "z": 401.48646774149785,
+        "y": 0
+      },
+      "rotation": -2.922923707715851,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-161",
+      "prefabId": "tree",
+      "position": {
+        "x": -243.534978251564,
+        "z": 398.88330224767395,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-162",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -168.36857461739967,
+        "z": 415.5869474997105,
+        "y": 0
+      },
+      "rotation": -2.922923707715851,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-163",
+      "prefabId": "tree",
+      "position": {
+        "x": -180.0828193396071,
+        "z": 412.9837820058866,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-164",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -104.9164157054427,
+        "z": 429.68742725792316,
+        "y": 0
+      },
+      "rotation": -2.922923707715851,
+      "district": "old-town"
+    },
+    {
+      "id": "streetlight-165",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -50,
+        "z": 424.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-166",
+      "prefabId": "tree",
+      "position": {
+        "x": -62,
+        "z": 424.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-167",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 15,
+        "z": 424.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town"
+    },
+    {
+      "id": "tree-168",
+      "prefabId": "tree",
+      "position": {
+        "x": 3,
+        "z": 424.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "old-town",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-169",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": -16,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "tree-170",
+      "prefabId": "tree",
+      "position": {
+        "x": -408.6,
+        "z": -28,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-171",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -408.6,
+        "z": 49,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "residential"
+    },
+    {
+      "id": "streetlight-172",
+      "prefabId": "streetlight",
+      "position": {
+        "x": -388.71924604310215,
+        "z": 109.09818877806546,
+        "y": 0
+      },
+      "rotation": 1.4801364395941514,
+      "district": "residential"
+    },
+    {
+      "id": "tree-173",
+      "prefabId": "tree",
+      "position": {
+        "x": -389.8056749956124,
+        "z": 97.14747030045302,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "residential",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-174",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 71.4,
+        "z": 474,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-175",
+      "prefabId": "tree",
+      "position": {
+        "x": 71.4,
+        "z": 462,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-176",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 71.4,
+        "z": 539,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-177",
+      "prefabId": "tree",
+      "position": {
+        "x": 71.4,
+        "z": 527,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-178",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 96.71553303325943,
+        "z": 636.3543346608108,
+        "y": 0
+      },
+      "rotation": 1.2847448850775784,
+      "district": "central"
+    },
+    {
+      "id": "tree-179",
+      "prefabId": "tree",
+      "position": {
+        "x": 93.32953714536083,
+        "z": 624.8419486419555,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-180",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 115.05634409271018,
+        "z": 698.7130922629433,
+        "y": 0
+      },
+      "rotation": 1.2847448850775784,
+      "district": "central"
+    },
+    {
+      "id": "tree-181",
+      "prefabId": "tree",
+      "position": {
+        "x": 111.67034820481157,
+        "z": 687.200706244088,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-182",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 121.4,
+        "z": 810,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "tree-183",
+      "prefabId": "tree",
+      "position": {
+        "x": 121.4,
+        "z": 798,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-184",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 121.4,
+        "z": 875,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "central"
+    },
+    {
+      "id": "streetlight-185",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 124,
+        "z": 438.6,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-186",
+      "prefabId": "tree",
+      "position": {
+        "x": 112,
+        "z": 438.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-187",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 189,
+        "z": 438.6,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-188",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 260.91470847347586,
+        "z": 425.7290750416332,
+        "y": 0
+      },
+      "rotation": 0.1418970546041639,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-189",
+      "prefabId": "tree",
+      "position": {
+        "x": 249.03531454954185,
+        "z": 424.0320187667855,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-190",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 325.2614255614517,
+        "z": 434.92146319705836,
+        "y": 0
+      },
+      "rotation": 0.1418970546041639,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-191",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 400,
+        "z": 458.6,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-192",
+      "prefabId": "tree",
+      "position": {
+        "x": 388,
+        "z": 458.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-193",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 465,
+        "z": 458.6,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-194",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 441.4,
+        "z": 77.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-195",
+      "prefabId": "tree",
+      "position": {
+        "x": 441.4,
+        "z": 65.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-196",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 441.4,
+        "z": 142.5,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-197",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 469.4769230769231,
+        "z": 204.38461538461536,
+        "y": 0
+      },
+      "rotation": 1.1760052070951352,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-198",
+      "prefabId": "tree",
+      "position": {
+        "x": 464.86153846153843,
+        "z": 193.3076923076923,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-199",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 494.4769230769231,
+        "z": 264.38461538461536,
+        "y": 0
+      },
+      "rotation": 1.1760052070951352,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-200",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 491.4,
+        "z": 330,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-201",
+      "prefabId": "tree",
+      "position": {
+        "x": 491.4,
+        "z": 318,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-202",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 491.4,
+        "z": 395,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-203",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 497.5,
+        "z": 42.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-204",
+      "prefabId": "tree",
+      "position": {
+        "x": 485.5,
+        "z": 42.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-205",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 562.5,
+        "z": 42.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-206",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 642.2511695060631,
+        "z": 27.495590789989805,
+        "y": 0
+      },
+      "rotation": 0.30587887140485215,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-207",
+      "prefabId": "tree",
+      "position": {
+        "x": 630.8081775244534,
+        "z": 23.882014374744635,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-208",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 704.2340427397822,
+        "z": 47.06912970590113,
+        "y": 0
+      },
+      "rotation": 0.30587887140485215,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-209",
+      "prefabId": "tree",
+      "position": {
+        "x": 692.7910507581726,
+        "z": 43.45555329065596,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-210",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 766.2169159735015,
+        "z": 66.64266862181246,
+        "y": 0
+      },
+      "rotation": 0.30587887140485215,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-211",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 830,
+        "z": 102.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-212",
+      "prefabId": "tree",
+      "position": {
+        "x": 818,
+        "z": 102.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-213",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 895,
+        "z": 102.1,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-214",
+      "prefabId": "tree",
+      "position": {
+        "x": 883,
+        "z": 102.1,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-215",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 458.6,
+        "z": -17.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-216",
+      "prefabId": "tree",
+      "position": {
+        "x": 458.6,
+        "z": -5.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-217",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 458.6,
+        "z": -82.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-218",
+      "prefabId": "tree",
+      "position": {
+        "x": 458.6,
+        "z": -70.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-219",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 458.6,
+        "z": -147.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-220",
+      "prefabId": "tree",
+      "position": {
+        "x": 458.6,
+        "z": -135.5,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-221",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 458.6,
+        "z": -212.5,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-222",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 491.4,
+        "z": 494,
+        "y": 0
+      },
+      "rotation": -1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-223",
+      "prefabId": "tree",
+      "position": {
+        "x": 491.4,
+        "z": 482,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-224",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 530.6788526512971,
+        "z": 575.7243340223995,
+        "y": 0
+      },
+      "rotation": 0.4636476090008061,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-225",
+      "prefabId": "tree",
+      "position": {
+        "x": 519.9457263592981,
+        "z": 570.3577708764,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-226",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 588.8166200662916,
+        "z": 604.7932177298967,
+        "y": 0
+      },
+      "rotation": 0.4636476090008061,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-227",
+      "prefabId": "tree",
+      "position": {
+        "x": 578.0834937742926,
+        "z": 599.4266545838972,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-228",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 646.9543874812862,
+        "z": 633.862101437394,
+        "y": 0
+      },
+      "rotation": 0.4636476090008061,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-229",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 692.0253796654226,
+        "z": 688.798441692259,
+        "y": 0
+      },
+      "rotation": -2.2455372690184494,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-230",
+      "prefabId": "tree",
+      "position": {
+        "x": 684.5290390947696,
+        "z": 679.4280159789425,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-231",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 732.6305577564602,
+        "z": 739.5549143060559,
+        "y": 0
+      },
+      "rotation": -2.2455372690184494,
+      "district": "commercial"
+    },
+    {
+      "id": "streetlight-232",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 768.6,
+        "z": 790,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "commercial"
+    },
+    {
+      "id": "tree-233",
+      "prefabId": "tree",
+      "position": {
+        "x": 768.6,
+        "z": 778,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "commercial",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-234",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 47.5,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "outer"
+    },
+    {
+      "id": "tree-235",
+      "prefabId": "tree",
+      "position": {
+        "x": 35.5,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-236",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 112.5,
+        "z": -391.4,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "outer"
+    },
+    {
+      "id": "streetlight-237",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 181.13960978320736,
+        "z": -397.9300476938888,
+        "y": 0
+      },
+      "rotation": 0.3455555805817121,
+      "district": "outer"
+    },
+    {
+      "id": "tree-238",
+      "prefabId": "tree",
+      "position": {
+        "x": 169.84896084078264,
+        "z": -401.9946813131617,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-239",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 242.29729155467462,
+        "z": -375.9132822561606,
+        "y": 0
+      },
+      "rotation": 0.3455555805817121,
+      "district": "outer"
+    },
+    {
+      "id": "tree-240",
+      "prefabId": "tree",
+      "position": {
+        "x": 231.0066426122499,
+        "z": -379.9779158754335,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-241",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 303.4549733261419,
+        "z": -353.89651681843236,
+        "y": 0
+      },
+      "rotation": 0.3455555805817121,
+      "district": "outer"
+    },
+    {
+      "id": "tree-242",
+      "prefabId": "tree",
+      "position": {
+        "x": 292.1643243837172,
+        "z": -357.96115043770527,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-243",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 364.61265509760915,
+        "z": -331.8797513807042,
+        "y": 0
+      },
+      "rotation": 0.3455555805817121,
+      "district": "outer"
+    },
+    {
+      "id": "streetlight-244",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 431.2077379508972,
+        "z": -309.80740719605717,
+        "y": 0
+      },
+      "rotation": 2.8685839505030826,
+      "district": "outer"
+    },
+    {
+      "id": "tree-245",
+      "prefabId": "tree",
+      "position": {
+        "x": 419.652169714327,
+        "z": -306.57184808981754,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-246",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 493.80039923231897,
+        "z": -327.33335235485526,
+        "y": 0
+      },
+      "rotation": 2.8685839505030826,
+      "district": "outer"
+    },
+    {
+      "id": "tree-247",
+      "prefabId": "tree",
+      "position": {
+        "x": 482.24483099574877,
+        "z": -324.09779324861563,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-248",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 556.3930605137408,
+        "z": -344.85929751365336,
+        "y": 0
+      },
+      "rotation": 2.8685839505030826,
+      "district": "outer"
+    },
+    {
+      "id": "tree-249",
+      "prefabId": "tree",
+      "position": {
+        "x": 544.8374922771707,
+        "z": -341.6237384074137,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-250",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 618.9857217951626,
+        "z": -362.38524267245145,
+        "y": 0
+      },
+      "rotation": 2.8685839505030826,
+      "district": "outer"
+    },
+    {
+      "id": "streetlight-251",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 680,
+        "z": -388.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "tree-252",
+      "prefabId": "tree",
+      "position": {
+        "x": 668,
+        "z": -388.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-253",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 745,
+        "z": -388.6,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "streetlight-254",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 844,
+        "z": -367.9,
+        "y": 0
+      },
+      "rotation": -3.141592653589793,
+      "district": "outer"
+    },
+    {
+      "id": "tree-255",
+      "prefabId": "tree",
+      "position": {
+        "x": 832,
+        "z": -367.9,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-256",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 913.8369140957547,
+        "z": -409.23952476198457,
+        "y": 0
+      },
+      "rotation": -0.7454194762741583,
+      "district": "outer"
+    },
+    {
+      "id": "tree-257",
+      "prefabId": "tree",
+      "position": {
+        "x": 905.0192727602248,
+        "z": -401.1001635291878,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-258",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 812.1,
+        "z": -424,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "tree-259",
+      "prefabId": "tree",
+      "position": {
+        "x": 812.1,
+        "z": -412,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-260",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 812.1,
+        "z": -489,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "tree-261",
+      "prefabId": "tree",
+      "position": {
+        "x": 812.1,
+        "z": -477,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-262",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 812.1,
+        "z": -554,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "streetlight-263",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 798.6950147796472,
+        "z": -612.3219277515228,
+        "y": 0
+      },
+      "rotation": -1.2277723863741932,
+      "district": "outer"
+    },
+    {
+      "id": "tree-264",
+      "prefabId": "tree",
+      "position": {
+        "x": 794.6589780156693,
+        "z": -601.0210248123848,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-265",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 820.5568805845273,
+        "z": -673.5351520051872,
+        "y": 0
+      },
+      "rotation": -1.2277723863741932,
+      "district": "outer"
+    },
+    {
+      "id": "tree-266",
+      "prefabId": "tree",
+      "position": {
+        "x": 816.5208438205494,
+        "z": -662.2342490660492,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-267",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 862.1,
+        "z": -750,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "tree-268",
+      "prefabId": "tree",
+      "position": {
+        "x": 862.1,
+        "z": -738,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-269",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 862.1,
+        "z": -815,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "tree-270",
+      "prefabId": "tree",
+      "position": {
+        "x": 862.1,
+        "z": -803,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer",
+      "scale": {
+        "x": 0.8,
+        "y": 0.9,
+        "z": 0.8
+      }
+    },
+    {
+      "id": "streetlight-271",
+      "prefabId": "streetlight",
+      "position": {
+        "x": 862.1,
+        "z": -880,
+        "y": 0
+      },
+      "rotation": 1.5707963267948966,
+      "district": "outer"
+    },
+    {
+      "id": "traffic_sign-272",
+      "prefabId": "traffic_sign",
+      "position": {
+        "x": 25,
+        "z": 105,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "traffic_sign-273",
+      "prefabId": "traffic_sign",
+      "position": {
+        "x": -424,
+        "z": -90,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "traffic_sign-274",
+      "prefabId": "traffic_sign",
+      "position": {
+        "x": 473,
+        "z": 60,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "traffic_sign-275",
+      "prefabId": "traffic_sign",
+      "position": {
+        "x": -740,
+        "z": -12,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "traffic_sign-276",
+      "prefabId": "traffic_sign",
+      "position": {
+        "x": 815,
+        "z": -350,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "central"
+    },
+    {
+      "id": "guardrail-277",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 840,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-278",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 850,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-279",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 860,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-280",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 870,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-281",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 880,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-282",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 890,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-283",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 900,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-284",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 910,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-285",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 920,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-286",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 930,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-287",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 940,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    },
+    {
+      "id": "guardrail-288",
+      "prefabId": "guardrail",
+      "position": {
+        "x": 950,
+        "z": -710,
+        "y": 0
+      },
+      "rotation": 0,
+      "district": "outer"
+    }
+  ],
+  "environment": {
+    "districts": [
+      {
+        "id": "central",
+        "name": "中央城区"
+      },
+      {
+        "id": "residential",
+        "name": "西北住宅区"
+      },
+      {
+        "id": "old-town",
+        "name": "西侧老城"
+      },
+      {
+        "id": "commercial",
+        "name": "东南商业区"
+      },
+      {
+        "id": "outer",
+        "name": "外围快速路预留"
+      }
+    ],
+    "spawnPoints": [
+      {
+        "id": "boulevard-south",
+        "position": {
+          "x": 5.25,
+          "z": 100,
+          "y": 0
+        },
+        "rotation": 0
+      }
+    ],
+    "metadata": {
+      "expansion": "2km × 2km; outer road reserved for future expressway",
+      "v2Demo": "East extension: overpass at (1300,-150), diamond at (1300,650), ramp and elevated deck to X=1880. Original districts retained."
+    }
+  },
+  "roadLinks": [
+    {
+      "id": "alpha-v2-diamond:link:4",
+      "from": {
+        "roadId": "alpha-v2-diamond:northbound:1",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:northbound:3",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:6",
+      "from": {
+        "roadId": "alpha-v2-diamond:northbound:3",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:northbound:5",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:11",
+      "from": {
+        "roadId": "alpha-v2-diamond:southbound:8",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:southbound:10",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:13",
+      "from": {
+        "roadId": "alpha-v2-diamond:southbound:10",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:southbound:12",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:23",
+      "from": {
+        "roadId": "alpha-v2-diamond:northbound:1",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:northbound-exit:22",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:25",
+      "from": {
+        "roadId": "alpha-v2-diamond:northbound-entry:24",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:northbound:5",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:27",
+      "from": {
+        "roadId": "alpha-v2-diamond:southbound:8",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:southbound-exit:26",
+        "end": "start"
+      }
+    },
+    {
+      "id": "alpha-v2-diamond:link:29",
+      "from": {
+        "roadId": "alpha-v2-diamond:southbound-entry:28",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:southbound:12",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-602ef547-a76b-4a82-b322-5544dfa64982",
+      "from": {
+        "roadId": "alpha-v2-overpass-access",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "east-extension",
+        "end": "end"
+      }
+    },
+    {
+      "id": "link-6f48cd94-5173-459c-b277-981a04f53b4c",
+      "from": {
+        "roadId": "alpha-v2-overpass-access",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-overpass:cross-street:2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-222be1b6-db89-4fce-bf1e-071a1ca23b99",
+      "from": {
+        "roadId": "alpha-v2-diamond-access",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:west-local:17",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-da5b34a9-453c-41d7-bf56-2ba06bdf8b4c",
+      "from": {
+        "roadId": "alpha-v2-ramp",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "alpha-v2-diamond:east-local:19",
+        "end": "end"
+      }
+    },
+    {
+      "id": "link-49dbf78f-6328-4c79-aa26-f9c2c695c9a8",
+      "from": {
+        "roadId": "alpha-v2-elevated",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "alpha-v2-ramp",
+        "end": "end"
+      }
+    },
+    {
+      "id": "link-2cfb1a0e-0995-4569-826c-55ffde2bc007",
+      "from": {
+        "roadId": "alpha-v2-diamond-access",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "commercial-industrial",
+        "end": "end"
+      }
+    },
+    {
+      "id": "link-866735cd-7bad-4c16-8591-afb5176bc2d2",
+      "from": {
+        "roadId": "alpha-v2-overpass-main-access",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "east-extension",
+        "end": "end"
+      }
+    },
+    {
+      "id": "link-1a951df2-6f4e-48bd-b079-d3951dcb98f4",
+      "from": {
+        "roadId": "alpha-v2-overpass-main-access",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "alpha-v2-overpass:overpass:1",
+        "end": "start"
+      }
+    }
+  ],
+  "schemaVersion": 2,
+  "connectionPorts": [
+    {
+      "id": "alpha-v2-overpass:port:3",
+      "label": "South Mainline",
+      "endpoint": {
+        "roadId": "alpha-v2-overpass:overpass:1",
+        "end": "start"
+      },
+      "groupId": "alpha-v2-overpass"
+    },
+    {
+      "id": "alpha-v2-overpass:port:4",
+      "label": "North Mainline",
+      "endpoint": {
+        "roadId": "alpha-v2-overpass:overpass:1",
+        "end": "end"
+      },
+      "groupId": "alpha-v2-overpass"
+    },
+    {
+      "id": "alpha-v2-overpass:port:5",
+      "label": "West Crossroad",
+      "endpoint": {
+        "roadId": "alpha-v2-overpass:cross-street:2",
+        "end": "start"
+      },
+      "groupId": "alpha-v2-overpass"
+    },
+    {
+      "id": "alpha-v2-overpass:port:6",
+      "label": "East Crossroad",
+      "endpoint": {
+        "roadId": "alpha-v2-overpass:cross-street:2",
+        "end": "end"
+      },
+      "groupId": "alpha-v2-overpass"
+    },
+    {
+      "id": "alpha-v2-diamond:port:2",
+      "label": "South Mainline In",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:northbound:1",
+        "end": "start"
+      },
+      "groupId": "alpha-v2-diamond"
+    },
+    {
+      "id": "alpha-v2-diamond:port:7",
+      "label": "North Mainline Out",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:northbound:5",
+        "end": "end"
+      },
+      "groupId": "alpha-v2-diamond"
+    },
+    {
+      "id": "alpha-v2-diamond:port:9",
+      "label": "North Mainline In",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:southbound:8",
+        "end": "start"
+      },
+      "groupId": "alpha-v2-diamond"
+    },
+    {
+      "id": "alpha-v2-diamond:port:14",
+      "label": "South Mainline Out",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:southbound:12",
+        "end": "end"
+      },
+      "groupId": "alpha-v2-diamond"
+    },
+    {
+      "id": "alpha-v2-diamond:port:20",
+      "label": "West Crossroad",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:west-local:17",
+        "end": "start"
+      },
+      "groupId": "alpha-v2-diamond"
+    },
+    {
+      "id": "alpha-v2-diamond:port:21",
+      "label": "East Crossroad",
+      "endpoint": {
+        "roadId": "alpha-v2-diamond:east-local:19",
+        "end": "end"
+      },
+      "groupId": "alpha-v2-diamond"
+    }
+  ]
+}

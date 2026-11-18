@@ -1,0 +1,26 @@
+DriverSchool — Road Geometry Round 5
+Release date: 2026-11-07
+
+Start DriverSchool.exe from the complete DriverSchool-win32-x64 folder.
+Do not copy only the EXE: resources, locales and runtime files are required.
+
+Unified City/Regional road generation: 3290 roads and 306 intersections.
+Formal map, road topology/elevation/navigation and vehicle physics unchanged.
+Approved additional appearance fix: Tank 500 wheelarch trim raised 11 mm.
+
+Validation mode: BasicValidation, explicitly authorized by the user.
+Typecheck, production bundle and desktop packaging passed.
+The complete core suite did NOT pass: existing Tank 500 Circuit hairpin
+maximum lateral error 5.4726 m exceeded the 4.383 m assertion threshold.
+Original assertions/scripts remain intact; this release skips that aggregate suite.
+Published EXE entered city-main / family-sedan driving; release-game.png was
+captured and reviewed. release-smoke.json records the evidence. The automation
+harness did not finish persisting its final status at browser shutdown; this is
+recorded separately from verified game entry, not counted as an automatic pass.
+
+Known road limits: 7 existing pier/building intersections retained; underground
+sidewalk width constrained by unchanged enclosure/collision boundaries.
+Single-route comparison: normal calls 330 -> 335; shadow calls 36 -> 50;
+tracked GPU buffers 33.88 -> 45.27 MiB; observed main Heap 469.86 -> 478.09 MiB;
+first complete near/mid loading 5.83 -> 6.58 s. Offscreen cadence is not monitor FPS.
+No all-route visual/driving certification; no commit or push.

@@ -37,6 +37,8 @@ export interface CityRoad extends CityElementMetadata {
     barrierStyle?: 'metal' | 'concrete'; medianBarrierStyle?: 'metal' | 'concrete';
     /** Floor-relative clear height. Cutting has retaining walls but no roof. */
     enclosure?: { kind: 'tunnel' | 'underpass' | 'cutting'; clearance: number;
+      /** Wall-inner-face reserve outside pavement; independent of rail placement. */
+      wallOffset?: number;
       /** Explicit branch pavements allowed to open a tunnel's side walls. */
       branchOpenings?: string[] } };
   markings?: boolean; curb?: boolean; streetlights?: boolean;

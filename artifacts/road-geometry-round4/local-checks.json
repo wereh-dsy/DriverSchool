@@ -1,0 +1,76 @@
+{
+  "assertions": 492,
+  "objects": [
+    {
+      "id": "urban-rail-underpass:underpass",
+      "newBody": false,
+      "newEnclosure": true,
+      "kinds": [
+        "tunnel-wall",
+        "tunnel-wall",
+        "tunnel-roof"
+      ],
+      "triangles": 2640,
+      "bytes": 97856
+    },
+    {
+      "id": "urban-underpass-end-approach",
+      "newBody": false,
+      "newEnclosure": true,
+      "kinds": [
+        "cutting-wall",
+        "cutting-wall"
+      ],
+      "triangles": 6560,
+      "bytes": 246464
+    },
+    {
+      "id": "regional:qingling:S-to-E-right:deceleration",
+      "newBody": true,
+      "newEnclosure": false,
+      "kinds": [
+        "bridge-deck",
+        "metal-rail",
+        "guardrail-posts"
+      ],
+      "triangles": 3273,
+      "bytes": 200928
+    },
+    {
+      "id": "ew-wb-split",
+      "newBody": true,
+      "newEnclosure": false,
+      "kinds": [
+        "bridge-deck",
+        "concrete-barrier",
+        "metal-rail",
+        "guardrail-posts"
+      ],
+      "triangles": 2772,
+      "bytes": 155968
+    },
+    {
+      "id": "v4-south-logistics-west",
+      "newBody": true,
+      "newEnclosure": false,
+      "kinds": [
+        "bridge-deck"
+      ],
+      "triangles": 20987,
+      "bytes": 1983584
+    }
+  ],
+  "fallbacks": [
+    [
+      "urban-rail-underpass:underpass",
+      "authored sidewalk extends behind the existing wall/collider"
+    ],
+    [
+      "urban-underpass-end-approach",
+      "authored sidewalk extends behind the existing wall/collider"
+    ]
+  ],
+  "geometryChecksOnly": true,
+  "collisionTestsRun": false,
+  "benchmarksRun": false
+}

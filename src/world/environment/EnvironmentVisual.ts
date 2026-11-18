@@ -49,6 +49,8 @@ const clamp = (value: number): number => Number.isFinite(value) ? Math.min(1, Ma
  * All per-frame work is scalar or material-uniform sized; no map traversal happens here.
  */
 export class EnvironmentVisual {
+  /** Loading-only access; prepares the hidden rain draw without enabling weather. */
+  get visualResourceRoot():Object3D{return this.rain;}
   private readonly materials = new Map<MeshStandardMaterial, SurfaceMaterialState>();
   private meshMaterials = new WeakMap<Mesh, MeshStandardMaterial[]>();
   private observedMeshes = new WeakSet<Mesh>();

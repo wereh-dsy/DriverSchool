@@ -1,0 +1,210 @@
+{
+  "coverage": {
+    "roads": 3290,
+    "roadsExpected": 3290,
+    "intersections": 306,
+    "intersectionsExpected": 306,
+    "geometrySystem": "continuous-v5",
+    "legacyObjects": 0,
+    "structures": {
+      "road pavement": 3290,
+      "marking": 175729,
+      "concrete-barrier": 2619,
+      "metal-rail": 2514,
+      "guardrail-posts": 281579,
+      "highway reflector posts": 31904,
+      "highway reflector caps": 31904,
+      "bridge-deck": 2226,
+      "bridge-piers": 6774,
+      "surface": 2630,
+      "tunnel-wall": 28,
+      "tunnel-roof": 14,
+      "cutting-wall": 399,
+      "sidewalk": 1288,
+      "curb": 1284,
+      "median": 3
+    },
+    "triangles": 15699171,
+    "allRoadOutputBytes": 810723680,
+    "piers": 6774,
+    "pierBuildingConflicts": 7,
+    "pierRoadConflicts": 0
+  },
+  "comparisons": [
+    {
+      "variant": "round4",
+      "conditions": {
+        "fullMap": true,
+        "whiteList": false,
+        "width": 1200,
+        "height": 650,
+        "pixelRatio": 1,
+        "shadowMapSize": 2048,
+        "passesPerVariant": 1,
+        "softwareRenderer": false,
+        "presentation": "offscreen Electron, 60 Hz target; cadence is not interactive monitor FPS"
+      },
+      "initialization": {
+        "variant": "round4",
+        "constructorMs": 530.0999999977648,
+        "prepareAndFirstLoadMs": 5833.39999999851,
+        "heapBefore": 128373516,
+        "heapAfter": 399450469,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Laptop GPU (0x00002D59) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "world": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153
+        }
+      },
+      "normalCallsMedian": 330,
+      "shadowCallsMedian": 36,
+      "submittedTrianglesMedian": 341054,
+      "normalTrianglesMedian": 328962,
+      "shadowTrianglesMedian": 38868,
+      "maxObservedGeometryArrayBytes": 50578930,
+      "maxObservedMainHeapBytes": 492683139,
+      "gpuBufferPeakBytes": 35525244,
+      "maxMainUpdateMs": 23.400000002235174,
+      "offscreenFrameMedianMs": 16.69999999999891,
+      "workerRoadJobs": 121,
+      "workerActiveMs": {
+        "median": 8.5,
+        "p95": 105.00000000372529,
+        "max": 234.8999999910593
+      },
+      "maxWorkerStepMs": 78.10000000149012,
+      "release": {
+        "resourcesReleased": true,
+        "cachedRoads": 0,
+        "cachedRoadBytes": 0,
+        "terrainEntries": 0,
+        "instanceTemplates": 0,
+        "queued": 0,
+        "workerDisposed": true,
+        "gpuBufferBytes": 0
+      },
+      "finitePoses": true,
+      "coastDistances": [
+        11.648836310132706,
+        11.830345714269939,
+        11.648836310132706
+      ]
+    },
+    {
+      "variant": "round5",
+      "conditions": {
+        "fullMap": true,
+        "whiteList": false,
+        "width": 1200,
+        "height": 650,
+        "pixelRatio": 1,
+        "shadowMapSize": 2048,
+        "passesPerVariant": 1,
+        "softwareRenderer": false,
+        "presentation": "offscreen Electron, 60 Hz target; cadence is not interactive monitor FPS"
+      },
+      "initialization": {
+        "variant": "round5",
+        "constructorMs": 534.3999999985099,
+        "prepareAndFirstLoadMs": 6579.60000000149,
+        "heapBefore": 129293743,
+        "heapAfter": 385558406,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Laptop GPU (0x00002D59) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "world": {
+          "roads": 3290,
+          "intersections": 306,
+          "objects": 7153
+        }
+      },
+      "normalCallsMedian": 335,
+      "shadowCallsMedian": 50,
+      "submittedTrianglesMedian": 423981,
+      "normalTrianglesMedian": 335504,
+      "shadowTrianglesMedian": 88477,
+      "maxObservedGeometryArrayBytes": 69133400,
+      "maxObservedMainHeapBytes": 501314840,
+      "gpuBufferPeakBytes": 47472760,
+      "maxMainUpdateMs": 20.5,
+      "offscreenFrameMedianMs": 16.69999999999891,
+      "workerRoadJobs": 92,
+      "workerActiveMs": {
+        "median": 13.699999995529652,
+        "p95": 126.59999999403954,
+        "max": 276.90000001341105
+      },
+      "maxWorkerStepMs": 83.5,
+      "release": {
+        "resourcesReleased": true,
+        "cachedRoads": 0,
+        "cachedRoadBytes": 0,
+        "terrainEntries": 0,
+        "instanceTemplates": 0,
+        "queued": 0,
+        "workerDisposed": true,
+        "gpuBufferBytes": 0
+      },
+      "finitePoses": true,
+      "coastDistances": [
+        11.648836310132706,
+        11.830345714269939,
+        11.648836310132706
+      ]
+    }
+  ],
+  "game": {
+    "passed": true,
+    "mapId": "city-main",
+    "vehicleId": "family-sedan",
+    "loadAndRunMs": 20512.5,
+    "finitePose": true,
+    "resourcesReleased": true
+  },
+  "limitations": [
+    "7 existing pier/building conflicts retained under unchanged-collision boundary",
+    "Underground walks limited to existing wall reserve; wide usable walks not restored",
+    "Offscreen cadence is not interactive monitor FPS",
+    "Main Heap values are station observations, not a complete allocation peak; Worker Heap unavailable",
+    "One route and one independent pass per variant; not an all-map driving/performance certification"
+  ],
+  "terrainBoundaryFix": {
+    "functionalReproductionOnly": true,
+    "results": [
+      {
+        "variant": "before",
+        "pieces": 271,
+        "zeroAreaPieces": 268,
+        "area": 12
+      },
+      {
+        "variant": "after",
+        "pieces": 3,
+        "zeroAreaPieces": 0,
+        "area": 12
+      }
+    ],
+    "unstreamed": {
+      "worldArea": 4000000,
+      "pavedExclusionArea": 32,
+      "remainingArea": 3999968.0000014305,
+      "vertices": 60075,
+      "boundedCellSize": 20
+    }
+  },
+  "release": {
+    "package": {
+      "step": "complete",
+      "exitCode": 0,
+      "target": "D:/DriverSchoolRelease/DriverSchool-win32-x64/DriverSchool.exe",
+      "knownFullCoreFailure": "Circuit hairpin tank-500-hi4-t: max lateral error 5.472599481557198 m, limit 4.383 m",
+      "completedAt": "2026-11-07T09:36:06.2583727+08:00",
+      "userAuthorizedReducedValidation": true,
+      "validation": "BasicValidation"
+    },
+    "entryVerified": true,
+    "screenshot": "release-game.png",
+    "automaticHarnessCompleted": false,
+    "validation": "BasicValidation explicitly authorized",
+    "completeCorePassed": false
+  }
+}

@@ -10,6 +10,8 @@ import { ElectricMotor } from './ElectricMotor';
 import { HybridBattery } from './HybridBattery';
 import { HybridEnergyManagement } from './HybridEnergyManagement';
 import { MechanicalTransferCase } from './MechanicalTransferCase';
+import { P2ThermalBudget } from './P2ThermalBudget';
+import { smoothLimit } from './EVThermalState';
 import type { EVTelemetry, PowertrainInitialState, PowertrainOutput, PowertrainUpdateContext } from './Powertrain';
 
 export interface HybridTelemetry {
@@ -18,6 +20,8 @@ export interface HybridTelemetry {
   enginePowerW: number; motorPowerW: number; generationPowerW: number; wheelPowerW: number;
   clutchLossW: number; transmissionLossW: number; electricalLossW: number;
   battery: ReturnType<HybridBattery['getSnapshot']>; transfer: ReturnType<MechanicalTransferCase['getSnapshot']>;
+  thermalBudget?: ReturnType<P2ThermalBudget['getSnapshot']>;
+  shiftTorqueFillNm?: number;
 }
 
 /** Reuses ICE lifecycle/telemetry, Engine/FuelSystem/Clutch and EV electrical components.
@@ -30,9 +34,14 @@ export class P2HybridPowertrain extends ICEPowertrain {
   public readonly motor: ElectricMotor;
   public readonly energyManagement: HybridEnergyManagement;
   public readonly transfer: MechanicalTransferCase;
+  public readonly thermalBudget = new P2ThermalBudget();
+  public get wheelCouplings() { return this.transfer.wheelCouplings; }
   private operational = true;
   private pedal = 0;
   private shaftOmega = 0;
+  private previousShaftOmega = 0;
+  private shaftAcceleration = 0;
+  private shaftSpeedValid = false;
   private freeOmega = 0;
   private ratio = 0;
   private wheelOmega = 0;
@@ -52,6 +61,17 @@ export class P2HybridPowertrain extends ICEPowertrain {
   private requestedBrake = 0;
   private regenerationTorque = 0;
   private terminalPower = 0;
+  private fuelBurnedL = 0;
+  private fuelOmega = 0;
+  private shiftFill = 0;
+  private lastP2Context?: PowertrainUpdateContext;
+  private readonly shiftTorqueAtRPM = (rpm: number): number => {
+    const omega = Math.max(1, Math.abs(rpm) * Math.PI / 30), h = this.config.hybrid;
+    const motor = Math.min(h.motor.maxDriveTorque, this.motor.availablePower / omega,
+      Math.max(0, this.battery.availableDischargePower - h.auxiliaryPower) * h.inverterEfficiency * h.motor.motoringEfficiency / omega);
+    return Math.min(h.systemTorque, h.systemPower / omega, motor +
+      this.engine.getTorqueAtRPM(rpm) * (this.thermal?.torqueFactor ?? 1));
+  };
   private readonly hatContext: TransmissionContext = { dt: 0, engineAngularVelocity: 0, engineRPM: 0,
     engineRunning: false, engineInertia: .22, idleRPM: 650, stallRPM: 0, redlineRPM: 6400,
     availableEngineTorque: 0, throttle: 0, brake: 0, vehicleSpeed: 0, drivenWheelAngularVelocity: 0 };
@@ -89,6 +109,9 @@ export class P2HybridPowertrain extends ICEPowertrain {
   public requestTransferMode(mode: TransferMode, speed: number, brake: number): boolean {
     return this.transfer.request(mode, speed, this.transmission.selectedMode, brake);
   }
+  public requestAxleLock(axle: 'front' | 'rear', locked: boolean, speed: number): boolean {
+    return this.transfer.requestAxleLock(axle, locked, speed);
+  }
   public connectCharger(type: 'AC' | 'DC', powerW?: number): boolean {
     if (this.operational || this.transmission.selectedMode !== 'P' || Math.abs(this.wheelOmega) > .1) return false;
     this.battery.connect(type, powerW); return true;
@@ -119,8 +142,10 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.clutch.reset(state.ice?.clutchEngagement ?? 0);
     this.motor.reset(); this.shaftOmega = this.freeOmega = state.hybrid?.freeShaftOmega ?? 0;
     this.k0Torque = this.pedal = this.ratio = this.wheelOmega = this.pendingStep = this.terminalPower = 0;
+    this.previousShaftOmega = this.shaftAcceleration = 0; this.shaftSpeedValid = false;
     this.enginePower = this.clutchLoss = this.transmissionLoss = this.electricalLoss = 0;
     this.regenerationTorque = this.requestedBrake = 0;
+    this.thermalBudget.reset(); this.fuelBurnedL = this.fuelOmega = this.shiftFill = 0;
     this.p2Output.drivenWheelTorque = this.p2Output.frontWheelTorque = this.p2Output.rearWheelTorque = 0;
   }
   public override captureState(previous: PowertrainInitialState = {}): PowertrainInitialState {
@@ -133,7 +158,7 @@ export class P2HybridPowertrain extends ICEPowertrain {
     return previous;
   }
   public override applyDriveMode(calibration: DriveModeCalibration): void { super.applyDriveMode(calibration); }
-  private transmissionContext(c: PowertrainUpdateContext, torque = 0): TransmissionContext {
+  private transmissionContext(c: PowertrainUpdateContext, torque = this.shaftSource.deliveredDriveTorque): TransmissionContext {
     const t = this.hatContext;
     t.dt = c.dt; t.engineAngularVelocity = this.shaftOmega; t.engineRPM = this.shaftOmega * 30 / Math.PI;
     t.engineRunning = this.driveAvailable; t.engineInertia = this.motor.rotationalInertia;
@@ -142,10 +167,13 @@ export class P2HybridPowertrain extends ICEPowertrain {
     t.vehicleLateralSpeed = c.vehicleLateralSpeed; t.drivenWheelAngularVelocity = this.wheelOmega * this.transfer.ratio;
     t.selectorRequest = c.selectorRequest; t.drivenWheelInertia = c.drivenWheelInertia;
     t.drivenWheelReactionTorque = c.drivenWheelReactionTorque;
+    t.idleRPM = this.engine.isRunning ? this.config.engine.idleRPM : 550;
+    t.engineTorqueAtRPM = this.shiftTorqueAtRPM;
     return t;
   }
   public override prepare(c: PowertrainUpdateContext): void {
     this.engine.setFuelAvailable(this.fuel.hasFuel);
+    this.lastP2Context = c;
     this.pedal = clamp01(c.throttle); this.pendingStep = c.dt;
     const front = c.frontWheelAngularVelocity ?? c.drivenWheelAngularVelocity;
     const rear = c.rearWheelAngularVelocity ?? c.drivenWheelAngularVelocity;
@@ -154,6 +182,9 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.transmission.prepare(this.transmissionContext(c));
     this.ratio = this.transmission.ratio * this.config.transmission.finalDriveRatio * this.transfer.ratio;
     this.shaftOmega = this.driving ? this.wheelOmega * this.ratio : this.freeOmega;
+    const measuredAcceleration = this.shaftSpeedValid ? (this.shaftOmega - this.previousShaftOmega) / Math.max(1e-6, c.dt) : 0;
+    this.shaftAcceleration += (clamp(measuredAcceleration, -600, 600) - this.shaftAcceleration) * -Math.expm1(-c.dt * 20);
+    this.previousShaftOmega = this.shaftOmega; this.shaftSpeedValid = true;
     this.motor.setShaftSpeed(this.shaftOmega);
     this.auxiliaryPower = this.operational ? Math.min(this.config.hybrid.auxiliaryPower, this.battery.dischargeLimit(c.dt)) : 0;
     const discharge = Math.max(0, this.battery.dischargeLimit(c.dt) - this.auxiliaryPower - this.config.hybrid.starterPower);
@@ -171,7 +202,13 @@ export class P2HybridPowertrain extends ICEPowertrain {
     const force = tune ? (this.config.mass + this.variableMassKg) * (this.creeping ?
       tune.creepAcceleration * clamp01((tune.creepSpeed - Math.abs(c.vehicleSpeed)) / tune.creepSpeed) :
       acceleration * (this.transfer.mode === '4L' ? this.pedal ** 1.5 : this.pedal)) : 0;
-    const shaftRequest = tune ? force * this.config.wheelRadius / Math.max(1, Math.abs(this.ratio) * eta) : this.pedal * totalCapacity;
+    const progressiveRequest = tune ? force * this.config.wheelRadius / Math.max(1, Math.abs(this.ratio) * eta) : this.pedal * totalCapacity;
+    // Daily pedal travel requests a progressive acceleration. Kickdown must
+    // reach the installed shaft envelope: full throttle is not an artificial
+    // fixed-acceleration limiter. Motor, crank, pack and TCS still bound delivery.
+    const fullPowerStart = tune?.fullPowerPedalStart ?? 1;
+    const fullPower = fullPowerStart < 1 ? smoothLimit((this.pedal - fullPowerStart) / (1 - fullPowerStart)) : 0;
+    const shaftRequest = progressiveRequest + (totalCapacity - progressiveRequest) * fullPower;
     const demand = this.driving && !held ? Math.min(totalCapacity, shaftRequest) * this.propulsionAuthority : 0;
     const ems = this.energyManagement;
     ems.update({ dt: c.dt, operational: this.operational, connected: this.battery.connector !== null,
@@ -185,17 +222,25 @@ export class P2HybridPowertrain extends ICEPowertrain {
     if (!ems.engineRequested && (this.engine.isRunning || this.engine.isStarting) && this.clutch.engagement < .01) this.engine.stop();
     const generationRPM = !this.driving && ems.engineRequested ? this.config.hybrid.energyManagement.generationMinimumRPM + 450 : 0;
     const targetOmega = Math.max(this.config.engine.idleRPM, generationRPM, this.shaftOmega * 30 / Math.PI) * Math.PI / 30;
-    const speedCorrection = clamp((targetOmega - this.engine.angularVelocity) * this.engine.rotationalInertia * 8, -160, 160);
+    // A rising input shaft needs I*alpha as well as RPM error feedback. Without
+    // this feed-forward the proportional governor trails hard acceleration by
+    // more than K0's sync tolerance, leaving the running ICE disconnected until
+    // the first upshift. It is a bounded engine torque request, not an RPM assignment.
+    const synchronizationAcceleration = this.driving && this.shaftOmega > this.config.engine.idleRPM * Math.PI / 30
+      ? this.shaftAcceleration : 0;
+    const speedCorrection = clamp(((targetOmega - this.engine.angularVelocity) * 8 + synchronizationAcceleration) * this.engine.rotationalInertia, -160, 160);
     // Open K0 uses only the speed governor. Applying propulsion feed-forward
     // before contact would free-rev past the shaft and prevent synchronization.
-    const net = Math.max(0, ems.engineTorqueRequest * this.clutch.engagement + speedCorrection + this.config.engine.engineFrictionTorque);
+    const net = Math.max(0, ems.engineTorqueRequest * this.transmission.torqueFactor * this.clutch.engagement + speedCorrection + this.config.engine.engineFrictionTorque);
     const engineCommand = ems.engineRequested && (!this.driving || c.brake < .02) ? clamp01(net / Math.max(1, this.engine.availableTorque + this.config.engine.engineFrictionTorque)) : 0;
     this.engine.setTorqueLimitFactor((this.thermal?.torqueFactor ?? 1) * this.propulsionAuthority);
     this.engine.requestDrive(engineCommand, c.dt);
     const slipRPM = Math.abs(this.engine.currentRPM - this.shaftOmega * 30 / Math.PI);
     const launch = this.shaftOmega < this.config.engine.idleRPM * Math.PI / 30;
+    const engineCoast = this.driving && (ems.mode === 'SPORT' || c.driveMode === 'SPORT' || this.transfer.mode === '4L') &&
+      this.shaftOmega > this.config.engine.idleRPM * Math.PI / 30 * 1.2;
     const canCouple = this.operational && !this.battery.connector && this.engine.isRunning && !this.engine.isStarting &&
-      ems.engineRequested && (!this.driving || !held) && (!this.driving || this.pedal >= .01 || this.creeping) && (slipRPM < this.config.hybrid.energyManagement.synchronizationToleranceRPM ||
+      ems.engineRequested && (!this.driving || !held) && (!this.driving || this.pedal >= .01 || this.creeping || engineCoast) && (slipRPM < this.config.hybrid.energyManagement.synchronizationToleranceRPM ||
         this.clutch.engagement > .2 && slipRPM < 800 || launch);
     this.clutch.update(c.dt, canCouple ? 1 : 0);
     // Hydraulic safety release before service/lift regeneration; ABS must never
@@ -226,20 +271,27 @@ export class P2HybridPowertrain extends ICEPowertrain {
     const fade = clamp01((Math.abs(c.vehicleSpeed) - h.regen.minimumSpeed) / (h.regen.fullSpeed - h.regen.minimumSpeed));
     const eta = this.config.transmission.drivetrainEfficiency * h.transfer.efficiency;
     const ratio = Math.abs(this.ratio);
-    const brakeMotor = this.requestedBrake * eta / Math.max(1, ratio) * fade;
+    // Hydraulic pressure decays asymptotically after releasing the pedal.
+    // Its residual torque is still physical braking, but must not select motor
+    // regeneration over a new accelerator request indefinitely. Active service
+    // braking (including cruise with no accelerator) retains priority.
+    const serviceBraking = this.requestedBrake > 1 && (c.brake >= .02 || c.throttle < .01);
+    const brakeMotor = serviceBraking ? this.requestedBrake * eta / Math.max(1, ratio) * fade : 0;
     const coastTorque = h.driveability ? (this.config.mass + this.variableMassKg) * h.driveability.coastDeceleration *
       this.config.wheelRadius * eta / Math.max(1, ratio) : h.regen.liftTorque;
     const liftMotor = this.driving && !this.creeping && this.clutch.engagement < .01 && c.throttle < .01 && c.brake < .02 ? coastTorque * fade : 0;
     let target = this.driving ? demand / Math.max(.1, this.transmission.torqueFactor) - this.k0Torque : 0;
+    if (this.driving && c.throttle < .01 && !this.creeping && this.clutch.engagement > .01 && this.k0Torque < 0) target = 0;
     if (!this.driving && this.energyManagement.generationPowerRequest > 0)
       target = -Math.min(this.energyManagement.generationPowerRequest / Math.max(1, this.shaftOmega), Math.max(0, this.k0Torque));
     // Only the connected ICE's measured surplus can fund in-drive generation.
-    if (target < 0 && this.requestedBrake < 1 && liftMotor <= 0)
+    if (target < 0 && !serviceBraking && liftMotor <= 0)
       target = -Math.min(-target, this.energyManagement.generationPowerRequest / Math.max(1, Math.abs(this.shaftOmega)));
     if (brakeMotor > 0 || liftMotor > 0) target = -Math.sign(this.shaftOmega || 1) * Math.max(brakeMotor, liftMotor);
     if (!this.driveAvailable || this.battery.connector || this.driving && (c.autoHoldHolding || c.parkingBrakeActive && c.throttle < .1)) target = 0;
     this.motor.requestTorque(clamp(target, -regenLimit, driveLimit)); this.motor.updateState(dt, 0);
     this.motor.limitTorque(driveLimit, regenLimit, 1);
+    this.shiftFill = this.transmission.isShifting ? Math.max(0, this.motor.deliveredDriveTorque - Math.max(0, demand - this.k0Torque)) : 0;
     if (!this.driveAvailable || this.battery.connector) this.motor.scaleTorque(0);
     // Do not allow a delayed positive motor tail to defeat service braking.
     if (c.brake > .02 && this.motor.deliveredDriveTorque > 0) this.motor.scaleTorque(0);
@@ -247,18 +299,14 @@ export class P2HybridPowertrain extends ICEPowertrain {
     const limitedTotal = Math.min(total, h.systemTorque, h.systemPower / Math.max(1, Math.abs(this.shaftOmega)));
     if (limitedTotal < total) this.motor.deliveredDriveTorque -= Math.min(total - limitedTotal, Math.max(0, this.motor.deliveredDriveTorque));
     const input = this.k0Torque + this.motor.deliveredDriveTorque;
-    const transmission = this.transmission.update(this.transmissionContext(c, input));
-    this.p2Output.drivenWheelTorque = transmission.drivenWheelTorque * this.transfer.ratio * (input * this.shaftOmega >= 0 ? h.transfer.efficiency : 1 / h.transfer.efficiency);
-    this.p2Output.inputLoadTorque = this.k0Torque;
+    this.refreshTransmissionOutput(c);
     this.p2Output.couplingSlipAngularVelocity = slip;
-    this.p2Output.parkingLocked = transmission.parkingLocked;
-    this.regenerationTorque = this.driving && this.p2Output.drivenWheelTorque * c.vehicleSpeed < 0 ? Math.abs(this.p2Output.drivenWheelTorque) : 0;
-    this.publishAxles();
     const beforeFuel = this.fuel.currentFuelL;
     const rpm = this.engine.currentRPM, throttle = this.engine.throttle;
     this.engine.updateState(dt, this.k0Torque);
     this.fuel.update(dt, rpm, throttle, this.engine.lastTorqueSample, c.vehicleSpeed, c.vehicleLateralSpeed);
     this.p2Output.consumedFuelL = beforeFuel - this.fuel.currentFuelL;
+    this.fuelBurnedL = this.p2Output.consumedFuelL; this.fuelOmega = engineOmega;
     this.engine.setFuelAvailable(this.fuel.hasFuel);
     if (!this.driving) this.freeOmega = Math.max(0, this.freeOmega + input / this.motor.rotationalInertia * dt);
     else this.freeOmega = this.shaftOmega;
@@ -271,9 +319,24 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.shaftSource.availableDriveTorque = input;
     return this.p2Output;
   }
+  /** Re-evaluate after ABS/MSR modulation without advancing the shift or the source twice. */
+  private refreshTransmissionOutput(c: PowertrainUpdateContext): void {
+    const input = this.k0Torque + this.motor.deliveredDriveTorque, backdrive = input * this.shaftOmega < 0;
+    const output = this.transmission.update(this.transmissionContext(c, input)), h = this.config.hybrid;
+    this.p2Output.drivenWheelTorque = output.drivenWheelTorque * this.transfer.ratio * (backdrive ? 1 / h.transfer.efficiency : h.transfer.efficiency);
+    this.p2Output.inputLoadTorque = this.k0Torque; this.p2Output.parkingLocked = output.parkingLocked;
+    const eta = this.config.transmission.drivetrainEfficiency * h.transfer.efficiency;
+    const motorWheelTorque = this.motor.deliveredDriveTorque * this.ratio * (backdrive ? 1 / eta : eta * this.transmission.torqueFactor);
+    const wheelBraking = Math.max(0, -this.p2Output.drivenWheelTorque * Math.sign(c.vehicleSpeed));
+    // Engine drag is not recovered electricity and cannot receive hydraulic regen credit.
+    this.regenerationTorque = this.driving ? Math.min(wheelBraking, Math.max(0, -motorWheelTorque * Math.sign(c.vehicleSpeed))) : 0;
+    this.shaftSource.deliveredDriveTorque = this.shaftSource.availableDriveTorque = input;
+    this.publishAxles();
+  }
   private publishAxles(): void {
     this.p2Output.frontWheelTorque = this.p2Output.drivenWheelTorque * this.transfer.frontShare;
     this.p2Output.rearWheelTorque = this.p2Output.drivenWheelTorque * (1 - this.transfer.frontShare);
+    this.transfer.recordAxleInputTorques(this.p2Output.frontWheelTorque, this.p2Output.rearWheelTorque);
     this.p2Output.regenerativeWheelTorque = this.regenerationTorque;
   }
   public limitAxleRegeneration(front: number, rear: number): void {
@@ -281,16 +344,25 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.limitRegeneration(Math.min(share > .001 ? front / share : Infinity, share < .999 ? rear / (1 - share) : Infinity));
   }
   public limitRegeneration(maximum: number): number {
+    if (this.regenerationTorque > maximum && this.k0Torque < 0) this.cancelShaftRegeneration();
     if (this.regenerationTorque > 0) {
       const factor = clamp01(maximum / this.regenerationTorque);
       // Shared input motor: either axle ABS can cut the entire regeneration path.
       this.motor.scaleTorque(factor);
-      this.p2Output.drivenWheelTorque *= factor;
-      this.regenerationTorque *= factor; this.publishAxles();
+      if (this.lastP2Context) this.refreshTransmissionOutput(this.lastP2Context);
     }
     return this.p2Output.drivenWheelTorque;
   }
-  public override get shaftRegenerating(): boolean { return false; }
+  public override get shaftRegenerating(): boolean { return this.k0Torque < 0; }
+  /** Same-step ABS release of mechanical engine drag; undo only its crank impulse. */
+  public override cancelShaftRegeneration(): number {
+    if (this.k0Torque < 0 && this.lastP2Context) {
+      this.engine.currentRPM += this.k0Torque * this.pendingStep / this.engine.rotationalInertia * 30 / Math.PI;
+      this.k0Torque = 0; this.clutch.reset(0); this.p2Output.inputLoadTorque = 0;
+      this.refreshTransmissionOutput(this.lastP2Context);
+    }
+    return this.p2Output.drivenWheelTorque;
+  }
   public override finishStep(speed: number): void {
     const dt = this.pendingStep; if (dt <= 0) return;
     const h = this.config.hybrid;
@@ -304,8 +376,12 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.terminalPower = this.battery.step(dt, motorElectrical + this.auxiliaryPower + this.starterPower, speed,
       !this.operational && this.transmission.selectedMode === 'P');
     this.motor.thermal?.integrate(dt, this.electricalLoss, speed);
-    this.thermal?.update(dt, (this.engine.lastTorqueSample?.combustionTorque ?? 0) * this.engine.angularVelocity,
+    if (h.engineCooling) this.thermalBudget.update(dt, this.fuelBurnedL, this.fuelOmega, this.engine.lastTorqueSample, speed, this.config, this.thermal);
+    else this.thermal?.update(dt, (this.engine.lastTorqueSample?.combustionTorque ?? 0) * this.engine.angularVelocity,
       speed, this.config.ambientTemperature ?? 20);
+    this.thermalBudget.motorHeatW = this.electricalLoss;
+    const chemical = this.terminalPower + this.battery.resistiveLoss;
+    this.thermalBudget.batteryHeatW = this.battery.resistiveLoss + (chemical >= 0 ? chemical * (1 / h.battery.dischargeEfficiency - 1) : -chemical * (1 - h.battery.chargeEfficiency));
     this.usedKWh += Math.max(0, this.terminalPower) * dt / 3_600_000;
     if (!this.battery.connector) this.recoveredKWh += Math.max(0, -this.terminalPower) * dt / 3_600_000;
     this.distanceKm += Math.abs(speed) * dt / 1000;
@@ -324,7 +400,7 @@ export class P2HybridPowertrain extends ICEPowertrain {
       enginePowerW: this.enginePower, motorPowerW: motorPower, generationPowerW: Math.max(0, -motorPower),
       wheelPowerW: this.p2Output.drivenWheelTorque * this.wheelOmega,
       clutchLossW: this.clutchLoss, transmissionLossW: this.transmissionLoss, electricalLossW: this.electricalLoss,
-      battery: this.battery.getSnapshot(), transfer: this.transfer.getSnapshot() };
+      battery: this.battery.getSnapshot(), transfer: this.transfer.getSnapshot(), thermalBudget: this.thermalBudget.getSnapshot(), shiftTorqueFillNm: this.shiftFill };
     const ev: EVTelemetry = { stateOfCharge: this.battery.stateOfCharge, remainingEnergyKWh: this.battery.remainingEnergyKWh,
       batteryPowerKw: this.terminalPower / 1000, motorRPM: this.shaftOmega * 30 / Math.PI, motorTorque: this.motor.deliveredDriveTorque,
       drivePowerKw: Math.max(0, motorPower) / 1000, regenPowerKw: Math.max(0, -motorPower) / 1000,

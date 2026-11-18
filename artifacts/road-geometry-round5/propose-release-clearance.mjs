@@ -1,0 +1,12 @@
+import {build} from 'esbuild';
+import {readFile,writeFile} from 'node:fs/promises';
+import {resolve,dirname} from 'node:path';
+import {spawnSync} from 'node:child_process';
+const target=resolve('src/vehicle/visual/Tank500BodyExterior.ts'),original=await readFile(target,'utf8');
+const before='points.push([p[0] + side * .004, p[1], p[2]]);',after='points.push([p[0] + side * .004, p[1] + .011, p[2]]);';
+if(original.split(before).length!==2)throw new Error('Unexpected candidate source');
+await build({stdin:{contents:"import {runSuspensionStanceSelfTest} from './src/vehicle/visual/SuspensionStance.selftest';console.log(JSON.stringify(runSuspensionStanceSelfTest()));",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',outfile:'.tmp-road-round5-clearance-proposal.mjs',define:{'import.meta.env.DEV':'false'},logLevel:'warning',plugins:[{name:'review-only-clearance',setup(b){b.onLoad({filter:/Tank500BodyExterior\.ts$/},a=>a.path===target?{contents:original.replace(before,after),loader:'ts',resolveDir:dirname(target)}:undefined);}}]});
+const run=spawnSync(process.execPath,['.tmp-road-round5-clearance-proposal.mjs'],{encoding:'utf8'});
+await writeFile('artifacts/road-geometry-round5/release-clearance-proposal.json',JSON.stringify({sourceChanged:false,proposal:'Raise only Tank wheelarch lip ribbon centre by half its 22mm visual width (11mm); keep the lower trim edge outside the existing shell aperture. No physics/config/collision changes.',exitCode:run.status,stdout:run.stdout,stderr:run.stderr},null,2)+'\n');
+await writeFile('artifacts/road-geometry-round5/release-clearance-proposal.diff',`--- src/vehicle/visual/Tank500BodyExterior.ts\n+++ src/vehicle/visual/Tank500BodyExterior.ts\n@@\n-        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); ${before} }\n+        const p = tankSidePoint(c, side, z, (c.body.wheelArchCenterY ?? c.wheelRadius) + Math.sin(a) * r); ${after} }\n`);
+console.log(JSON.stringify({sourceChanged:false,candidateExit:run.status,stdout:run.stdout,stderr:run.stderr}));

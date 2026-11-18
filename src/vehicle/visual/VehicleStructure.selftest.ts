@@ -9,6 +9,7 @@ import { runBMW530LiSelfTest } from './BMW530Li.selftest';
 import { runMercedesE300LSelfTest } from './MercedesE300L.selftest';
 import { runTaycanDisplaysSelfTest } from './TaycanDisplays.selftest';
 import { runGolfGTIStructureSelfTest } from './GolfGTI.selftest';
+import { runQinPlusStructureSelfTest } from './QinPlusVisual.selftest';
 
 /** Small solid-clearance check, not appearance/handling optimisation. */
 export function runVehicleStructureSelfTest() {
@@ -43,6 +44,12 @@ export function runVehicleStructureSelfTest() {
       try {
         visual.root.updateMatrixWorld(true);
         const config = car.visualConfig;
+        if (config.body.design === 'qin-plus') {
+          const result = runQinPlusStructureSelfTest(visual);
+          assert(result.closureRays === 4 && result.assertions > 100,
+            `${car.id}: dedicated cabin closure, steering anchors, visibility and optics`);
+          continue;
+        }
         if(config.body.design==='maybach-z223'||config.body.design==='tank-500') {
           // These independently authored cabins have different part names and
           // (Maybach) a split wood/leather rim; verify their actual structures.

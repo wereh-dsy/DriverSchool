@@ -1,0 +1,1 @@
+import fs from'node:fs';const p='scripts/performance-deep-electron.cjs';let s=fs.readFileSync(p,'utf8');s=s.replace("?light=1&variant='+variant)","?light=1&variant='+variant+(process.argv.includes('--verify')?'&verify=1':''))");fs.writeFileSync(p,s);if(!s.includes("variant+(process.argv.includes('--verify')"))throw Error('Missing quick-check flag');

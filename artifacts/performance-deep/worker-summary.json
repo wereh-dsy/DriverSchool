@@ -1,0 +1,1638 @@
+[
+  {
+    "variant": "native-before",
+    "recorded": 712,
+    "jobs": {
+      "completed": 713,
+      "cancelledQueued": 0,
+      "coalescedRequests": 29035,
+      "disposed": false
+    },
+    "queuedAtEnd": 0,
+    "sectorMaxUpdateMs": 19.899999998509884,
+    "metrics": {
+      "activeMs": {
+        "p50": 7.200000002980232,
+        "p95": 60.900000002235174,
+        "p99": 184.5000000037253,
+        "max": 617.7000000029802
+      },
+      "elapsedMs": {
+        "p50": 7.5,
+        "p95": 67.5,
+        "p99": 273.30000000074506,
+        "max": 617.7000000029802
+      },
+      "maxStepMs": {
+        "p50": 0.6999999992549419,
+        "p95": 17.399999998509884,
+        "p99": 48.5,
+        "max": 72.10000000149012
+      },
+      "roundTripMs": {
+        "p50": 12.5,
+        "p95": 75,
+        "p99": 277.69999999925494,
+        "max": 631.8000000007451
+      },
+      "queueWaitMs": {
+        "p50": 138.80000000074506,
+        "p95": 2186.60000000149,
+        "p99": 2601.900000002235,
+        "max": 7878.199999999255
+      },
+      "sendWaitMs": {
+        "p50": 0.099853515625,
+        "p95": 0.2001953125,
+        "p99": 0.60009765625,
+        "max": 4.5
+      },
+      "receiveWaitMs": {
+        "p50": 3.89990234375,
+        "p95": 12.5,
+        "p99": 19.7001953125,
+        "max": 243.10009765625
+      }
+    },
+    "slowActive": [
+      {
+        "kind": "background",
+        "id": "background:0,4",
+        "activeMs": 617.7000000029802,
+        "elapsedMs": 617.7000000029802,
+        "maxStepMs": 0,
+        "roundTripMs": 631.8000000007451,
+        "queueWaitMs": 0,
+        "sendWaitMs": 0.199951171875,
+        "receiveWaitMs": 13.900146484375,
+        "transferBytes": 5238756,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v8:airport-city-road",
+        "activeMs": 342.50000002607703,
+        "elapsedMs": 458.5,
+        "maxStepMs": 59.30000000074506,
+        "roundTripMs": 459.8999999985099,
+        "queueWaitMs": 586.8999999985099,
+        "sendWaitMs": 0.099853515625,
+        "receiveWaitMs": 1.300048828125,
+        "transferBytes": 3995452,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 13.200000025331974,
+            "copy": 14.699999991804361,
+            "export": 55.399999998509884
+          },
+          "temporaryBytes": 6746400,
+          "outputBytes": 3977756,
+          "geometryTypes": {
+            "road pavement": 872,
+            "marking": 50307,
+            "sidewalk": 6840,
+            "curb": 6836,
+            "bridge-deck": 2609,
+            "bridge-piers": 256,
+            "highway reflector posts": 1248,
+            "highway reflector caps": 1248
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 1144,
+            "sidewalk": 2,
+            "curb": 2,
+            "bridge-deck": 1,
+            "bridge-piers": 8,
+            "highway reflector posts": 104,
+            "highway reflector caps": 104
+          }
+        },
+        "cache": {
+          "hits": 2,
+          "misses": 1,
+          "evictions": 0,
+          "peakBytes": 300248,
+          "bytes": 300248,
+          "entries": 1,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:E-to-S-turbine",
+        "activeMs": 300.40000000968575,
+        "elapsedMs": 440.30000000074506,
+        "maxStepMs": 42.5,
+        "roundTripMs": 441,
+        "queueWaitMs": 124.89999999850988,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 0.7001953125,
+        "transferBytes": 3020184,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 15.00000000745058,
+            "copy": 11.299999997019768,
+            "export": 42.100000005215406
+          },
+          "temporaryBytes": 5602300,
+          "outputBytes": 2968664,
+          "geometryTypes": {
+            "marking": 18600,
+            "road pavement": 1669,
+            "bridge-deck": 5042,
+            "bridge-piers": 928,
+            "metal-rail": 30712,
+            "guardrail-posts": 9312
+          },
+          "geometryObjects": {
+            "marking": 12,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 29,
+            "metal-rail": 2,
+            "guardrail-posts": 776
+          }
+        },
+        "cache": {
+          "hits": 1527,
+          "misses": 576,
+          "evictions": 544,
+          "peakBytes": 2517912,
+          "bytes": 1554436,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "background",
+        "id": "background:-1,4",
+        "activeMs": 259.70000000298023,
+        "elapsedMs": 259.70000000298023,
+        "maxStepMs": 0,
+        "roundTripMs": 273.1000000014901,
+        "queueWaitMs": 0,
+        "sendWaitMs": 0.39990234375,
+        "receiveWaitMs": 13,
+        "transferBytes": 3244968,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:E-to-S-turbine",
+        "activeMs": 223.60000000149012,
+        "elapsedMs": 286.6000000014901,
+        "maxStepMs": 48.5,
+        "roundTripMs": 286.8999999985099,
+        "queueWaitMs": 85.60000000149012,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 0.300048828125,
+        "transferBytes": 3020184,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 12.199999999254942,
+            "copy": 9,
+            "export": 41.399999998509884
+          },
+          "temporaryBytes": 5602300,
+          "outputBytes": 2968664,
+          "geometryTypes": {
+            "marking": 18600,
+            "road pavement": 1669,
+            "bridge-deck": 5042,
+            "bridge-piers": 928,
+            "metal-rail": 30712,
+            "guardrail-posts": 9312
+          },
+          "geometryObjects": {
+            "marking": 12,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 29,
+            "metal-rail": 2,
+            "guardrail-posts": 776
+          }
+        },
+        "cache": {
+          "hits": 705,
+          "misses": 237,
+          "evictions": 205,
+          "peakBytes": 2495512,
+          "bytes": 1776560,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-south:N-to-E-turbine",
+        "activeMs": 216.29999999701977,
+        "elapsedMs": 284.19999999925494,
+        "maxStepMs": 67.5,
+        "roundTripMs": 293.80000000074506,
+        "queueWaitMs": 127.19999999925494,
+        "sendWaitMs": 0.099853515625,
+        "receiveWaitMs": 9.5,
+        "transferBytes": 2174508,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 8.00000000372529,
+            "copy": 6.2000000067055225,
+            "export": 32.399999998509884
+          },
+          "temporaryBytes": 4003800,
+          "outputBytes": 2135148,
+          "geometryTypes": {
+            "marking": 13313,
+            "road pavement": 1317,
+            "bridge-deck": 3996,
+            "bridge-piers": 736,
+            "metal-rail": 21412,
+            "guardrail-posts": 7104
+          },
+          "geometryObjects": {
+            "marking": 15,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 23,
+            "metal-rail": 2,
+            "guardrail-posts": 592
+          }
+        },
+        "cache": {
+          "hits": 1351,
+          "misses": 515,
+          "evictions": 483,
+          "peakBytes": 2517912,
+          "bytes": 1871812,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:N-to-E-turbine",
+        "activeMs": 191.0000000037253,
+        "elapsedMs": 226.70000000298023,
+        "maxStepMs": 72.10000000149012,
+        "roundTripMs": 227.5,
+        "queueWaitMs": 374.9000000022352,
+        "sendWaitMs": 0.10009765625,
+        "receiveWaitMs": 0.699951171875,
+        "transferBytes": 1959040,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 6.100000005215406,
+            "copy": 4.699999995529652,
+            "export": 23.700000002980232
+          },
+          "temporaryBytes": 3636100,
+          "outputBytes": 1912896,
+          "geometryTypes": {
+            "marking": 13917,
+            "road pavement": 1041,
+            "bridge-deck": 3131,
+            "bridge-piers": 832,
+            "metal-rail": 18272,
+            "guardrail-posts": 8340
+          },
+          "geometryObjects": {
+            "marking": 13,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 26,
+            "metal-rail": 2,
+            "guardrail-posts": 695
+          }
+        },
+        "cache": {
+          "hits": 718,
+          "misses": 239,
+          "evictions": 207,
+          "peakBytes": 2495512,
+          "bytes": 2181536,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:ring-ccw-0-split-split-split-3-split-section",
+        "activeMs": 184.5000000037253,
+        "elapsedMs": 350.19999999925494,
+        "maxStepMs": 7,
+        "roundTripMs": 351.8999999985099,
+        "queueWaitMs": 68.80000000074506,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 1.699951171875,
+        "transferBytes": 1769136,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 7,
+            "copy": 4.600000005215406,
+            "export": 34
+          },
+          "temporaryBytes": 3446800,
+          "outputBytes": 1768304,
+          "geometryTypes": {
+            "road pavement": 1054,
+            "marking": 21202,
+            "bridge-deck": 3166,
+            "bridge-piers": 416,
+            "cutting-wall": 9046
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 510,
+            "bridge-deck": 1,
+            "bridge-piers": 13,
+            "cutting-wall": 2
+          }
+        },
+        "cache": {
+          "hits": 795,
+          "misses": 262,
+          "evictions": 230,
+          "peakBytes": 2495512,
+          "bytes": 2479528,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:xichuan:N-to-E-turbine",
+        "activeMs": 180.399999987334,
+        "elapsedMs": 237.39999999850988,
+        "maxStepMs": 61.80000000074506,
+        "roundTripMs": 238.19999999925494,
+        "queueWaitMs": 794.6999999992549,
+        "sendWaitMs": 0.2001953125,
+        "receiveWaitMs": 0.60009765625,
+        "transferBytes": 1287352,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 5.900000002235174,
+            "copy": 5.100000001490116,
+            "export": 15.399999998509884
+          },
+          "temporaryBytes": 2520200,
+          "outputBytes": 1243384,
+          "geometryTypes": {
+            "road pavement": 869,
+            "marking": 9409,
+            "bridge-deck": 2512,
+            "bridge-piers": 544,
+            "metal-rail": 12412,
+            "guardrail-posts": 7440,
+            "surface": 1100
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 6,
+            "bridge-deck": 1,
+            "bridge-piers": 17,
+            "metal-rail": 2,
+            "guardrail-posts": 620,
+            "surface": 50
+          }
+        },
+        "cache": {
+          "hits": 968,
+          "misses": 408,
+          "evictions": 376,
+          "peakBytes": 2517912,
+          "bytes": 2396292,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:N-to-E-turbine",
+        "activeMs": 176.19999999925494,
+        "elapsedMs": 273.30000000074506,
+        "maxStepMs": 53.80000000074506,
+        "roundTripMs": 277.69999999925494,
+        "queueWaitMs": 567,
+        "sendWaitMs": 0.10009765625,
+        "receiveWaitMs": 4.2998046875,
+        "transferBytes": 1959040,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 6.400000002235174,
+            "copy": 5.0999999940395355,
+            "export": 33.79999999701977
+          },
+          "temporaryBytes": 3636100,
+          "outputBytes": 1912896,
+          "geometryTypes": {
+            "marking": 13917,
+            "road pavement": 1041,
+            "bridge-deck": 3131,
+            "bridge-piers": 832,
+            "metal-rail": 18272,
+            "guardrail-posts": 8340
+          },
+          "geometryObjects": {
+            "marking": 13,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 26,
+            "metal-rail": 2,
+            "guardrail-posts": 695
+          }
+        },
+        "cache": {
+          "hits": 1540,
+          "misses": 578,
+          "evictions": 546,
+          "peakBytes": 2517912,
+          "bytes": 2041704,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:xichuan:E-to-S-turbine",
+        "activeMs": 170.4999999962747,
+        "elapsedMs": 231.30000000074506,
+        "maxStepMs": 61.19999999925494,
+        "roundTripMs": 241.19999999925494,
+        "queueWaitMs": 328.5999999977648,
+        "sendWaitMs": 0.099853515625,
+        "receiveWaitMs": 9.800048828125,
+        "transferBytes": 1449640,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 7.399999998509884,
+            "copy": 6.00000000372529,
+            "export": 26.899999998509884
+          },
+          "temporaryBytes": 2753400,
+          "outputBytes": 1405544,
+          "geometryTypes": {
+            "road pavement": 895,
+            "marking": 11023,
+            "bridge-deck": 2664,
+            "bridge-piers": 544,
+            "metal-rail": 12952,
+            "guardrail-posts": 7440,
+            "surface": 1144
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 6,
+            "bridge-deck": 1,
+            "bridge-piers": 17,
+            "metal-rail": 2,
+            "guardrail-posts": 620,
+            "surface": 52
+          }
+        },
+        "cache": {
+          "hits": 948,
+          "misses": 392,
+          "evictions": 360,
+          "peakBytes": 2517912,
+          "bytes": 1600464,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-south:E-to-S-turbine",
+        "activeMs": 160.99999999254942,
+        "elapsedMs": 213.59999999776483,
+        "maxStepMs": 24.199999999254942,
+        "roundTripMs": 217.80000000074506,
+        "queueWaitMs": 77.30000000074506,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 4.199951171875,
+        "transferBytes": 1894796,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 8.799999985843897,
+            "copy": 5.5999999940395355,
+            "export": 27.800000000745058
+          },
+          "temporaryBytes": 3425700,
+          "outputBytes": 1864652,
+          "geometryTypes": {
+            "marking": 11734,
+            "road pavement": 1280,
+            "bridge-deck": 3819,
+            "bridge-piers": 704,
+            "metal-rail": 17424,
+            "guardrail-posts": 5388
+          },
+          "geometryObjects": {
+            "marking": 11,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 22,
+            "metal-rail": 4,
+            "guardrail-posts": 449
+          }
+        },
+        "cache": {
+          "hits": 1318,
+          "misses": 507,
+          "evictions": 475,
+          "peakBytes": 2517912,
+          "bytes": 1120132,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      }
+    ],
+    "slowDelivery": [
+      {
+        "kind": "road",
+        "id": "road:regional:S18:in:12",
+        "activeMs": 20.700000002980232,
+        "elapsedMs": 21.399999998509884,
+        "maxStepMs": 0.8999999985098839,
+        "roundTripMs": 264.6000000014901,
+        "queueWaitMs": 18.5,
+        "sendWaitMs": 0.10009765625,
+        "receiveWaitMs": 243.10009765625,
+        "transferBytes": 281548,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 1.5999999977648258,
+            "copy": 0.8000000044703484,
+            "export": 2.699999999254942
+          },
+          "temporaryBytes": 547300,
+          "outputBytes": 270988,
+          "geometryTypes": {
+            "road pavement": 70,
+            "marking": 4049,
+            "bridge-deck": 210,
+            "concrete-barrier": 428,
+            "metal-rail": 716,
+            "guardrail-posts": 1500,
+            "highway reflector posts": 240,
+            "highway reflector caps": 240
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 114,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 1,
+            "guardrail-posts": 125,
+            "highway reflector posts": 20,
+            "highway reflector caps": 20
+          }
+        },
+        "cache": {
+          "hits": 447,
+          "misses": 150,
+          "evictions": 118,
+          "peakBytes": 2495512,
+          "bytes": 1052988,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:S37:out:split290:split292:split386",
+        "activeMs": 20.30000000447035,
+        "elapsedMs": 21,
+        "maxStepMs": 1.199999999254942,
+        "roundTripMs": 177.69999999925494,
+        "queueWaitMs": 0.19999999925494194,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 156.699951171875,
+        "transferBytes": 273928,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 0.8000000007450581,
+            "copy": 0.6999999992549419,
+            "export": 2
+          },
+          "temporaryBytes": 533400,
+          "outputBytes": 263112,
+          "geometryTypes": {
+            "road pavement": 80,
+            "marking": 3716,
+            "bridge-deck": 242,
+            "concrete-barrier": 488,
+            "metal-rail": 808,
+            "guardrail-posts": 1500,
+            "highway reflector posts": 264,
+            "highway reflector caps": 264
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 58,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 3,
+            "guardrail-posts": 125,
+            "highway reflector posts": 22,
+            "highway reflector caps": 22
+          }
+        },
+        "cache": {
+          "hits": 449,
+          "misses": 151,
+          "evictions": 119,
+          "peakBytes": 2495512,
+          "bytes": 993288,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "background",
+        "id": "background:-10,2",
+        "activeMs": 0.5999999977648258,
+        "elapsedMs": 0.5999999977648258,
+        "maxStepMs": 0,
+        "roundTripMs": 116.59999999776483,
+        "queueWaitMs": 0,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 116,
+        "transferBytes": 3888,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "background",
+        "id": "background:-7,2",
+        "activeMs": 0.5,
+        "elapsedMs": 0.5,
+        "maxStepMs": 0,
+        "roundTripMs": 111.60000000149012,
+        "queueWaitMs": 0,
+        "sendWaitMs": 0.10009765625,
+        "receiveWaitMs": 111,
+        "transferBytes": 4032,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "terrain",
+        "id": "-8,2:near",
+        "activeMs": 7.700000002980232,
+        "elapsedMs": 7.700000002980232,
+        "maxStepMs": 0,
+        "roundTripMs": 35.100000001490116,
+        "queueWaitMs": 1892.8999999985099,
+        "sendWaitMs": 1.199951171875,
+        "receiveWaitMs": 26.099853515625,
+        "transferBytes": 362016,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:S37:out:split112:split118",
+        "activeMs": 14.100000001490116,
+        "elapsedMs": 14.399999998509884,
+        "maxStepMs": 0.8999999985098839,
+        "roundTripMs": 36.69999999925494,
+        "queueWaitMs": 572.5999999977648,
+        "sendWaitMs": 0.099853515625,
+        "receiveWaitMs": 22.199951171875,
+        "transferBytes": 85356,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 0.5000000074505806,
+            "copy": 0.4000000022351742,
+            "export": 1.1000000014901161
+          },
+          "temporaryBytes": 171300,
+          "outputBytes": 80876,
+          "geometryTypes": {
+            "road pavement": 34,
+            "marking": 1423,
+            "bridge-deck": 104,
+            "concrete-barrier": 56,
+            "metal-rail": 96,
+            "guardrail-posts": 600,
+            "highway reflector posts": 120,
+            "highway reflector caps": 120
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 26,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 1,
+            "guardrail-posts": 50,
+            "highway reflector posts": 10,
+            "highway reflector caps": 10
+          }
+        },
+        "cache": {
+          "hits": 950,
+          "misses": 393,
+          "evictions": 361,
+          "peakBytes": 2517912,
+          "bytes": 1608596,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      }
+    ]
+  },
+  {
+    "variant": "native-final",
+    "recorded": 722,
+    "jobs": {
+      "completed": 723,
+      "cancelledQueued": 0,
+      "coalescedRequests": 30003,
+      "disposed": false
+    },
+    "queuedAtEnd": 0,
+    "sectorMaxUpdateMs": 23.899999998509884,
+    "metrics": {
+      "activeMs": {
+        "p50": 6.899999998509884,
+        "p95": 51.70000000298023,
+        "p99": 144.49999999254942,
+        "max": 609.2000000029802
+      },
+      "elapsedMs": {
+        "p50": 7.100000001490116,
+        "p95": 54.5,
+        "p99": 200.90000000223517,
+        "max": 609.2000000029802
+      },
+      "maxStepMs": {
+        "p50": 0.6000000014901161,
+        "p95": 14.800000000745058,
+        "p99": 42.899999998509884,
+        "max": 85
+      },
+      "roundTripMs": {
+        "p50": 12.800000000745058,
+        "p95": 59.899999998509884,
+        "p99": 243.80000000074506,
+        "max": 2773.89999999851
+      },
+      "queueWaitMs": {
+        "p50": 98.5,
+        "p95": 6506.60000000149,
+        "p99": 7216.5,
+        "max": 12352.599999997765
+      },
+      "sendWaitMs": {
+        "p50": -0.000244140625,
+        "p95": 0.19970703125,
+        "p99": 0.39990234375,
+        "max": 0.7998046875
+      },
+      "receiveWaitMs": {
+        "p50": 3.400146484375,
+        "p95": 13.199951171875,
+        "p99": 28.600341796875,
+        "max": 2689
+      }
+    },
+    "slowActive": [
+      {
+        "kind": "background",
+        "id": "background:0,4",
+        "activeMs": 609.2000000029802,
+        "elapsedMs": 609.2000000029802,
+        "maxStepMs": 0,
+        "roundTripMs": 614.0999999977648,
+        "queueWaitMs": 0,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 4.900146484375,
+        "transferBytes": 5238756,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v8:airport-city-road",
+        "activeMs": 347.6000000163913,
+        "elapsedMs": 474,
+        "maxStepMs": 54.600000001490116,
+        "roundTripMs": 2530.699999999255,
+        "queueWaitMs": 624.1000000014901,
+        "sendWaitMs": 0.19970703125,
+        "receiveWaitMs": 2056.500244140625,
+        "transferBytes": 3995452,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 7.900000002235174,
+            "copy": 9.00000000372529,
+            "export": 43
+          },
+          "temporaryBytes": 6746400,
+          "outputBytes": 3977756,
+          "geometryTypes": {
+            "road pavement": 872,
+            "marking": 50307,
+            "sidewalk": 6840,
+            "curb": 6836,
+            "bridge-deck": 2609,
+            "bridge-piers": 256,
+            "highway reflector posts": 1248,
+            "highway reflector caps": 1248
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 1144,
+            "sidewalk": 2,
+            "curb": 2,
+            "bridge-deck": 1,
+            "bridge-piers": 8,
+            "highway reflector posts": 104,
+            "highway reflector caps": 104
+          }
+        },
+        "cache": {
+          "hits": 2,
+          "misses": 1,
+          "evictions": 0,
+          "peakBytes": 300248,
+          "bytes": 300248,
+          "entries": 1,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:E-to-S-turbine",
+        "activeMs": 326.9000000022352,
+        "elapsedMs": 533.5,
+        "maxStepMs": 46.30000000074506,
+        "roundTripMs": 539.8000000007451,
+        "queueWaitMs": 128.79999999701977,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 6.300048828125,
+        "transferBytes": 3020184,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 19.5,
+            "copy": 11.100000001490116,
+            "export": 59.29999999701977
+          },
+          "temporaryBytes": 5602300,
+          "outputBytes": 2968664,
+          "geometryTypes": {
+            "marking": 18600,
+            "road pavement": 1669,
+            "bridge-deck": 5042,
+            "bridge-piers": 928,
+            "metal-rail": 30712,
+            "guardrail-posts": 9312
+          },
+          "geometryObjects": {
+            "marking": 12,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 29,
+            "metal-rail": 2,
+            "guardrail-posts": 776
+          }
+        },
+        "cache": {
+          "hits": 1528,
+          "misses": 575,
+          "evictions": 543,
+          "peakBytes": 2517912,
+          "bytes": 1554436,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "background",
+        "id": "background:-1,4",
+        "activeMs": 314,
+        "elapsedMs": 314,
+        "maxStepMs": 0,
+        "roundTripMs": 318.80000000074506,
+        "queueWaitMs": 0,
+        "sendWaitMs": 0.2998046875,
+        "receiveWaitMs": 4.5,
+        "transferBytes": 3244968,
+        "workerHeapBytes": null
+      },
+      {
+        "kind": "road",
+        "id": "road:ring-cw-3-split-2-split",
+        "activeMs": 292.59999999403954,
+        "elapsedMs": 529.3000000007451,
+        "maxStepMs": 14.100000001490116,
+        "roundTripMs": 540.7000000029802,
+        "queueWaitMs": 0.19999999925494194,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 11.400146484375,
+        "transferBytes": 1733144,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 15.099999975413084,
+            "copy": 14.300000011920929,
+            "export": 42.100000005215406
+          },
+          "temporaryBytes": 3371400,
+          "outputBytes": 1732376,
+          "geometryTypes": {
+            "road pavement": 1048,
+            "marking": 20850,
+            "bridge-deck": 3148,
+            "bridge-piers": 384,
+            "cutting-wall": 8668
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 490,
+            "bridge-deck": 1,
+            "bridge-piers": 12,
+            "cutting-wall": 2
+          }
+        },
+        "cache": {
+          "hits": 807,
+          "misses": 270,
+          "evictions": 238,
+          "peakBytes": 2517912,
+          "bytes": 1491500,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:N-to-E-turbine",
+        "activeMs": 198.7000000104308,
+        "elapsedMs": 293.30000000074506,
+        "maxStepMs": 63.5,
+        "roundTripMs": 298.8999999985099,
+        "queueWaitMs": 670.1000000014901,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 5.60009765625,
+        "transferBytes": 1959040,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 6.7000000067055225,
+            "copy": 5.5999999940395355,
+            "export": 32.30000000447035
+          },
+          "temporaryBytes": 3636100,
+          "outputBytes": 1912896,
+          "geometryTypes": {
+            "marking": 13917,
+            "road pavement": 1041,
+            "bridge-deck": 3131,
+            "bridge-piers": 832,
+            "metal-rail": 18272,
+            "guardrail-posts": 8340
+          },
+          "geometryObjects": {
+            "marking": 13,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 26,
+            "metal-rail": 2,
+            "guardrail-posts": 695
+          }
+        },
+        "cache": {
+          "hits": 1541,
+          "misses": 577,
+          "evictions": 545,
+          "peakBytes": 2517912,
+          "bytes": 2041704,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:xichuan:N-to-E-turbine",
+        "activeMs": 159.5,
+        "elapsedMs": 200.90000000223517,
+        "maxStepMs": 60.69999999925494,
+        "roundTripMs": 209.60000000149012,
+        "queueWaitMs": 386.19999999925494,
+        "sendWaitMs": -0.10009765625,
+        "receiveWaitMs": 8.80029296875,
+        "transferBytes": 1287352,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 4.7000000067055225,
+            "copy": 3.899999998509884,
+            "export": 31.300000000745058
+          },
+          "temporaryBytes": 2520200,
+          "outputBytes": 1243384,
+          "geometryTypes": {
+            "road pavement": 869,
+            "marking": 9409,
+            "bridge-deck": 2512,
+            "bridge-piers": 544,
+            "metal-rail": 12412,
+            "guardrail-posts": 7440,
+            "surface": 1100
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 6,
+            "bridge-deck": 1,
+            "bridge-piers": 17,
+            "metal-rail": 2,
+            "guardrail-posts": 620,
+            "surface": 50
+          }
+        },
+        "cache": {
+          "hits": 969,
+          "misses": 407,
+          "evictions": 375,
+          "peakBytes": 2517912,
+          "bytes": 2396292,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:ring-ccw-0-split-split-split-3-split-section",
+        "activeMs": 144.49999999254942,
+        "elapsedMs": 243.30000000074506,
+        "maxStepMs": 5.400000002235174,
+        "roundTripMs": 243.80000000074506,
+        "queueWaitMs": 84.60000000149012,
+        "sendWaitMs": 0.099853515625,
+        "receiveWaitMs": 0.400146484375,
+        "transferBytes": 1769136,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 3.2000000029802322,
+            "copy": 2.5999999940395355,
+            "export": 14.299999997019768
+          },
+          "temporaryBytes": 3446800,
+          "outputBytes": 1768304,
+          "geometryTypes": {
+            "road pavement": 1054,
+            "marking": 21202,
+            "bridge-deck": 3166,
+            "bridge-piers": 416,
+            "cutting-wall": 9046
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 510,
+            "bridge-deck": 1,
+            "bridge-piers": 13,
+            "cutting-wall": 2
+          }
+        },
+        "cache": {
+          "hits": 796,
+          "misses": 261,
+          "evictions": 229,
+          "peakBytes": 2495512,
+          "bytes": 2479528,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:E-to-S-turbine",
+        "activeMs": 138,
+        "elapsedMs": 167.69999999925494,
+        "maxStepMs": 22.199999999254942,
+        "roundTripMs": 179.39999999850988,
+        "queueWaitMs": 82.40000000223517,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 11.7001953125,
+        "transferBytes": 3020184,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 7.300000004470348,
+            "copy": 3.9999999962747097,
+            "export": 19.200000002980232
+          },
+          "temporaryBytes": 5602300,
+          "outputBytes": 2968664,
+          "geometryTypes": {
+            "marking": 18600,
+            "road pavement": 1669,
+            "bridge-deck": 5042,
+            "bridge-piers": 928,
+            "metal-rail": 30712,
+            "guardrail-posts": 9312
+          },
+          "geometryObjects": {
+            "marking": 12,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 29,
+            "metal-rail": 2,
+            "guardrail-posts": 776
+          }
+        },
+        "cache": {
+          "hits": 706,
+          "misses": 236,
+          "evictions": 204,
+          "peakBytes": 2495512,
+          "bytes": 1666816,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v3:airport-distributor:N-to-E-turbine",
+        "activeMs": 136.69999999180436,
+        "elapsedMs": 157.5,
+        "maxStepMs": 45.099999997764826,
+        "roundTripMs": 159.10000000149012,
+        "queueWaitMs": 262.80000000074506,
+        "sendWaitMs": -0.10009765625,
+        "receiveWaitMs": 1.699951171875,
+        "transferBytes": 1959040,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 3.199999999254942,
+            "copy": 2.199999999254942,
+            "export": 18.699999999254942
+          },
+          "temporaryBytes": 3636100,
+          "outputBytes": 1912896,
+          "geometryTypes": {
+            "marking": 13917,
+            "road pavement": 1041,
+            "bridge-deck": 3131,
+            "bridge-piers": 832,
+            "metal-rail": 18272,
+            "guardrail-posts": 8340
+          },
+          "geometryObjects": {
+            "marking": 13,
+            "road pavement": 1,
+            "bridge-deck": 1,
+            "bridge-piers": 26,
+            "metal-rail": 2,
+            "guardrail-posts": 695
+          }
+        },
+        "cache": {
+          "hits": 719,
+          "misses": 238,
+          "evictions": 206,
+          "peakBytes": 2495512,
+          "bytes": 2171248,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:v8-beijing-road-split-split-split-split",
+        "activeMs": 131.40000000223517,
+        "elapsedMs": 132.09999999776483,
+        "maxStepMs": 85,
+        "roundTripMs": 135.30000000074506,
+        "queueWaitMs": 609.5,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 3.2001953125,
+        "transferBytes": 808436,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 4.700000002980232,
+            "copy": 2.7000000029802322,
+            "export": 9.200000002980232
+          },
+          "temporaryBytes": 1303100,
+          "outputBytes": 808308,
+          "geometryTypes": {
+            "road pavement": 255,
+            "marking": 7963,
+            "sidewalk": 2012,
+            "curb": 2012,
+            "bridge-deck": 789,
+            "bridge-piers": 64
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 4,
+            "sidewalk": 2,
+            "curb": 2,
+            "bridge-deck": 1,
+            "bridge-piers": 2
+          }
+        },
+        "cache": {
+          "hits": 812,
+          "misses": 273,
+          "evictions": 241,
+          "peakBytes": 2517912,
+          "bytes": 1545372,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:xichuan:E-to-S-turbine",
+        "activeMs": 130.79999999329448,
+        "elapsedMs": 148,
+        "maxStepMs": 40.19999999925494,
+        "roundTripMs": 148.40000000223517,
+        "queueWaitMs": 6525.199999999255,
+        "sendWaitMs": 0,
+        "receiveWaitMs": 0.400146484375,
+        "transferBytes": 1449640,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 4.599999997764826,
+            "copy": 5.199999995529652,
+            "export": 8.299999997019768
+          },
+          "temporaryBytes": 2753400,
+          "outputBytes": 1405544,
+          "geometryTypes": {
+            "road pavement": 895,
+            "marking": 11023,
+            "bridge-deck": 2664,
+            "bridge-piers": 544,
+            "metal-rail": 12952,
+            "guardrail-posts": 7440,
+            "surface": 1144
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 6,
+            "bridge-deck": 1,
+            "bridge-piers": 17,
+            "metal-rail": 2,
+            "guardrail-posts": 620,
+            "surface": 52
+          }
+        },
+        "cache": {
+          "hits": 88,
+          "misses": 50,
+          "evictions": 18,
+          "peakBytes": 1509124,
+          "bytes": 1509124,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      }
+    ],
+    "slowDelivery": [
+      {
+        "kind": "road",
+        "id": "road:regional:v8:airport-city-out",
+        "activeMs": 73.50000000372529,
+        "elapsedMs": 84.89999999850988,
+        "maxStepMs": 6.199999999254942,
+        "roundTripMs": 2773.89999999851,
+        "queueWaitMs": 3157.10000000149,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 2689,
+        "transferBytes": 660116,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 3.9000000059604645,
+            "copy": 6.800000000745058,
+            "export": 13.399999998509884
+          },
+          "temporaryBytes": 1233200,
+          "outputBytes": 634180,
+          "geometryTypes": {
+            "road pavement": 225,
+            "marking": 7000,
+            "bridge-deck": 675,
+            "metal-rail": 4432,
+            "guardrail-posts": 4020,
+            "highway reflector posts": 336,
+            "highway reflector caps": 336
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 150,
+            "bridge-deck": 1,
+            "metal-rail": 2,
+            "guardrail-posts": 335,
+            "highway reflector posts": 28,
+            "highway reflector caps": 28
+          }
+        },
+        "cache": {
+          "hits": 4,
+          "misses": 2,
+          "evictions": 0,
+          "peakBytes": 376988,
+          "bytes": 376988,
+          "entries": 2,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:v8:airport-city-road",
+        "activeMs": 347.6000000163913,
+        "elapsedMs": 474,
+        "maxStepMs": 54.600000001490116,
+        "roundTripMs": 2530.699999999255,
+        "queueWaitMs": 624.1000000014901,
+        "sendWaitMs": 0.19970703125,
+        "receiveWaitMs": 2056.500244140625,
+        "transferBytes": 3995452,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 7.900000002235174,
+            "copy": 9.00000000372529,
+            "export": 43
+          },
+          "temporaryBytes": 6746400,
+          "outputBytes": 3977756,
+          "geometryTypes": {
+            "road pavement": 872,
+            "marking": 50307,
+            "sidewalk": 6840,
+            "curb": 6836,
+            "bridge-deck": 2609,
+            "bridge-piers": 256,
+            "highway reflector posts": 1248,
+            "highway reflector caps": 1248
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 1144,
+            "sidewalk": 2,
+            "curb": 2,
+            "bridge-deck": 1,
+            "bridge-piers": 8,
+            "highway reflector posts": 104,
+            "highway reflector caps": 104
+          }
+        },
+        "cache": {
+          "hits": 2,
+          "misses": 1,
+          "evictions": 0,
+          "peakBytes": 300248,
+          "bytes": 300248,
+          "entries": 1,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:S18:in:11:revision379-split",
+        "activeMs": 12.400000005960464,
+        "elapsedMs": 13.5,
+        "maxStepMs": 1.3999999985098839,
+        "roundTripMs": 190.80000000074506,
+        "queueWaitMs": 230.60000000149012,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 177.30029296875,
+        "transferBytes": 65308,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 0.20000000298023224,
+            "copy": 0.09999999776482582,
+            "export": 0.5
+          },
+          "temporaryBytes": 118700,
+          "outputBytes": 62620,
+          "geometryTypes": {
+            "road pavement": 22,
+            "marking": 727,
+            "bridge-deck": 66,
+            "concrete-barrier": 140,
+            "metal-rail": 232,
+            "guardrail-posts": 360,
+            "highway reflector posts": 72,
+            "highway reflector caps": 72
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 22,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 2,
+            "guardrail-posts": 30,
+            "highway reflector posts": 6,
+            "highway reflector caps": 6
+          }
+        },
+        "cache": {
+          "hits": 475,
+          "misses": 158,
+          "evictions": 126,
+          "peakBytes": 2495512,
+          "bytes": 1458192,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:S37:out:split290:split292:split386",
+        "activeMs": 23.199999999254942,
+        "elapsedMs": 23.399999998509884,
+        "maxStepMs": 1.1000000014901161,
+        "roundTripMs": 177.80000000074506,
+        "queueWaitMs": 0.09999999776482582,
+        "sendWaitMs": -0.000244140625,
+        "receiveWaitMs": 154.400146484375,
+        "transferBytes": 273928,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 1.1000000014901161,
+            "copy": 0.6999999992549419,
+            "export": 2
+          },
+          "temporaryBytes": 533400,
+          "outputBytes": 263112,
+          "geometryTypes": {
+            "road pavement": 80,
+            "marking": 3716,
+            "bridge-deck": 242,
+            "concrete-barrier": 488,
+            "metal-rail": 808,
+            "guardrail-posts": 1500,
+            "highway reflector posts": 264,
+            "highway reflector caps": 264
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 58,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 3,
+            "guardrail-posts": 125,
+            "highway reflector posts": 22,
+            "highway reflector caps": 22
+          }
+        },
+        "cache": {
+          "hits": 477,
+          "misses": 159,
+          "evictions": 127,
+          "peakBytes": 2495512,
+          "bytes": 1466356,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "road",
+        "id": "road:regional:S37:in:split108:split126:lane152",
+        "activeMs": 9.800000000745058,
+        "elapsedMs": 10.100000001490116,
+        "maxStepMs": 1.199999999254942,
+        "roundTripMs": 104,
+        "queueWaitMs": 3.099999997764826,
+        "sendWaitMs": -0.10009765625,
+        "receiveWaitMs": 94.000244140625,
+        "transferBytes": 93292,
+        "workerHeapBytes": null,
+        "metrics": {
+          "phases": {
+            "partition": 0.5999999977648258,
+            "copy": 0.30000000074505806,
+            "export": 0.6999999992549419
+          },
+          "temporaryBytes": 189700,
+          "outputBytes": 89068,
+          "geometryTypes": {
+            "road pavement": 30,
+            "marking": 1280,
+            "bridge-deck": 115,
+            "concrete-barrier": 176,
+            "metal-rail": 296,
+            "guardrail-posts": 600,
+            "highway reflector posts": 96,
+            "highway reflector caps": 96
+          },
+          "geometryObjects": {
+            "road pavement": 1,
+            "marking": 25,
+            "bridge-deck": 1,
+            "concrete-barrier": 1,
+            "metal-rail": 1,
+            "guardrail-posts": 50,
+            "highway reflector posts": 8,
+            "highway reflector caps": 8
+          }
+        },
+        "cache": {
+          "hits": 433,
+          "misses": 143,
+          "evictions": 111,
+          "peakBytes": 2495512,
+          "bytes": 1545884,
+          "entries": 32,
+          "maxBytes": 8388608,
+          "maxEntries": 32,
+          "revision": "continuous-v5:c23f76b893ca1f62"
+        }
+      },
+      {
+        "kind": "terrain",
+        "id": "-8,2:near",
+        "activeMs": 6.699999999254942,
+        "elapsedMs": 6.699999999254942,
+        "maxStepMs": 0,
+        "roundTripMs": 39.399999998509884,
+        "queueWaitMs": 4553.60000000149,
+        "sendWaitMs": 0.599853515625,
+        "receiveWaitMs": 32.10009765625,
+        "transferBytes": 362016,
+        "workerHeapBytes": null
+      }
+    ]
+  }
+]

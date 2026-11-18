@@ -1,0 +1,1131 @@
+[
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126",
+      "message": "Controlled-access crossing with regional:xichuan:N-to-E-turbine:acceleration has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:acceleration"
+      },
+      "corridorId": "corridor:S37:expressway-2",
+      "id": "topology.expresswayCrossing:regional:S37:in:split108:split126:::regional:xichuan:N-to-E-turbine:acceleration:"
+    },
+    "hits": [
+      {
+        "roadId": "regional:xichuan:N-to-E-turbine:acceleration",
+        "station": 297.67689244480096,
+        "point": {
+          "x": -3862.834811508506,
+          "y": 5,
+          "z": 2670.325622952419
+        },
+        "otherY": 5,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "regional:xichuan:N-to-E-turbine:acceleration",
+        "station": 300.00000000000017,
+        "point": {
+          "x": -3860.67545981465,
+          "y": 5,
+          "z": 2669.4692758493925
+        },
+        "otherY": 5,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "regional:S37:in:split108:split126",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": -4155.5,
+          "y": 5,
+          "z": 2708.625
+        },
+        "last": {
+          "x": -3860.67545981465,
+          "y": 5,
+          "z": 2669.4692758493925
+        },
+        "links": [
+          {
+            "id": "regional:link:127",
+            "from": {
+              "roadId": "regional:S37:in:split108:lane128",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:lane:continuation:153",
+            "from": {
+              "roadId": "regional:S37:in:split108:split126",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126:lane152",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "regional:xichuan:N-to-E-turbine:acceleration",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -4155.5,
+          "y": 5,
+          "z": 2714.25
+        },
+        "last": {
+          "x": -3860.67545981465,
+          "y": 5,
+          "z": 2669.4692758493925
+        },
+        "links": [
+          {
+            "id": "regional:lane:entry:154",
+            "from": {
+              "roadId": "regional:xichuan:N-to-E-turbine",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:xichuan:N-to-E-turbine:acceleration",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:lane:exit:155",
+            "from": {
+              "roadId": "regional:xichuan:N-to-E-turbine:acceleration",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126:lane152",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:G38:out:split10:split24:split284:split354",
+      "message": "Controlled-access crossing with regional:shangu:on:1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:shangu:on:1"
+      },
+      "corridorId": "corridor:G38:expressway-2",
+      "id": "topology.expresswayCrossing:regional:G38:out:split10:split24:split284:split354:::regional:shangu:on:1:"
+    },
+    "hits": [
+      {
+        "roadId": "regional:shangu:on:1",
+        "station": 527.9366929347246,
+        "point": {
+          "x": 2466.0760374068414,
+          "y": 43.35014467939659,
+          "z": -4633.820799571619
+        },
+        "otherY": 43.357507472200936,
+        "clearance": -0.6426372071956564,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "regional:shangu:on:1",
+        "station": 555.3518340423045,
+        "point": {
+          "x": 2487.1184429732753,
+          "y": 44.27413474263716,
+          "z": -4651.393370872195
+        },
+        "otherY": 44.27413474263716,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "regional:G38:out:split10:split24:split284:split354",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": 2140.73722924662,
+          "y": 24.972546039061584,
+          "z": -4225.347816540574
+        },
+        "last": {
+          "x": 2487.1184429732753,
+          "y": 44.27413474263716,
+          "z": -4651.393370872195
+        },
+        "links": [
+          {
+            "id": "regional:link:355",
+            "from": {
+              "roadId": "regional:G38:out:split10:split24:split284:lane312",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:link:357",
+            "from": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "regional:shangu:on:1",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": 2397.8841963350233,
+          "y": 33.33337554609735,
+          "z": -4441.226398410949
+        },
+        "last": {
+          "x": 2487.1184429732753,
+          "y": 44.27413474263716,
+          "z": -4651.393370872195
+        },
+        "links": [
+          {
+            "id": "regional:link:360",
+            "from": {
+              "roadId": "regional:shangu:local:1",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:shangu:on:1",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:link:361",
+            "from": {
+              "roadId": "regional:shangu:on:1",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126:split302:split394",
+      "message": "Controlled-access crossing with regional:hewan:on:-1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:hewan:on:-1"
+      },
+      "corridorId": "corridor:S37:expressway-2",
+      "id": "topology.expresswayCrossing:regional:S37:in:split108:split126:split302:split394:::regional:hewan:on:-1:"
+    },
+    "hits": [
+      {
+        "roadId": "regional:hewan:on:-1",
+        "station": 521.7436569687998,
+        "point": {
+          "x": -3190.8903657115175,
+          "y": 3.535633650384737,
+          "z": 317.92145133780866
+        },
+        "otherY": 3.5356350760899815,
+        "clearance": -0.6499985742947555,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "regional:hewan:on:-1",
+        "station": 554.9548624736998,
+        "point": {
+          "x": -3170.6317956910907,
+          "y": 3.357136527653051,
+          "z": 291.60594900682514
+        },
+        "otherY": 3.357136527653051,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "regional:S37:in:split108:split126:split302:split394",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": -3388.845107515632,
+          "y": 4.996817256576609,
+          "z": 793.6059240256807
+        },
+        "last": {
+          "x": -3170.6317956910907,
+          "y": 3.357136527653051,
+          "z": 291.60594900682514
+        },
+        "links": [
+          {
+            "id": "regional:link:395",
+            "from": {
+              "roadId": "regional:S37:in:split108:split126:split302:lane3253",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126:split302:split394",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:link:397",
+            "from": {
+              "roadId": "regional:S37:in:split108:split126:split302:split394",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126:split302:split394:split396",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "regional:hewan:on:-1",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -3203.3983513370913,
+          "y": 4.586263781284942,
+          "z": 512.794074189215
+        },
+        "last": {
+          "x": -3170.6317956910907,
+          "y": 3.357136527653051,
+          "z": 291.60594900682514
+        },
+        "links": [
+          {
+            "id": "regional:link:400",
+            "from": {
+              "roadId": "regional:hewan:local:-1",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:hewan:on:-1",
+              "end": "start"
+            }
+          },
+          {
+            "id": "regional:link:401",
+            "from": {
+              "roadId": "regional:hewan:on:-1",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "regional:S37:in:split108:split126:split302:split394:split396",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ew-wb-split-split-split-split-2",
+      "message": "Controlled-access crossing with v91-ew-west-wb-on has no junction or link",
+      "metrics": {
+        "otherRoadId": "v91-ew-west-wb-on"
+      },
+      "corridorId": "corridor:east-west-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ew-wb-split-split-split-split-2:::v91-ew-west-wb-on:"
+    },
+    "hits": [
+      {
+        "roadId": "v91-ew-west-wb-on",
+        "station": 186.66437977394702,
+        "point": {
+          "x": -1701.8407146087184,
+          "y": 8,
+          "z": -161.5488947945828
+        },
+        "otherY": 7.997891531237078,
+        "clearance": -0.6478915312370784,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "v91-ew-west-wb-on",
+        "station": 191.6453466156936,
+        "point": {
+          "x": -1706.8211243529922,
+          "y": 8,
+          "z": -161.62338947708312
+        },
+        "otherY": 8,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [
+      {
+        "id": "v91-ew-west-wb-on-ramp",
+        "roadId": "v91-ew-west-wb-on",
+        "kind": "on",
+        "from": {
+          "roadId": "v91-ew-0-b-1-section",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "ew-wb-split-split-split-split-2-section-2",
+          "end": "start"
+        }
+      }
+    ],
+    "ends": [
+      {
+        "id": "ew-wb-split-split-split-split-2",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": -1515.242496,
+          "y": 8,
+          "z": -156.72549726973205
+        },
+        "last": {
+          "x": -1706.8211243529922,
+          "y": 8,
+          "z": -161.62338947708312
+        },
+        "links": [
+          {
+            "id": "link-53",
+            "from": {
+              "roadId": "ew-wb-split-split-split-split-3-split",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ew-wb-split-split-split-split-2",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-187",
+            "from": {
+              "roadId": "ew-wb-split-split-split-split-2",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ew-wb-split-split-split-split-2-section-2",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "v91-ew-west-wb-on",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -1445.140783793618,
+          "y": 0,
+          "z": -198
+        },
+        "last": {
+          "x": -1706.8211243529922,
+          "y": 8,
+          "z": -161.62338947708312
+        },
+        "links": [
+          {
+            "id": "link-189",
+            "from": {
+              "roadId": "v91-ew-0-b-1-section",
+              "end": "start"
+            },
+            "to": {
+              "roadId": "v91-ew-west-wb-on",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-348",
+            "from": {
+              "roadId": "v91-ew-west-wb-on",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ew-wb-split-split-split-split-2-section-2",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-ccw-1-split",
+      "message": "Controlled-access crossing with system-south:N-to-E-semi has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-south:N-to-E-semi"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ring-ccw-1-split:::system-south:N-to-E-semi:"
+    },
+    "hits": [
+      {
+        "roadId": "system-south:N-to-E-semi",
+        "station": 45.755251018334945,
+        "point": {
+          "x": 405.02701356187293,
+          "y": 0,
+          "z": 2256.9176573304435
+        },
+        "otherY": 2.608991107105283e-33,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "system-south:N-to-E-semi",
+        "station": 52.20675704410042,
+        "point": {
+          "x": 409.43276988207447,
+          "y": 0,
+          "z": 2261.6305223285167
+        },
+        "otherY": 0,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "system-south:N-to-E-semi",
+        "station": 54.587590081341126,
+        "point": {
+          "x": 411.0559100059497,
+          "y": 0,
+          "z": 2263.372297885092
+        },
+        "otherY": 0,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "ring-ccw-1-split",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": 373.63199686971535,
+          "y": 0,
+          "z": 2223.633339751814
+        },
+        "last": {
+          "x": 411.05825929151786,
+          "y": 0,
+          "z": 2263.3748188801173
+        },
+        "links": [
+          {
+            "id": "link-143",
+            "from": {
+              "roadId": "ring-ccw-1-split-2",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-319",
+            "from": {
+              "roadId": "ring-ccw-1-split",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split-split-2",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "system-south:N-to-E-semi",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -8.12499999999996,
+          "y": -8,
+          "z": 1753.5374744844603
+        },
+        "last": {
+          "x": 411.0569724141117,
+          "y": 0,
+          "z": 2263.3734304274153
+        },
+        "links": [
+          {
+            "id": "link-318",
+            "from": {
+              "roadId": "ns-sb-split-split-split-split-split-split-2-section",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "system-south:N-to-E-semi",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-320",
+            "from": {
+              "roadId": "system-south:N-to-E-semi",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split-split-2",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-cw-1-split-3-split-split",
+      "message": "Controlled-access crossing with v8-ring-north:off--1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "v8-ring-north:off--1"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ring-cw-1-split-3-split-split:::v8-ring-north:off--1:"
+    },
+    "hits": [
+      {
+        "roadId": "v8-ring-north:off--1",
+        "station": 0,
+        "point": {
+          "x": 923.4375,
+          "y": 8,
+          "z": -1817.436065335115
+        },
+        "otherY": 8,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "v8-ring-north:off--1",
+        "station": 4.747074875026446,
+        "point": {
+          "x": 928.1784127217784,
+          "y": 8,
+          "z": -1817.194267002641
+        },
+        "otherY": 7.999866374055812,
+        "clearance": -0.649866374055812,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "ring-cw-1-split-3-split-split",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": 923.4375,
+          "y": 8,
+          "z": -1817.436065335115
+        },
+        "last": {
+          "x": 1308.565412345679,
+          "y": 8,
+          "z": -1596.1933815443297
+        },
+        "links": [
+          {
+            "id": "link-198",
+            "from": {
+              "roadId": "ring-cw-1-split-3-split-split",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-cw-1-split-3-split-split-split",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-196",
+            "from": {
+              "roadId": "ring-cw-1-split-3-split",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-cw-1-split-3-split-split",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "v8-ring-north:off--1",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": 923.4375,
+          "y": 8,
+          "z": -1817.436065335115
+        },
+        "last": {
+          "x": 1159.0102751470663,
+          "y": 0.0016760444585690072,
+          "z": -1669.8961054430322
+        },
+        "links": [
+          {
+            "id": "link-418",
+            "from": {
+              "roadId": "ring-cw-1-split-3-split",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "v8-ring-north:off--1",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-ccw-1-split-3",
+      "message": "Controlled-access crossing with system-south:S-to-E-right has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-south:S-to-E-right"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ring-ccw-1-split-3:::system-south:S-to-E-right:"
+    },
+    "hits": [
+      {
+        "roadId": "system-south:S-to-E-right",
+        "station": 300.7068957640393,
+        "point": {
+          "x": 331.1724311961321,
+          "y": 0,
+          "z": 2183.0460462359965
+        },
+        "otherY": 0,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "system-south:S-to-E-right",
+        "station": 301.8649815139637,
+        "point": {
+          "x": 332.055131628397,
+          "y": 0,
+          "z": 2183.79571216648
+        },
+        "otherY": 0,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      },
+      {
+        "roadId": "system-south:S-to-E-right",
+        "station": 307.66337798565786,
+        "point": {
+          "x": 336.45181668322135,
+          "y": 0,
+          "z": 2187.5758567370035
+        },
+        "otherY": 0,
+        "clearance": -0.65,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [],
+    "ends": [
+      {
+        "id": "ring-ccw-1-split-3",
+        "class": "expressway",
+        "direction": "forward",
+        "first": {
+          "x": 44.125,
+          "y": 0,
+          "z": 2130.3308823529414
+        },
+        "last": {
+          "x": 336.45181668321777,
+          "y": 0,
+          "z": 2187.5758567370003
+        },
+        "links": [
+          {
+            "id": "link-307",
+            "from": {
+              "roadId": "ring-ccw-1-split-3",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split-2",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-325",
+            "from": {
+              "roadId": "ring-ccw-1",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split-3",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "system-south:S-to-E-right",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": 8.125,
+          "y": -1.1106325049157268,
+          "z": 2340
+        },
+        "last": {
+          "x": 336.4518166832172,
+          "y": 0,
+          "z": 2187.575856737
+        },
+        "links": [
+          {
+            "id": "link-306",
+            "from": {
+              "roadId": "ns-nb-split-3-split-split-split-3",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "system-south:S-to-E-right",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-308",
+            "from": {
+              "roadId": "system-south:S-to-E-right",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ring-ccw-1-split-2",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "access-ew-west-eb-on",
+      "message": "Controlled-access crossing with system-central:W-to-N-semi has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-central:W-to-N-semi"
+      },
+      "corridorId": "access-frontage-ramps-scope",
+      "id": "topology.expresswayCrossing:access-ew-west-eb-on:::system-central:W-to-N-semi:"
+    },
+    "hits": [
+      {
+        "roadId": "system-central:W-to-N-semi",
+        "station": 228.37732739387837,
+        "point": {
+          "x": -533.3039743859124,
+          "y": 7.999786427823321,
+          "z": -128.0366910914174
+        },
+        "otherY": 8,
+        "clearance": -0.6497864278233211,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [
+      {
+        "id": "access-ew-west-eb-on-ramp",
+        "roadId": "access-ew-west-eb-on",
+        "kind": "on",
+        "from": {
+          "roadId": "v91-ew-0-a-6",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-eb-split-4-split-split-section-2",
+          "end": "start"
+        }
+      }
+    ],
+    "ends": [
+      {
+        "id": "access-ew-west-eb-on",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "last": {
+          "x": -480,
+          "y": 8,
+          "z": -132.9836973281134
+        },
+        "links": [
+          {
+            "id": "link-195",
+            "from": {
+              "roadId": "v91-ew-0-a-6",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "access-ew-west-eb-on",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-349",
+            "from": {
+              "roadId": "access-ew-west-eb-on",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ew-eb-split-3",
+              "end": "start"
+            }
+          }
+        ]
+      },
+      {
+        "id": "system-central:W-to-N-semi",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -571.4285714285714,
+          "y": 8,
+          "z": -127.46927309140918
+        },
+        "last": {
+          "x": 25.161881412297916,
+          "y": -5.3562880000000055,
+          "z": -785.9999999999994
+        },
+        "links": [
+          {
+            "id": "link-120",
+            "from": {
+              "roadId": "ew-eb-split-4-split-split-section",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "system-central:W-to-N-semi",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-128",
+            "from": {
+              "roadId": "system-central:W-to-N-semi",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ns-nb-split-split-split",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "issue": {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "access-ew-west-wb-off",
+      "message": "Controlled-access crossing with system-central:S-to-W-semi has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-central:S-to-W-semi"
+      },
+      "corridorId": "access-frontage-ramps-scope",
+      "id": "topology.expresswayCrossing:access-ew-west-wb-off:::system-central:S-to-W-semi:"
+    },
+    "hits": [
+      {
+        "roadId": "system-central:S-to-W-semi",
+        "station": 40.00746344142834,
+        "point": {
+          "x": -519.9585495259311,
+          "y": 8.002938383736147,
+          "z": -154.7948301825494
+        },
+        "otherY": 7.999999999999913,
+        "clearance": -0.6470616162637658,
+        "requiredClearance": 5.5,
+        "connected": false
+      }
+    ],
+    "ramps": [
+      {
+        "id": "access-ew-west-wb-off-ramp",
+        "roadId": "access-ew-west-wb-off",
+        "kind": "off",
+        "from": {
+          "roadId": "ew-wb-split-split-split-split-4-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ew-0-b-6",
+          "end": "end"
+        }
+      }
+    ],
+    "ends": [
+      {
+        "id": "access-ew-west-wb-off",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": -480,
+          "y": 8,
+          "z": -153.79665511252665
+        },
+        "last": {
+          "x": -760,
+          "y": 0,
+          "z": -198
+        },
+        "links": [
+          {
+            "id": "link-379",
+            "from": {
+              "roadId": "ew-wb-split-split-split-2-v6",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "access-ew-west-wb-off",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-395",
+            "from": {
+              "roadId": "access-ew-west-wb-off",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "v91-ew-0-b-6",
+              "end": "end"
+            }
+          }
+        ]
+      },
+      {
+        "id": "system-central:S-to-W-semi",
+        "class": "ramp",
+        "direction": "forward",
+        "first": {
+          "x": 8.125,
+          "y": -7.8703826738114016,
+          "z": 501.66666666666674
+        },
+        "last": {
+          "x": -571.4285714285692,
+          "y": 8,
+          "z": -148.46270294175105
+        },
+        "links": [
+          {
+            "id": "link-16",
+            "from": {
+              "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "system-central:S-to-W-semi",
+              "end": "start"
+            }
+          },
+          {
+            "id": "link-24",
+            "from": {
+              "roadId": "system-central:S-to-W-semi",
+              "end": "end"
+            },
+            "to": {
+              "roadId": "ew-wb-split-split-split-split-4",
+              "end": "start"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

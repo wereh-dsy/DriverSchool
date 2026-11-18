@@ -1,0 +1,62 @@
+[
+  {
+    "ProcessId": 7584,
+    "ParentProcessId": 30196,
+    "Name": "powershell.exe",
+    "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -ExecutionPolicy Bypass -File artifacts/runtime-v15/build-final.ps1"
+  },
+  {
+    "ProcessId": 23956,
+    "ParentProcessId": 7584,
+    "Name": "conhost.exe",
+    "CommandLine": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "ProcessId": 25848,
+    "ParentProcessId": 7584,
+    "Name": "cmd.exe",
+    "CommandLine": "C:\\Windows\\system32\\cmd.exe /c \"\"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd\" run build\""
+  },
+  {
+    "ProcessId": 20416,
+    "ParentProcessId": 25848,
+    "Name": "node.exe",
+    "CommandLine": "\"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\..\\..\\node\\bin\\node.exe\"  \"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\..\\..\\node\\node_modules\\pnpm\\bin\\pnpm.mjs\" run build"
+  },
+  {
+    "ProcessId": 19404,
+    "ParentProcessId": 20416,
+    "Name": "cmd.exe",
+    "CommandLine": "C:\\Windows\\system32\\cmd.exe /d /s /c powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1"
+  },
+  {
+    "ProcessId": 20596,
+    "ParentProcessId": 19404,
+    "Name": "powershell.exe",
+    "CommandLine": "powershell.exe  -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1"
+  },
+  {
+    "ProcessId": 10088,
+    "ParentProcessId": 20596,
+    "Name": "cmd.exe",
+    "CommandLine": "C:\\Windows\\system32\\cmd.exe /c \"\"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd\" run selftest\""
+  },
+  {
+    "ProcessId": 28748,
+    "ParentProcessId": 10088,
+    "Name": "node.exe",
+    "CommandLine": "\"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\..\\..\\node\\bin\\node.exe\"  \"C:\\Users\\dsy\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\..\\..\\node\\node_modules\\pnpm\\bin\\pnpm.mjs\" run selftest"
+  },
+  {
+    "ProcessId": 17276,
+    "ParentProcessId": 28748,
+    "Name": "cmd.exe",
+    "CommandLine": "C:\\Windows\\system32\\cmd.exe /d /s /c esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs"
+  },
+  {
+    "ProcessId": 29512,
+    "ParentProcessId": 17276,
+    "Name": "node.exe",
+    "CommandLine": "node  .tmp-core-selftests.mjs"
+  }
+]

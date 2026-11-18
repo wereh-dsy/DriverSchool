@@ -40,14 +40,16 @@ export class MirrorOverlayRenderer {
     this.view = view;
     this.setTexture(view.texture);
   }
+  /** Exact HUD scene/camera: its no-fog blit shader differs from world materials. */
+  get preparationView(){return{root:this.scene,scene:this.scene,camera:this.camera};}
 
-  render(renderer: WebGLRenderer, domRect: DOMRect): void {
+  render(renderer: WebGLRenderer, domRect: DOMRect, viewportRect?:DOMRect): void {
     if (this.view !== null && this.view.valid) {
       const uv = this.geometry.getAttribute('uv');
       writeMirrorApertureUvs(this.view.worldCorners, this.view.textureMatrix, uv.array as Float32Array);
       uv.needsUpdate = true;
     }
-    const canvasRect = renderer.domElement.getBoundingClientRect();
+    const canvasRect = viewportRect ?? renderer.domElement.getBoundingClientRect();
     const x = Math.max(0, domRect.left - canvasRect.left);
     const y = Math.max(0, canvasRect.bottom - domRect.bottom);
     const width = Math.min(domRect.width, canvasRect.width - x);

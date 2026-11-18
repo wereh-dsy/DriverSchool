@@ -1,0 +1,1484 @@
+{
+  "before": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 10236.09999999404,
+    "loading": {
+      "n": 1303,
+      "p50": 6.0999999940395355,
+      "p95": 13.400000005960464,
+      "p99": 39.5,
+      "max": 280.90000000596046,
+      "over33": 19,
+      "over50": 9,
+      "over100": 6
+    },
+    "driving": {
+      "n": 5944,
+      "p50": 9.400000005960464,
+      "p95": 16.5,
+      "p99": 22.899999976158142,
+      "max": 62.900000005960464,
+      "over33": 28,
+      "over50": 9,
+      "over100": 0
+    },
+    "calls": {
+      "n": 5944,
+      "p50": 740,
+      "p95": 1596,
+      "p99": 1755,
+      "max": 1789
+    },
+    "shadowCalls": {
+      "n": 5944,
+      "p50": 121,
+      "p95": 132,
+      "p99": 133,
+      "max": 133
+    },
+    "triangles": {
+      "n": 5944,
+      "p50": 795365,
+      "p95": 1078745,
+      "p99": 1138807,
+      "max": 1179141
+    },
+    "gpuExecutionMs": {
+      "n": 97,
+      "p50": 6.177472,
+      "p95": 13.13328,
+      "p99": 14.850176,
+      "max": 14.850176
+    },
+    "gpuTimerSupported": true,
+    "geometryBufferPeakMiB": 69.14512634277344,
+    "heapMiB": {
+      "n": 5944,
+      "p50": 512.4050216674805,
+      "p95": 561.1919689178467,
+      "p99": 571.7756509780884,
+      "max": 577.8916397094727
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 7,
+          "p50": 358.92332458496094,
+          "p95": 387.2690963745117,
+          "p99": 387.2690963745117,
+          "max": 387.2690963745117
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 137.8514165878296,
+          "p95": 161.57903861999512,
+          "p99": 161.57903861999512,
+          "max": 161.57903861999512
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 7,
+          "p50": 192.63325119018555,
+          "p95": 261.93991470336914,
+          "p99": 261.93991470336914,
+          "max": 261.93991470336914
+        },
+        "backingMiB": {
+          "n": 7,
+          "p50": 24.658092498779297,
+          "p95": 48.34379005432129,
+          "p99": 48.34379005432129,
+          "max": 48.34379005432129
+        }
+      }
+    },
+    "resources": {
+      "geometries": {
+        "n": 4091,
+        "p50": 1754,
+        "p95": 2590,
+        "p99": 2590,
+        "max": 2590
+      },
+      "textures": {
+        "n": 4091,
+        "p50": 92,
+        "p95": 126,
+        "p99": 126,
+        "max": 126
+      },
+      "programs": {
+        "n": 4091,
+        "p50": 79,
+        "p95": 79,
+        "p99": 79,
+        "max": 79
+      },
+      "background": {
+        "queued": 0,
+        "queuedBytes": 0,
+        "queueBudgetBytes": 8388608,
+        "publishedBytes": 17741376,
+        "pages": 77,
+        "stagingBatches": 0,
+        "stagingBytes": 0,
+        "peakStagingBytes": 4325616,
+        "pageTargetBytes": 524288
+      },
+      "worker": {
+        "completed": 475,
+        "cancelledQueued": 140,
+        "cancelledInFlight": 2,
+        "coalescedRequests": 25625,
+        "disposed": false
+      },
+      "publication": {
+        "n": 110,
+        "p50": 0.09999999403953552,
+        "p95": 6.4000000059604645,
+        "p99": 15.5,
+        "max": 25.69999998807907
+      }
+    },
+    "route": {
+      "maxSpeedKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "returned": true,
+      "phase": "return"
+    },
+    "overlay": {
+      "mounted": true,
+      "removed": true,
+      "monotonic": true
+    },
+    "lifecycle": {
+      "released": true,
+      "gpuBytes": 0,
+      "recipeBytes": 0,
+      "errors": []
+    },
+    "gpuLimitations": {
+      "cpu": "Main-thread wall-clock spans, including any synchronous driver wait. Not a CPU utilization counter.",
+      "gpu": "Sparse EXT_disjoint_timer_query_webgl2 around actual mirror/main/overlay passes. External profilers may own the query.",
+      "presentation": "Long Animation Frame timestamps are sparse browser evidence. Complete display presentation intervals and Electron compositor CPU are unavailable.",
+      "gpuBufferBytes": "Unavailable through a supported renderer API. Dedicated validation uses instrumented WebGL allocations.",
+      "visibleObjects": "Unique object IDs actually submitted to main/mirror/shadow passes, excluding preparation micro-draws. Counts span the union of those views.",
+      "heap": "performance.memory is origin/process-specific. Worker heaps require separate CDP sampling."
+    },
+    "commonWindow": {
+      "fromMs": 23666.000000017884,
+      "toMs": 60000,
+      "cpuMs": {
+        "n": 3402,
+        "p50": 9.400000005960464,
+        "p95": 15.800000011920929,
+        "p99": 18.700000017881393,
+        "max": 40.29999998211861
+      },
+      "sceneMs": {
+        "n": 3402,
+        "p50": 0.5,
+        "p95": 1.2999999821186066,
+        "p99": 2,
+        "max": 5
+      },
+      "renderSubmissionMs": {
+        "n": 3402,
+        "p50": 8.299999982118607,
+        "p95": 13.799999982118607,
+        "p99": 16.099999994039536,
+        "max": 38.29999998211861
+      },
+      "streamAndAssetsMs": {
+        "n": 3402,
+        "p50": 0,
+        "p95": 1.0999999940395355,
+        "p99": 2,
+        "max": 14.599999994039536
+      }
+    }
+  },
+  "after": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 11178.09999999404,
+    "loading": {
+      "n": 1386,
+      "p50": 6.199999988079071,
+      "p95": 13.300000011920929,
+      "p99": 42.20000001788139,
+      "max": 351.19999998807907,
+      "over33": 19,
+      "over50": 8,
+      "over100": 6
+    },
+    "driving": {
+      "n": 5216,
+      "p50": 11,
+      "p95": 18.400000005960464,
+      "p99": 23.400000005960464,
+      "max": 231,
+      "over33": 23,
+      "over50": 9,
+      "over100": 1
+    },
+    "calls": {
+      "n": 5216,
+      "p50": 638,
+      "p95": 962,
+      "p99": 1014,
+      "max": 1047
+    },
+    "shadowCalls": {
+      "n": 5216,
+      "p50": 123,
+      "p95": 127,
+      "p99": 128,
+      "max": 128
+    },
+    "triangles": {
+      "n": 5216,
+      "p50": 560159,
+      "p95": 736243,
+      "p99": 759721,
+      "max": 856911
+    },
+    "gpuExecutionMs": {
+      "n": 85,
+      "p50": 7.269632,
+      "p95": 14.452704,
+      "p99": 17.621344,
+      "max": 17.621344
+    },
+    "gpuTimerSupported": true,
+    "geometryBufferPeakMiB": 75.99399757385254,
+    "heapMiB": {
+      "n": 5216,
+      "p50": 527.430474281311,
+      "p95": 575.7557859420776,
+      "p99": 587.0843563079834,
+      "max": 593.8057260513306
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 357.1388816833496,
+          "p95": 392.9178123474121,
+          "p99": 392.9178123474121,
+          "max": 392.9178123474121
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 164.46403694152832,
+          "p95": 176.7887487411499,
+          "p99": 176.7887487411499,
+          "max": 176.7887487411499
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 188.5616226196289,
+          "p95": 269.8463935852051,
+          "p99": 269.8463935852051,
+          "max": 269.8463935852051
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 18.03657627105713,
+          "p95": 55.9813117980957,
+          "p99": 55.9813117980957,
+          "max": 55.9813117980957
+        }
+      }
+    },
+    "resources": {
+      "geometries": {
+        "n": 4089,
+        "p50": 2557,
+        "p95": 2996,
+        "p99": 2996,
+        "max": 2996
+      },
+      "textures": {
+        "n": 4089,
+        "p50": 93,
+        "p95": 137,
+        "p99": 137,
+        "max": 137
+      },
+      "programs": {
+        "n": 4089,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "max": 78
+      },
+      "world": {
+        "batching": {
+          "sources": 4640,
+          "batches": 2901,
+          "instances": 14741,
+          "vertices": 2037734
+        },
+        "resources": {
+          "hits": 141,
+          "misses": 2064,
+          "releases": 80,
+          "evictions": 0,
+          "entries": 2064,
+          "bytes": 76590886,
+          "idleBytes": 6030250,
+          "idleBudgetBytes": 12582912
+        }
+      },
+      "background": {
+        "queued": 0,
+        "queuedBytes": 0,
+        "queueBudgetBytes": 8388608,
+        "publishedBytes": 17092188,
+        "pages": 75,
+        "stagingBatches": 0,
+        "stagingBytes": 0,
+        "peakStagingBytes": 4325616,
+        "pageTargetBytes": 1048576
+      },
+      "worker": {
+        "completed": 483,
+        "cancelledQueued": 126,
+        "cancelledInFlight": 1,
+        "coalescedRequests": 29740,
+        "disposed": false
+      },
+      "publication": {
+        "n": 114,
+        "p50": 0.30000001192092896,
+        "p95": 9.5,
+        "p99": 18.19999998807907,
+        "max": 34
+      }
+    },
+    "route": {
+      "maxSpeedKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "returned": true,
+      "phase": "return"
+    },
+    "overlay": {
+      "mounted": true,
+      "removed": true,
+      "monotonic": true
+    },
+    "lifecycle": {
+      "released": true,
+      "gpuBytes": 0,
+      "recipeBytes": 0,
+      "registry": {
+        "hits": 151,
+        "misses": 2064,
+        "releases": 2078,
+        "evictions": 0,
+        "entries": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "errors": []
+    },
+    "gpuLimitations": {
+      "cpu": "Main-thread wall-clock spans, including any synchronous driver wait. Not a CPU utilization counter.",
+      "gpu": "Sparse EXT_disjoint_timer_query_webgl2 around actual mirror/main/overlay passes. External profilers may own the query.",
+      "presentation": "Long Animation Frame timestamps are sparse browser evidence. Complete display presentation intervals and Electron compositor CPU are unavailable.",
+      "gpuBufferBytes": "Unavailable through a supported renderer API. Dedicated validation uses instrumented WebGL allocations.",
+      "visibleObjects": "Unique object IDs actually submitted to main/mirror/shadow passes, excluding preparation micro-draws. Counts span the union of those views.",
+      "heap": "performance.memory is origin/process-specific. Worker heaps require separate CDP sampling."
+    }
+  },
+  "final": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 60000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 10020.899999976158,
+    "loading": {
+      "n": 1298,
+      "p50": 6.100000023841858,
+      "p95": 12.5,
+      "p99": 45,
+      "max": 273.5,
+      "over33": 18,
+      "over50": 8,
+      "over100": 5
+    },
+    "driving": {
+      "n": 7325,
+      "p50": 7.699999988079071,
+      "p95": 12.800000011920929,
+      "p99": 17.700000017881393,
+      "max": 56.599999994039536,
+      "over33": 14,
+      "over50": 2,
+      "over100": 0
+    },
+    "calls": {
+      "n": 7325,
+      "p50": 621,
+      "p95": 972,
+      "p99": 1034,
+      "max": 1072
+    },
+    "shadowCalls": {
+      "n": 7325,
+      "p50": 123,
+      "p95": 127,
+      "p99": 128,
+      "max": 128
+    },
+    "triangles": {
+      "n": 7325,
+      "p50": 556496,
+      "p95": 753473,
+      "p99": 807637,
+      "max": 891703
+    },
+    "gpuExecutionMs": {
+      "n": 120,
+      "p50": 5.309728,
+      "p95": 10.058304,
+      "p99": 12.982944,
+      "max": 14.266144
+    },
+    "gpuTimerSupported": true,
+    "geometryBufferPeakMiB": 74.30150413513184,
+    "heapMiB": {
+      "n": 7325,
+      "p50": 537.0032873153687,
+      "p95": 587.9027547836304,
+      "p99": 599.0468597412109,
+      "max": 605.3157577514648
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 359.7717819213867,
+          "p95": 403.9348258972168,
+          "p99": 403.9348258972168,
+          "max": 403.9348258972168
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 158.80577659606934,
+          "p95": 178.0541009902954,
+          "p99": 178.0541009902954,
+          "max": 178.0541009902954
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 8,
+          "p50": 177.62662506103516,
+          "p95": 249.0623550415039,
+          "p99": 249.0623550415039,
+          "max": 249.0623550415039
+        },
+        "backingMiB": {
+          "n": 8,
+          "p50": 23.21342372894287,
+          "p95": 42.80263042449951,
+          "p99": 42.80263042449951,
+          "max": 42.80263042449951
+        }
+      }
+    },
+    "resources": {
+      "geometries": {
+        "n": 4087,
+        "p50": 2583,
+        "p95": 2887,
+        "p99": 2887,
+        "max": 2887
+      },
+      "textures": {
+        "n": 4087,
+        "p50": 94,
+        "p95": 123,
+        "p99": 123,
+        "max": 123
+      },
+      "programs": {
+        "n": 4087,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "max": 78
+      },
+      "world": {
+        "batching": {
+          "sources": 4350,
+          "batches": 2842,
+          "instances": 13877,
+          "vertices": 1935274
+        },
+        "resources": {
+          "hits": 142,
+          "misses": 2048,
+          "releases": 80,
+          "evictions": 0,
+          "entries": 2048,
+          "bytes": 74599706,
+          "idleBytes": 7099278,
+          "idleBudgetBytes": 12582912
+        }
+      },
+      "background": {
+        "queued": 0,
+        "queuedBytes": 0,
+        "queueBudgetBytes": 8388608,
+        "publishedBytes": 17737704,
+        "pages": 77,
+        "stagingBatches": 0,
+        "stagingBytes": 0,
+        "peakStagingBytes": 4325616,
+        "pageTargetBytes": 1048576
+      },
+      "worker": {
+        "completed": 484,
+        "cancelledQueued": 116,
+        "cancelledInFlight": 2,
+        "coalescedRequests": 24548,
+        "disposed": false
+      },
+      "publication": {
+        "n": 111,
+        "p50": 0.29999998211860657,
+        "p95": 5.9000000059604645,
+        "p99": 13.199999988079071,
+        "max": 31.299999982118607
+      }
+    },
+    "route": {
+      "maxSpeedKph": 89.13366737153434,
+      "sectors": [
+        "4,2",
+        "5,2",
+        "6,2"
+      ],
+      "returned": true,
+      "phase": "return"
+    },
+    "overlay": {
+      "mounted": true,
+      "removed": true,
+      "monotonic": true
+    },
+    "lifecycle": {
+      "released": true,
+      "gpuBytes": 0,
+      "recipeBytes": 0,
+      "registry": {
+        "hits": 154,
+        "misses": 2048,
+        "releases": 2061,
+        "evictions": 0,
+        "entries": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "errors": []
+    },
+    "gpuLimitations": {
+      "cpu": "Main-thread wall-clock spans, including any synchronous driver wait. Not a CPU utilization counter.",
+      "gpu": "Sparse EXT_disjoint_timer_query_webgl2 around actual mirror/main/overlay passes. External profilers may own the query.",
+      "presentation": "Long Animation Frame timestamps are sparse browser evidence. Complete display presentation intervals and Electron compositor CPU are unavailable.",
+      "gpuBufferBytes": "Unavailable through a supported renderer API. Dedicated validation uses instrumented WebGL allocations.",
+      "visibleObjects": "Unique object IDs actually submitted to main/mirror/shadow passes, excluding preparation micro-draws. Counts span the union of those views.",
+      "heap": "performance.memory is origin/process-specific. Worker heaps require separate CDP sampling."
+    },
+    "commonWindow": {
+      "fromMs": 23666.000000017884,
+      "toMs": 60000,
+      "cpuMs": {
+        "n": 4087,
+        "p50": 7.899999976158142,
+        "p95": 12.400000005960464,
+        "p99": 15.699999988079071,
+        "max": 32.400000005960464
+      },
+      "sceneMs": {
+        "n": 4087,
+        "p50": 0.800000011920929,
+        "p95": 1.5,
+        "p99": 2.199999988079071,
+        "max": 4
+      },
+      "renderSubmissionMs": {
+        "n": 4087,
+        "p50": 6.300000011920929,
+        "p95": 10.400000005960464,
+        "p99": 12.900000005960464,
+        "max": 29.400000005960464
+      },
+      "streamAndAssetsMs": {
+        "n": 4087,
+        "p50": 0,
+        "p95": 1,
+        "p99": 1.800000011920929,
+        "max": 5.9000000059604645
+      }
+    }
+  },
+  "highway": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": false,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 100000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 14258.90000000596,
+    "loading": {
+      "n": 1677,
+      "p50": 6.100000023841858,
+      "p95": 13,
+      "p99": 41.20000001788139,
+      "max": 1048.5,
+      "over33": 29,
+      "over50": 11,
+      "over100": 7
+    },
+    "driving": {
+      "n": 13780,
+      "p50": 6.799999982118607,
+      "p95": 11.900000005960464,
+      "p99": 15.5,
+      "max": 58,
+      "over33": 11,
+      "over50": 3,
+      "over100": 0
+    },
+    "calls": {
+      "n": 13780,
+      "p50": 450,
+      "p95": 638,
+      "p99": 655,
+      "max": 660
+    },
+    "shadowCalls": {
+      "n": 13780,
+      "p50": 116,
+      "p95": 131,
+      "p99": 136,
+      "max": 138
+    },
+    "triangles": {
+      "n": 13780,
+      "p50": 309747,
+      "p95": 920045,
+      "p99": 1013626,
+      "max": 1058290
+    },
+    "gpuExecutionMs": {
+      "n": 225,
+      "p50": 4.677856,
+      "p95": 9.548,
+      "p99": 13.688928,
+      "max": 18.879712
+    },
+    "gpuTimerSupported": true,
+    "geometryBufferPeakMiB": 48.20886993408203,
+    "heapMiB": {
+      "n": 13780,
+      "p50": 494.9928913116455,
+      "p95": 595.4936809539795,
+      "p99": 608.9592790603638,
+      "max": 620.5045385360718
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 11,
+          "p50": 374.3513870239258,
+          "p95": 445.28250885009766,
+          "p99": 445.28250885009766,
+          "max": 445.28250885009766
+        },
+        "backingMiB": {
+          "n": 11,
+          "p50": 109.89386653900146,
+          "p95": 136.3044834136963,
+          "p99": 136.3044834136963,
+          "max": 136.3044834136963
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 11,
+          "p50": 159.35179901123047,
+          "p95": 228.37957382202148,
+          "p99": 228.37957382202148,
+          "max": 228.37957382202148
+        },
+        "backingMiB": {
+          "n": 11,
+          "p50": 7.696050643920898,
+          "p95": 35.573936462402344,
+          "p99": 35.573936462402344,
+          "max": 35.573936462402344
+        }
+      }
+    },
+    "resources": {
+      "geometries": {
+        "n": 4071,
+        "p50": 2292,
+        "p95": 2293,
+        "p99": 2340,
+        "max": 2345
+      },
+      "textures": {
+        "n": 4071,
+        "p50": 58,
+        "p95": 58,
+        "p99": 62,
+        "max": 62
+      },
+      "programs": {
+        "n": 4071,
+        "p50": 80,
+        "p95": 80,
+        "p99": 80,
+        "max": 80
+      },
+      "world": {
+        "owners": 57,
+        "cells": 113,
+        "revision": 237,
+        "batching": {
+          "sources": 3079,
+          "batches": 2583,
+          "instances": 9481,
+          "vertices": 1288747
+        },
+        "resources": {
+          "hits": 71,
+          "misses": 2079,
+          "releases": 228,
+          "evictions": 129,
+          "entries": 1950,
+          "bytes": 34836726,
+          "idleBytes": 12574108,
+          "idleBudgetBytes": 12582912
+        }
+      },
+      "background": {
+        "queued": 0,
+        "queuedBytes": 0,
+        "queueBudgetBytes": 8388608,
+        "publishedBytes": 3922092,
+        "pages": 143,
+        "stagingBatches": 0,
+        "stagingBytes": 0,
+        "peakStagingBytes": 1755648,
+        "pageTargetBytes": 1048576
+      },
+      "worker": {
+        "completed": 495,
+        "cancelledQueued": 0,
+        "cancelledInFlight": 0,
+        "coalescedRequests": 25292,
+        "disposed": false
+      },
+      "publication": {
+        "n": 149,
+        "p50": 0.19999998807907104,
+        "p95": 3,
+        "p99": 10.599999994039536,
+        "max": 30.30000001192093
+      }
+    },
+    "route": {
+      "maxSpeedKph": 168.74055704922486,
+      "sectors": [
+        "6,-1",
+        "7,-1",
+        "8,-1",
+        "9,-1",
+        "10,-1",
+        "11,-1"
+      ],
+      "returned": false,
+      "phase": "turn"
+    },
+    "overlay": {
+      "mounted": true,
+      "removed": true,
+      "monotonic": true
+    },
+    "lifecycle": {
+      "released": true,
+      "gpuBytes": 0,
+      "recipeBytes": 0,
+      "registry": {
+        "hits": 71,
+        "misses": 2079,
+        "releases": 2098,
+        "evictions": 129,
+        "entries": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "owners": 0,
+      "errors": []
+    },
+    "gpuLimitations": {
+      "cpu": "Main-thread wall-clock spans, including any synchronous driver wait. Not a CPU utilization counter.",
+      "gpu": "Sparse EXT_disjoint_timer_query_webgl2 around actual mirror/main/overlay passes. External profilers may own the query.",
+      "presentation": "Long Animation Frame timestamps are sparse browser evidence. Complete display presentation intervals and Electron compositor CPU are unavailable.",
+      "gpuBufferBytes": "Unavailable through a supported renderer API. Dedicated validation uses instrumented WebGL allocations.",
+      "visibleObjects": "Unique object IDs actually submitted to main/mirror/shadow passes, excluding preparation micro-draws. Counts span the union of those views.",
+      "heap": "performance.memory is origin/process-specific. Worker heaps require separate CDP sampling."
+    }
+  },
+  "rain": {
+    "conditions": {
+      "width": 1186,
+      "height": 658,
+      "dpr": 1.5,
+      "rain": true,
+      "physicsHz": 120,
+      "mapVersion": 507,
+      "vehicle": "test-6at-sedan",
+      "durationMs": 15000,
+      "spawn": "preload-profile",
+      "diagnostic": false,
+      "timing": true
+    },
+    "loadingMs": 11176.09999999404,
+    "loading": {
+      "n": 1469,
+      "p50": 6.199999988079071,
+      "p95": 12.199999988079071,
+      "p99": 35.19999998807907,
+      "max": 294.69999998807907,
+      "over33": 16,
+      "over50": 8,
+      "over100": 6
+    },
+    "driving": {
+      "n": 1879,
+      "p50": 7.4000000059604645,
+      "p95": 13.700000017881393,
+      "p99": 20.400000005960464,
+      "max": 43.89999997615814,
+      "over33": 2,
+      "over50": 0,
+      "over100": 0
+    },
+    "calls": {
+      "n": 1879,
+      "p50": 603,
+      "p95": 638,
+      "p99": 640,
+      "max": 641
+    },
+    "shadowCalls": {
+      "n": 1879,
+      "p50": 122,
+      "p95": 126,
+      "p99": 127,
+      "max": 127
+    },
+    "triangles": {
+      "n": 1879,
+      "p50": 554413,
+      "p95": 617157,
+      "p99": 617464,
+      "max": 624019
+    },
+    "gpuExecutionMs": {
+      "n": 30,
+      "p50": 6.035232,
+      "p95": 20.618976,
+      "p99": 21.266304,
+      "max": 21.266304
+    },
+    "gpuTimerSupported": true,
+    "geometryBufferPeakMiB": 51.15416145324707,
+    "heapMiB": {
+      "n": 1879,
+      "p50": 506.16788482666016,
+      "p95": 526.6499967575073,
+      "p99": 531.6586170196533,
+      "max": 533.7370004653931
+    },
+    "cdp": {
+      "page": {
+        "heapMiB": {
+          "n": 2,
+          "p50": 340.74017333984375,
+          "p95": 378.14681243896484,
+          "p99": 378.14681243896484,
+          "max": 378.14681243896484
+        },
+        "backingMiB": {
+          "n": 2,
+          "p50": 93.25216102600098,
+          "p95": 135.50646495819092,
+          "p99": 135.50646495819092,
+          "max": 135.50646495819092
+        }
+      },
+      "worker": {
+        "heapMiB": {
+          "n": 2,
+          "p50": 192.55761337280273,
+          "p95": 256.59922790527344,
+          "p99": 256.59922790527344,
+          "max": 256.59922790527344
+        },
+        "backingMiB": {
+          "n": 2,
+          "p50": 12.894286155700684,
+          "p95": 22.680705070495605,
+          "p99": 22.680705070495605,
+          "max": 22.680705070495605
+        }
+      }
+    },
+    "resources": {
+      "geometries": {
+        "n": 1880,
+        "p50": 2458,
+        "p95": 2474,
+        "p99": 2490,
+        "max": 2493
+      },
+      "textures": {
+        "n": 1880,
+        "p50": 69,
+        "p95": 70,
+        "p99": 70,
+        "max": 70
+      },
+      "programs": {
+        "n": 1880,
+        "p50": 77,
+        "p95": 77,
+        "p99": 77,
+        "max": 77
+      },
+      "world": {
+        "owners": 57,
+        "cells": 191,
+        "revision": 97,
+        "batching": {
+          "sources": 3459,
+          "batches": 2456,
+          "instances": 5470,
+          "vertices": 1399840
+        },
+        "resources": {
+          "hits": 54,
+          "misses": 1909,
+          "releases": 37,
+          "evictions": 0,
+          "entries": 1909,
+          "bytes": 51246062,
+          "idleBytes": 4477876,
+          "idleBudgetBytes": 12582912
+        }
+      },
+      "background": {
+        "queued": 0,
+        "queuedBytes": 0,
+        "queueBudgetBytes": 8388608,
+        "publishedBytes": 10877436,
+        "pages": 37,
+        "stagingBatches": 0,
+        "stagingBytes": 0,
+        "peakStagingBytes": 4325616,
+        "pageTargetBytes": 1048576
+      },
+      "worker": {
+        "completed": 206,
+        "cancelledQueued": 0,
+        "cancelledInFlight": 0,
+        "coalescedRequests": 4451,
+        "disposed": false
+      },
+      "publication": {
+        "n": 82,
+        "p50": 0.20000001788139343,
+        "p95": 3.9000000059604645,
+        "p99": 25.099999994039536,
+        "max": 25.099999994039536
+      }
+    },
+    "route": {
+      "maxSpeedKph": 88.03282586573889,
+      "sectors": [
+        "4,2"
+      ],
+      "returned": false,
+      "phase": "outbound"
+    },
+    "overlay": {
+      "mounted": true,
+      "removed": true,
+      "monotonic": true
+    },
+    "lifecycle": {
+      "released": true,
+      "gpuBytes": 0,
+      "recipeBytes": 0,
+      "registry": {
+        "hits": 54,
+        "misses": 1910,
+        "releases": 1911,
+        "evictions": 0,
+        "entries": 0,
+        "bytes": 0,
+        "idleBytes": 0,
+        "idleBudgetBytes": 12582912
+      },
+      "owners": 0,
+      "errors": []
+    },
+    "gpuLimitations": {
+      "cpu": "Main-thread wall-clock spans, including any synchronous driver wait. Not a CPU utilization counter.",
+      "gpu": "Sparse EXT_disjoint_timer_query_webgl2 around actual mirror/main/overlay passes. External profilers may own the query.",
+      "presentation": "Long Animation Frame timestamps are sparse browser evidence. Complete display presentation intervals and Electron compositor CPU are unavailable.",
+      "gpuBufferBytes": "Unavailable through a supported renderer API. Dedicated validation uses instrumented WebGL allocations.",
+      "visibleObjects": "Unique object IDs actually submitted to main/mirror/shadow passes, excluding preparation micro-draws. Counts span the union of those views.",
+      "heap": "performance.memory is origin/process-specific. Worker heaps require separate CDP sampling."
+    }
+  },
+  "validation": {
+    "structures": [
+      {
+        "id": "underpass",
+        "roadId": "urban-rail-underpass:underpass",
+        "supportHeight": -7.5,
+        "expectedHeight": -7.5,
+        "mirrors": [
+          true,
+          true
+        ],
+        "shadow": true,
+        "loadMs": 9654.299999982119,
+        "owners": 74,
+        "cells": 261
+      },
+      {
+        "id": "elevated",
+        "roadId": "ew-wb-split",
+        "supportHeight": 8,
+        "expectedHeight": 8,
+        "mirrors": [
+          true,
+          true
+        ],
+        "shadow": true,
+        "loadMs": 23788.90000000596,
+        "owners": 80,
+        "cells": 354
+      },
+      {
+        "id": "complex-junction",
+        "roadId": "urban-east-ns-split-split-split-split-m91",
+        "junctionId": "urban-junction-80",
+        "supportHeight": 0,
+        "expectedHeight": 0,
+        "mirrors": [
+          true,
+          true
+        ],
+        "shadow": true,
+        "loadMs": 10032.90000000596,
+        "owners": 84,
+        "cells": 423
+      },
+      {
+        "id": "city-return",
+        "supportHeight": 0,
+        "expectedHeight": 0,
+        "mirrors": [
+          true,
+          true
+        ],
+        "shadow": true,
+        "loadMs": 4824.199999988079,
+        "owners": 80,
+        "cells": 360
+      }
+    ],
+    "rain": {
+      "pauseStable": true,
+      "visibility": {
+        "hidden": true,
+        "stable": true
+      },
+      "debtSeconds": 0.0001333333333326074,
+      "mirrorLeft": true,
+      "mirrorRight": true,
+      "shadow": true,
+      "rainIntensity": 0.5,
+      "time": "NIGHT",
+      "errors": []
+    },
+    "cache": {
+      "samples": [
+        {
+          "elapsed": 9.399999976158142,
+          "road": 54164944,
+          "terrain": 7861592,
+          "pinned": 1645180,
+          "budget": 44040192,
+          "evictions": 59,
+          "pending": {
+            "sector": "5,2",
+            "active": 55,
+            "publishing": 2,
+            "retiring": 0,
+            "roads": 54164944,
+            "terrain": 7861592,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 1
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 2
+          }
+        },
+        {
+          "elapsed": 1004.5,
+          "road": 48353592,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 71,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 48353592,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 2002.3999999761581,
+          "road": 44240596,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 87,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 44240596,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 3002.5,
+          "road": 41748960,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 103,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 41748960,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 4005,
+          "road": 35337796,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 118,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 35337796,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 5004.899999976158,
+          "road": 29850656,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 135,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29850656,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 6005,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 7004.5999999940395,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 8005.299999982119,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 9005.09999999404,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 10004.899999976158,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 11005.399999976158,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        },
+        {
+          "elapsed": 12005.899999976158,
+          "road": 29359080,
+          "terrain": 7953976,
+          "pinned": 0,
+          "budget": 44040192,
+          "evictions": 145,
+          "pending": {
+            "sector": "5,2",
+            "active": 58,
+            "publishing": 0,
+            "retiring": 0,
+            "roads": 29359080,
+            "terrain": 7953976,
+            "backgroundPages": 77,
+            "worker": {
+              "queued": 0
+            },
+            "incompleteVisible": 0,
+            "decorationJobs": 0,
+            "releasing": 0
+          }
+        }
+      ]
+    }
+  }
+}

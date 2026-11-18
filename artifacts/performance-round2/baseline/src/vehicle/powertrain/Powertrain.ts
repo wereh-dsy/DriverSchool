@@ -1,0 +1,166 @@
+import type { VehicleControlMode } from '../../input/VehicleInputState';
+import type { DriveModeCalibration, DriveSelector, Gear, TransmissionType, VehicleDriveMode } from '../config';
+import type { DriveTorqueSource } from '../physics/DriveTorqueSource';
+import type { AutoClutchState } from '../physics/AutoClutchController';
+import type { ClutchState } from '../physics/Clutch';
+import type { RevHangSnapshot } from '../physics/Engine';
+import type { FuelSnapshot } from '../physics/FuelSystem';
+import type { DrivetrainLashSnapshot } from '../physics/DrivetrainLash';
+import type { TransmissionSnapshot, TransmissionSystem } from '../transmission/TransmissionSystem';
+
+/** Common shaft telemetry; ICE-specific transmission detail remains optional. */
+export type PowertrainTransmissionSnapshot = Omit<TransmissionSnapshot, 'type' | 'engineLoadTorque'> & {
+  type: TransmissionType | 'FIXED_REDUCTION' | 'EV_TWO_SPEED'; engineLoadTorque?: number;
+};
+export interface PowertrainTransmission extends Pick<TransmissionSystem, 'requestSelector' | 'requestManualSelection' | 'returnToAuto'> {
+  readonly type: PowertrainTransmissionSnapshot['type'];
+  getSnapshot(): PowertrainTransmissionSnapshot;
+}
+export type ShiftRejectionReason = 'clutch-not-disengaged' | 'engine-over-speed' |
+  'gear-not-available' | 'already-selected' | 'shift-in-progress';
+
+/** Optional ICE compatibility telemetry, not required source components. */
+export interface ICEVehicleTelemetry {
+  /** Source-owned lifecycle state: a commanded combustion stop is not a stall. */
+  automaticEngineStop?: boolean;
+  thermal?: { temperatureC: number; torqueFactor: number };
+  startStop?: { supported: boolean; enabled: boolean; state: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' };
+  mildHybrid?: ReturnType<import('./MildHybridSystem').MildHybridSystem['getSnapshot']>;
+  fuel: FuelSnapshot;
+  rpm: number;
+  engineRunning: boolean;
+  idleRPM: number;
+  /** Compatibility alias for the current load-dependent recommendation. */
+  shiftWarningRPM: number;
+  recommendedUpshiftRPM: number;
+  upshiftRecommendationAvailable: boolean;
+  upshiftRecommended: boolean;
+  redlineWarningRPM: number;
+  nearRedline: boolean;
+  onRevLimiter: boolean;
+  redlineRPM: number;
+  gear: Gear;
+  requestedGear: Gear | null;
+  /** Pedal down = 1, independently of mechanical engagement. */
+  clutchPedal: number;
+  clutchEngagement: number;
+  clutchState: ClutchState;
+  autoClutchState: AutoClutchState;
+  drivetrainLash: DrivetrainLashSnapshot;
+  revHang: RevHangSnapshot;
+}
+export interface PowertrainSnapshot {
+  hybrid?: import('./P2HybridPowertrain').HybridTelemetry;
+  kind: string;
+  vehicleOperational: boolean;
+  driveAvailable: boolean;
+  inputShaftAngularVelocity: number;
+  sourceInertia: number;
+  availableDriveTorque: number;
+  transmission: PowertrainTransmissionSnapshot;
+  ice?: ICEVehicleTelemetry;
+  ev?: EVTelemetry;
+}
+export interface EVTelemetry {
+  packVoltage?: number; packCurrent?: number; maxDischargeCurrent?: number; maxChargeCurrent?: number;
+  instantPowerKW?: number; instantConsumption?: number | null; tripKWhPer100Km?: number | null;
+  energyUsedKWh?: number; energyRecoveredKWh?: number;
+  batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
+  frontInverterTemperature?: number; rearInverterTemperature?: number;
+  availableDischargePower?: number; availableRegenPower?: number; thermalDerateFraction?: number;
+  frontMotorRPM?: number; rearMotorRPM?: number; frontMotorTorque?: number; rearMotorTorque?: number;
+  launchState?: import('./EVLaunchControl').EVLaunchState;
+  systemPowerLimitKW?: number;
+  frontDriveUnit?: import('./ElectricDriveUnit').ElectricDriveUnitState;
+  rearDriveUnit?: import('./ElectricDriveUnit').ElectricDriveUnitState;
+  regenBrakeLight: boolean;
+  stateOfCharge: number; remainingEnergyKWh: number; batteryPowerKw: number;
+  motorRPM: number; motorTorque: number; drivePowerKw: number; regenPowerKw: number;
+  regenLimited: boolean; regenLimitReason: string | null;
+  tripEnergyConsumedKWh: number; tripEnergyRecoveredKWh: number;
+  averageConsumptionKWhPer100km: number | null; estimatedRangeKm: number;
+  requestedBrakeTorque: number; regenerativeBrakeTorque: number;
+}
+export interface PowertrainInitialState {
+  hybrid?: { mode?: import('../config/P2HybridConfig').HybridMode; holdSOC?: number;
+    transferMode?: import('../config/P2HybridConfig').TransferMode; freeShaftOmega?: number };
+  vehicleOperational?: boolean;
+  driveAvailable?: boolean;
+  shaftAngularVelocity?: number;
+  gear?: Gear;
+  driveSelector?: DriveSelector;
+  controlMode?: VehicleControlMode;
+  ice?: { mildHybridSOC?: number; engineRPM?: number; engineRunning?: boolean; clutchEngagement?: number; currentFuelL?: number };
+  ev?: { stateOfCharge?: number; batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
+    frontInverterTemperature?: number; rearInverterTemperature?: number };
+}
+/** Generic chassis/shaft context. Legacy RPM thresholds belong inside ICEPowertrain. */
+export interface PowertrainUpdateContext {
+  /** Unmodulated driven-axle share of the common service-brake demand, Nm. */
+  drivenAxleBrakeTorque?: number;
+  frontAxleBrakeTorque?: number; rearAxleBrakeTorque?: number;
+  frontWheelAngularVelocity?: number; rearWheelAngularVelocity?: number;
+  frontTorqueLimitFactor?: number; rearTorqueLimitFactor?: number;
+  /** Shared AWD allocation, normalized wheel-side ratios; absent on single-axle vehicles. */
+  frontAxleTorqueRatio?: number; rearAxleTorqueRatio?: number;
+  yawRate?: number; expectedYawRate?: number; escActive?: boolean; escMode?: 'inactive' | 'oversteer' | 'understeer';
+  totalServiceBrakeTorque?: number;
+  autoHoldHolding?: boolean;
+  parkingBrakeActive?: boolean;
+  dt: number; throttle: number; brake: number;
+  vehicleSpeed: number; vehicleLateralSpeed: number;
+  /** Effective carrier inertia and signed physical contact/brake reaction, SI. */
+  drivenWheelInertia?: number;
+  drivenWheelReactionTorque?: number;
+  drivenWheelAngularVelocity: number; torqueLimitFactor: number;
+  clutchPedal: number; selectorRequest?: DriveSelector; driveMode?: VehicleDriveMode;
+}
+export interface PowertrainOutput {
+  /** Physical motor braking magnitude at the driven axle, NOT a hydraulic request. */
+  regenerativeWheelTorque?: number;
+  frontWheelTorque?: number; rearWheelTorque?: number;
+  /** Low-speed lift-off stop requests the ordinary service brake/hold path. */
+  stopBrakeDemand?: number;
+  consumedFuelL?: number;
+  drivenWheelTorque: number; inputLoadTorque: number;
+  couplingSlipAngularVelocity: number; parkingLocked: boolean;
+}
+/** Owns source, coupling and transmission lifecycle without requiring ICE components. */
+export interface Powertrain {
+  /** READY systems can be operational while their combustion engine is stopped. */
+  readonly ignitionToggleUsesOperationalState?: boolean;
+  readonly serviceBrakeDemand?: number;
+  /** Rotor inertia reflected to EACH driven wheel, kg m². */
+  readonly drivenWheelInertia?: number;
+  /** Final same-step ABS/traction authority; provider updates its persistent output. */
+  readonly shaftRegenerating?: boolean;
+  cancelShaftRegeneration?(): number;
+  limitRegeneration?(maximumWheelTorque: number): number;
+  limitAxleRegeneration?(front: number, rear: number): void;
+  readonly axleOutput?: PowertrainOutput;
+  wheelInertiaForAxle?(front: boolean): number;
+  readonly torqueSource: DriveTorqueSource;
+  readonly transmission: PowertrainTransmission;
+  readonly supportsManualSelection: boolean;
+  readonly vehicleOperational: boolean;
+  readonly driveAvailable: boolean;
+  readonly driving: boolean;
+  readonly gear: Gear | null;
+  readonly throttle: number;
+  readonly variableMassKg: number;
+  readonly numericallyValid: boolean;
+  reset(state: PowertrainInitialState, recovering?: boolean): void;
+  captureState(previous?: PowertrainInitialState): PowertrainInitialState;
+  requestStart(): boolean;
+  requestStop(): boolean;
+  /** One safety-gated selector request for every installed axle; does not advance time. */
+  requestDriveSelector(selector: DriveSelector, speed: number, lateralSpeed: number, brake: number): boolean;
+  requestGear(gear: Gear, mode: VehicleControlMode, speed: number): ShiftRejectionReason | null;
+  getShiftGear(direction: -1 | 1): Gear | null;
+  setControlMode(mode: VehicleControlMode): VehicleControlMode;
+  applyDriveMode?(calibration: DriveModeCalibration): void;
+  prepare(context: PowertrainUpdateContext): void;
+  update(context: PowertrainUpdateContext): PowertrainOutput;
+  finishStep(speed: number, drivenWheelAngularVelocity?: number, frontWheelAngularVelocity?: number, rearWheelAngularVelocity?: number): void;
+  getSnapshot(): PowertrainSnapshot;
+}

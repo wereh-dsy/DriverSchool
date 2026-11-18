@@ -1,0 +1,857 @@
+{
+  "sourceSHA256": "eed5910f30ff82e3c629b54a4bc19d935e6179b2e6595314fa6b681f016b32f9",
+  "assertions": 2048,
+  "unit": {
+    "assertions": 138
+  },
+  "lifecycle": {
+    "assertions": 10
+  },
+  "fingerprintMs": 80.27269999999999,
+  "revision": "continuous-v2:8d15ad3624a2cc1",
+  "projection": [
+    {
+      "id": "arterial",
+      "paintMeshes": 182,
+      "round1Ms": {
+        "count": 5,
+        "median": 52.38869999999952,
+        "p95": 55.917599999999766,
+        "max": 55.917599999999766
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 14.422099999999773,
+        "p95": 15.359600000000682,
+        "max": 15.359600000000682
+      },
+      "round1Triangles": 18778,
+      "optimizedTriangles": 17218,
+      "maxAreaError": 0.00010176002979278564,
+      "indexBytes": 77632,
+      "statistics": {
+        "inputTriangles": 59640,
+        "candidateTests": 160272,
+        "contained": 40116,
+        "coplanarUnions": 4092,
+        "outputTriangles": 103308
+      }
+    },
+    {
+      "id": "median",
+      "paintMeshes": 240,
+      "round1Ms": {
+        "count": 5,
+        "median": 16.025900000000547,
+        "p95": 19.502399999999398,
+        "max": 19.502399999999398
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 3.8957999999993262,
+        "p95": 5.188799999999901,
+        "max": 5.188799999999901
+      },
+      "round1Triangles": 8598,
+      "optimizedTriangles": 8010,
+      "maxAreaError": 0.00007420056499540806,
+      "indexBytes": 10112,
+      "statistics": {
+        "inputTriangles": 45264,
+        "candidateTests": 80370,
+        "contained": 42360,
+        "coplanarUnions": 1596,
+        "outputTriangles": 48060
+      }
+    },
+    {
+      "id": "junction",
+      "paintMeshes": 313,
+      "round1Ms": {
+        "count": 5,
+        "median": 37.27099999999973,
+        "p95": 47.01350000000002,
+        "max": 47.01350000000002
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 8.433100000000195,
+        "p95": 14.46309999999994,
+        "max": 14.46309999999994
+      },
+      "round1Triangles": 17240,
+      "optimizedTriangles": 13907,
+      "maxAreaError": 0.000057159923017024994,
+      "indexBytes": 37068,
+      "statistics": {
+        "inputTriangles": 83124,
+        "candidateTests": 130542,
+        "contained": 74898,
+        "coplanarUnions": 8118,
+        "outputTriangles": 83442
+      }
+    },
+    {
+      "id": "divided",
+      "paintMeshes": 180,
+      "round1Ms": {
+        "count": 5,
+        "median": 13.981899999999769,
+        "p95": 20.183399999999892,
+        "max": 20.183399999999892
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 2.9061000000001513,
+        "p95": 3.966699999999946,
+        "max": 3.966699999999946
+      },
+      "round1Triangles": 6380,
+      "optimizedTriangles": 5980,
+      "maxAreaError": 0.00008991826325654984,
+      "indexBytes": 10072,
+      "statistics": {
+        "inputTriangles": 35880,
+        "candidateTests": 64224,
+        "contained": 34824,
+        "coplanarUnions": 1056,
+        "outputTriangles": 35880
+      }
+    },
+    {
+      "id": "bridge",
+      "paintMeshes": 32,
+      "round1Ms": {
+        "count": 5,
+        "median": 1.707300000000032,
+        "p95": 2.29779999999937,
+        "max": 2.29779999999937
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 0.4915000000000873,
+        "p95": 0.9821000000001732,
+        "max": 0.9821000000001732
+      },
+      "round1Triangles": 1212,
+      "optimizedTriangles": 936,
+      "maxAreaError": 0,
+      "indexBytes": 4408,
+      "statistics": {
+        "inputTriangles": 5616,
+        "candidateTests": 9576,
+        "contained": 4788,
+        "coplanarUnions": 828,
+        "outputTriangles": 5616
+      }
+    },
+    {
+      "id": "underground",
+      "paintMeshes": 196,
+      "round1Ms": {
+        "count": 5,
+        "median": 15.974599999999555,
+        "p95": 17.243500000000495,
+        "max": 17.243500000000495
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 3.8266999999996187,
+        "p95": 3.9248999999999796,
+        "max": 3.9248999999999796
+      },
+      "round1Triangles": 8647,
+      "optimizedTriangles": 7344,
+      "maxAreaError": 0,
+      "indexBytes": 22376,
+      "statistics": {
+        "inputTriangles": 34992,
+        "candidateTests": 64584,
+        "contained": 28026,
+        "coplanarUnions": 3618,
+        "outputTriangles": 44064
+      }
+    },
+    {
+      "id": "curve-grade",
+      "paintMeshes": 476,
+      "round1Ms": {
+        "count": 5,
+        "median": 27.931799999999384,
+        "p95": 29.19919999999911,
+        "max": 29.19919999999911
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 6.9671999999991385,
+        "p95": 11.226700000001074,
+        "max": 11.226700000001074
+      },
+      "round1Triangles": 17320,
+      "optimizedTriangles": 15814,
+      "maxAreaError": 0.00008221622556447983,
+      "indexBytes": 18684,
+      "statistics": {
+        "inputTriangles": 92904,
+        "candidateTests": 156888,
+        "contained": 87624,
+        "coplanarUnions": 4356,
+        "outputTriangles": 94884
+      }
+    },
+    {
+      "id": "skew",
+      "paintMeshes": 249,
+      "round1Ms": {
+        "count": 5,
+        "median": 17.934900000000198,
+        "p95": 19.509099999999307,
+        "max": 19.509099999999307
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 4.791900000000169,
+        "p95": 6.180599999999686,
+        "max": 6.180599999999686
+      },
+      "round1Triangles": 11267,
+      "optimizedTriangles": 9150,
+      "maxAreaError": 0.00020969286561012268,
+      "indexBytes": 20764,
+      "statistics": {
+        "inputTriangles": 52296,
+        "candidateTests": 93312,
+        "contained": 46734,
+        "coplanarUnions": 4926,
+        "outputTriangles": 54900
+      }
+    },
+    {
+      "id": "tunnel",
+      "paintMeshes": 68,
+      "round1Ms": {
+        "count": 5,
+        "median": 7.21349999999984,
+        "p95": 9.988800000000992,
+        "max": 9.988800000000992
+      },
+      "optimizedMs": {
+        "count": 5,
+        "median": 1.4431000000004133,
+        "p95": 1.523300000000745,
+        "max": 1.523300000000745
+      },
+      "round1Triangles": 4887,
+      "optimizedTriangles": 4886,
+      "maxAreaError": 0.00000768899917602539,
+      "indexBytes": 21128,
+      "statistics": {
+        "inputTriangles": 22260,
+        "candidateTests": 36870,
+        "contained": 18714,
+        "coplanarUnions": 6,
+        "outputTriangles": 29316
+      }
+    }
+  ],
+  "cache": {
+    "hits": 30,
+    "misses": 24,
+    "evictions": 0,
+    "peakBytes": 335264,
+    "bytes": 335264,
+    "entries": 24,
+    "maxBytes": 8388608,
+    "maxEntries": 32,
+    "revision": "continuous-v2:8d15ad3624a2cc1"
+  },
+  "boundedCache": {
+    "hits": 0,
+    "misses": 30,
+    "evictions": 28,
+    "peakBytes": 64000,
+    "bytes": 64000,
+    "entries": 2,
+    "maxBytes": 65536,
+    "maxEntries": 4,
+    "revision": "budget-test"
+  },
+  "fallbacks": [
+    [
+      "regional:qingling:S-to-E-right:deceleration",
+      "merge paint needs a multi-road final-surface owner"
+    ],
+    [
+      "urban-rail-underpass:underpass",
+      "authored sidewalk extends behind the existing wall/collider"
+    ],
+    [
+      "urban-underpass-end-approach",
+      "authored sidewalk extends behind the existing wall/collider"
+    ],
+    [
+      "v4-south-logistics-west:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-diagonal-split-split-split-split-3:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v5-east-garden-split:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-east-arterial-split-split-3-split:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-east-arterial-split-split-3-split-2-split:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v91-ew-0-a-3:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v91-ew-0-a-4:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v91-ew-0-b-3:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v91-ew-0-b-4:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-east-ns-split-split-split-split-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v5-finance-road-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-east-ns-split-split-split-split-split-2-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v5-civic-south-split-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v5-civic-south-split-2-split-split-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v4-inner-0-v91-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v4-inner-0-split-2-v91-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v5-east-garden-c91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v4-inner-1-m91-section:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "v4-inner-1-split-2-m91:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "access-finance-north-section-section:sidewalk",
+      "physical sidewalk support is flat; raised solid curb needs a separate support/collision change"
+    ],
+    [
+      "urban-junction-80",
+      "traffic-island collision contract requires separate authoring review"
+    ]
+  ],
+  "collisions": [
+    {
+      "roadId": "regional:G38:out:split274",
+      "newGeometry": true,
+      "probes": [
+        {
+          "kind": "guardrail",
+          "colliderId": "regional:G38:out:split274:barrier:222:1",
+          "collided": true
+        },
+        {
+          "kind": "wall",
+          "colliderId": "regional:G38:out:split274:wall:507:1",
+          "collided": true
+        },
+        {
+          "kind": "ceiling",
+          "colliderId": "regional:G38:out:split274:ceiling:32",
+          "collided": false,
+          "roofClearance": 4.355
+        }
+      ],
+      "roofSamples": [
+        {
+          "fraction": 0.02,
+          "clearance": 4.3550403530379
+        },
+        {
+          "fraction": 0.25,
+          "clearance": 4.355021427371639
+        },
+        {
+          "fraction": 0.5,
+          "clearance": 4.355384651828004
+        },
+        {
+          "fraction": 0.75,
+          "clearance": 4.355292760818802
+        },
+        {
+          "fraction": 0.98,
+          "clearance": 4.355096487935466
+        }
+      ],
+      "piers": 0,
+      "visualEnvelope": [
+        {
+          "kind": "concrete-barrier",
+          "vertices": 2676,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0019998290542369013,
+          "maxVerticalMiss": 0.026000799861726875,
+          "examples": []
+        },
+        {
+          "kind": "concrete-barrier",
+          "vertices": 2700,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0020018042906584377,
+          "maxVerticalMiss": 0.026000799861726875,
+          "examples": []
+        },
+        {
+          "kind": "tunnel-wall",
+          "vertices": 1384,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.00013746530771555077,
+          "maxVerticalMiss": 9.194882508722912e-7,
+          "examples": []
+        },
+        {
+          "kind": "tunnel-wall",
+          "vertices": 1520,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.000125534868302829,
+          "maxVerticalMiss": 9.087355543613285e-7,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "roadId": "regional:qingling:S-to-E-right:deceleration",
+      "newGeometry": false,
+      "probes": [
+        {
+          "kind": "guardrail",
+          "colliderId": "regional:qingling:S-to-E-right:deceleration:barrier:4:1",
+          "collided": true
+        }
+      ],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "ew-wb-split",
+      "newGeometry": true,
+      "probes": [
+        {
+          "kind": "guardrail",
+          "colliderId": "ew-wb-split:barrier:54:1",
+          "collided": true
+        }
+      ],
+      "roofSamples": [],
+      "piers": 2,
+      "visualEnvelope": [
+        {
+          "kind": "concrete-barrier",
+          "vertices": 648,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0000035815506009839737,
+          "maxVerticalMiss": 0.025999832153321023,
+          "examples": []
+        },
+        {
+          "kind": "metal-rail",
+          "vertices": 1080,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0000035815506009839737,
+          "maxVerticalMiss": 0,
+          "examples": []
+        },
+        {
+          "kind": "guardrail-posts",
+          "vertices": 768,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0,
+          "maxVerticalMiss": 0.02499978542327952,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "roadId": "urban-rail-underpass:underpass",
+      "newGeometry": false,
+      "probes": [
+        {
+          "kind": "wall",
+          "colliderId": "urban-rail-underpass:underpass:wall:14:1",
+          "collided": true
+        },
+        {
+          "kind": "ceiling",
+          "colliderId": "urban-rail-underpass:underpass:ceiling:8",
+          "collided": false,
+          "roofClearance": 4.355
+        }
+      ],
+      "roofSamples": [
+        {
+          "fraction": 0.02,
+          "clearance": 4.355
+        },
+        {
+          "fraction": 0.25,
+          "clearance": 4.355
+        },
+        {
+          "fraction": 0.5,
+          "clearance": 4.355
+        },
+        {
+          "fraction": 0.75,
+          "clearance": 4.355
+        },
+        {
+          "fraction": 0.98,
+          "clearance": 4.355
+        }
+      ],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-underpass-end-approach",
+      "newGeometry": false,
+      "probes": [
+        {
+          "kind": "wall",
+          "colliderId": "urban-underpass-end-approach:wall:117:1",
+          "collided": true
+        }
+      ],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v4-south-logistics-west",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 3,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-diagonal-split-split-split-split-3",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v5-east-garden-split",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-east-arterial-split-split-3-split",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-east-arterial-split-split-3-split-2-split",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v91-ew-0-a-3",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v91-ew-0-a-4",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v91-ew-0-b-3",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v91-ew-0-b-4",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-east-ns-split-split-split-split-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v5-finance-road-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "urban-east-ns-split-split-split-split-split-2-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v5-civic-south-split-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v5-civic-south-split-2-split-split-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v4-inner-0-v91-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v4-inner-0-split-2-v91-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v5-east-garden-c91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v4-inner-1-m91-section",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "v4-inner-1-split-2-m91",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-section",
+      "newGeometry": true,
+      "probes": [
+        {
+          "kind": "median",
+          "colliderId": "direction-mingyuan-main-section-section:median:175",
+          "collided": true
+        },
+        {
+          "kind": "guardrail",
+          "colliderId": "direction-mingyuan-main-section-section:barrier:547:1",
+          "collided": true
+        }
+      ],
+      "roofSamples": [],
+      "piers": 8,
+      "visualEnvelope": [
+        {
+          "kind": "metal-rail",
+          "vertices": 3820,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.000014601046841811183,
+          "maxVerticalMiss": 0,
+          "examples": []
+        },
+        {
+          "kind": "guardrail-posts",
+          "vertices": 3144,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0,
+          "maxVerticalMiss": 0.02507368330955817,
+          "examples": []
+        },
+        {
+          "kind": "metal-rail",
+          "vertices": 3840,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.000016546138318696002,
+          "maxVerticalMiss": 0,
+          "examples": []
+        },
+        {
+          "kind": "guardrail-posts",
+          "vertices": 3144,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0,
+          "maxVerticalMiss": 0.02508021519292658,
+          "examples": []
+        },
+        {
+          "kind": "median",
+          "vertices": 5632,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.000027620261580745393,
+          "maxVerticalMiss": 2.3782684799300569e-7,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "roadId": "access-finance-north-section-section",
+      "newGeometry": true,
+      "probes": [],
+      "roofSamples": [],
+      "piers": 0,
+      "visualEnvelope": []
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-2",
+      "newGeometry": true,
+      "probes": [
+        {
+          "kind": "median",
+          "colliderId": "direction-mingyuan-main-section-2:median:353",
+          "collided": true
+        },
+        {
+          "kind": "guardrail",
+          "colliderId": "direction-mingyuan-main-section-2:barrier:1113:1",
+          "collided": true
+        }
+      ],
+      "roofSamples": [],
+      "piers": 27,
+      "visualEnvelope": [
+        {
+          "kind": "metal-rail",
+          "vertices": 7540,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0006832905258851163,
+          "maxVerticalMiss": 0,
+          "examples": []
+        },
+        {
+          "kind": "guardrail-posts",
+          "vertices": 6336,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0,
+          "maxVerticalMiss": 0.025002034467467737,
+          "examples": []
+        },
+        {
+          "kind": "metal-rail",
+          "vertices": 7700,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.000031870095659969344,
+          "maxVerticalMiss": 0,
+          "examples": []
+        },
+        {
+          "kind": "guardrail-posts",
+          "vertices": 6360,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0,
+          "maxVerticalMiss": 0.02500141741113815,
+          "examples": []
+        },
+        {
+          "kind": "median",
+          "vertices": 11344,
+          "outsideTolerance": 0,
+          "maxHorizontalMiss": 0.0005708686068157031,
+          "maxVerticalMiss": 4.7543584003051365e-7,
+          "examples": []
+        }
+      ]
+    },
+    {
+      "junctionId": "urban-junction-80",
+      "status": "legacy-retained",
+      "reason": "traffic-island collision contract requires separate authoring review",
+      "islandHeight": 0.18
+    }
+  ],
+  "environmentConflicts": [],
+  "notes": {
+    "realCrossfall": "No authored bank/variable-width station schema; kernel fixtures only, not claimed as real-map validation",
+    "widthMerges": "Legacy retained until multi-owner paint and taper/collision boundary contracts are reviewed"
+  }
+}
