@@ -1,5 +1,5 @@
 import type { DriveSelector, Gear } from '../config';
-import type { EhsDriverMode, EhsHybridVehiclePhysicsConfig } from '../config/EhsHybridConfig';
+import type { EhsDriverMode, EhsEvFallbackReason, EhsHybridVehiclePhysicsConfig } from '../config/EhsHybridConfig';
 import { clamp01 } from '../physics/math';
 import { ICEPowertrain, type ICEPowertrainSnapshot } from './ICEPowertrain';
 import { ElectricMotor } from './ElectricMotor';
@@ -11,6 +11,7 @@ import type { EVTelemetry, PowertrainInitialState, PowertrainOutput, PowertrainU
 
 export interface EhsTelemetry {
   mode: EhsDriverMode; path: 'EV' | 'SERIES' | 'PARALLEL'; state: 'EV' | 'SERIES' | 'PARALLEL' | 'DIRECT';
+  evFallbackActive?: boolean; evFallbackReason?: EhsEvFallbackReason;
   holdSOC: number; engineRequested: boolean; enginePhase: string; targetRPM: number;
   directClutch: { engagement: number; torqueNm: number; slipRPM: number };
   enginePowerW: number; p1MechanicalPowerW: number; p1GenerationPowerW: number; p1RPM: number;
@@ -58,6 +59,7 @@ export class EhsHybridSystem extends ICEPowertrain {
   private previousDirectWheelNm = 0;
   private previousRoadOmega = 0;
   private roadSpeedValid = false;
+  private smoothedLiftRegenScale = 1;
   private readonly losses = { electricalW: 0, transmissionW: 0, clutchW: 0, batteryW: 0,
     fuelW: 0, frictionW: 0, auxiliaryW: 0, chargerW: 0 };
   private readonly energy = { residualW: 0, residualJ: 0, fuelJ: 0, batteryJ: 0, gridJ: 0,
@@ -94,6 +96,13 @@ export class EhsHybridSystem extends ICEPowertrain {
   public get drivenWheelInertia(): number { return this.p3.rotationalInertia * this.config.ehs.reduction.ratio ** 2 / 2; }
   public wheelInertiaForAxle(front: boolean): number { return front ? this.drivenWheelInertia : 0; }
   public setHybridMode(mode: EhsDriverMode, targetSOC?: number): void { this.energyManagement.setMode(mode, targetSOC); }
+  public cycleEnergyMode(): EhsDriverMode {
+    const order = this.config.ehs.energyModeOrder ?? ['EV', 'HEV'];
+    const index = order.indexOf(this.energyManagement.mode);
+    const next = order[(index + 1) % order.length] ?? 'HEV';
+    this.energyManagement.setMode(next);
+    return next;
+  }
   public connectCharger(type: 'AC' | 'DC', powerW?: number): boolean {
     if (this.operational || this.transmission.selectedMode !== 'P' || Math.abs(this.wheelOmega) > .1) return false;
     this.battery.connect(type, powerW); return true;
@@ -131,6 +140,7 @@ export class EhsHybridSystem extends ICEPowertrain {
     this.terminalW = this.engineW = this.motorWheelNm = this.regenerationNm = this.requestedBrakeNm = 0;
     this.previousDirectWheelNm = 0;
     this.previousRoadOmega = 0; this.roadSpeedValid = false;
+    this.smoothedLiftRegenScale = 1;
     for (const k of Object.keys(this.losses) as (keyof typeof this.losses)[]) this.losses[k] = 0;
     this.refreshOutput();
   }
@@ -176,12 +186,25 @@ export class EhsHybridSystem extends ICEPowertrain {
     const held = c.autoHoldHolding || c.parkingBrakeActive && this.pedal < .1;
     const braking = c.brake >= .02;
     const driving = this.driving && this.driveAvailable && !held;
-    const maximumDemand = (this.config.mass + this.variableMassKg) * h.control.acceleration * this.config.wheelRadius;
-    let target = driving && !braking ? this.pedal * maximumDemand : 0;
+    const dmStrat = c.driveMode ? h.driveModeStrategy?.[c.driveMode] : undefined;
+    const baseMaximumDemand = (this.config.mass + this.variableMassKg) * h.control.acceleration * this.config.wheelRadius;
+    const accelScale = dmStrat?.accelerationScale ?? 1;
+    const fullPowerStart = dmStrat?.fullPowerPedalStart ?? 1;
+    let progressive = this.pedal * baseMaximumDemand * accelScale;
+    if (dmStrat?.maximumDemandScale !== undefined) {
+      progressive = Math.min(progressive, baseMaximumDemand * dmStrat.maximumDemandScale);
+    } else if (fullPowerStart < 1) {
+      const kick = smoothLimit((this.pedal - fullPowerStart) / (1 - fullPowerStart));
+      const fullEnvelope = baseMaximumDemand * Math.max(1, accelScale);
+      progressive += (fullEnvelope - progressive) * kick;
+    }
+    let target = driving && !braking ? progressive : 0;
     if (driving && !braking && this.pedal < .01 && h.reduction.creepEnabled)
       target = h.reduction.creepTorque * h.reduction.ratio * clamp01(1 - Math.abs(c.vehicleSpeed) / h.reduction.creepSpeed);
     if (direction < 0 && Math.abs(c.vehicleSpeed) > h.reduction.reverseSpeedLimit) target = 0;
-    this.demandNm += (target - this.demandNm) * -Math.expm1(-h.control.torqueResponse * dt);
+    const responseRate = dmStrat?.torqueResponse ?? h.control.torqueResponse;
+    this.demandNm += (target - this.demandNm) * -Math.expm1(-responseRate * dt);
+    this.smoothedLiftRegenScale += ((dmStrat?.liftRegenScale ?? 1) - this.smoothedLiftRegenScale) * -Math.expm1(-6 * dt);
     if (!driving || braking) this.demandNm = 0;
     const roadOmega = Math.max(0, this.wheelOmega * h.directDrive.ratio);
     const roadAcceleration = this.roadSpeedValid ? (roadOmega - this.previousRoadOmega) / dt : 0;
@@ -191,9 +214,13 @@ export class EhsHybridSystem extends ICEPowertrain {
     // final combustion tick with less chemical energy than its possible work.
     const usableFuel = this.fuel.currentFuelL * this.config.fuel.fuelDensity * 43200000 >
       this.config.engine.ratedNetPowerW! / .12 * dt;
+    const batteryThermalDerated = this.battery.availableDischargePower < h.battery.maxDischargePower * .72 &&
+      (this.battery.temperature <= (h.battery.coldDischargeFullTemperature ?? 10) ||
+        this.battery.temperature >= (h.battery.thermal?.derateStartTemperature ?? 48));
     em.update(dt, this.battery.stateOfCharge, demandW, roadOmega * 30 / Math.PI, this.pedal,
       this.operational && !this.battery.connector && usableFuel,
-      driving && direction > 0 && !braking && this.wheelOmega > 0, this.battery.availableDischargePower);
+      driving && direction > 0 && !braking && this.wheelOmega > 0, this.battery.availableDischargePower,
+      c.driveMode, batteryThermalDerated);
     e.setFuelAvailable(usableFuel);
     if (em.engineRequested && !e.isRunning && !e.isStarting && this.battery.dischargeLimit(dt) > 1500) e.start(true);
     if (!em.engineRequested && (e.isRunning || e.isStarting)) e.stop();
@@ -255,7 +282,7 @@ export class EhsHybridSystem extends ICEPowertrain {
     const fade = clamp01((Math.abs(c.vehicleSpeed) - h.control.regenMinimumSpeed) /
       (h.control.regenFullSpeed - h.control.regenMinimumSpeed));
     const service = this.requestedBrakeNm > 1 && (braking || this.pedal < .01);
-    const lift = this.pedal < .01 && target < 1 && !service ? h.control.liftRegenWheelNm : 0;
+    const lift = this.pedal < .01 && target < 1 && !service ? h.control.liftRegenWheelNm * this.smoothedLiftRegenScale : 0;
     const brakeMotor = Math.max(service ? c.frontAxleBrakeTorque ?? c.drivenAxleBrakeTorque ?? this.requestedBrakeNm * .65 : 0, lift) *
       h.reduction.efficiency / h.reduction.ratio * fade;
     let motorRequest = direction * Math.max(0, this.demandNm - directWheel) / (h.reduction.ratio * h.reduction.efficiency);
@@ -405,6 +432,7 @@ export class EhsHybridSystem extends ICEPowertrain {
     const direct = em.path === 'PARALLEL' && this.engagement > .95 && Math.abs(this.motorWheelNm) < Math.max(35, this.ehsOutput.drivenWheelTorque * .1);
     const state = em.path === 'PARALLEL' && this.engagement > 0 ? direct ? 'DIRECT' : 'PARALLEL' : em.engineRequested ? 'SERIES' : 'EV';
     return { ...base, ev, ehs: { mode: em.mode, path: em.path, state,
+      evFallbackActive: em.evFallbackActive, evFallbackReason: em.evFallbackReason,
       holdSOC: em.holdSOC, engineRequested: em.engineRequested, enginePhase: this.engine.ignitionPhase, targetRPM: em.targetRPM,
       directClutch: { engagement: this.engagement, torqueNm: this.directNm,
         slipRPM: (this.engine.angularVelocity - this.wheelOmega * this.config.ehs.directDrive.ratio) * 30 / Math.PI },

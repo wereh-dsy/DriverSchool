@@ -42,9 +42,11 @@ interface DiscreteInputFrame {
   cruiseToggle: boolean;
   lccToggle: boolean;
   cycleLaneAssist: boolean;
+  adasToggle: boolean;
   fogToggle: boolean;
   cycleWipers: boolean;
   cycleDriveMode: boolean;
+  cycleEnergyMode: boolean;
   enterExitVehicle: boolean;
   toggleDriverDoor: boolean;
   directGear?: RequestedGear;
@@ -246,9 +248,11 @@ export class VehicleInputSystem {
       cruiseToggle: false,
       lccToggle: false,
       cycleLaneAssist: false,
+      adasToggle: false,
       fogToggle: false,
       cycleWipers: false,
       cycleDriveMode: false,
+      cycleEnergyMode: false,
       highBeamFlash: samples.some((sample) => sample.highBeamFlash === true),
       hornPressed: samples.some((sample) => sample.hornPressed === true),
       driverWindowUp: samples.some((sample) => sample.driverWindowUp === true),
@@ -320,9 +324,11 @@ export class VehicleInputSystem {
     let cruiseToggle = false;
     let lccToggle = false;
     let cycleLaneAssist = false;
+    let adasToggle = false;
     let fogToggle = false;
     let cycleWipers = false;
     let cycleDriveMode = false;
+    let cycleEnergyMode = false;
     let enterExitVehicle = false;
     let toggleDriverDoor = false;
     let directGear: RequestedGear | undefined;
@@ -339,9 +345,11 @@ export class VehicleInputSystem {
       cruiseToggle ||= sample.cruiseToggle;
       lccToggle ||= sample.lccToggle === true;
       cycleLaneAssist ||= sample.cycleLaneAssist === true;
+      adasToggle ||= sample.adasToggle === true;
       fogToggle ||= sample.fogToggle === true;
       cycleWipers ||= sample.cycleWipers === true;
       cycleDriveMode ||= sample.cycleDriveMode === true;
+      cycleEnergyMode ||= sample.cycleEnergyMode === true;
       enterExitVehicle ||= sample.enterExitVehicle === true;
       toggleDriverDoor ||= sample.toggleDriverDoor === true;
       // Samples are priority-sorted, so the first direct request wins a tie.
@@ -352,7 +360,7 @@ export class VehicleInputSystem {
     }
     if (
       !returnToAuto && !shiftUp && !shiftDown && !leftIndicator && !rightIndicator && !hazard &&
-      !cycleLights && !engineStart && !cruiseToggle && !lccToggle && !cycleLaneAssist && !fogToggle && !cycleWipers && !cycleDriveMode &&
+      !cycleLights && !engineStart && !cruiseToggle && !lccToggle && !cycleLaneAssist && !adasToggle && !fogToggle && !cycleWipers && !cycleDriveMode && !cycleEnergyMode &&
       !enterExitVehicle && !toggleDriverDoor && directGear === undefined && driveSelector === undefined
     ) return;
     const frame: DiscreteInputFrame = {
@@ -367,9 +375,11 @@ export class VehicleInputSystem {
       cruiseToggle,
       lccToggle,
       cycleLaneAssist,
+      adasToggle,
       fogToggle,
       cycleWipers,
       cycleDriveMode,
+      cycleEnergyMode,
       enterExitVehicle,
       toggleDriverDoor,
     };
@@ -435,9 +445,11 @@ export class VehicleInputSystem {
       cruiseToggle: discrete?.cruiseToggle ?? false,
       lccToggle: discrete?.lccToggle ?? false,
       cycleLaneAssist: discrete?.cycleLaneAssist ?? false,
+      adasToggle: discrete?.adasToggle ?? false,
       fogToggle: discrete?.fogToggle ?? false,
       cycleWipers: discrete?.cycleWipers ?? false,
       cycleDriveMode: discrete?.cycleDriveMode ?? false,
+      cycleEnergyMode: discrete?.cycleEnergyMode ?? false,
       enterExitVehicle: discrete?.enterExitVehicle ?? false,
       toggleDriverDoor: discrete?.toggleDriverDoor ?? false,
     };

@@ -85,7 +85,8 @@ export interface EVTelemetry {
 export interface PowertrainInitialState {
   ehs?: { mode?: import('../config/EhsHybridConfig').EhsDriverMode; holdSOC?: number; p1TemperatureC?: number };
   hybrid?: { mode?: import('../config/P2HybridConfig').HybridMode; holdSOC?: number;
-    transferMode?: import('../config/P2HybridConfig').TransferMode; freeShaftOmega?: number };
+    transferMode?: import('../config/P2HybridConfig').TransferMode;
+    terrainMode?: import('../config/P2HybridConfig').P2TerrainMode; freeShaftOmega?: number };
   vehicleOperational?: boolean;
   driveAvailable?: boolean;
   shaftAngularVelocity?: number;
@@ -163,6 +164,8 @@ export interface Powertrain {
   getShiftGear(direction: -1 | 1): Gear | null;
   setControlMode(mode: VehicleControlMode): VehicleControlMode;
   applyDriveMode?(calibration: DriveModeCalibration): void;
+  /** Optional hybrid energy-mode cycle (EV/HEV/INTELLIGENT); absent on non-hybrid powertrains. */
+  cycleEnergyMode?(): string | null;
   prepare(context: PowertrainUpdateContext): void;
   update(context: PowertrainUpdateContext): PowertrainOutput;
   finishStep(speed: number, drivenWheelAngularVelocity?: number, frontWheelAngularVelocity?: number, rearWheelAngularVelocity?: number): void;

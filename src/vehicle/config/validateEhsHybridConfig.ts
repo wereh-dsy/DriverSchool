@@ -42,4 +42,15 @@ export function validateEhsHybridConfig(c: EhsHybridVehiclePhysicsConfig): void 
   }
   for (const k of ['acPower', 'dcPower'] as const) positive(h.charging[k], k);
   efficiency(h.charging.acEfficiency, 'AC efficiency'); efficiency(h.charging.dcEfficiency, 'DC efficiency');
+  if (h.driveModeStrategy) for (const s of Object.values(h.driveModeStrategy)) {
+    if (!s) continue;
+    positive(s.accelerationScale, 'EHS drive mode accelerationScale');
+    positive(s.torqueResponse, 'EHS drive mode torqueResponse');
+    positive(s.liftRegenScale, 'EHS drive mode liftRegenScale');
+    positive(s.engineStartPowerScale, 'EHS drive mode engineStartPowerScale');
+    positive(s.engineStopPowerScale, 'EHS drive mode engineStopPowerScale');
+    positive(s.evPowerThresholdScale, 'EHS drive mode evPowerThresholdScale');
+    positive(s.seriesRpmScale, 'EHS drive mode seriesRpmScale');
+    require(s.fullPowerPedalStart > 0 && s.fullPowerPedalStart < 1 && s.parallelLoadMin > 0 && s.parallelLoadMin < 1, 'EHS drive mode bounds');
+  }
 }

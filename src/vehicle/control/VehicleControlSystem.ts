@@ -107,12 +107,24 @@ export class VehicleControlSystem {
     this.setOptions(this.options);
     this.frontBrakeBias = config.brakes.frontBrakeBias;
   }
+  private tcsSlipOverride: number | null = null;
+  private baseTcsSlipMultiplier = 1.25;
   public setDriveMode(mode?: VehicleDriveMode): void {
     this.calibration = resolveControlCalibration(this.config, mode);
+    this.baseTcsSlipMultiplier = this.calibration.tcs.slipMultiplier;
     this.abs.setCalibration(this.calibration.abs); this.ebd.setCalibration(this.calibration.ebd);
     this.esc.setCalibration(this.calibration.esc); this.awd?.setCalibration(this.calibration.drivetrain);
+    this.applyTractionTune();
+  }
+  public setTcsSlipOverride(multiplier: number | null): void {
+    this.tcsSlipOverride = multiplier !== null && Number.isFinite(multiplier) ? clamp(multiplier, 1, 1.8) : null;
+    this.applyTractionTune();
+  }
+  private applyTractionTune(): void {
     const tune = this.calibration.tcs;
-    Object.assign(this.tractionTune, { slipThresholdMultiplier: tune.slipMultiplier,
+    const slip = this.tcsSlipOverride ?? this.baseTcsSlipMultiplier;
+    this.calibration.tcs.slipMultiplier = slip;
+    Object.assign(this.tractionTune, { slipThresholdMultiplier: slip,
       maximumTorqueReduction: tune.maximumTorqueReduction, response: tune.response, recoveryResponse: tune.recoveryResponse });
   }
   public setOptions(options: DriverAssistOptions): void {

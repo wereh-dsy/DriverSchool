@@ -1,5 +1,5 @@
-import type { DriveModeCalibration, DriveSelector } from '../config';
-import type { P2HybridVehiclePhysicsConfig, HybridMode, TransferMode } from '../config/P2HybridConfig';
+import type { DriveModeCalibration, DriveSelector, VehicleDriveMode } from '../config';
+import type { P2HybridVehiclePhysicsConfig, HybridMode, P2EvFallbackReason, P2TerrainMode, TransferMode } from '../config/P2HybridConfig';
 import type { DriveTorqueSource } from '../physics/DriveTorqueSource';
 import { clamp, clamp01 } from '../physics/math';
 import { implicitClutchDemand } from '../transmission/implicitClutchDemand';
@@ -15,7 +15,10 @@ import { smoothLimit } from './EVThermalState';
 import type { EVTelemetry, PowertrainInitialState, PowertrainOutput, PowertrainUpdateContext } from './Powertrain';
 
 export interface HybridTelemetry {
-  mode: HybridMode; state: string; holdSOC: number; engineRequested: boolean;
+  mode: HybridMode; state: string; holdSOC: number; targetSOC?: number;
+  terrainMode?: P2TerrainMode;
+  evFallbackActive?: boolean; evFallbackReason?: P2EvFallbackReason;
+  engineRequested: boolean;
   enginePhase: string; clutchEngagement: number; clutchSlipRPM: number; clutchTorque: number;
   enginePowerW: number; motorPowerW: number; generationPowerW: number; wheelPowerW: number;
   clutchLossW: number; transmissionLossW: number; electricalLossW: number;
@@ -64,6 +67,9 @@ export class P2HybridPowertrain extends ICEPowertrain {
   private fuelBurnedL = 0;
   private fuelOmega = 0;
   private shiftFill = 0;
+  private smoothedDemand = 0;
+  private smoothedCoastScale = 1;
+  public terrainMode: P2TerrainMode = 'OFF';
   private lastP2Context?: PowertrainUpdateContext;
   private readonly shiftTorqueAtRPM = (rpm: number): number => {
     const omega = Math.max(1, Math.abs(rpm) * Math.PI / 30), h = this.config.hybrid;
@@ -103,6 +109,17 @@ export class P2HybridPowertrain extends ICEPowertrain {
     return this.motor.rotationalInertia * this.ratio ** 2 * share * .5;
   }
   public setHybridMode(mode: HybridMode, targetSOC?: number): void { this.energyManagement.setMode(mode, targetSOC); }
+  public setTerrainMode(mode: P2TerrainMode): void {
+    if (mode === 'OFF' || mode === 'SNOW' || mode === 'MUD' || mode === 'SAND') this.terrainMode = mode;
+  }
+  public cycleEnergyMode(): HybridMode {
+    const order = this.config.hybrid.energyModeOrder ?? ['EV', 'HEV', 'INTELLIGENT'];
+    const current = this.energyManagement.mode === 'HYBRID' ? 'HEV' : this.energyManagement.mode;
+    const index = order.indexOf(current);
+    const next = order[(index + 1) % order.length] ?? 'HEV';
+    this.energyManagement.setMode(next);
+    return next;
+  }
   public override requestDriveSelector(selector: DriveSelector, speed: number, lateralSpeed: number, brake: number): boolean {
     return this.transmission.requestSelector(selector, speed * this.transfer.ratio, lateralSpeed, brake);
   }
@@ -136,6 +153,7 @@ export class P2HybridPowertrain extends ICEPowertrain {
     }
     this.energyManagement.reset();
     if (state.hybrid?.mode) this.energyManagement.setMode(state.hybrid.mode, state.hybrid.holdSOC);
+    this.terrainMode = state.hybrid?.terrainMode ?? 'OFF';
     this.transfer.reset();
     if (state.hybrid?.transferMode) this.transfer.request(state.hybrid.transferMode, 0, 'N', 1);
     if (state.ice?.engineRunning !== true) this.engine.reset(0, false);
@@ -146,6 +164,7 @@ export class P2HybridPowertrain extends ICEPowertrain {
     this.enginePower = this.clutchLoss = this.transmissionLoss = this.electricalLoss = 0;
     this.regenerationTorque = this.requestedBrake = 0;
     this.thermalBudget.reset(); this.fuelBurnedL = this.fuelOmega = this.shiftFill = 0;
+    this.smoothedDemand = 0; this.smoothedCoastScale = 1;
     this.p2Output.drivenWheelTorque = this.p2Output.frontWheelTorque = this.p2Output.rearWheelTorque = 0;
   }
   public override captureState(previous: PowertrainInitialState = {}): PowertrainInitialState {
@@ -153,7 +172,7 @@ export class P2HybridPowertrain extends ICEPowertrain {
     previous.ev = { stateOfCharge: this.battery.stateOfCharge, batteryTemperature: this.battery.temperature,
       rearMotorTemperature: this.motor.temperature };
     previous.hybrid = { mode: this.energyManagement.mode, holdSOC: this.energyManagement.holdSOC,
-      transferMode: this.transfer.mode, freeShaftOmega: this.freeOmega };
+      transferMode: this.transfer.mode, terrainMode: this.terrainMode, freeShaftOmega: this.freeOmega };
     previous.ice!.currentFuelL = this.fuel.currentFuelL;
     return previous;
   }
@@ -194,29 +213,46 @@ export class P2HybridPowertrain extends ICEPowertrain {
     const lowSpeedAuthority = this.transfer.mode === '4L' ? clamp01((this.config.hybrid.transfer.lowMaximumSpeed - Math.abs(c.vehicleSpeed)) / 1.5) : 1;
     this.propulsionAuthority = c.torqueLimitFactor * lowSpeedAuthority;
     const tune = this.config.hybrid.driveability, eta = this.config.transmission.drivetrainEfficiency * this.config.hybrid.transfer.efficiency;
+    const dmStrat = c.driveMode ? this.config.hybrid.driveModeStrategy?.[c.driveMode as VehicleDriveMode] : undefined;
+    const terrainStrat = this.terrainMode !== 'OFF' ? this.config.hybrid.terrainStrategies?.[this.terrainMode] : undefined;
     const held = c.autoHoldHolding || c.parkingBrakeActive || c.brake >= .02;
     this.creeping = !!tune && this.driving && this.pedal < .01 && !held && Math.abs(c.vehicleSpeed) < tune.creepSpeed;
+    const effectivePedal = terrainStrat ? clamp01(this.pedal) ** (terrainStrat.pedalExponent / 1.12) : this.pedal;
     const acceleration = tune ? this.transfer.mode === '4L' ? tune.lowRangeAcceleration :
+      terrainStrat ? terrainStrat.acceleration :
+      dmStrat ? dmStrat.acceleration :
       this.energyManagement.mode === 'SPORT' || c.driveMode === 'SPORT' ? tune.sportAcceleration :
       c.driveMode === 'ECO' ? tune.ecoAcceleration : tune.normalAcceleration : 0;
     const force = tune ? (this.config.mass + this.variableMassKg) * (this.creeping ?
       tune.creepAcceleration * clamp01((tune.creepSpeed - Math.abs(c.vehicleSpeed)) / tune.creepSpeed) :
-      acceleration * (this.transfer.mode === '4L' ? this.pedal ** 1.5 : this.pedal)) : 0;
-    const progressiveRequest = tune ? force * this.config.wheelRadius / Math.max(1, Math.abs(this.ratio) * eta) : this.pedal * totalCapacity;
+      acceleration * (this.transfer.mode === '4L' ? effectivePedal ** 1.5 : effectivePedal)) : 0;
+    const progressiveRequest = tune ? force * this.config.wheelRadius / Math.max(1, Math.abs(this.ratio) * eta) : effectivePedal * totalCapacity;
     // Daily pedal travel requests a progressive acceleration. Kickdown must
     // reach the installed shaft envelope: full throttle is not an artificial
     // fixed-acceleration limiter. Motor, crank, pack and TCS still bound delivery.
-    const fullPowerStart = tune?.fullPowerPedalStart ?? 1;
-    const fullPower = fullPowerStart < 1 ? smoothLimit((this.pedal - fullPowerStart) / (1 - fullPowerStart)) : 0;
+    const fullPowerStart = terrainStrat?.fullPowerPedalStart ?? dmStrat?.fullPowerPedalStart ?? tune?.fullPowerPedalStart ?? 1;
+    const fullPower = fullPowerStart < 1 ? smoothLimit((effectivePedal - fullPowerStart) / (1 - fullPowerStart)) : 0;
     const shaftRequest = progressiveRequest + (totalCapacity - progressiveRequest) * fullPower;
-    const demand = this.driving && !held ? Math.min(totalCapacity, shaftRequest) * this.propulsionAuthority : 0;
+    const rawDemand = this.driving && !held ? Math.min(totalCapacity, shaftRequest) * this.propulsionAuthority : 0;
+    // Smooth demand response prevents torque steps on driving/energy/terrain mode switches
+    // while keeping brake/lift-off reduction immediate.
+    const responseRate = terrainStrat?.demandResponseRate ?? dmStrat?.demandResponseRate ?? 8;
+    const targetCoastScale = terrainStrat?.coastDecelerationScale ?? dmStrat?.coastDecelerationScale ?? 1;
+    this.smoothedCoastScale += (targetCoastScale - this.smoothedCoastScale) * -Math.expm1(-6 * c.dt);
+    if (!this.driving || held) this.smoothedDemand = 0;
+    else if (this.pedal < .01 && !this.creeping) this.smoothedDemand += (rawDemand - this.smoothedDemand) * -Math.expm1(-Math.max(16, responseRate * 2) * c.dt);
+    else this.smoothedDemand += (rawDemand - this.smoothedDemand) * -Math.expm1(-responseRate * c.dt);
+    const demand = Math.min(totalCapacity * this.propulsionAuthority, this.smoothedDemand);
+    const batteryThermalDerated = this.battery.availableDischargePower < this.config.hybrid.battery.maxDischargePower * .72 &&
+      (this.battery.temperature <= 5 || this.battery.temperature >= (this.config.hybrid.battery.thermal?.derateStartTemperature ?? 45));
     const ems = this.energyManagement;
     ems.update({ dt: c.dt, operational: this.operational, connected: this.battery.connector !== null,
       speed: c.vehicleSpeed, demandTorque: demand, shaftOmega: this.shaftOmega, soc: this.battery.stateOfCharge,
       dischargePower: discharge, chargePower: this.battery.chargeLimit(c.dt), brake: c.brake,
       engineRunning: this.engine.isRunning && !this.engine.isStarting, fuelAvailable: this.fuel.hasFuel,
       shifting: this.transmission.isShifting, engineTorqueCapacity: this.engine.availableTorque * (this.thermal?.torqueFactor ?? 1),
-      motorTorqueCapacity: motorCapacity, driveMode: c.driveMode, pedal: this.pedal, driving: this.driving });
+      motorTorqueCapacity: motorCapacity, driveMode: c.driveMode, terrainMode: this.terrainMode,
+      batteryThermalDerated, pedal: this.pedal, driving: this.driving });
     if (ems.engineRequested && !this.engine.isRunning && !this.engine.isStarting && this.operational &&
       this.battery.dischargeLimit(c.dt) >= this.config.hybrid.starterPower) this.engine.start();
     if (!ems.engineRequested && (this.engine.isRunning || this.engine.isStarting) && this.clutch.engagement < .01) this.engine.stop();
@@ -277,8 +313,8 @@ export class P2HybridPowertrain extends ICEPowertrain {
     // braking (including cruise with no accelerator) retains priority.
     const serviceBraking = this.requestedBrake > 1 && (c.brake >= .02 || c.throttle < .01);
     const brakeMotor = serviceBraking ? this.requestedBrake * eta / Math.max(1, ratio) * fade : 0;
-    const coastTorque = h.driveability ? (this.config.mass + this.variableMassKg) * h.driveability.coastDeceleration *
-      this.config.wheelRadius * eta / Math.max(1, ratio) : h.regen.liftTorque;
+    const coastTorque = (h.driveability ? (this.config.mass + this.variableMassKg) * h.driveability.coastDeceleration *
+      this.config.wheelRadius * eta / Math.max(1, ratio) : h.regen.liftTorque) * this.smoothedCoastScale;
     const liftMotor = this.driving && !this.creeping && this.clutch.engagement < .01 && c.throttle < .01 && c.brake < .02 ? coastTorque * fade : 0;
     let target = this.driving ? demand / Math.max(.1, this.transmission.torqueFactor) - this.k0Torque : 0;
     if (this.driving && c.throttle < .01 && !this.creeping && this.clutch.engagement > .01 && this.k0Torque < 0) target = 0;
@@ -394,7 +430,10 @@ export class P2HybridPowertrain extends ICEPowertrain {
     base.ice.clutchEngagement = this.clutch.engagement;
     base.ice.clutchPedal = 1 - this.clutch.engagement;
     const hybrid: HybridTelemetry = { mode: this.energyManagement.mode, state: this.energyManagement.state,
-      holdSOC: this.energyManagement.holdSOC, engineRequested: this.energyManagement.engineRequested,
+      holdSOC: this.energyManagement.holdSOC, targetSOC: this.energyManagement.activeTargetSOC,
+      terrainMode: this.terrainMode,
+      evFallbackActive: this.energyManagement.evFallbackActive, evFallbackReason: this.energyManagement.evFallbackReason,
+      engineRequested: this.energyManagement.engineRequested,
       enginePhase: this.engine.ignitionPhase, clutchEngagement: this.clutch.engagement,
       clutchSlipRPM: this.p2Output.couplingSlipAngularVelocity * 30 / Math.PI, clutchTorque: this.k0Torque,
       enginePowerW: this.enginePower, motorPowerW: motorPower, generationPowerW: Math.max(0, -motorPower),

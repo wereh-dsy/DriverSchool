@@ -1,0 +1,177 @@
+{
+  "timestepHz": 120,
+  "hybridModes": {
+    "passed": true,
+    "assertions": 13131,
+    "report": {
+      "tank500DriveModeResponse": {
+        "ECO": {
+          "wheelTorqueAt05s": 1317.9,
+          "speedAt3sKmh": 9.92,
+          "speedAt6sKmh": 20.94,
+          "socDrop": 0.0656,
+          "fuelL": 0
+        },
+        "STANDARD": {
+          "wheelTorqueAt05s": 2506.4,
+          "speedAt3sKmh": 18.1,
+          "speedAt6sKmh": 38.96,
+          "socDrop": 0.1819,
+          "fuelL": 0.00428
+        },
+        "SPORT": {
+          "wheelTorqueAt05s": 3609.9,
+          "speedAt3sKmh": 26.08,
+          "speedAt6sKmh": 55.78,
+          "socDrop": 0.1086,
+          "fuelL": 0.03681
+        }
+      },
+      "qinPlusDriveModeResponse": {
+        "ECO": {
+          "wheelTorqueAt05s": 454.5,
+          "speedAt3sKmh": 8.85,
+          "speedAt6sKmh": 18.76,
+          "socDrop": 0.0352,
+          "fuelL": 0,
+          "coastRegenNm": 160.6
+        },
+        "NORMAL": {
+          "wheelTorqueAt05s": 841.5,
+          "speedAt3sKmh": 15.57,
+          "speedAt6sKmh": 32.5,
+          "socDrop": 0.0989,
+          "fuelL": 0,
+          "coastRegenNm": 127.2
+        },
+        "SPORT": {
+          "wheelTorqueAt05s": 1316.8,
+          "speedAt3sKmh": 23.45,
+          "speedAt6sKmh": 48.19,
+          "socDrop": 0.07,
+          "fuelL": 0.01794,
+          "coastRegenNm": 97.6
+        },
+        "SNOW": {
+          "wheelTorqueAt05s": 209.9,
+          "speedAt3sKmh": 5.39,
+          "speedAt6sKmh": 12.04,
+          "socDrop": 0.0171,
+          "fuelL": 0,
+          "coastRegenNm": 50.8
+        }
+      },
+      "combinations": {
+        "qinBasicCount": 6,
+        "tankCount": 9
+      },
+      "evExits": {
+        "tankLowReason": "LOW_SOC",
+        "tankColdReason": "THERMAL_LIMIT",
+        "qinLowReason": "LOW_SOC",
+        "qinPowerReason": "BATTERY_LIMIT"
+      },
+      "hevElectricOperation": {
+        "tankState": "EV",
+        "qinState": "EV"
+      },
+      "tank500IntelligentSOC": {
+        "intelEndSoc": 32.09,
+        "plainEndSoc": 31.74,
+        "intelTargetSocPct": 44,
+        "intelGenSamples": 2049,
+        "plainGenSamples": 0
+      },
+      "qinSeriesParallelDirect": {
+        "seriesTargetRpm": {
+          "ECO": 3132,
+          "NORMAL": 5147,
+          "SPORT": 6000
+        },
+        "sawParallel": true,
+        "sawDirect": true
+      },
+      "tank500K0AndTerrain": {
+        "k0Engaged": true,
+        "gearsAt12s": {
+          "ECO": 5,
+          "STANDARD": 6,
+          "SPORT": 6
+        }
+      },
+      "fullThrottle0To100": {
+        "tankEcoHev": {
+          "t100": 7.33,
+          "peakWheelKW": 264.9
+        },
+        "tankStdHev": {
+          "t100": 7.2,
+          "peakWheelKW": 261.8
+        },
+        "tankSportHev": {
+          "t100": 6.88,
+          "peakWheelKW": 264.5
+        },
+        "qinEcoHev": {
+          "t100": 8.2,
+          "peakWheelKW": 148.7
+        },
+        "qinNormalHev": {
+          "t100": 8.11,
+          "peakWheelKW": 148.7
+        },
+        "qinSportHev": {
+          "t100": 8.01,
+          "peakWheelKW": 148.5
+        }
+      },
+      "lowAdhesion": {
+        "qinIce": {
+          "snow": {
+            "maxSlip": 0.795,
+            "tcsTicks": 412,
+            "speedKmh": 4.21
+          },
+          "sport": {
+            "maxSlip": 0.972,
+            "tcsTicks": 464,
+            "speedKmh": 4.43
+          }
+        },
+        "tankSnowSpeedKmh": 6.68
+      },
+      "gamepadLongPress": {
+        "tankCycle": [
+          "INTELLIGENT",
+          "EV",
+          "HEV",
+          "INTELLIGENT"
+        ],
+        "qinCycle": [
+          "HEV",
+          "EV",
+          "HEV",
+          "EV"
+        ],
+        "nonHybridIgnored": true
+      },
+      "torqueContinuityNm": {
+        "tankMaxStepDeltaNm": 58.1,
+        "qinMaxStepDeltaNm": 28.3
+      },
+      "audioConsistency": {
+        "tankEvMotorGain": 0.00368,
+        "tankFallbackEngineGain": 0.7144,
+        "qinSportCutoffHz": 1186.7,
+        "qinEcoCutoffHz": 1007.5
+      }
+    }
+  },
+  "inputAssertions": 160,
+  "tankControlAssertions": 9302,
+  "tankDriveabilityAssertions": 11,
+  "p2Assertions": 9018,
+  "ehsVehicleAssertions": 7566,
+  "tankDisplaysAssertions": 7,
+  "qinVisualAssertions": 17
+}

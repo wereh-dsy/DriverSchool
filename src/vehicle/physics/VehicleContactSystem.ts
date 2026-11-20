@@ -1,6 +1,6 @@
 import type { VehicleInputState } from '../../input/VehicleInputState';
 import type { DrivingGround } from '../../world/DrivingGround';
-import { VehicleCollisionSystem, type CollisionDimensions, type CollisionResolution } from './CollisionSystem';
+import { VehicleCollisionSystem, type CollisionDimensions, type CollisionPoint2, type CollisionResolution, type StaticCollider } from './CollisionSystem';
 import { VehicleDynamics, type VehicleSnapshotFor, type VehicleEnvironment } from './VehicleDynamics';
 import type { Powertrain } from '../powertrain/Powertrain';
 import { WHEEL_IDS, sampleWheelContacts, createWheelContactBuffer, averageWheelGroundGeometry, type WheelContactSet } from './WheelContact';
@@ -13,6 +13,8 @@ import { WheelSupportContinuity } from './WheelSupportContinuity';
 export class VehicleContactSystem {
   /** Undefined while OFF: no recorder allocation, sampling, triggers or extra queries. */
   public blackBox?: VehiclePhysicsBlackBox;
+  /** Optional dynamic/debug obstacle collider provider (returns empty when idle). */
+  public extraColliderQuery?: (pose: CollisionPoint2, radiusM: number) => readonly StaticCollider[];
   public readonly collisionSystem: VehicleCollisionSystem;
   public wheelContacts: WheelContactSet | null = null;
   public collision: CollisionResolution | null = null;
@@ -164,6 +166,9 @@ export class VehicleContactSystem {
     // Collision geometry and sweep use the body origin, so supply its point velocity.
     const bodyOriginLateralVelocity = after.lateralVelocity - after.yawRate * centerOfMassOffsetZ(dynamics.config);
     const body = chassisBodyPose(after.chassis, this.collisionDimensions.bodyOffsetY, after.yaw);
+    const extraColliders = this.extraColliderQuery
+      ? this.extraColliderQuery({ x: after.x + body.offsetX, z: after.z + body.offsetZ }, 16)
+      : undefined;
     this.collision = this.collisionSystem.resolve({
       previousPose: { x: before.x + previousBody.offsetX, z: before.z + previousBody.offsetZ, yaw: before.yaw, ...previousBody },
       pose: { x: after.x + body.offsetX, z: after.z + body.offsetZ, yaw: after.yaw, ...body },
@@ -173,6 +178,7 @@ export class VehicleContactSystem {
       },
       dimensions: this.collisionDimensions,
       dt,
+      extraColliders: extraColliders && extraColliders.length > 0 ? extraColliders : undefined,
     });
     if (this.collision.collided) {
       const beforeCollision = after;

@@ -10,11 +10,13 @@ import { assertReceipt, makeReceipt, MAPCTL_HELP } from './mapctl-support';
 import { runEngineeringCommand, requestFlags } from './mapctl-engineering';
 import { runElevationSeamCommand } from './mapctl-elevation-seams';
 import { runRampProfileCommand } from './mapctl-ramp-profiles';
+import { runLaneGraphCommand } from './mapctl-lanegraph';
+import { auditRoadMap } from './audit-road-network';
 
 const [command, mapArg, ...args] = process.argv.slice(2), flags = new Map<string,string>();
 const json = (value:string) => JSON.parse(value.startsWith('@') ? readFileSync(resolve(value.slice(1)),'utf8').replace(/^\uFEFF/,'') : value);
 const output = (value:unknown) => console.log(JSON.stringify(value??null,null,2));
-const usage = 'Usage: pnpm mapctl inspect|query|snap|diagnose|preview|repair|apply|validate <map.json|city-alpha|regional-main> --request @request.json [--out output.json] [--full] [--apply]; page saved diagnostics: query <diagnosis.json> --request {kind:"diagnosis",offset:0,limit:100}';
+const usage = 'Usage: pnpm mapctl inspect|query|snap|diagnose|preview|repair|apply|validate|audit|lane-graph <map.json|city-alpha|regional-main> --request @request.json [--out output.json] [--full] [--apply]; page saved diagnostics: query <diagnosis.json> --request {kind:"diagnosis",offset:0,limit:100}';
 try {
   if(command==='--help'||command==='help'||mapArg==='--help'||args.includes('--help'))output(MAPCTL_HELP);
   else {
@@ -41,6 +43,8 @@ try {
     const writesMap=command==='apply'||['repair','brush'].includes(command??'')&&flags.get('apply')==='true';
     if(flags.has('out')&&resolve(flags.get('out')!).toLowerCase()===source.toLowerCase()&&!writesMap)throw new Error('Read-only output cannot overwrite source map');
     if(runRampProfileCommand({command:command!,kernel,request,flags,source,digest,output})){}
+    else if(runLaneGraphCommand({command:command!,kernel,request,flags,source,output})){}
+    else if(command==='audit'){output(auditRoadMap(source, mapArg));}
     else if(await runElevationSeamCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
     else if(await runEngineeringCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
     else if(command==='inspect'){output(kernel.inspectArea(request??{center:{x:0,z:0},radius:200}));}

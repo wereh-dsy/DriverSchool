@@ -12,6 +12,11 @@ Vector3,
 WebGLRenderer
 } from 'three';
 import { EngineAudio } from '../audio/EngineAudio';
+import {
+  createVehicleAcousticTelemetry,
+  populateAcousticTelemetry,
+} from '../audio/AcousticTelemetry';
+import type { VehicleAcousticProfile } from '../audio/VehicleAcousticProfile';
 import type { VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import { evaluateCabinAcoustics,type CabinAcousticState } from '../audio/VehicleCabinAcoustics';
 import {
@@ -24,7 +29,7 @@ type AdjustableMirrorSide
 import type { AdaptiveMirrorContext } from '../camera/AdaptiveMirrorRendering';
 import { MirrorGeometryDebug } from '../camera/MirrorGeometryDebug';
 import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
-import { AccelerationTest } from '../experimental/acceleration/AccelerationTest';
+import { AccelerationTest, type AccelerationTarget } from '../experimental/acceleration/AccelerationTest';
 import { AccelerationTestView } from '../experimental/acceleration/AccelerationTestView';
 import { TrajectoryPrediction } from '../experimental/trajectory/TrajectoryPrediction';
 import {
@@ -40,6 +45,7 @@ import { platform } from '../platform';
 import { OnFootController } from '../player/OnFootController';
 import { vehicleControlsForPlayerMode } from '../player/PlayerInput';
 import { PlayerModeController,smoothPlayerTransition } from '../player/PlayerModeController';
+import { DrivingLabHUD, type DrivingLabModuleId, type DrivingLabModuleStates } from '../ui/DrivingLabHUD';
 import { EhsControlPanel } from '../ui/EhsControlPanel';
 import { Hud } from '../ui/Hud';
 import { HybridControlPanel } from '../ui/HybridControlPanel';
@@ -58,6 +64,20 @@ type VehicleId,
 } from '../vehicle/VehicleCatalog';
 import { VehicleLoadingLifecycle } from '../vehicle/VehicleLoadingLifecycle';
 import { CruiseControlController } from '../vehicle/control';
+import {
+  ADASController,
+  ScenarioDebugger,
+  syncADASLiveVehicleTelemetry,
+  type ADASCollisionContactInfo,
+  type ADASState,
+  type ADASVehicleState,
+  type ADASWorldContext,
+} from '../vehicle/adas';
+import {
+  clampHUDHeightLevel,
+  VehicleHUDSystem,
+  type VehicleHUDFrameInput,
+} from '../vehicle/hud';
 import { LANE_ASSIST_LABELS,LaneAssistMode,LaneAssistStateController } from '../vehicle/control/LaneAssistState';
 import { LaneDepartureWarningController } from '../vehicle/control/LaneDepartureWarningController';
 import { LateralAssistController,arbitrateLateralSteering,type LateralAssistContext } from '../vehicle/control/LateralAssistController';
@@ -155,11 +175,56 @@ export class DrivingGame {
   private readonly hud: Hud;
   private readonly lapTimer = new LapTimer();
   private readonly engineAudio = new EngineAudio();
+  private readonly acousticTelemetry = createVehicleAcousticTelemetry();
+  private readonly acousticContext: {
+    roadRoughness: number;
+    cockpit: boolean;
+    cabinAcoustics: CabinAcousticState | undefined;
+    hasDriverAccess: boolean;
+    doorOpen: number;
+    windowOpen: number;
+    cruiseActive: boolean;
+    parkingDistance: number | null;
+    drivetrainLashIntensity: number;
+  } = {
+    roadRoughness: 0.12,
+    cockpit: true,
+    cabinAcoustics: undefined,
+    hasDriverAccess: false,
+    doorOpen: 0,
+    windowOpen: 0,
+    cruiseActive: false,
+    parkingDistance: null,
+    drivetrainLashIntensity: 0,
+  };
   private readonly hybridControls = new HybridControlPanel(
     () => this.dynamics?.powertrain instanceof P2HybridPowertrain ? this.dynamics.powertrain : undefined,
-    () => this.snapshot?.speed ?? 0, () => this.snapshot?.brake ?? 0);
+    () => this.snapshot?.speed ?? 0, () => this.snapshot?.brake ?? 0,
+    mode => {
+      if (!this.dynamics?.setTerrainMode(mode)) return;
+      this.snapshot = this.dynamics.getSnapshot();
+      this.hud.showMessage(mode === 'OFF' ? `返回公路模式 · ${this.snapshot.driveMode ?? 'STANDARD'}` : `全地形模式 · ${mode}`, 1.8);
+    });
   private readonly ehsControls = new EhsControlPanel(
-    () => this.dynamics?.powertrain instanceof EhsHybridSystem ? this.dynamics.powertrain : undefined);
+    () => this.dynamics?.powertrain instanceof EhsHybridSystem ? this.dynamics.powertrain : undefined,
+    () => this.dynamics?.driveMode === 'SNOW',
+    enabled => {
+      if (!this.dynamics?.setSnowMode(enabled)) return;
+      this.snapshot = this.dynamics.getSnapshot();
+      this.hud.showMessage(enabled ? '驾驶模式 · SNOW 雪地' : `驾驶模式 · ${this.snapshot.driveMode ?? 'NORMAL'}`, 1.8);
+    });
+  private hybridEnergyHudVisible = false;
+  private drivingLabEnabled = false;
+  private standaloneTrajectoryEnabled = false;
+  private standaloneAccelEnabled = false;
+  private drivingLabModules: DrivingLabModuleStates = {
+    scenario: true,
+    trajectory: false,
+    acceleration: false,
+    energy: false,
+  };
+  private drivingLabHud: DrivingLabHUD | null = null;
+  private lastEvFallbackActive = false;
   private executiveDisplay: ExecutiveDisplayContext | null = null;
   private electricDisplay: ElectricDisplayContext | null = null;
   private drivingSceneDisplay: DrivingSceneDisplayContext | null = null;
@@ -173,9 +238,54 @@ export class DrivingGame {
       console.error('Vehicle loading failed', this.vehicleLoading.error);
     }
   });
-  private combustionAudioLoad = false;
   
   private readonly cruiseControl = new CruiseControlController();
+  private readonly adas = new ADASController();
+  private readonly vehicleHud = new VehicleHUDSystem();
+  private hudHeightLevel = 0;
+  private readonly adasVisualQueryPose = { x: 0, z: 0 };
+  private readonly hudActorPool: import('../vehicle/adas/ADASTypes').TrafficActorSnapshot[] = Array.from({ length: 16 }, () => ({
+    id: '',
+    kind: 'vehicle' as const,
+    x: 0,
+    y: 0,
+    z: 0,
+    yaw: 0,
+    speed: 0,
+    vx: 0,
+    vz: 0,
+    length: 4.5,
+    width: 1.85,
+    height: 1.5,
+    confidence: 1,
+    timestamp: 0,
+  }));
+  private readonly vehicleHudInput: VehicleHUDFrameInput;
+  private readonly scenarioDebugger: ScenarioDebugger;
+  private adasSimTime = 0;
+  private prevAdasStateForHud: ADASState = 'OFF';
+  private readonly adasCollisionContacts: ADASCollisionContactInfo[] = [];
+  private readonly adasCollisionSample = {
+    collided: false,
+    deltaSpeedMps: 0,
+    contacts: this.adasCollisionContacts,
+  };
+  private readonly adasLamps = { leftSignalActive: false, rightSignalActive: false, hazardActive: false };
+  private readonly adasVehicleState: ADASVehicleState = {
+    x: 0, y: 0, z: 0, yaw: 0, speed: 0, lateralVelocity: 0, yawRate: 0, acceleration: 0,
+    steeringAngle: 0, steeringWheelAngle: 0, throttle: 0, brake: 0,
+    wheelBase: 2.8, vehicleWidth: 1.9, vehicleLength: 4.8,
+    steeringConfig: { maxRoadWheelAngle: 0.56, steeringWheelLock: 9.4, steeringRatio: 15, highSpeedReferenceSpeed: 18, highSpeedMinimumAuthority: 0.22 },
+    vehicleOperational: false, driveAvailable: false, forwardGear: false,
+    parkingBrakeActive: false, autoHoldHolding: false, suspended: true,
+  };
+  private readonly adasWorldContext: ADASWorldContext = {
+    navigationState: null,
+    roadNetwork: undefined,
+    nearbyNetwork: undefined,
+    trafficSignals: undefined,
+    simulationTime: 0,
+  };
   private readonly lateralAssist = new LateralAssistController();
   private readonly laneAssistSelection = new LaneAssistStateController();
   private readonly laneDepartureWarning = new LaneDepartureWarningController();
@@ -288,6 +398,39 @@ export class DrivingGame {
     private readonly integration: DrivingGameIntegration|undefined, preparedVisual: SimulationVehicleRig) {
     
     this.hud = new Hud(host);
+    this.vehicleHudInput = {
+      dt: 0,
+      visible: false,
+      vehicleId: DEFAULT_VEHICLE_ID,
+      ignitionOn: true,
+      snapshot: null,
+      sharedSpeedLimitKmh: null,
+      navigationState: null,
+      headLookYawRad: 0,
+      headLookPitchRad: 0,
+      bodyPitchRad: 0,
+      bodyRollRad: 0,
+      adasEnabled: false,
+      adasStatus: this.adas.status,
+      adasPlan: this.adas.planner.snapshot,
+      adasObstacle: this.adas.obstacleAvoidance.assessment,
+      adasRules: this.adas.trafficRules.decision,
+      adasVehicle: this.adasVehicleState,
+      samplesApproachLane: 0,
+      theme: 'DAY',
+      rainIntensity: 0,
+      fogIntensity: 0,
+      wetness: 0,
+      ground: null,
+      camera: null,
+      viewportWidth: 1280,
+      viewportHeight: 720,
+      colliders: undefined,
+      actors: this.adas.obstacleAvoidance.perception.actors,
+      actorCount: 0,
+      capabilities: undefined,
+    };
+    this.scenarioDebugger = new ScenarioDebugger(this.scene, () => this.adasVehicleState, () => this.ground, host, () => this.adasSimTime);
     renderer.onError = () => this.hud.showMessage('独立渲染线程异常 · 请返回主菜单重试', 30);
     this.contactDebug = new ContactDebugView(host);
     this.scene.add(this.contactDebug.root);
@@ -305,15 +448,18 @@ export class DrivingGame {
     this.hud.setNavigation(this.navigation);
     this.hud.onMapVisibilityChange=visible=>{
       this.runtime.simulation.reset();this.draggingLook=false;this.input.setEnabled(false);this.haptics.stop();
-      if(visible){this.cruiseControl.reset();this.laneAssistSelection.cancelCentering();this.laneAssistSelection.applyTo(this.lateralAssist);}
+      if(visible){this.cruiseControl.reset();this.adas.reset();this.laneAssistSelection.cancelCentering();this.laneAssistSelection.applyTo(this.lateralAssist);}
       else this.renderer.domElement.focus();
     };
     this.activeVehicleId = integration?.vehicleId ?? this.readStoredVehicleId();
+    this.hudHeightLevel = this.readStoredHudHeight(this.activeVehicleId);
     const initialVehicle = getVehicleDescriptor(this.activeVehicleId);
     this.vehicleLoading.mark('Static asset prepare');
     
     const colliderIndexStarted = performance.now();
     this.contacts = new VehicleContactSystem(this.ground, initialVehicle.visualConfig.collisionDimensions);
+    this.contacts.extraColliderQuery = (pose, radiusM) =>
+      this.scenarioDebugger.activeCount > 0 ? this.scenarioDebugger.getNearbyColliders(pose, radiusM) : [];
     performance.measure('city:colliderIndex', {start:colliderIndexStarted,end:performance.now()});
     this.vehicleLoading.mark('Instance creation');
     this.vehicleVisual = preparedVisual;
@@ -358,7 +504,7 @@ export class DrivingGame {
     this.driverCamera.update(this.vehicleVisual.root, 0);
     // WORLD, EXTERIOR, INTERIOR, MIRROR_SURFACE, and optional DEBUG overlays.
     this.driverCamera.camera.layers.enableAll();
-    this.configureVehicleInteraction(this.vehicleVisual, initialVehicle.audioProfile);
+    this.configureVehicleInteraction(this.vehicleVisual, initialVehicle.audioProfile, initialVehicle.acousticProfile);
 
     this.configureVehicleSettings();
     this.configureGroundSelection();
@@ -434,6 +580,9 @@ export class DrivingGame {
     this.gameShell?.dispose();
     for (const waiter of this.readyWaiters) waiter.reject(new Error('Driving session disposed')); this.readyWaiters = [];
     this.hud.dispose();
+    this.drivingLabHud?.dispose();
+    this.drivingLabHud = null;
+    this.scenarioDebugger.dispose();
     this.contactDebug.dispose();
     this.lateralDebug?.dispose();
     this.trajectoryPrediction?.dispose();
@@ -506,7 +655,7 @@ export class DrivingGame {
     this.engineAudio.setMenuDucked(!driving);
     if (!driving) {
       if (document.pointerLockElement) document.exitPointerLock();
-      this.cruiseControl.reset(); this.laneAssistSelection.cancelCentering();
+      this.cruiseControl.reset(); this.adas.reset(); this.laneAssistSelection.cancelCentering();
       this.lateralAssist.reset(); this.lapTimer.suspend(this.snapshot);
       this.accelerationTest?.interrupt('打开菜单', false);
     } else this.renderer.domElement.focus();
@@ -546,11 +695,15 @@ export class DrivingGame {
   }
 
   /** Binds the vehicle-authored interaction contract into the shared runtime. */
-  private configureVehicleInteraction(visual: SimulationVehicleRig, audioProfile?: VehicleAudioProfile): void {
+  private configureVehicleInteraction(
+    visual: SimulationVehicleRig,
+    audioProfile?: VehicleAudioProfile,
+    acousticProfile?: VehicleAcousticProfile,
+  ): void {
     const base = visual.interactionDefinition;
     this.interactionDefinition = base === null
       ? null
-      : { ...base, cabinAcoustics: audioProfile?.cabinAcoustics };
+      : { ...base, cabinAcoustics: audioProfile?.cabinAcoustics ?? acousticProfile?.cabin.cabinAcoustics };
     this.vehicleInteraction.configure(this.interactionDefinition);
     this.playerMode.reset('Driving');
     this.walker.reset();
@@ -814,49 +967,147 @@ export class DrivingGame {
         const labels = { OFF: '关闭', AUTO: '自动', INTERMITTENT: '间歇', LOW: '低速', HIGH: '高速' };
         this.hud.showMessage(`前雨刷 · ${labels[mode]}`, 1.6);
       }
-      const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
-        available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
-        speedMetersPerSecond: this.snapshot.speed,
-        engineRunning: this.snapshot.driveAvailable,
-        currentThrottle: this.snapshot.throttle,
-        driverThrottleCommand: this.dynamics.driverThrottleCommand(driverControls.throttle),
-        torqueLimitFactor: this.snapshot.driverAssists.engineTorqueFactor,
-        parkingBrakeActive: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
-        autoHoldHolding: this.snapshot.autoHold.holding,
-        gear: this.snapshot.gear ?? 'N',
-        driveSelector: this.snapshot.transmission.selectedMode ?? undefined,
-      });
-      this.reportCruiseControlEvent();
-
-      this.laneAssistSelection.update(FIXED_STEP);
-      if (driverControls.cycleLaneAssist) this.laneAssistSelection.cycleMode();
-      if (driverControls.lccToggle) this.toggleLaneCentering();
-      this.laneAssistSelection.applyTo(this.lateralAssist);
-
-      const lateral = this.lateralContext;
-      lateral.speed = this.snapshot.speed; lateral.lateralVelocity = this.snapshot.lateralVelocity;
-      lateral.yawRate = this.snapshot.yawRate;
-      lateral.driverSteering = driverControls.steering; lateral.operational = this.snapshot.vehicleOperational;
-      lateral.forwardGear = this.snapshot.transmission.selectedMode === 'D';
-      lateral.suspended = this.settingsOpen || !this.gameStarted || document.hidden;
-      // Include the current input edge before the lamp controller consumes it below.
-      lateral.leftSignal = driverControls.leftIndicator ? !this.lightController.leftSignalSelected : this.lightController.leftSignalSelected;
-      lateral.rightSignal = driverControls.rightIndicator ? !this.lightController.rightSignalSelected : this.lightController.rightSignalSelected;
-      this.lateralPose.x = this.snapshot.x; this.lateralPose.z = this.snapshot.z;
-      this.lateralPose.yaw = this.snapshot.yaw; this.lateralPose.y = this.snapshot.chassis.groundHeight;
-      if(this.dynamics.capabilities.laneDisplay||this.dynamics.capabilities.lka||this.dynamics.capabilities.lcc) {
-        this.sharedVehicleData?.updateLaneObservation(FIXED_STEP, this.lateralPose, this.snapshot.speed, this.ground.roadNetwork,
-          this.lateralAssist.laneChangeOverride || lateral.leftSignal && driverControls.steering < -.1 || lateral.rightSignal && driverControls.steering > .1);
+      this.adasSimTime += FIXED_STEP;
+      if (this.gameStarted && !this.settingsOpen) {
+        this.scenarioDebugger.update(FIXED_STEP);
       }
-      const lateralOutput = this.lateralAssist.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane, lateral);
-      if (this.laneDepartureWarning.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane,
-        lateral, this.laneAssistSelection.state.mode, this.dynamics.capabilities.lka || this.dynamics.capabilities.lcc)) this.engineAudio.playLaneDepartureWarning();
-      controls.steering = arbitrateLateralSteering(driverControls.steering, lateralOutput);
+      const adasWasEnabled = this.adas.isEnabled;
+      if (driverControls.adasToggle) {
+        this.adas.toggle(this.snapshot.throttle);
+        if (this.adas.isEnabled && adasWasEnabled) {
+          this.hud.showMessage('碰撞停车驻车中 · 完成后可手动重新开启 ADAS', 2.0);
+        } else if (this.adas.isEnabled) {
+          this.cruiseControl.reset();
+          this.laneAssistSelection.cancelCentering();
+          this.laneAssistSelection.applyTo(this.lateralAssist);
+          this.hud.showMessage('ADAS 导航辅助驾驶已开启 · 按 Y 键或手柄 Y 可关闭', 2.0);
+        } else if (adasWasEnabled) {
+          this.hud.showMessage('ADAS 导航辅助驾驶已关闭', 1.8);
+        }
+      }
+
+      let controls = driverControls;
+      let lateralOutputActive = false;
+      if (this.adas.isEnabled || adasWasEnabled) {
+        const av = this.adasVehicleState;
+        const dims = this.vehicleVisual.config.dimensions;
+        av.x = this.snapshot.x; av.y = this.snapshot.chassis.groundHeight; av.z = this.snapshot.z;
+        av.yaw = this.snapshot.yaw; av.speed = this.snapshot.speed;
+        av.lateralVelocity = this.snapshot.lateralVelocity; av.yawRate = this.snapshot.yawRate;
+        av.acceleration = this.snapshot.acceleration;
+        av.steeringAngle = this.snapshot.steeringAngle; av.steeringWheelAngle = this.snapshot.steeringWheelAngle;
+        av.throttle = this.snapshot.throttle; av.brake = this.snapshot.brake;
+        av.wheelBase = this.dynamics.config.wheelBase;
+        av.vehicleWidth = dims.width; av.vehicleLength = dims.length;
+        av.steeringConfig = this.dynamics.config.steering;
+        av.vehicleOperational = this.snapshot.vehicleOperational;
+        av.driveAvailable = this.snapshot.driveAvailable;
+        av.forwardGear = this.snapshot.transmission.type === 'MANUAL'
+          ? typeof this.snapshot.gear === 'number' && this.snapshot.gear >= 1
+          : this.snapshot.transmission.selectedMode === 'D';
+        av.transmissionType = this.snapshot.transmission.type;
+        av.driveSelector = this.snapshot.transmission.selectedMode;
+        av.reverseGear = this.snapshot.gear === 'R' || this.snapshot.transmission.selectedMode === 'R';
+        av.neutralGear = this.snapshot.gear === 'N' || this.snapshot.transmission.selectedMode === 'N';
+        av.supportsPark = this.snapshot.transmission.type !== 'MANUAL' && this.snapshot.transmission.selectedMode !== null;
+        av.hasElectronicParkingBrake = this.dynamics.capabilities.electronicParkingBrake;
+        av.parkingBrakeEngaged = this.snapshot.parkingBrake.engaged;
+        av.collision = this.adasCollisionSample;
+        av.parkingBrakeActive = this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying;
+        av.autoHoldHolding = this.snapshot.autoHold.holding;
+        av.suspended = this.settingsOpen || !this.gameStarted || document.hidden;
+        syncADASLiveVehicleTelemetry(av, this.dynamics.config, dims, this.snapshot, this.environment.roadGripMultiplier);
+
+        const aw = this.adasWorldContext;
+        aw.navigationState = this.navigation.state;
+        aw.roadNetwork = this.ground.roadNetwork;
+        aw.laneGraph = this.ground.laneGraph;
+        aw.nearbyNetwork = this.sharedVehicleData?.navigation.nearbyNetwork;
+        aw.trafficSignals = this.ground.trafficSignals;
+        aw.trafficActorProvider = this.scenarioDebugger;
+        aw.getLegacyJunctionSignalColor = this.queryLegacySignalColor;
+        aw.queryNearbyColliders = this.queryDisplayColliders;
+        aw.simulationTime = this.adasSimTime;
+        aw.suppressNavigationReroute = this.adas.isControlling && this.adas.isManeuvering;
+        aw.roadGripMultiplier = this.environment.roadGripMultiplier;
+        aw.wetness = this.environment.wetness;
+        aw.visibilityFactor = Math.max(0.3, 1 - this.environment.fogIntensity * 0.5 - this.environment.rainIntensity * 0.25);
+
+        const lampState = this.lightController.state;
+        this.adasLamps.leftSignalActive = lampState.leftTurnSignal;
+        this.adasLamps.rightSignalActive = lampState.rightTurnSignal;
+        this.adasLamps.hazardActive = lampState.hazard;
+
+        // Avoid double-toggling inside ADASController since we already handled the edge above.
+        const adasStepInput = driverControls.adasToggle ? { ...driverControls, adasToggle: false } : driverControls;
+        controls = this.adas.step(FIXED_STEP, adasStepInput, av, aw, this.adasLamps);
+        lateralOutputActive = this.adas.isControlling;
+
+        const curAdasState = this.adas.status.state;
+        if (curAdasState !== this.prevAdasStateForHud) {
+          const prevHudState = this.prevAdasStateForHud;
+          this.prevAdasStateForHud = curAdasState;
+          if (curAdasState === 'COLLISION_HANDOVER') {
+            this.hud.showMessage(this.adas.status.reason || '碰撞停车 · 双闪开启 · ADAS 已解除，请接管', 4.0);
+          } else if (curAdasState === 'BLOCKED_RECOVERY_FAILED') {
+            this.hud.showMessage(this.adas.status.reason || '脱困失败，请人工接管', 3.5);
+          } else if (
+            curAdasState === 'OFF' &&
+            prevHudState.startsWith('BLOCKED_') &&
+            this.adas.status.reason
+          ) {
+            this.hud.showMessage(this.adas.status.reason, 3.0);
+          }
+        }
+      }
+
+      if (!this.adas.isEnabled) {
+        controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
+          available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
+          speedMetersPerSecond: this.snapshot.speed,
+          engineRunning: this.snapshot.driveAvailable,
+          currentThrottle: this.snapshot.throttle,
+          driverThrottleCommand: this.dynamics.driverThrottleCommand(driverControls.throttle),
+          torqueLimitFactor: this.snapshot.driverAssists.engineTorqueFactor,
+          parkingBrakeActive: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
+          autoHoldHolding: this.snapshot.autoHold.holding,
+          gear: this.snapshot.gear ?? 'N',
+          driveSelector: this.snapshot.transmission.selectedMode ?? undefined,
+        });
+        this.reportCruiseControlEvent();
+
+        this.laneAssistSelection.update(FIXED_STEP);
+        if (driverControls.cycleLaneAssist) this.laneAssistSelection.cycleMode();
+        if (driverControls.lccToggle) this.toggleLaneCentering();
+        this.laneAssistSelection.applyTo(this.lateralAssist);
+
+        const lateral = this.lateralContext;
+        lateral.speed = this.snapshot.speed; lateral.lateralVelocity = this.snapshot.lateralVelocity;
+        lateral.yawRate = this.snapshot.yawRate;
+        lateral.driverSteering = driverControls.steering; lateral.operational = this.snapshot.vehicleOperational;
+        lateral.forwardGear = this.snapshot.transmission.selectedMode === 'D';
+        lateral.suspended = this.settingsOpen || !this.gameStarted || document.hidden;
+        // Include the current input edge before the lamp controller consumes it below.
+        lateral.leftSignal = driverControls.leftIndicator ? !this.lightController.leftSignalSelected : this.lightController.leftSignalSelected;
+        lateral.rightSignal = driverControls.rightIndicator ? !this.lightController.rightSignalSelected : this.lightController.rightSignalSelected;
+        this.lateralPose.x = this.snapshot.x; this.lateralPose.z = this.snapshot.z;
+        this.lateralPose.yaw = this.snapshot.yaw; this.lateralPose.y = this.snapshot.chassis.groundHeight;
+        if(this.dynamics.capabilities.laneDisplay||this.dynamics.capabilities.lka||this.dynamics.capabilities.lcc) {
+          this.sharedVehicleData?.updateLaneObservation(FIXED_STEP, this.lateralPose, this.snapshot.speed, this.ground.roadNetwork,
+            this.lateralAssist.laneChangeOverride || lateral.leftSignal && driverControls.steering < -.1 || lateral.rightSignal && driverControls.steering > .1);
+        }
+        const lateralOutput = this.lateralAssist.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane, lateral);
+        if (this.laneDepartureWarning.update(FIXED_STEP, this.sharedVehicleData?.laneObservation ?? this.emptyLane,
+          lateral, this.laneAssistSelection.state.mode, this.dynamics.capabilities.lka || this.dynamics.capabilities.lcc)) this.engineAudio.playLaneDepartureWarning();
+        controls.steering = arbitrateLateralSteering(driverControls.steering, lateralOutput);
+        lateralOutputActive = lateralOutput.active;
+      }
 
       const beforeStep = this.snapshot;
       this.dynamics.vehicleControl.learningAllowed = this.gameStarted && !this.settingsOpen && !document.hidden &&
-        this.playerMode.mode === 'Driving' && !this.playerMode.transitioning && !lateralOutput.active && !this.cruiseControl.isActive;
+        this.playerMode.mode === 'Driving' && !this.playerMode.transitioning && !lateralOutputActive && !this.cruiseControl.isActive && !this.adas.isControlling;
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.syncAdasCollisionSample(beforeStep.speed, this.snapshot.speed);
       this.renderPose.push(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);
       this.accelerationTest?.update(FIXED_STEP, beforeStep, this.snapshot, driverControls.throttle,
         this.gameStarted && !this.settingsOpen && !document.hidden, this.contacts.collision?.collided ?? false);
@@ -868,8 +1119,37 @@ export class DrivingGame {
       this.ignitionOn = this.snapshot.vehicleOperational;
       this.lapTimer.update(FIXED_STEP, this.snapshot, this.gameStarted && !this.settingsOpen && !document.hidden);
       if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
-        this.hud.showMessage(`驾驶模式 · ${this.snapshot.driveMode}`, 1.6);
+        const modeLabels: Record<string, string> = {
+          STANDARD: 'STANDARD 标准', NORMAL: 'NORMAL 标准', ECO: 'ECO 经济',
+          SPORT: 'SPORT 运动', SNOW: 'SNOW 雪地', WET: 'WET 湿滑',
+          RACE: 'RACE 赛道', RANGE: 'RANGE 续航', SPORT_PLUS: 'SPORT+ 运动增强', MAYBACH: 'MAYBACH 尊享',
+        };
+        this.hud.showMessage(`驾驶模式 · ${modeLabels[this.snapshot.driveMode] ?? this.snapshot.driveMode}`, 1.8);
       }
+      if (driverControls.cycleEnergyMode) {
+        const h = this.snapshot.powertrain.hybrid;
+        const e = this.snapshot.powertrain.ehs;
+        if (h) {
+          const labels: Record<string, string> = { EV: 'EV 纯电', HEV: 'HEV 混动', INTELLIGENT: 'INTELLIGENT 智能', HYBRID: 'HEV 混动' };
+          this.hud.showMessage(`动力模式 · ${labels[h.mode] ?? h.mode}`, 1.8);
+        } else if (e) {
+          const labels: Record<string, string> = { EV: 'EV 纯电优先', HEV: 'HEV 混动', HOLD: 'HEV 智能保电' };
+          this.hud.showMessage(`动力模式 · ${labels[e.mode] ?? e.mode}`, 1.8);
+        }
+      }
+      const evFallback = Boolean(this.snapshot.powertrain.hybrid?.evFallbackActive || this.snapshot.powertrain.ehs?.evFallbackActive);
+      if (evFallback && !this.lastEvFallbackActive) {
+        const reason = this.snapshot.powertrain.hybrid?.evFallbackReason ?? this.snapshot.powertrain.ehs?.evFallbackReason ?? 'NONE';
+        const reasonLabels: Record<string, string> = {
+          LOW_SOC: '电量偏低，发动机已介入',
+          THERMAL_LIMIT: '电池温度限功率，发动机已介入',
+          BATTERY_LIMIT: '电池输出受限，发动机已介入',
+          POWER_DEMAND: '高动力需求，已切入混动辅助',
+          SPEED_LIMIT: '超出纯电车速上限，发动机已介入',
+        };
+        this.hud.showMessage(`纯电模式退出 · ${reasonLabels[reason] ?? '已切入混动'}`, 2.4);
+      }
+      this.lastEvFallbackActive = evFallback;
       if (this.snapshot.transmission.type !== 'MANUAL' &&
         (driverControls.shiftUp || driverControls.shiftDown || driverControls.driveSelector !== undefined) &&
         this.snapshot.transmission.selectorRejectedReason !== null) {
@@ -879,11 +1159,13 @@ export class DrivingGame {
       }
       this.updateVehicleFeedback(FIXED_STEP);
       const previousLightMode = this.lightController.state.mainLightMode;
-      this.lightController.update(FIXED_STEP, driverControls, {
-        assistedBrakeActive: this.snapshot.powertrain.ev !== undefined &&
+      const lightInput = this.adas.isEnabled || adasWasEnabled ? controls : driverControls;
+      this.lightController.update(FIXED_STEP, lightInput, {
+        assistedBrakeActive: (this.adas.isControlling && (controls.cruiseBrake ?? 0) > 0.04) ||
+          (this.snapshot.powertrain.ev !== undefined &&
           (this.snapshot.powertrain.ev.regenBrakeLight || this.snapshot.wheels.frontLeft.appliedBrakeTorque > 10 ||
             this.snapshot.wheels.frontRight.appliedBrakeTorque > 10 || this.snapshot.wheels.rearLeft.appliedBrakeTorque > 10 ||
-            this.snapshot.wheels.rearRight.appliedBrakeTorque > 10),
+            this.snapshot.wheels.rearRight.appliedBrakeTorque > 10)),
         autoOffWithIgnition: this.vehicleVisual.config.exteriorLighting?.autoOffWithIgnition,
         ignitionOn: this.ignitionOn,
         actualGear: this.snapshot.transmission.selectedMode === 'R' ? 'R' : this.snapshot.gear ?? 'N',
@@ -938,61 +1220,33 @@ export class DrivingGame {
         speedMetersPerSecond: this.snapshot.speed,
       })
       : null;
-    const combustionEngine = this.dynamics.engine;
-    if (combustionEngine) this.engineAudio.update(
-      this.snapshot.rpm ?? 0,
-      this.snapshot.powertrain.hybrid || this.snapshot.powertrain.ehs ? combustionEngine.throttle : this.snapshot.throttle,
-      this.snapshot.engineRunning ?? false,
-      {
-        engineCharacter: combustionEngine.config,
-        boostPressureBar: combustionEngine.boostPressureBar,
-        shiftInProgress: this.snapshot.transmission.shiftInProgress,
-        vehicleSpeed: Math.abs(this.snapshot.speed),
-        engineLoad: MathUtils.clamp((this.combustionAudioLoad
-          ? Math.max(combustionEngine.getTorqueSample().combustionTorque, Math.abs(this.snapshot.transmission.engineLoadTorque ?? 0))
-          : Math.abs(this.snapshot.transmission.engineLoadTorque ?? 0)) / Math.max(1, combustionEngine.getTorqueAtRPM(this.snapshot.rpm ?? 0)), 0, 1),
-        clutchEngagement: this.snapshot.clutchEngagement ?? 0,
-        roadRoughness: this.latestRoadRoughness,
-        cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
-        cabinAcoustics: this.cabinAcoustics ?? undefined,
-        driverAccess: this.interactionDefinition ? { doorOpen: this.vehicleInteraction.driverDoorOpenFraction,
-          windowOpen: this.vehicleInteraction.driverWindowOpenFraction } : undefined,
-        driveMode: this.snapshot.driveMode,
-        gear: this.snapshot.gear ?? undefined,
-        acceleration: this.snapshot.acceleration,
-        ignitionPhase: combustionEngine.ignitionPhase,
-        cruiseActive: this.cruiseControl.status.active,
-        lowFuel: this.snapshot.fuel?.lowFuel ?? false,
-        parkingDistance: (this.sharedVehicleData && !this.electricDisplay ? this.sharedVehicleData.rearParking : this.rearParking.state).nearestDistanceM,
-      },
-    );
+    const cockpitView = this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving';
     const cruiseStatus = this.cruiseControl.status;
-    this.hybridControls.update(frameDt, this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode);
-    this.ehsControls.update(frameDt, this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode);
-    if ((!combustionEngine || this.snapshot.powertrain.hybrid || this.snapshot.powertrain.ehs) && this.snapshot.powertrain.ev) {
-      const ev = this.snapshot.powertrain.ev;
-      const powertrain = this.dynamics.powertrain;
-      this.engineAudio.updateElectric(ev.motorRPM, ev.motorTorque, {
-        hybridLayer: this.snapshot.powertrain.hybrid !== undefined || this.snapshot.powertrain.ehs !== undefined,
-        frontMotorRPM:ev.frontMotorRPM,driveMode:this.snapshot.driveMode,
-        cabinAcoustics:this.cabinAcoustics??undefined,
-        driverAccess:this.interactionDefinition?{doorOpen:this.vehicleInteraction.driverDoorOpenFraction,
-          windowOpen:this.vehicleInteraction.driverWindowOpenFraction}:undefined,
-        vehicleSpeed: this.snapshot.speed, roadRoughness: this.latestRoadRoughness,
-        cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
-        operational: this.snapshot.vehicleOperational,
-        driving: this.snapshot.transmission.selectedMode === 'D' || this.snapshot.transmission.selectedMode === 'R',
-        regenerativePowerKw: ev.regenPowerKw,
-        maximumTorque: powertrain instanceof ElectricPowertrain ? powertrain.config.motor.maxDriveTorque : undefined,
-        maximumRPM: powertrain instanceof ElectricPowertrain ? powertrain.config.motor.maxRPM : undefined,
-          presence: powertrain instanceof ElectricPowertrain ? powertrain.config.audioPresence : undefined,
-      });
-    }
-    this.engineAudio.updateTurnSignal(this.lightController.state, this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving');
+    this.acousticContext.roadRoughness = this.latestRoadRoughness;
+    this.acousticContext.cockpit = cockpitView;
+    this.acousticContext.cabinAcoustics = this.cabinAcoustics ?? undefined;
+    this.acousticContext.hasDriverAccess = this.interactionDefinition !== null;
+    this.acousticContext.doorOpen = this.interactionDefinition ? this.vehicleInteraction.driverDoorOpenFraction : 0;
+    this.acousticContext.windowOpen = this.interactionDefinition ? this.vehicleInteraction.driverWindowOpenFraction : 0;
+    this.acousticContext.cruiseActive = cruiseStatus.active;
+    this.acousticContext.parkingDistance = (this.sharedVehicleData && !this.electricDisplay
+      ? this.sharedVehicleData.rearParking
+      : this.rearParking.state).nearestDistanceM;
+    this.acousticContext.drivetrainLashIntensity = this.snapshot.drivetrainLash?.joltIntensity ?? 0;
+    populateAcousticTelemetry(this.acousticTelemetry, this.snapshot, this.dynamics.engine, this.acousticContext);
+    this.engineAudio.updateAcoustic(this.acousticTelemetry, frameDt);
+    const showEnergyControls = this.hybridEnergyHudVisible && this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode;
+    this.hybridControls.update(frameDt, showEnergyControls);
+    this.ehsControls.update(frameDt, showEnergyControls);
+    const showVehicleHud =
+      this.gameUI.state.screen === 'driving' &&
+      !this.settingsOpen &&
+      this.playerMode.mode === 'Driving';
+    this.vehicleHud.updateHUDState(this.getVehicleHudInput(frameDt, showVehicleHud));
+    this.engineAudio.updateTurnSignal(this.lightController.state, cockpitView);
     this.engineAudio.updateWeather(frameDt, this.environment.rainIntensity,
       this.environment.windIntensity, this.environment.stormIntensity,
-      this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
-      Math.abs(this.snapshot.speed), this.cabinAcoustics ?? undefined);
+      cockpitView, Math.abs(this.snapshot.speed), this.cabinAcoustics ?? undefined);
     this.hud.updateLap(this.ground.lapCourse ? this.lapTimer.state : null);
     this.hud.update({
       ...this.snapshot,
@@ -1012,6 +1266,19 @@ export class DrivingGame {
 
     this.trajectoryPrediction?.update(frameDt, this.snapshot, this.dynamics.config, this.ground, this.gameStarted && !this.hud.immersiveMode);
     if (this.accelerationTest) this.accelerationTestView?.update(frameDt, this.accelerationTest.state, this.gameStarted && !this.settingsOpen && !this.hud.immersiveMode);
+    if (this.drivingLabHud) {
+      const labVisible = this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode;
+      this.drivingLabHud.root.hidden = !labVisible;
+      if (labVisible) {
+        this.drivingLabHud.update(
+          frameDt,
+          this.accelerationTest?.state ?? null,
+          this.gameStarted && !this.settingsOpen && !this.hud.immersiveMode,
+          this.snapshot.steeringAngle,
+          this.snapshot.speed,
+        );
+      }
+    }
 
 
     const mirror = this.mirrorContext, head = this.driverCamera.getHeadLook(this.mirrorHeadLook);
@@ -1063,6 +1330,10 @@ export class DrivingGame {
       x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw,
       y: roadHeight, width: this.vehicleVisual.config.dimensions.width, length: this.vehicleVisual.config.dimensions.length,
     };
+    if (this.adas.isEnabled && this.adas.status.requestNavReroute) {
+      this.navigation.triggerImmediateReroute();
+    }
+    this.navigation.setRerouteSuppression(this.adas.isControlling && this.adas.isManeuvering);
     this.navigation.update(dt,parkingPose,this.snapshot.speed);
     if(this.sharedVehicleData)this.sharedVehicleData.navigation.route=this.navigation.state.status==='preview'?null:this.navigation.state.route?.points??null;
     this.sharedVehicleData?.update(dt, parkingPose, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.speed,
@@ -1156,8 +1427,24 @@ export class DrivingGame {
     this.vehicleVisual.root.updateMatrixWorld(true);
   }
 
-  private readonly queryDisplayColliders = (pose: { x: number; z: number }, radius: number) =>
-    this.contacts.collisionSystem.getNearbyColliders(pose, radius);
+  private readonly queryDisplayColliders = (pose: { x: number; z: number }, radius: number) => {
+    const staticColliders = this.contacts.collisionSystem.getNearbyColliders(pose, radius);
+    const debugColliders = this.scenarioDebugger?.getNearbyColliders(pose, radius);
+    if (!debugColliders || debugColliders.length === 0) return staticColliders;
+    return staticColliders.concat(debugColliders);
+  };
+
+  private readonly queryLegacySignalColor = (
+    junctionId: string,
+    controlKind: 'north-south' | 'east-west',
+  ): 'red' | 'amber' | 'green' | undefined => {
+    const legacyGround = this.ground as DrivingGround & {
+      getTrafficSignalSnapshot?: (id?: string) => { northSouth: 'red' | 'amber' | 'green'; eastWest: 'red' | 'amber' | 'green' };
+    };
+    const snap = legacyGround.getTrafficSignalSnapshot?.(junctionId);
+    if (!snap) return undefined;
+    return controlKind === 'north-south' ? snap.northSouth : snap.eastWest;
+  };
 
   private configureVehicleDisplays(): void {
     const descriptor = getVehicleDescriptor(this.activeVehicleId);
@@ -1179,8 +1466,7 @@ export class DrivingGame {
     settings.setAssistanceSupport(descriptor.capabilities);
     settings.setStartStop(descriptor.capabilities.startStop, this.snapshot.startStop?.enabled ?? false, this.snapshot.startStop?.state ?? 'DISABLED');
     settings.setTrip(this.snapshot.trip);
-    this.engineAudio.configure(descriptor.audioProfile);
-    this.combustionAudioLoad = descriptor.audioProfile?.loadSource === 'combustion-and-transmission';
+    this.engineAudio.configure(descriptor.audioProfile, descriptor.acousticProfile);
     this.hud.settings.setAutoHold(descriptor.capabilities.autoHold, this.snapshot.autoHold.enabled);
     const executive = descriptor.visualConfig.instrumentCluster.displayStyle === 'executive-virtual' || descriptor.visualConfig.instrumentCluster.displayStyle === 'suv-virtual';
     this.electricDisplay?.dispose();
@@ -1288,41 +1574,28 @@ export class DrivingGame {
       this.lateralDebug?.setEnabled(false);
     };
     settings.onTrajectoryPredictionChange = enabled => {
-      if (enabled && !this.trajectoryPrediction) this.trajectoryPrediction = new TrajectoryPrediction(this.scene);
-      if (!enabled) { this.trajectoryPrediction?.dispose(); this.trajectoryPrediction = null; }
+      this.standaloneTrajectoryEnabled = enabled;
+      this.syncTrajectoryResource();
+    };
+    settings.onHybridEnergyHudChange = enabled => {
+      this.hybridEnergyHudVisible = enabled;
     };
     settings.onAccelerationTestChange = enabled => {
-      if (!enabled) {
-        this.accelerationTestView?.dispose(); this.accelerationTestView = null; this.accelerationTest = null; this.accelerationDiagnostics = null;
-        return;
-      }
-      if (this.accelerationTest) return;
-      const test = this.accelerationTest = new AccelerationTest();
-      let storage: Storage | undefined;
-      try { storage = localStorage; } catch { /* Optional browser storage. */ }
-      const diagnostics = this.accelerationDiagnostics = new AccelerationRunDiagnostics(storage, () => this.input.gamepad?.getThrottleDiagnostics());
-      const view = this.accelerationTestView = new AccelerationTestView(this.host);
-      const arm = (target = test.state.target): void => {
-        if (!test.arm(this.snapshot, this.input.peekState().throttle, target)) return;
-        const descriptor = getVehicleDescriptor(this.activeVehicleId);
-        diagnostics.arm({ vehicleId: this.activeVehicleId, vehicleVersion: descriptor.version,
-          groundId: this.ground.metadata.id, groundVersion: this.ground.metadata.version,
-          weather: this.environment.weather, wetness: this.environment.wetness }, test.state);
-        view.setContext(descriptor.displayName, this.ground.metadata.displayName);
-      };
-      view.onExport = () => diagnostics.serialize();
-      view.setContext(getVehicleDescriptor(this.activeVehicleId).displayName, this.ground.metadata.displayName);
-      arm();
-      view.onArm = () => { arm(); this.renderer.domElement.focus(); };
-      view.onTargetChange = target => {
-        arm(target); this.renderer.domElement.focus();
-      };
-      view.onStop = () => { test.stop(); this.renderer.domElement.focus(); };
+      this.standaloneAccelEnabled = enabled;
+      this.syncAccelerationResources(enabled);
+    };
+    settings.onDrivingLabChange = enabled => {
+      this.setDrivingLabEnabled(enabled);
     };
     settings.onLateralPreferencesChange = () => this.configureLaneAssistModes();
     settings.onLCCToggle = () => this.toggleLaneCentering();
     settings.setFuel(this.snapshot.fuel);
     settings.setBattery(this.snapshot.powertrain.ev);
+    settings.setHudHeightLevel(this.hudHeightLevel);
+    settings.onHudHeightChange = level => {
+      this.hudHeightLevel = clampHUDHeightLevel(level);
+      this.saveStoredHudHeight(this.activeVehicleId, this.hudHeightLevel);
+    };
     settings.onStateOfChargeChange = soc => {
       this.accelerationTest?.interrupt('训练电量已修改');
       if (this.dynamics.powertrain instanceof ElectricPowertrain) this.dynamics.powertrain.setStateOfCharge(soc);
@@ -1334,6 +1607,11 @@ export class DrivingGame {
       this.snapshot = this.dynamics.getSnapshot();
       settings.setFuel(this.snapshot.fuel);
     settings.setBattery(this.snapshot.powertrain.ev);
+    settings.setHudHeightLevel(this.hudHeightLevel);
+    settings.onHudHeightChange = level => {
+      this.hudHeightLevel = clampHUDHeightLevel(level);
+      this.saveStoredHudHeight(this.activeVehicleId, this.hudHeightLevel);
+    };
       this.storeCurrentFuel();
     };
     try {
@@ -1395,7 +1673,13 @@ export class DrivingGame {
       if (visible) {
         settings.setFuel(this.snapshot.fuel);
     settings.setBattery(this.snapshot.powertrain.ev);
+    settings.setHudHeightLevel(this.hudHeightLevel);
+    settings.onHudHeightChange = level => {
+      this.hudHeightLevel = clampHUDHeightLevel(level);
+      this.saveStoredHudHeight(this.activeVehicleId, this.hudHeightLevel);
+    };
         this.cruiseControl.reset();
+        this.adas.reset();
         this.laneAssistSelection.cancelCentering();
         this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
         this.showMirrorPreview(this.selectedMirror);
@@ -1498,12 +1782,15 @@ export class DrivingGame {
     this.hud.setNavigationMap(this.navigation.planner?this.sharedVehicleData?.navigation.map:undefined);
 
     previousGround.dispose();
+    this.scenarioDebugger.clearAll();
 
     this.resetVehicleToGroundStart();
     this.lapTimer.configure(nextGround.lapCourse, this.activeVehicleId, this.snapshot);
     this.hud.setActiveMap(groundId);
     this.gameUI.setSelection(this.gameUI.state.vehicleId, groundId);
     this.storeGroundId(groundId);
+    this.accelerationTestView?.setContext(nextGround.metadata.displayName ? getVehicleDescriptor(this.activeVehicleId).displayName : '', nextGround.metadata.displayName);
+    this.drivingLabHud?.setContext(getVehicleDescriptor(this.activeVehicleId).displayName, nextGround.metadata.displayName);
     this.hud.showMessage(`${nextGround.metadata.displayName}已载入 · 车辆回到起点`, 2.5);
     this.renderer.domElement.focus();
     return true;
@@ -1516,6 +1803,7 @@ export class DrivingGame {
     this.laneDepartureWarning.reset();
     this.contacts.reset();
     this.cruiseControl.reset();
+    this.adas.reset();
     this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
     this.vehicleInteraction.reset();
     this.playerMode.reset('Driving');
@@ -1552,6 +1840,7 @@ export class DrivingGame {
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;
     this.lastParkingBrakeState = this.snapshot.parkingBrake.state;
     this.lastEmergencyBraking = this.snapshot.parkingBrake.emergencyBraking;
+    this.lastEvFallbackActive = false;
     this.latestRoadRoughness = 0.08;
     this.runtime.simulation.reset();
     this.renderPose.reset(this.snapshot,this.vehicleVisual.config.staticBodyOffsetY);this.renderPoseVersion++;
@@ -1622,6 +1911,7 @@ export class DrivingGame {
     this.laneDepartureWarning.reset();
     this.storeCurrentFuel();
     this.cruiseControl.reset();
+    this.adas.reset();
     this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
     const descriptor = getVehicleDescriptor(vehicleId);
     const spawn = this.ground.spawnPose;
@@ -1650,7 +1940,7 @@ export class DrivingGame {
     this.vehicleVisual.dispose();
 
     this.vehicleVisual = nextVisual;
-    this.configureVehicleInteraction(nextVisual, descriptor.audioProfile);
+    this.configureVehicleInteraction(nextVisual, descriptor.audioProfile, descriptor.acousticProfile);
     this.mirrorAdjustment = this.createMirrorAdjustment(nextVisual);
     this.dynamics = nextDynamics;
     this.dynamics.setDriverAssistOptions(this.hud.settings.driverAssistOptions);
@@ -1668,6 +1958,7 @@ export class DrivingGame {
       .update(nextVisual.root, 0);
 
     this.activeVehicleId = vehicleId;
+    this.hudHeightLevel = this.readStoredHudHeight(vehicleId);
     if (this.blackBox) this.restartBlackBox('vehicle changed');
     this.ignitionOn = this.snapshot.vehicleOperational;
     this.configureVehicleDisplays();
@@ -1677,12 +1968,16 @@ export class DrivingGame {
     this.hud.settings.setLightMode(retainedLightMode);
     this.hud.settings.setFuel(this.snapshot.fuel);
     this.hud.settings.setBattery(this.snapshot.powertrain.ev);
+    this.hud.settings.setHudHeightLevel(this.hudHeightLevel);
+    this.accelerationTestView?.setContext(descriptor.displayName, this.ground.metadata.displayName);
+    this.drivingLabHud?.setContext(descriptor.displayName, this.ground.metadata.displayName);
     this.hud.settings.setMirrorAdjustment(this.mirrorAdjustment.get(this.selectedMirror));
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastEngineRunning = this.snapshot.engineRunning ?? false;
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;
     this.lastParkingBrakeState = this.snapshot.parkingBrake.state;
     this.lastEmergencyBraking = this.snapshot.parkingBrake.emergencyBraking;
+    this.lastEvFallbackActive = false;
     this.latestRoadRoughness = 0.08;
     this.updateVehicleVisual(0);
     this.storeVehicleId(vehicleId);
@@ -1705,8 +2000,100 @@ export class DrivingGame {
 
   
 
+ private syncAdasCollisionSample(speedBefore: number, speedAfter: number): void {
+   this.adasCollisionSample.collided = false;
+   this.adasCollisionSample.deltaSpeedMps = 0;
+   this.adasCollisionContacts.length = 0;
+   const col = this.contacts.collision;
+   if (!col || !col.collided || col.contacts.length === 0) return;
+   this.adasCollisionSample.collided = true;
+   this.adasCollisionSample.deltaSpeedMps = Math.abs(speedBefore - speedAfter);
+   const nearby = col.nearbyColliders;
+   for (let i = 0; i < col.contacts.length; i++) {
+     const c = col.contacts[i]!;
+     let colType: ADASCollisionContactInfo['colliderType'];
+     let maxH: number | undefined;
+     for (let k = 0; k < nearby.length; k++) {
+       if (nearby[k]!.id === c.colliderId) {
+         colType = nearby[k]!.type;
+         maxH = nearby[k]!.maxHeight;
+         break;
+       }
+     }
+     this.adasCollisionContacts.push({
+       colliderId: c.colliderId,
+       colliderType: colType,
+       maxHeight: maxH,
+       inwardSpeed: c.inwardSpeed,
+       penetration: c.penetration,
+     });
+   }
+ }
+
+ private getVehicleHudInput(dt: number, visible: boolean): VehicleHUDFrameInput {
+  const av = this.adasVehicleState;
+  if (!this.adas.isEnabled) {
+    const dims = this.vehicleVisual.config.dimensions;
+    av.x = this.snapshot.x; av.y = this.snapshot.chassis.groundHeight; av.z = this.snapshot.z;
+    av.yaw = this.snapshot.yaw; av.speed = this.snapshot.speed;
+    av.vehicleWidth = dims.width; av.vehicleLength = dims.length;
+  }
+  const caps = getVehicleDescriptor(this.activeVehicleId).capabilities;
+  const perception = this.adas.obstacleAvoidance.perception;
+  let actors = perception.actors;
+  let actorCount = perception.count;
+  if (!this.adas.isEnabled) {
+    actors = this.hudActorPool;
+    actorCount = this.scenarioDebugger.queryNearbyActors(av.x, av.y, av.z, 130, this.hudActorPool);
+  }
+  const target = this.adasVisualQueryPose;
+  target.x = av.x; target.z = av.z;
+  const colliders = visible && (this.adas.isEnabled || actorCount > 0)
+    ? this.contacts.collisionSystem.getNearbyColliders(target, 140)
+    : undefined;
+  const head = this.driverCamera.getHeadLook(this.mirrorHeadLook);
+  const body = this.renderPose.body;
+  const out = this.vehicleHudInput;
+  out.dt = dt;
+  out.visible = visible;
+  out.windshieldVisible = this.gameUI.state.screen === 'driving' && this.playerMode.mode === 'Driving';
+  out.hudHeightLevel = this.hudHeightLevel;
+  out.vehicleId = this.activeVehicleId;
+  out.ignitionOn = this.ignitionOn;
+  out.snapshot = this.snapshot;
+  out.sharedSpeedLimitKmh = this.sharedVehicleData?.navigation.speedLimit ?? null;
+  out.navigationState = this.navigation.state;
+  out.headLookYawRad = head.yaw;
+  out.headLookPitchRad = head.pitch;
+  out.bodyPitchRad = body.pitch;
+  out.bodyRollRad = body.roll;
+  out.adasEnabled = this.adas.isEnabled;
+  out.adasStatus = this.adas.status;
+  out.adasPlan = this.adas.planner.snapshot;
+  out.adasObstacle = this.adas.obstacleAvoidance.assessment;
+  out.adasRules = this.adas.trafficRules.decision;
+  out.adasVehicle = av;
+  out.samplesApproachLane = this.adas.planner.activeSampleApproachLane;
+  out.theme = this.environment.time;
+  out.rainIntensity = this.environment.rainIntensity;
+  out.fogIntensity = this.environment.fogIntensity;
+  out.wetness = this.environment.wetness;
+  out.ground = this.ground;
+  out.camera = this.visualDebug.renderCamera ?? this.driverCamera.camera;
+  out.viewportWidth = window.innerWidth;
+  out.viewportHeight = window.innerHeight;
+  out.colliders = colliders;
+  out.actors = actors;
+  out.actorCount = actorCount;
+  out.capabilities = caps;
+  return out;
+ }
+
  private renderContext():Record<string,unknown>{
-  return {debugGeometry:exportDebugOverlays(this.scene),visualDebug:this.visualDebug.enabled,debugContacts:this.visualDebug.enabled?{collision:this.contacts.collision?{vehicleOBB:{corners:this.contacts.collision.vehicleOBB.corners}}:null,wheelContacts:this.contacts.wheelContacts}:undefined,lights:{...this.lightController.state},ignitionOn:this.ignitionOn,mirror:{...this.mirrorContext},reversing:this.snapshot.transmission.selectedMode==='R',cockpit:this.visualDebug.renderCamera===null&&this.playerMode.mode==='Driving',overlay:this.playerMode.mode==='Driving',immersive:this.hud.immersiveMode};
+  const showVehicleWorld = this.gameUI.state.screen === 'driving' && !this.settingsOpen && this.playerMode.mode === 'Driving';
+  const input = this.getVehicleHudInput(0, showVehicleWorld);
+  const adasVisual = this.vehicleHud.buildWorldPacket(input);
+  return {debugGeometry:exportDebugOverlays(this.scene),adasVisual,visualDebug:this.visualDebug.enabled,debugContacts:this.visualDebug.enabled?{collision:this.contacts.collision?{vehicleOBB:{corners:this.contacts.collision.vehicleOBB.corners}}:null,wheelContacts:this.contacts.wheelContacts}:undefined,lights:{...this.lightController.state},ignitionOn:this.ignitionOn,mirror:{...this.mirrorContext},reversing:this.snapshot.transmission.selectedMode==='R',cockpit:this.visualDebug.renderCamera===null&&this.playerMode.mode==='Driving',overlay:this.playerMode.mode==='Driving',immersive:this.hud.immersiveMode};
  }
  private publishRender(camera:PerspectiveCamera,mode:number):void{
   this.visualDebug.updateInspectionCamera(this.vehicleVisual.root,this.driverCamera);if(typeof this.renderer.state.debugText==='string')this.visualDebug.receivePresentation(this.renderer.state.debugText);
@@ -1761,6 +2148,22 @@ export class DrivingGame {
       if (stored !== null && stored.trim() !== '' && Number.isFinite(Number(stored))) return MathUtils.clamp(Number(stored), 0, 1);
     } catch { /* Optional session energy persistence. */ }
     return undefined;
+  }
+
+  private readStoredHudHeight(vehicleId: VehicleId): number {
+    try {
+      const stored = localStorage.getItem(`drivergame.hud-height.${vehicleId}.v1`);
+      if (stored !== null && stored.trim() !== '' && Number.isFinite(Number(stored))) {
+        return clampHUDHeightLevel(Number(stored));
+      }
+    } catch { /* Optional HUD height preference. */ }
+    return 0;
+  }
+
+  private saveStoredHudHeight(vehicleId: VehicleId, level: number): void {
+    try {
+      localStorage.setItem(`drivergame.hud-height.${vehicleId}.v1`, String(clampHUDHeightLevel(level)));
+    } catch { /* Optional HUD height preference. */ }
   }
 
   private readonly storeCurrentFuel = (): void => {
@@ -1837,6 +2240,7 @@ export class DrivingGame {
         if (!sequenced) this.engineAudio.onEngineStart();
       } else if (result === 'stopped') {
         this.ignitionOn = false;
+        this.adas.reset();
         this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
         this.laneAssistSelection.reset();
         if (!sequenced) this.engineAudio.onEngineStop();
@@ -2056,6 +2460,11 @@ export class DrivingGame {
       if (!event.repeat) this.blackBox?.requestManualTrigger();
       return;
     }
+    if (event.code === 'F10' && !event.repeat) {
+      event.preventDefault();
+      this.scenarioDebugger.toggleHUD();
+      return;
+    }
     if(this.hud.isMapOpen || this.gameUI.state.screen !== 'driving')return;
     if (this.hud.immersiveMode && (event.code === 'F6' || event.code === 'F7' || event.code === 'F8' || event.code === 'F9')) {
       event.preventDefault();
@@ -2157,12 +2566,151 @@ export class DrivingGame {
     if (!document.pointerLockElement) this.gameUI.pause();
   };
 
+  private syncTrajectoryResource(): void {
+    const wanted = this.standaloneTrajectoryEnabled || (this.drivingLabEnabled && this.drivingLabModules.trajectory);
+    if (wanted && !this.trajectoryPrediction) {
+      this.trajectoryPrediction = new TrajectoryPrediction(this.scene);
+    } else if (!wanted && this.trajectoryPrediction) {
+      this.trajectoryPrediction.dispose();
+      this.trajectoryPrediction = null;
+    }
+  }
+
+  private armAccelerationTest(target?: AccelerationTarget): void {
+    const test = this.accelerationTest;
+    const diagnostics = this.accelerationDiagnostics;
+    if (!test || !diagnostics) return;
+    const desiredTarget = target ?? test.state.target;
+    if (!test.arm(this.snapshot, this.input.peekState().throttle, desiredTarget)) return;
+    const descriptor = getVehicleDescriptor(this.activeVehicleId);
+    diagnostics.arm(
+      {
+        vehicleId: this.activeVehicleId,
+        vehicleVersion: descriptor.version,
+        groundId: this.ground.metadata.id,
+        groundVersion: this.ground.metadata.version,
+        weather: this.environment.weather,
+        wetness: this.environment.wetness,
+      },
+      test.state,
+    );
+    this.accelerationTestView?.setContext(descriptor.displayName, this.ground.metadata.displayName);
+    this.drivingLabHud?.setContext(descriptor.displayName, this.ground.metadata.displayName);
+  }
+
+  private syncAccelerationResources(autoArmOnEnable: boolean): void {
+    const wanted = this.standaloneAccelEnabled || (this.drivingLabEnabled && this.drivingLabModules.acceleration);
+    if (!wanted) {
+      this.accelerationTestView?.dispose();
+      this.accelerationTestView = null;
+      this.accelerationTest = null;
+      this.accelerationDiagnostics = null;
+      return;
+    }
+    if (!this.accelerationTest) {
+      this.accelerationTest = new AccelerationTest();
+      let storage: Storage | undefined;
+      try { storage = localStorage; } catch { /* Optional browser storage. */ }
+      this.accelerationDiagnostics = new AccelerationRunDiagnostics(
+        storage,
+        () => this.input.gamepad?.getThrottleDiagnostics(),
+      );
+    }
+    if (this.standaloneAccelEnabled && !this.accelerationTestView) {
+      const view = this.accelerationTestView = new AccelerationTestView(this.host);
+      view.onExport = () => this.accelerationDiagnostics?.serialize() ?? null;
+      view.setContext(getVehicleDescriptor(this.activeVehicleId).displayName, this.ground.metadata.displayName);
+      view.onArm = () => { this.armAccelerationTest(); this.renderer.domElement.focus(); };
+      view.onTargetChange = target => { this.armAccelerationTest(target); this.renderer.domElement.focus(); };
+      view.onStop = () => { this.accelerationTest?.stop(); this.renderer.domElement.focus(); };
+    } else if (!this.standaloneAccelEnabled && this.accelerationTestView) {
+      this.accelerationTestView.dispose();
+      this.accelerationTestView = null;
+    }
+    if (autoArmOnEnable) {
+      this.armAccelerationTest();
+    }
+  }
+
+  private handleDrivingLabModuleToggle(moduleId: DrivingLabModuleId, enabled: boolean): void {
+    this.drivingLabModules[moduleId] = enabled;
+    if (moduleId === 'scenario') {
+      if (!enabled && !this.scenarioDebugger.isHUDOpen) {
+        this.scenarioDebugger.clearAll();
+      }
+      return;
+    }
+    if (moduleId === 'trajectory') {
+      this.syncTrajectoryResource();
+      return;
+    }
+    if (moduleId === 'acceleration') {
+      this.syncAccelerationResources(enabled);
+      return;
+    }
+  }
+
+  private setDrivingLabEnabled(enabled: boolean): void {
+    this.drivingLabEnabled = enabled;
+    this.hud.settings.setDrivingLabEnabled(enabled);
+
+    if (enabled) {
+      if (!this.drivingLabHud) {
+        this.drivingLabHud = new DrivingLabHUD(
+          this.scenarioDebugger,
+          {
+            getPowertrain: () => this.dynamics?.powertrain,
+            getSnapshot: () => this.snapshot.powertrain,
+            getSpeedMps: () => this.snapshot?.speed ?? 0,
+            getBrakeInput: () => this.snapshot?.brake ?? 0,
+            getSnowModeActive: () => this.dynamics?.driveMode === 'SNOW',
+            onSnowModeChange: snowEnabled => {
+              if (!this.dynamics?.setSnowMode(snowEnabled)) return;
+              this.snapshot = this.dynamics.getSnapshot();
+              this.hud.showMessage(snowEnabled ? '驾驶模式 · SNOW 雪地' : `驾驶模式 · ${this.snapshot.driveMode ?? 'NORMAL'}`, 1.8);
+            },
+            onP2TerrainModeChange: mode => {
+              if (!this.dynamics?.setTerrainMode(mode)) return;
+              this.snapshot = this.dynamics.getSnapshot();
+              this.hud.showMessage(mode === 'OFF' ? `返回公路模式 · ${this.snapshot.driveMode ?? 'STANDARD'}` : `全地形模式 · ${mode}`, 1.8);
+            },
+          },
+          {
+            onModuleToggle: (id, on) => this.handleDrivingLabModuleToggle(id, on),
+            onRequestClose: () => this.setDrivingLabEnabled(false),
+            onAccelArm: target => { this.armAccelerationTest(target); this.renderer.domElement.focus(); },
+            onAccelStop: () => { this.accelerationTest?.stop(); this.renderer.domElement.focus(); },
+            onAccelTargetChange: target => { this.armAccelerationTest(target); this.renderer.domElement.focus(); },
+            onAccelExport: () => this.accelerationDiagnostics?.serialize() ?? null,
+          },
+          this.drivingLabModules,
+          this.host,
+        );
+        const descriptor = getVehicleDescriptor(this.activeVehicleId);
+        this.drivingLabHud.setContext(descriptor.displayName, this.ground.metadata.displayName);
+      }
+      this.syncTrajectoryResource();
+      this.syncAccelerationResources(this.drivingLabModules.acceleration);
+      return;
+    }
+
+    // Closing Driving Lab: release HUD, listeners & lab-only visualizer/test resources cleanly.
+    this.drivingLabHud?.dispose();
+    this.drivingLabHud = null;
+    if (!this.scenarioDebugger.isHUDOpen) {
+      this.scenarioDebugger.clearAll();
+    }
+    this.syncTrajectoryResource();
+    this.syncAccelerationResources(false);
+  }
+
   private readonly onVisibilityChange = (): void => {
     if (document.hidden) {
       this.accelerationTest?.interrupt('离开游戏页面', false);
       this.lapTimer.suspend(this.snapshot);
       this.runtime.suspend();
       this.cruiseControl.reset();
+      this.adas.reset();
       this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
       this.haptics.setEnabled(false);
     } else {

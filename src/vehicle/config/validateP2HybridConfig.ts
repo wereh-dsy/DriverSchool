@@ -37,4 +37,22 @@ export function validateP2HybridConfig(c: P2HybridVehiclePhysicsConfig): void {
   const cooling = h.engineCooling;
   if (cooling) require(fraction(cooling.coolantWasteFraction) && cooling.thermostatFullC > cooling.thermostatStartC &&
     cooling.fanFullC > cooling.fanStartC && positive(cooling.bypassWPerK) && fraction(cooling.minimumFanFraction), 'P2 fuel/thermostat cooling');
+  if (h.driveModeStrategy) for (const s of Object.values(h.driveModeStrategy)) {
+    if (!s) continue;
+    require(positive(s.acceleration) && positive(s.demandResponseRate) && positive(s.coastDecelerationScale) &&
+      positive(s.engineStartPowerScale) && positive(s.engineStartSpeedScale) && positive(s.startDelayScale) &&
+      fraction(s.engineEfficientLoad) && s.fullPowerPedalStart > 0 && s.fullPowerPedalStart < 1, 'P2 driveModeStrategy');
+  }
+  if (h.terrainStrategies) for (const tStrat of Object.values(h.terrainStrategies)) {
+    if (!tStrat) continue;
+    require(positive(tStrat.pedalExponent) && positive(tStrat.acceleration) && positive(tStrat.demandResponseRate) &&
+      positive(tStrat.coastDecelerationScale) && positive(tStrat.engineStartPowerScale) && positive(tStrat.tcsSlipMultiplier), 'P2 terrainStrategies');
+  }
+  if (h.intelligent) {
+    const intel = h.intelligent;
+    require(positive(intel.urbanSpeedMps) && intel.highwaySpeedMps > intel.urbanSpeedMps &&
+      positive(intel.urbanStartPowerScale) && positive(intel.midStartPowerScale) && positive(intel.highwayStartPowerScale) &&
+      fraction(intel.urbanTargetSOC) && fraction(intel.midTargetSOC) && fraction(intel.highwayTargetSOC) &&
+      positive(intel.generationPowerCapW) && positive(intel.evMaxSpeedMps), 'P2 intelligent strategy');
+  }
 }

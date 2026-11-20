@@ -352,6 +352,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   private readonly controlGrounded = [true, true, true, true];
   /** Preserve an oblique collision's tangent velocity while contact settles. */
   public driveMode: import('../config').VehicleDriveMode | undefined;
+  private previousRoadDriveMode: import('../config').VehicleDriveMode | undefined;
   private contactSlipRecovery = false;
   private contactSlipHoldTime = 0;
 
@@ -600,9 +601,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   /** Apply calibration in place: existing subsystems retain their config references. */
-  private setDriveMode(mode: import('../config').VehicleDriveMode): void {
+  public setDriveMode(mode: import('../config').VehicleDriveMode): void {
     const calibration = this.config.driveModes?.[mode];
     if (!this.capabilities.driveModes || calibration === undefined) return;
+    if (mode !== 'SNOW') this.previousRoadDriveMode = mode;
     this.driveMode = mode;
     this.suspension.setDriveMode(mode);
     this.vehicleControl.setDriveMode(mode);
@@ -611,12 +613,43 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.config.steering.steeringDamping = calibration.steeringDamping;
   }
 
+  /** Toggle dedicated SNOW mode without overwriting the driver's prior road mode. */
+  public setSnowMode(enabled: boolean): boolean {
+    if (!this.capabilities.driveModes || this.config.driveModes?.SNOW === undefined) return false;
+    if (enabled) {
+      if (this.driveMode && this.driveMode !== 'SNOW') this.previousRoadDriveMode = this.driveMode;
+      this.setDriveMode('SNOW');
+    } else if (this.driveMode === 'SNOW') {
+      const restore = this.previousRoadDriveMode ?? this.config.defaultDriveMode ?? 'NORMAL';
+      this.setDriveMode(restore === 'SNOW' ? 'NORMAL' : restore);
+    }
+    return true;
+  }
+
   public cycleDriveMode(): void {
     if (this.config.driveModes === undefined) return;
     const order = this.config.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'];
     const index = this.driveMode === undefined ? -1 : order.indexOf(this.driveMode);
     const next = order[(index + 1) % order.length];
     if (next) this.setDriveMode(next);
+  }
+
+  /** Cycles hybrid energy strategy on supported PHEV powertrains; no-op on ICE/EV. */
+  public cycleEnergyMode(): string | null {
+    return this.powertrain.cycleEnergyMode?.() ?? null;
+  }
+
+  /** Applies separate all-terrain strategy on supported P2 off-road hybrids without altering road driveMode. */
+  public setTerrainMode(mode: import('../config/P2HybridConfig').P2TerrainMode): boolean {
+    const p2 = this.powertrain as unknown as {
+      setTerrainMode?: (m: import('../config/P2HybridConfig').P2TerrainMode) => void;
+      config?: { hybrid?: import('../config/P2HybridConfig').P2HybridConfig };
+    };
+    if (typeof p2.setTerrainMode !== 'function' || !p2.config?.hybrid) return false;
+    p2.setTerrainMode(mode);
+    const strat = mode !== 'OFF' ? p2.config.hybrid.terrainStrategies?.[mode] : undefined;
+    this.vehicleControl.setTcsSlipOverride(strat?.tcsSlipMultiplier ?? null);
+    return true;
   }
 
   /** Variable-frame entry point with bounded internal substeps. */
@@ -629,6 +662,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
     if (input.cycleDriveMode) this.cycleDriveMode();
+    if (input.cycleEnergyMode) this.cycleEnergyMode();
     this.processShiftCommands(input);
 
     if (!Number.isFinite(deltaTime) || deltaTime <= 0) return this.getSnapshot();
@@ -654,6 +688,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
     if (input.cycleDriveMode) this.cycleDriveMode();
+    if (input.cycleEnergyMode) this.cycleEnergyMode();
     this.processShiftCommands(input);
     if (Number.isFinite(dt) && dt > 0) {
       const maxFrameTime = Math.max(1e-4, this.config.safety.maxFrameTime);

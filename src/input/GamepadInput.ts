@@ -24,8 +24,10 @@ export interface GamepadInputConfig {
   /** Existing trigger settings retain the LT brake mapping. */
   triggerDeadzone: number;
   triggerResponseExponent: number;
-  /** D-pad Up: release before this duration cycles main lights; hold cycles fog. */
+  /** D-pad Up/Down long-press threshold (Up: lights/fog, Down: hazard/hybrid energy mode). */
   lightLongPressSeconds: number;
+  /** Y button long-press threshold (~700ms) for ADAS V1 enable/disable toggle. */
+  adasLongPressSeconds: number;
 }
 
 export const DEFAULT_GAMEPAD_INPUT_CONFIG: Readonly<GamepadInputConfig> = {
@@ -38,6 +40,7 @@ export const DEFAULT_GAMEPAD_INPUT_CONFIG: Readonly<GamepadInputConfig> = {
   triggerDeadzone: 0.03,
   triggerResponseExponent: 1.55,
   lightLongPressSeconds: .65,
+  adasLongPressSeconds: 0.70,
 };
 
 export interface GamepadThrottleDiagnostics {
@@ -129,10 +132,16 @@ export class GamepadInput implements VehicleInputDevice {
   private pendingEngineStart = false;
   private pendingCruiseToggle = false;
   private pendingCycleDriveMode = false;
+  private pendingCycleEnergyMode = false;
   private pendingFogToggle = false;
   private pendingCycleLaneAssist = false;
+  private pendingAdasToggle = false;
   private lightHoldTime = -1;
   private lightHoldSent = false;
+  private downHoldTime = -1;
+  private downHoldSent = false;
+  private adasHoldTime = -1;
+  private adasHoldSent = false;
 
   public constructor(options: GamepadInputOptions = {}) {
     this.id = options.id ?? 'gamepad';
@@ -140,6 +149,9 @@ export class GamepadInput implements VehicleInputDevice {
     this.config = { ...DEFAULT_GAMEPAD_INPUT_CONFIG, ...options.config };
     if (!Number.isFinite(this.config.lightLongPressSeconds) || this.config.lightLongPressSeconds <= 0) {
       this.config.lightLongPressSeconds = DEFAULT_GAMEPAD_INPUT_CONFIG.lightLongPressSeconds;
+    }
+    if (!Number.isFinite(this.config.adasLongPressSeconds) || this.config.adasLongPressSeconds <= 0) {
+      this.config.adasLongPressSeconds = DEFAULT_GAMEPAD_INPUT_CONFIG.adasLongPressSeconds;
     }
     this.target = options.target === undefined
       ? (typeof window === 'undefined' ? null : window)
@@ -189,6 +201,8 @@ export class GamepadInput implements VehicleInputDevice {
       // A held button during connection must not synthesize a new edge.
       this.upHoldTime = -1; this.upHoldSent = false;
       this.lightHoldTime = -1; this.lightHoldSent = false;
+      this.downHoldTime = -1; this.downHoldSent = false;
+      this.adasHoldTime = -1; this.adasHoldSent = false;
       this.connectionKey = nextConnectionKey;
       this.previousButtons = pressed;
       this.clearPendingEdges();
@@ -202,11 +216,31 @@ export class GamepadInput implements VehicleInputDevice {
       } else { this.upHoldTime = -1; this.upHoldSent = false; }
       this.pendingShiftUp ||= this.isRisingEdge(pressed, 5); // RB
       this.pendingShiftDown ||= this.isRisingEdge(pressed, 4); // LB
-      this.pendingCycleLaneAssist ||= this.isRisingEdge(pressed, 3); // Y: mode selection only
+      // Y (button 3): short press cycles lane assist on release; long press (~700ms) toggles ADAS once.
+      if (this.isRisingEdge(pressed, 3)) { this.adasHoldTime = 0; this.adasHoldSent = false; }
+      else if (pressed[3] && this.adasHoldTime >= 0) {
+        this.adasHoldTime += Number.isFinite(context.deltaTime) ? Math.max(0, context.deltaTime) : 0;
+        if (this.adasHoldTime >= this.config.adasLongPressSeconds && !this.adasHoldSent) {
+          this.pendingAdasToggle = true; this.adasHoldSent = true;
+        }
+      } else if (!pressed[3] && this.adasHoldTime >= 0) {
+        if (!this.adasHoldSent) this.pendingCycleLaneAssist = true;
+        this.adasHoldTime = -1; this.adasHoldSent = false;
+      }
       this.pendingHandbrakeToggle ||= this.isRisingEdge(pressed, 0); // A
       this.pendingLeftIndicator ||= this.isRisingEdge(pressed, 14); // D-pad Left
       this.pendingRightIndicator ||= this.isRisingEdge(pressed, 15); // D-pad Right
-      this.pendingHazard ||= this.isRisingEdge(pressed, 13); // D-pad Down
+      // D-pad Down: short press toggles hazard on release; long press cycles hybrid energy mode once.
+      if (this.isRisingEdge(pressed, 13)) { this.downHoldTime = 0; this.downHoldSent = false; }
+      else if (pressed[13] && this.downHoldTime >= 0) {
+        this.downHoldTime += Number.isFinite(context.deltaTime) ? Math.max(0, context.deltaTime) : 0;
+        if (this.downHoldTime >= this.config.lightLongPressSeconds && !this.downHoldSent) {
+          this.pendingCycleEnergyMode = true; this.downHoldSent = true;
+        }
+      } else if (!pressed[13] && this.downHoldTime >= 0) {
+        if (!this.downHoldSent) this.pendingHazard = true;
+        this.downHoldTime = -1; this.downHoldSent = false;
+      }
       // Delay the short action until release, so a long hold never changes main lights.
       if (this.isRisingEdge(pressed, 12)) { this.lightHoldTime = 0; this.lightHoldSent = false; }
       else if (pressed[12] && this.lightHoldTime >= 0) {
@@ -314,8 +348,10 @@ export class GamepadInput implements VehicleInputDevice {
       engineStart: this.pendingEngineStart,
       cruiseToggle: this.pendingCruiseToggle,
       cycleDriveMode: this.pendingCycleDriveMode,
+      cycleEnergyMode: this.pendingCycleEnergyMode,
       fogToggle: this.pendingFogToggle,
       cycleLaneAssist: this.pendingCycleLaneAssist,
+      adasToggle: this.pendingAdasToggle,
       highBeamFlash: this.continuous.highBeamFlash,
       hornPressed: this.continuous.hornPressed,
       controlMode: this.context.controlMode,
@@ -346,6 +382,8 @@ export class GamepadInput implements VehicleInputDevice {
     // Resynchronise held buttons before accepting new edges after re-enable.
     this.upHoldTime = -1; this.upHoldSent = false;
     this.lightHoldTime = -1; this.lightHoldSent = false;
+    this.downHoldTime = -1; this.downHoldSent = false;
+    this.adasHoldTime = -1; this.adasHoldSent = false;
     this.connectionKey = null;
   }
 
@@ -425,6 +463,8 @@ export class GamepadInput implements VehicleInputDevice {
     this.lastMapping = event.gamepad.mapping;
     this.upHoldTime = -1; this.upHoldSent = false;
     this.lightHoldTime = -1; this.lightHoldSent = false;
+    this.downHoldTime = -1; this.downHoldSent = false;
+    this.adasHoldTime = -1; this.adasHoldSent = false;
     this.connectionKey = null;
   };
 
@@ -438,6 +478,8 @@ export class GamepadInput implements VehicleInputDevice {
     this.activeGamepad = null;
     this.upHoldTime = -1; this.upHoldSent = false;
     this.lightHoldTime = -1; this.lightHoldSent = false;
+    this.downHoldTime = -1; this.downHoldSent = false;
+    this.adasHoldTime = -1; this.adasHoldSent = false;
     this.connectionKey = null;
     this.previousButtons = [];
     this.lastGamepadTimestamp = -1;
@@ -458,8 +500,10 @@ export class GamepadInput implements VehicleInputDevice {
     this.pendingEngineStart = false;
     this.pendingCruiseToggle = false;
     this.pendingCycleDriveMode = false;
+    this.pendingCycleEnergyMode = false;
     this.pendingFogToggle = false;
     this.pendingCycleLaneAssist = false;
+    this.pendingAdasToggle = false;
   }
 
   private hasPendingEdge(): boolean {
@@ -467,7 +511,7 @@ export class GamepadInput implements VehicleInputDevice {
       this.pendingHandbrakeToggle || this.pendingLeftIndicator ||
       this.pendingRightIndicator || this.pendingHazard ||
       this.pendingCycleLights || this.pendingEngineStart ||
-      this.pendingCruiseToggle || this.pendingCycleDriveMode || this.pendingFogToggle || this.pendingCycleLaneAssist;
+      this.pendingCruiseToggle || this.pendingCycleDriveMode || this.pendingCycleEnergyMode || this.pendingFogToggle || this.pendingCycleLaneAssist || this.pendingAdasToggle;
   }
 
   private now(): number {

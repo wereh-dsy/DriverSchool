@@ -1,6 +1,9 @@
 import { createRenderLightingState, readRenderLighting } from './RenderLightingState';
 import { RenderStateBuffer } from './RenderStateBuffer';
 import { RenderDebugOverlays } from './RenderDebugOverlays';
+import { ADASWorldRenderer } from '../../vehicle/adas/visualization/ADASWorldRenderer';
+import type { ADASWorldVisualPacket } from '../../vehicle/adas/visualization/ADASVisualizationTypes';
+import { WindshieldHUDPlane } from '../../vehicle/hud/WindshieldHUDPlane';
 import { VehicleVisualDebugView } from '../VehicleVisualDebugView';
 import { CityGround } from '../../world/city/CityGround';
 import { BackSide, Box3, Color, DirectionalLight, Fog, Group, HemisphereLight, Mesh, Quaternion, Raycaster, Scene, ShaderMaterial, SphereGeometry, type Object3D, type Camera, type WebGLRenderer } from 'three';
@@ -46,6 +49,8 @@ export class RendererRuntime {
     private readonly lightState = createRenderLightingState();
     private readonly telemetryView = new RenderTelemetryView();
     private readonly debugOverlays = new RenderDebugOverlays();
+    private readonly adasVisuals = new ADASWorldRenderer();
+    private readonly windshieldHud = new WindshieldHUDPlane();
     private readonly visualDebug = new VehicleVisualDebugView();
     private readonly environmentMap: ReturnType<typeof createStaticEnvironmentMap>;
     private readonly environmentVisual: EnvironmentVisual;
@@ -127,7 +132,7 @@ export class RendererRuntime {
         this.environmentMap = createStaticEnvironmentMap(this.renderer);
         this.scene.background = new Color(V.fogColor);
         this.scene.fog = new Fog(V.fogColor, V.fogNear, V.fogFar);
-        this.scene.add(this.debugOverlays.root, this.visualDebug.root);
+        this.scene.add(this.debugOverlays.root, this.visualDebug.root, this.adasVisuals.root);
         this.addLightingAndSky();
         this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!, value => { this.renderer.toneMappingExposure = value; });
         this.warmup = new StreamingShaderWarmup(this.renderer, this.runtime);
@@ -296,6 +301,7 @@ export class RendererRuntime {
         this.states.clear();
         this.telemetry = undefined;
         this.context = {};
+        this.adasVisuals.applyPacket(null);
         ground.setRuntimeCoordinator?.(this.runtime);
         ground.setVisualResourcePreparation?.(texture => this.renderer.initTexture(texture), root => this.warmup.prepare(root, this.scene, ground.root, this.views(), () => this.running && ground === this.ground && root.userData.streamingWarmupCancelled !== true, () => typeof root.userData.streamingPriority === 'function' ? root.userData.streamingPriority() : root.userData.streamingPriority ?? 100));
         ground.setVisualObserver?.((root, added) => {
@@ -337,6 +343,7 @@ export class RendererRuntime {
         this.vehicleVisual = next;
         this.vehicleId = id;
         this.scene.add(next.root);
+        this.windshieldHud.attachToVehicle(next.root, id);
         this.vehicleLighting = new VehicleLighting(next);
         this.windshieldRain = new WindshieldRain(next);
         this.driverCamera.setDriverEyePosition(descriptor.visualConfig.driverEyePosition);
@@ -349,6 +356,8 @@ export class RendererRuntime {
             this.snapshot.speed = 0;
             this.states.clear();
             this.context = {};
+            this.adasVisuals.applyPacket(null);
+            this.windshieldHud.update(null, false);
             this.telemetry = undefined;
             this.driverCamera.update(next.root, 0);
         }
@@ -406,6 +415,7 @@ export class RendererRuntime {
                 if (message.context) {
                     this.context = message.context;
                     this.debugOverlays.apply(this.context.debugGeometry ?? []);
+                    this.adasVisuals.applyPacket((this.context.adasVisual as ADASWorldVisualPacket | null | undefined) ?? null);
                     this.visualDebug.setPresentation(this.context.visualDebug === true);
                 }
             }
@@ -469,6 +479,7 @@ export class RendererRuntime {
                         await this.warmup.settle(() => this.running);
                         await new Promise(resolve => setTimeout(resolve, 16));
                     }
+                    this.lastTime = 0;
                 }
                 else if (message.command === 'vehicle') {
                     if (!isVehicleId(String(message.value)))
@@ -544,6 +555,10 @@ export class RendererRuntime {
         this.vehicleLighting.applyState(this.lightState, this.current[R.ignition] === 1, dt);
         this.windshieldRain.update(dt, this.environment.rainIntensity, this.wiper, this.snapshot.speed);
         this.windshieldRain.root.visible = this.context.cockpit !== false;
+        this.windshieldHud.update(
+            (this.context.adasVisual as ADASWorldVisualPacket | null | undefined)?.windshieldHud,
+            this.context.cockpit !== false,
+        );
         if (this.telemetry) {
             this.telemetry.speedKmh = Math.abs(this.states.sampled[R.speed]!) * 3.6;
             this.telemetry.rpm = this.states.sampled[R.rpm];
@@ -552,6 +567,10 @@ export class RendererRuntime {
             this.vehicleVisual.updateInstruments(this.telemetryView.hydrate(this.telemetry), dt);
         }
         this.prepareRenderMatrices();
+        const egoX = this.sequence ? this.states.sampled[R.pose]! : this.snapshot.x;
+        const egoZ = this.sequence ? this.states.sampled[R.pose + 2]! : this.snapshot.z;
+        const egoYaw = this.sequence ? this.states.sampled[R.pose + 3]! : this.snapshot.yaw;
+        this.adasVisuals.update(dt, this.environment.time, egoX, egoZ, egoYaw);
         this.runtime.performance.add('scene', performance.now() - started);
         if (this.visualDebug.enabled)
             this.visualDebug.update(this.vehicleVisual, this.context.debugContacts, this.driverCamera, this.mirrors);
@@ -665,6 +684,8 @@ export class RendererRuntime {
         this.environmentMap.dispose();
         this.telemetryView.dispose();
         this.debugOverlays.dispose();
+        this.adasVisuals.dispose();
+        this.windshieldHud.dispose();
         this.visualDebug.dispose();
         this.assets.dispose();
         this.skyGeometry?.dispose();

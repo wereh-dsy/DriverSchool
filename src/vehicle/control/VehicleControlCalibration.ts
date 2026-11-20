@@ -17,6 +17,7 @@ export const HardSafetyEnvelope = Object.freeze({ maximumABSLockSlip: .23,
 const MODE_OVERRIDES: Partial<Record<VehicleDriveMode, ControlCalibrationOverrides>> = {
   ECO: { throttle: { adaptiveAuthority: .8 }, tcs: { slipMultiplier: 1.15 },
     esc: { yawErrorThreshold: .14, sideslipThreshold: .10 } },
+  STANDARD: { throttle: { adaptiveAuthority: .75 } },
   RANGE: { throttle: { adaptiveAuthority: .7 }, tcs: { slipMultiplier: 1.15 } },
   SPORT: { throttle: { adaptiveAuthority: .5 }, tcs: { slipMultiplier: 1.45, torqueDelay: .18 },
     esc: { yawErrorThreshold: .23, sideslipThreshold: .16 } },
@@ -24,6 +25,9 @@ const MODE_OVERRIDES: Partial<Record<VehicleDriveMode, ControlCalibrationOverrid
     esc: { yawErrorThreshold: .26, sideslipThreshold: .18 } },
   RACE: { throttle: { adaptiveAuthority: .35 }, tcs: { slipMultiplier: 1.65 },
     esc: { yawErrorThreshold: .28, sideslipThreshold: .18 } },
+  SNOW: { throttle: { adaptiveAuthority: .35, torqueSmoothingSeconds: .12 },
+    tcs: { slipMultiplier: 1.02, torqueDelay: .04, response: 14, recoveryResponse: 1.2 },
+    esc: { yawErrorThreshold: .12, sideslipThreshold: .085, confirmationTime: .05 } },
   WET: { throttle: { adaptiveAuthority: .4 }, tcs: { slipMultiplier: 1.1, torqueDelay: .08 },
     esc: { yawErrorThreshold: .13, sideslipThreshold: .09 } },
 };

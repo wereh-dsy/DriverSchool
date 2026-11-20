@@ -33,6 +33,7 @@ export type KeyboardDrivingAction =
   | 'engineStart'
   | 'cruiseToggle'
   | 'lccToggle'
+  | 'adasToggle'
   | 'cycleDriveMode'
   | 'enterExitVehicle'
   | 'toggleDriverDoor'
@@ -83,6 +84,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'cycleDriveMode', label: '切换驾驶模式（支持车型）', group: '车辆附件' },
   { action: 'cruiseToggle', label: '定速巡航开关', group: '车辆附件' },
   { action: 'lccToggle', label: '车道居中 SET / CANCEL', group: '车辆附件' },
+  { action: 'adasToggle', label: 'ADAS 智能驾驶开关', group: '车辆附件' },
   { action: 'enterExitVehicle', label: '上车 / 下车', group: '上下车' },
   { action: 'toggleDriverDoor', label: '主驾驶车门开 / 关', group: '上下车' },
   { action: 'driverWindowUp', label: '主驾驶车窗上升（按住）', group: '上下车' },
@@ -124,6 +126,7 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
   engineStart: 'KeyI',
   cruiseToggle: 'KeyV',
   lccToggle: 'KeyG',
+  adasToggle: 'KeyY',
   cycleDriveMode: 'KeyT',
   // Tab avoids the existing driving/accessory keys and the start-menu Enter.
   enterExitVehicle: 'Tab',

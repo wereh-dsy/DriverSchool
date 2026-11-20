@@ -82,6 +82,7 @@ export interface CollisionStep {
   readonly velocity: CollisionPoint2;
   readonly dimensions: CollisionDimensions;
   readonly dt: number;
+  readonly extraColliders?: readonly StaticCollider[];
 }
 
 export interface CollisionResolution {
@@ -361,6 +362,19 @@ export class VehicleCollisionSystem {
           minX: bounds.minX - this.separationSkin, maxX: bounds.maxX + this.separationSkin,
           minZ: bounds.minZ - this.separationSkin, maxZ: bounds.maxZ + this.separationSkin,
         });
+        if (step.extraColliders && step.extraColliders.length > 0) {
+          const minX = bounds.minX - this.separationSkin;
+          const maxX = bounds.maxX + this.separationSkin;
+          const minZ = bounds.minZ - this.separationSkin;
+          const maxZ = bounds.maxZ + this.separationSkin;
+          for (let ei = 0; ei < step.extraColliders.length; ei++) {
+            const ec = step.extraColliders[ei]!;
+            const eb = boundsOf(ec);
+            if (eb.minX <= maxX && eb.maxX >= minX && eb.minZ <= maxZ && eb.maxZ >= minZ) {
+              candidates.push(ec);
+            }
+          }
+        }
         for (const collider of candidates) {
           if (top < collider.minHeight || bottom > collider.maxHeight) continue;
           const currentBox = createVehicleOBB({ x, z, yaw }, dimensions);
@@ -411,11 +425,15 @@ export class VehicleCollisionSystem {
     }
     const pose: CollisionPose = { ...step.pose, x, z };
     if (contacts.size > 0) this.lastContactTime = this.contactClock;
+    const baseNearby = this.getNearbyColliders(pose);
+    const nearbyColliders = step.extraColliders && step.extraColliders.length > 0
+      ? baseNearby.concat(step.extraColliders)
+      : baseNearby;
     return {
       pose,
       velocity: { x: velocityX, z: velocityZ },
       vehicleOBB: createVehicleOBB(pose, dimensions),
-      nearbyColliders: this.getNearbyColliders(pose),
+      nearbyColliders,
       contacts: [...contacts.values()],
       collided: contacts.size > 0,
     };

@@ -167,38 +167,45 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     setButton(connectedPad, 9, 0);
     setButton(connectedPad, 2, 0);
     setButton(connectedPad, 15, 1); // D-pad Right
-    setButton(connectedPad, 13, 1); // D-pad Down
+    setButton(connectedPad, 13, 1); // D-pad Down (waits to distinguish short hazard vs long energy mode)
     advance(connectedPad);
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.rightIndicator, 'D-pad Right emits a right-indicator toggle request');
-    assert(state.hazard, 'D-pad Down emits a hazard-light toggle request');
+    assert(!state.hazard && !state.cycleEnergyMode, 'D-pad Down waits to distinguish short hazard and long energy mode');
     assert(state.cycleLights && !state.fogToggle, 'short D-pad Up cycles main lights once on release');
 
-    // Long Up must not also cycle main lights; Down remains an ordinary edge.
+    setButton(connectedPad, 13, 0);
+    advance(connectedPad);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(state.hazard && !state.cycleEnergyMode, 'short D-pad Down emits hazard on release without cycling energy mode');
+
+    // Long Up emits fog only; long Down emits cycleEnergyMode once without hazard or repeats.
     setButton(connectedPad, 12, 1);
+    setButton(connectedPad, 13, 1);
     input.update(1 / 60, actualEngagement); input.consumeState();
     input.update(.64, actualEngagement); state = input.consumeState();
-    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'before hold threshold there is no lamp command');
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard && !state.cycleEnergyMode, 'before hold threshold there is no long-press command');
     input.update(.02, actualEngagement); state = input.consumeState();
-    assert(state.fogToggle === true && !state.cycleLights && !state.hazard, 'long Up emits fog only, held Down does not repeat');
+    assert(state.fogToggle === true && !state.cycleLights && !state.hazard && state.cycleEnergyMode === true, 'long Up emits fog and long Down emits energy mode once');
     input.update(2, actualEngagement); state = input.consumeState();
-    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'holding Up/Down never repeats either action');
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard && !state.cycleEnergyMode, 'holding Up/Down never repeats either action');
     setButton(connectedPad, 12, 0);
+    setButton(connectedPad, 13, 0);
     input.update(1 / 60, actualEngagement); state = input.consumeState();
-    assert(!state.fogToggle && !state.cycleLights, 'long Up release does not synthesize short action');
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard && !state.cycleEnergyMode, 'long Up/Down release does not synthesize short actions');
 
     setButton(connectedPad, 15, 0);
-    setButton(connectedPad, 13, 0);
 
-    setButton(connectedPad, 3, 1); // Y
+    setButton(connectedPad, 3, 1); // Y (short release -> lane assist, long 700ms -> ADAS)
     setButton(connectedPad, 1, 1); // B drive mode
     setButton(connectedPad, 10, 1); // L3 hold
     setButton(connectedPad, 11, 1); // R3 horn
     advance(connectedPad);
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
-    assert(state.cycleLaneAssist === true && !state.fogToggle, 'Y selects Lane Assist without a fog request');
+    assert(!state.cycleLaneAssist && !state.adasToggle && !state.fogToggle, 'Y waits to distinguish short Lane Assist vs long ADAS');
     assert(!state.cruiseToggle && !state.cycleLights, 'Y does not trigger cruise or main lights');
     assert(state.cycleDriveMode === true, 'B emits one independent drive-mode edge');
     assert(state.directGear === undefined, 'Y/B do not request Neutral or Reverse');
@@ -207,25 +214,42 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.cycleDriveMode === false, 'held B does not repeat its drive-mode command');
-    assert(state.cycleLaneAssist === false && !state.fogToggle && state.highBeamFlash === true && state.hornPressed === true,
-      'Lane Assist consumes its edge while flash/horn remain held');
+    assert(state.cycleLaneAssist === false && !state.adasToggle && !state.fogToggle && state.highBeamFlash === true && state.hornPressed === true,
+      'held short Y does not trigger before release while flash/horn remain held');
     setButton(connectedPad, 3, 0);
     setButton(connectedPad, 1, 0);
     setButton(connectedPad, 10, 0);
     setButton(connectedPad, 11, 0);
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
+    assert(state.cycleLaneAssist === true && !state.adasToggle && !state.fogToggle, 'short Y release selects Lane Assist without ADAS or fog');
     assert(state.highBeamFlash === false && state.hornPressed === false, 'flash/horn immediately release');
 
     const selection = new LaneAssistStateController();
     for (const expected of [LaneAssistMode.WARNING_ONLY, LaneAssistMode.KEEP_ASSIST, LaneAssistMode.CENTERING_ASSIST, LaneAssistMode.OFF]) {
       setButton(connectedPad, 3, 1); input.update(1 / 240, actualEngagement);
-      input.update(1 / 240, actualEngagement); state = input.consumeState();
+      setButton(connectedPad, 3, 0); input.update(1 / 240, actualEngagement); state = input.consumeState();
       if (state.cycleLaneAssist) selection.cycleMode();
       assert(selection.state.mode === expected, `queued Y edge selects ${expected} once`);
       assert(!input.consumeState().cycleLaneAssist && !state.fogToggle, 'additional physics steps cannot repeat Y or request fog');
-      setButton(connectedPad, 3, 0); input.update(1 / 60, actualEngagement); input.consumeState();
     }
+
+    // Y long press (~700ms): triggers ADAS toggle once, never repeats while held, never triggers cycleLaneAssist on release
+    setButton(connectedPad, 3, 1);
+    input.update(1 / 60, actualEngagement);
+    assert(!input.consumeState().adasToggle, 'Y rising edge does not trigger ADAS immediately');
+    input.update(0.4, actualEngagement);
+    assert(!input.consumeState().adasToggle, 'Y held 400ms does not trigger ADAS early');
+    input.update(0.35, actualEngagement);
+    state = input.consumeState();
+    assert(state.adasToggle === true && !state.cycleLaneAssist, 'Y held ~700ms emits adasToggle once');
+    input.update(0.5, actualEngagement);
+    state = input.consumeState();
+    assert(!state.adasToggle && !state.cycleLaneAssist, 'continued Y hold does not repeat adasToggle');
+    setButton(connectedPad, 3, 0);
+    input.update(1 / 60, actualEngagement);
+    state = input.consumeState();
+    assert(!state.adasToggle && !state.cycleLaneAssist, 'releasing after Y long press does not emit short cycleLaneAssist');
 
     const pedalBeforeToggle = state.clutchPedal;
     input.setControlMode('manual-clutch', actualEngagement);
@@ -503,6 +527,14 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
       for (const code of ['KeyJ', 'KeyK', 'KeyH', 'KeyL', 'KeyI']) {
         dispatchKeyboardKey(keyboardTarget, 'keyup', code);
       }
+
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyY');
+      keyboardInput.update(1 / 60, 0);
+      keyboardState = keyboardInput.consumeState();
+      assert(keyboardState.adasToggle === true, 'keyboard Y emits adasToggle edge');
+      keyboardInput.update(1 / 60, 0);
+      assert(!keyboardInput.consumeState().adasToggle, 'held keyboard Y emits only one edge');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyY');
 
       keyboard.setBinding('throttle', 'KeyL');
       const swapped = keyboard.getBindings();

@@ -28,6 +28,8 @@ import { isElectricConfig, type ElectricVehiclePhysicsConfig } from './config/El
 import { TESLA_MODEL_3_VISUAL_CONFIG } from './visual/teslaModel3VisualConfig';
 import { validateVehiclePlatformConfig } from './config/validateVehiclePlatformConfig';
 import { AUDI_A6L_AUDIO_PROFILE, BMW_530LI_AUDIO_PROFILE, MERCEDES_EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import type { VehicleAcousticProfile } from '../audio/VehicleAcousticProfile';
+import { getVehicleAcousticProfile } from '../audio/profiles';
 import { resolveVehicleCapabilities, type VehicleCapabilities, type VehicleFeatureDeclarations } from './VehicleCapabilities';
 import {
   cloneVehiclePhysicsConfig,
@@ -74,10 +76,11 @@ export interface VehicleDescriptor<C extends PlayerVehiclePhysicsConfig = Player
   readonly physicsConfig: C;
   readonly visualConfig: VehicleVisualConfig;
   readonly audioProfile?: VehicleAudioProfile;
+  readonly acousticProfile: VehicleAcousticProfile;
 }
 
 export type VehicleDefinition = VehicleDescriptor;
-type AuthoredVehicleDescriptor = Omit<VehicleDescriptor, 'capabilities'> & { readonly capabilities: VehicleFeatureDeclarations };
+type AuthoredVehicleDescriptor = Omit<VehicleDescriptor, 'capabilities' | 'acousticProfile'> & { readonly capabilities: VehicleFeatureDeclarations };
 
 export const DEFAULT_VEHICLE_ID: ICEVehicleId = 'family-sedan';
 
@@ -201,6 +204,7 @@ const VEHICLE_BY_ID = Object.freeze(Object.fromEntries(VEHICLE_IDS.map(id => {
     interiorAmbientLighting: capabilities.ambientLighting ? descriptor.visualConfig.interiorAmbientLighting : undefined,
     parkingCamera: capabilities.parkingCamera ? descriptor.visualConfig.parkingCamera : undefined };
   return [id, Object.freeze({ ...descriptor, physicsConfig, capabilities,
+    acousticProfile: getVehicleAcousticProfile(id),
     visualConfig: withSuspensionStance(visualConfig, descriptor.physicsConfig.suspension) })];
 }))) as Readonly<Record<VehicleId, VehicleDescriptor>>;
 

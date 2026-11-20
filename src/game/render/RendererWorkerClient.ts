@@ -223,6 +223,7 @@ export class RendererWorkerClient {
         }
     }
     async prepareDrive(): Promise<void> {
+        this.lastTelemetry = 0;
         await this.ready;
         await this.command('prepareDrive', this.sequence);
     }

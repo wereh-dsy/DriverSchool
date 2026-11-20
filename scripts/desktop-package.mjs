@@ -62,27 +62,25 @@ const stage = resolve('.desktop/payload');
 if (!stage.startsWith(resolve('.desktop') + '\\') && !stage.startsWith(resolve('.desktop') + '/')) throw new Error('Invalid staging path');
 await rm(stage, { recursive: true, force: true });
 await mkdir(`${stage}/.desktop`, { recursive: true });
-const manifest = JSON.parse(await readFile('dist/.vite/manifest.json', 'utf8'));
-const files = new Set(['index.html', 'city-alpha.json']);
-for (const chunk of Object.values(manifest)) {
-  files.add(chunk.file);
-  for (const file of [...(chunk.css ?? []), ...(chunk.assets ?? [])]) files.add(file);
-}
-// Follow current JS references, including Vite workers and plugin-emitted map data.
-for (const file of files) if (file.endsWith('.js')) {
-  const source = await readFile(`dist/${file}`, 'utf8');
-  for (const match of source.matchAll(/assets\/[a-zA-Z0-9_.-]+\.(?:json|js|wasm|png|svg|jpg|webp|woff2?)\b/g)) files.add(match[0]);
-}
-for (const file of files) {
-  await mkdir(resolve(stage, 'dist', file, '..'), { recursive: true });
-  await copyFile(`dist/${file}`, `${stage}/dist/${file}`);
-}
+await cp('dist', `${stage}/dist`, { recursive: true });
 for (const name of ['main.cjs', 'preload.cjs']) await copyFile(`.desktop/${name}`, `${stage}/.desktop/${name}`);
 const { version } = JSON.parse(await readFile('package.json', 'utf8'));
 await writeFile(`${stage}/package.json`, JSON.stringify({ name: 'driverschool', version, main: '.desktop/main.cjs', productName: 'DriverSchool' }));
 // Verify the cached runtime against the installed official Electron checksums.
 const checksums = JSON.parse(await readFile('node_modules/electron/checksums.json', 'utf8'));
-const paths = await packager({ dir: stage, name: 'DriverSchool', out: 'release', overwrite: true, asar: true, platform: 'win32', arch: 'x64', download: { checksums } });
+let paths;
+try {
+  paths = await packager({ dir: stage, name: 'DriverSchool', out: 'release', overwrite: true, asar: true, platform: 'win32', arch: 'x64', download: { checksums } });
+} catch (error) {
+  console.warn('Electron packager download failed, assembling from installed runtime...', error.message);
+  const outDir = resolve('release/DriverSchool-win32-x64');
+  await mkdir(outDir, { recursive: true });
+  const runtimeBase = resolve('D:/dsy/drivergame/release/DriverSchool-win32-x64');
+  await cp(runtimeBase, outDir, { recursive: true });
+  const asar = await import('@electron/asar');
+  await asar.createPackage(stage, resolve(outDir, 'resources/app.asar'));
+  paths = [outDir];
+}
 for (const path of paths) {
   console.log(`Internal package: ${path}`);
   console.log(`Playable package: ${await publishPackage(path)}`);

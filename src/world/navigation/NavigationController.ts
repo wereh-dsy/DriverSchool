@@ -14,6 +14,7 @@ export class NavigationController {
   public pose:NavigationPose={x:0,y:0,z:0,yaw:0};
   private elapsed=0;
   private offRoute=0;
+  private suppressReroute=false;
   private progress=0;
   private network:RoadNetworkData|undefined;
   private retry=0;
@@ -29,6 +30,36 @@ export class NavigationController {
     const route=this.planner?.planThrough(start,destination,waypoints)??null;
     Object.assign(this.state,{route,status:route?'preview':'unreachable',instruction:route?'路线预览':waypoints.length?'途经点顺序或行驶方向不可达，请调整路线':'暂无可达路线',remainingDistance:route?.distance??0,remainingSeconds:route?.seconds??0,nextRoad:destination.label,symbol:'↑',waypointIndex:0});
     this.progress=this.offRoute=0;this.state.version++;return !!route;
+  }
+  public setRerouteSuppression(suppress: boolean): void {
+    this.suppressReroute = suppress;
+    if (suppress) this.offRoute = 0;
+  }
+  /** Trigger an immediate route recalculation from the vehicle's current pose after a driver-initiated branch maneuver. */
+  public triggerImmediateReroute(): boolean {
+    this.suppressReroute = false;
+    this.offRoute = 0;
+    const route = this.state.route;
+    if (!this.planner || !route) return false;
+    const start = this.currentLocation();
+    const next = start
+      ? this.planner.planThrough(
+          start,
+          route.destination,
+          route.waypoints.slice(this.state.waypointIndex).map((s) => s.location),
+        )
+      : null;
+    this.retry = 3;
+    if (next) {
+      this.state.route = next;
+      this.state.waypointIndex = 0;
+      this.progress = 0;
+      this.offRoute = 0;
+      this.state.status = 'navigating';
+      this.state.version++;
+      return true;
+    }
+    return false;
   }
   public start(destination:RouteLocation,waypoints:readonly RouteLocation[]=[]):boolean {
     const start=this.currentLocation();if(!start){this.state.status='unreachable';this.state.route=null;this.state.instruction='当前位置不在可导航道路上';this.state.version++;return false;}
@@ -76,6 +107,7 @@ export class NavigationController {
     // A closer parallel/upper road wins over a nearby route line. Hold briefly at junction gaps.
     const valid=best&&(!nearest||best.score<=nearest.score+5);
     if(!valid) {
+      if(this.suppressReroute) { this.offRoute = 0; return; }
       this.offRoute+=elapsed;
       if(this.offRoute>=1.4&&this.retry===0) {
         this.state.status='rerouting';this.state.instruction='正在重新规划';this.state.version++;

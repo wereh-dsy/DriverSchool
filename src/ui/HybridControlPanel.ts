@@ -1,10 +1,11 @@
 import type { P2HybridPowertrain } from '../vehicle/powertrain/P2HybridPowertrain';
-import type { HybridMode, TransferMode } from '../vehicle/config/P2HybridConfig';
+import type { HybridMode, P2TerrainMode, TransferMode } from '../vehicle/config/P2HybridConfig';
 
 /** Runtime commands, distinct from persistent driver-assistance preferences. */
 export class HybridControlPanel {
   private readonly root = document.createElement('details');
   private readonly mode = document.createElement('select');
+  private readonly terrain = document.createElement('select');
   private readonly transfer = document.createElement('select');
   private readonly hold = document.createElement('input');
   private readonly status = document.createElement('div');
@@ -13,14 +14,25 @@ export class HybridControlPanel {
   private readonly frontLock = document.createElement('input');
   private elapsed = 1;
   public constructor(private readonly getPowertrain: () => P2HybridPowertrain | undefined,
-    private readonly getSpeed: () => number, private readonly getBrake: () => number) {
+    private readonly getSpeed: () => number, private readonly getBrake: () => number,
+    private readonly onTerrainModeChange?: (mode: P2TerrainMode) => void) {
     this.root.style.cssText = 'position:fixed;left:16px;top:150px;z-index:35;width:278px;padding:10px 12px;background:#0d1927ed;color:#edf2f6;font:13px/1.8 Segoe UI,Microsoft YaHei,sans-serif;border:1px solid #8b7951;border-radius:8px;pointer-events:auto';
-    const title = document.createElement('summary'); title.textContent = 'Hi4-T · 混动 / 四驱 / 充电'; this.root.append(title);
+    const title = document.createElement('summary'); title.textContent = 'Hi4-T · 动力 / 全地形 / 四驱'; this.root.append(title);
     const line = (label: string, control: HTMLElement) => { const row = document.createElement('label'); row.style.display = 'block'; row.append(label, control); this.root.append(row); };
-    for (const [value, label] of [['EV', '纯电 EV'], ['HYBRID', '智能混动'], ['SPORT', '运动混动'], ['CHARGE_HOLD', '电量保持'], ['CHARGE', '发动机充电']]) {
+    for (const [value, label] of [['EV', '纯电 EV'], ['HEV', '混动 HEV'], ['INTELLIGENT', '智能 INTELLIGENT'], ['CHARGE_HOLD', '电量保持'], ['CHARGE', '发动机充电']]) {
       const o = document.createElement('option'); o.value = value!; o.textContent = label!; this.mode.append(o);
     }
-    line('混动模式 ', this.mode);
+    line('动力模式 ', this.mode);
+    for (const [value, label] of [['OFF', '公路（关闭）'], ['SNOW', '雪地 SNOW'], ['MUD', '泥地 MUD'], ['SAND', '沙地 SAND']]) {
+      const o = document.createElement('option'); o.value = value!; o.textContent = label!; this.terrain.append(o);
+    }
+    line('全地形模式 ', this.terrain);
+    this.terrain.onchange = () => {
+      const next = this.terrain.value as P2TerrainMode;
+      if (this.onTerrainModeChange) this.onTerrainModeChange(next);
+      else this.getPowertrain()?.setTerrainMode(next);
+      this.message.textContent = next === 'OFF' ? '已返回公路驾驶模式' : `全地形模式 · ${next}`;
+    };
     this.hold.type = 'number'; this.hold.min = '15'; this.hold.max = '85'; this.hold.step = '5'; this.hold.value = '50'; this.hold.style.width = '60px';
     line('保电目标 % ', this.hold);
     const selectMode = () => { this.getPowertrain()?.setHybridMode(this.mode.value as HybridMode, Number(this.hold.value) / 100); };
@@ -61,13 +73,17 @@ export class HybridControlPanel {
     const p = this.getPowertrain(); this.root.hidden = !p || !visible;
     if (!p || !visible) return;
     this.elapsed += dt; if (this.elapsed < .2) return; this.elapsed = 0;
-    this.mode.value = p.energyManagement.mode; this.transfer.value = p.transfer.mode;
+    const rawMode = p.energyManagement.mode;
+    this.mode.value = rawMode === 'HYBRID' ? 'HEV' : rawMode === 'SPORT' ? 'HEV' : rawMode;
+    this.terrain.value = p.terrainMode;
+    this.transfer.value = p.transfer.mode;
     this.rearLock.disabled = !p.transfer.rearLock; this.frontLock.disabled = !p.transfer.frontLock;
     this.rearLock.checked = p.transfer.rearLock?.engaged ?? false; this.frontLock.checked = p.transfer.frontLock?.engaged ?? false;
     this.frontLock.title = p.transfer.frontLock ? '' : '本车型未安装前桥差速锁';
     if (document.activeElement !== this.hold) this.hold.value = String(Math.round(p.energyManagement.holdSOC * 100));
     const b = p.battery.getSnapshot();
-    this.status.textContent = `SOC ${(b.soc * 100).toFixed(1)}% · ${b.energyKWh.toFixed(2)} kWh · ${b.temperatureC.toFixed(0)}°C | ${b.state} ${(b.gridPowerW / 1000).toFixed(1)} kW`;
+    const fallback = p.energyManagement.evFallbackActive ? ` · 纯电受限(${p.energyManagement.evFallbackReason})` : '';
+    this.status.textContent = `实际 ${p.energyManagement.state}${fallback} · SOC ${(b.soc * 100).toFixed(1)}% · ${b.temperatureC.toFixed(0)}°C | ${b.state} ${(b.gridPowerW / 1000).toFixed(1)} kW`;
   }
   public dispose(): void { this.root.remove(); }
 }

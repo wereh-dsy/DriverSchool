@@ -35,6 +35,42 @@ export class Tank500Display extends T.Group {
     if (hit.uv.y < .14) { this.page = (['ENERGY', 'OFFROAD', 'STATUS'] as Page[])[Math.min(2, Math.floor(hit.uv.x * 3))]!; this.elapsed = 1; }
     else this.cyclePage(); return true;
   }
+  private drawLampIcon(
+    c: CanvasRenderingContext2D,
+    kind: 'position' | 'lowBeam' | 'highBeam' | 'frontFog' | 'rearFog',
+    cx: number,
+    cy: number,
+  ): void {
+    c.save(); c.translate(cx, cy); c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 2.4;
+    if (kind === 'position') {
+      c.strokeStyle = GREEN;
+      c.beginPath(); c.arc(-4, 0, 7, Math.PI * .5, Math.PI * 1.5); c.closePath(); c.stroke();
+      c.beginPath(); c.arc(4, 0, 7, -Math.PI * .5, Math.PI * .5); c.closePath(); c.stroke();
+      for (const dy of [-5, 0, 5]) {
+        c.beginPath(); c.moveTo(-14, dy * 1.15); c.lineTo(-19, dy * 1.35); c.stroke();
+        c.beginPath(); c.moveTo(14, dy * 1.15); c.lineTo(19, dy * 1.35); c.stroke();
+      }
+    } else if (kind === 'lowBeam') {
+      c.strokeStyle = GREEN;
+      c.beginPath(); c.moveTo(2, -9); c.quadraticCurveTo(14, -8, 14, 0); c.quadraticCurveTo(14, 8, 2, 9); c.closePath(); c.stroke();
+      for (const dy of [-6.5, -2.2, 2.2, 6.5]) { c.beginPath(); c.moveTo(-2, dy); c.lineTo(-14, dy + 3.8); c.stroke(); }
+    } else if (kind === 'highBeam') {
+      c.strokeStyle = '#4aa0ff';
+      c.beginPath(); c.moveTo(2, -9); c.quadraticCurveTo(14, -8, 14, 0); c.quadraticCurveTo(14, 8, 2, 9); c.closePath(); c.stroke();
+      for (const dy of [-6.4, -2.1, 2.1, 6.4]) { c.beginPath(); c.moveTo(-2, dy); c.lineTo(-15, dy); c.stroke(); }
+    } else if (kind === 'frontFog') {
+      c.strokeStyle = GREEN;
+      c.beginPath(); c.moveTo(3, -9); c.quadraticCurveTo(14, -8, 14, 0); c.quadraticCurveTo(14, 8, 3, 9); c.closePath(); c.stroke();
+      for (const dy of [-5.5, 0, 5.5]) { c.beginPath(); c.moveTo(-1, dy); c.lineTo(-14, dy + 3.5); c.stroke(); }
+      c.beginPath(); c.moveTo(-7.5, -9); c.quadraticCurveTo(-4.5, -4.5, -7.5, 0); c.quadraticCurveTo(-10.5, 4.5, -7.5, 9); c.stroke();
+    } else {
+      c.strokeStyle = '#f5a828';
+      c.beginPath(); c.moveTo(-3, -9); c.quadraticCurveTo(-14, -8, -14, 0); c.quadraticCurveTo(-14, 8, -3, 9); c.closePath(); c.stroke();
+      for (const dy of [-5.5, 0, 5.5]) { c.beginPath(); c.moveTo(1, dy); c.lineTo(14, dy); c.stroke(); }
+      c.beginPath(); c.moveTo(7.5, -9); c.quadraticCurveTo(10.5, -4.5, 7.5, 0); c.quadraticCurveTo(4.5, 4.5, 7.5, 9); c.stroke();
+    }
+    c.restore();
+  }
   private text(c: CanvasRenderingContext2D, s: string, x: number, y: number, size = 28, color = WHITE): void {
     c.font = `500 ${size}px Segoe UI, Microsoft YaHei, sans-serif`; c.fillStyle = color; c.textAlign = 'center'; c.fillText(s, x, y);
   }
@@ -71,7 +107,7 @@ export class Tank500Display extends T.Group {
     this.power = T.MathUtils.damp(this.power, ((t.hybrid?.enginePowerW ?? 0) + (t.hybrid?.motorPowerW ?? 0)) / 1000, 9, dt);
     const day = T.MathUtils.clamp(t.ambientDaylight ?? 1, 0, 1);
     this.screen.material.emissiveIntensity = T.MathUtils.damp(this.screen.material.emissiveIntensity, powered || charging ? .47 + .45 * day : 0, 8, dt);
-    const status = `${powered}|${charging}|${t.driveAvailable}|${t.tpmsState?.warning}|${(t.fuelLevel ?? 1) <= .1}|${this.page}|${JSON.stringify(t.indicators)}`;
+    const status = `${powered}|${charging}|${t.driveAvailable}|${t.driveMode}|${t.hybrid?.mode}|${t.hybrid?.state}|${t.hybrid?.terrainMode}|${t.hybrid?.evFallbackReason}|${t.tpmsState?.warning}|${(t.fuelLevel ?? 1) <= .1}|${this.page}|${JSON.stringify(t.indicators)}`;
     this.elapsed += dt; if (this.elapsed < .05 && status === this.lastStatus) return; this.elapsed = 0; this.lastStatus = status;
     const c = this.canvas.getContext('2d')!, hybrid = t.hybrid; c.globalAlpha = 1;
     c.fillStyle = powered ? '#081218' : '#000000'; c.fillRect(0, 0, 1200, this.canvas.height); this.texture.needsUpdate = true;
@@ -82,15 +118,24 @@ export class Tank500Display extends T.Group {
         text(`${battery.connector} · ${battery.state} · ${(battery.gridPowerW / 1000).toFixed(1)} kW`, 600, 390, 32); }
       return;
     }
+    const energyLabel = hybrid.mode === 'HYBRID' ? 'HEV' : hybrid.mode === 'INTELLIGENT' ? '智能' : hybrid.mode === 'CHARGE_HOLD' ? '保电' : hybrid.mode === 'CHARGE' ? '充电' : hybrid.mode;
+    const driveLabel = t.driveMode ?? 'STANDARD';
+    const terrainSuffix = hybrid.terrainMode && hybrid.terrainMode !== 'OFF' ? ` · ${hybrid.terrainMode}` : '';
+    const actualStateLabel: Record<string, string> = { EV: '纯电驱动', STARTING: '发动机起动', ENGINE: '发动机驱动', BOOST: '油电并联协同', CHARGE: '行车发电', REGEN: '能量回收', OFF: '待机' };
+    const fallbackLabel: Record<string, string> = { LOW_SOC: '电量低·发动机介入', THERMAL_LIMIT: '温度限功·发动机介入', BATTERY_LIMIT: '电池限功·发动机介入', POWER_DEMAND: '高负荷·发动机介入', SPEED_LIMIT: '超纯电速·发动机介入' };
     const header = c.createLinearGradient(0, 0, 0, 70); header.addColorStop(0, '#233135'); header.addColorStop(1, '#081218'); c.fillStyle = header; c.fillRect(0, 0, 1200, 70);
-    text('TANK 500 · Hi4-T', 205, 43, 27, GOLD); text(`${hybrid.mode} · ${t.driveMode ?? 'NORMAL'}`, 600, 43, 25);
+    text('TANK 500 · Hi4-T', 205, 43, 27, GOLD); text(`${energyLabel} · ${driveLabel}${terrainSuffix}`, 600, 43, 25);
     text(t.driveAvailable ? 'READY' : '驱动暂不可用', 1030, 43, 25, t.driveAvailable ? GREEN : '#edbc69');
     if (!this.center) {
       this.arc(c, 220, 212, this.rpm, 6400, GOLD); this.arc(c, 980, 212, Math.abs(this.power), this.power < 0 ? 65 : 300, this.power < 0 ? GREEN : GOLD);
       text(String(Math.round(this.speed)), 220, 245, 100); text(`km/h  ·  ${t.gear}`, 220, 293, 27);
       text(`${Math.round(this.power)}`, 980, 242, 78, this.power < 0 ? GREEN : WHITE); text(this.power < 0 ? 'kW · 回收' : 'kW · 动力', 980, 289, 27);
       this.car(c, 600, 210, .60); this.flow(c, t, 195);
-      text(t.engineRunning ? '发动机运行' : '发动机停止', 600, 108, 26, t.engineRunning ? GOLD : MUTED);
+      if (hybrid.evFallbackActive) {
+        text(`纯电退出 · ${fallbackLabel[hybrid.evFallbackReason ?? ''] ?? '发动机介入'}`, 600, 106, 23, '#edbc69');
+      } else {
+        text(`实际 ${actualStateLabel[hybrid.state] ?? hybrid.state} · ${t.engineRunning ? '发动机运行' : '发动机停止'}`, 600, 106, 23, t.engineRunning ? GOLD : GREEN);
+      }
       const axle = hybrid.transfer.axleOutputTorques;
       text(`${hybrid.transfer.mode}  前/后 ${Math.round(axle.front)}/${Math.round(axle.rear)} Nm`, 600, 319, 25, GOLD);
       text(`SOC ${Math.round(battery.soc * 100)}%`, 1000, 361, 28, GREEN);
@@ -98,9 +143,13 @@ export class Tank500Display extends T.Group {
       text({ ENERGY: '能量流', OFFROAD: '越野信息', STATUS: '车辆状态' }[this.page], 600, 105, 32, GOLD);
       if (this.page === 'ENERGY') {
         this.car(c, 600, 270, .9); this.flow(c, t, 245);
-        text(`${t.engineRunning ? '发动机运行' : '发动机停止'} · ${Math.round(t.rpm)} rpm`, 600, 421, 27);
-        text(`SOC ${Math.round(battery.soc * 100)}%   保电目标 ${Math.round(hybrid.holdSOC * 100)}%`, 600, 466, 31, GREEN);
-        text('实际能量流向 · ' + (hybrid.motorPowerW < -500 ? 'P2 → 电池' : hybrid.motorPowerW > 500 ? '电池 → P2' : '待机'), 600, 515, 25, MUTED);
+        text(`实际 ${actualStateLabel[hybrid.state] ?? hybrid.state} · ${t.engineRunning ? '发动机运行' : '发动机停止'} · ${Math.round(t.rpm)} rpm`, 600, 421, 26);
+        const targetPct = Math.round((hybrid.targetSOC && hybrid.targetSOC > 0 ? hybrid.targetSOC : hybrid.holdSOC) * 100);
+        text(`SOC ${Math.round(battery.soc * 100)}%   目标SOC ${targetPct}%`, 600, 466, 30, GREEN);
+        text(hybrid.evFallbackActive
+          ? `纯电优先退出 · ${fallbackLabel[hybrid.evFallbackReason ?? ''] ?? '发动机已介入'}`
+          : '实际能量流向 · ' + (hybrid.motorPowerW < -500 ? 'P2 → 电池' : hybrid.motorPowerW > 500 ? '电池 → P2' : '待机'),
+          600, 515, 25, hybrid.evFallbackActive ? '#edbc69' : MUTED);
       } else if (this.page === 'OFFROAD') {
         this.car(c, 345, 285, 1.15); text(`${hybrid.transfer.mode}   ${hybrid.transfer.ratio.toFixed(2)} : 1`, 820, 198, 43, GOLD);
         text(`前轴 ${Math.round(hybrid.transfer.axleOutputTorques.front)} / 后轴 ${Math.round(hybrid.transfer.axleOutputTorques.rear)} Nm`, 820, 267, 29);
@@ -122,7 +171,14 @@ export class Tank500Display extends T.Group {
     text(t.fuelLevel === undefined ? '燃油 —' : `燃油 ${Math.round(t.fuelLevel * 100)}%${t.fuelLevel <= .1 ? ' · 低油量' : ''}`, 205, this.center ? 152 : 361, 25, (t.fuelLevel ?? 1) <= .1 ? '#edbc69' : WHITE);
     text(t.tpmsState?.available ? t.tpmsState.warning ? '胎压告警' : '胎压正常' : '胎压不可用', 1010, this.center ? 152 : 396, 24, t.tpmsState?.warning ? '#edbc69' : MUTED);
     if (!this.center) {
-      const i = t.indicators; text(`${i?.parkingBrake ? 'EPB' : ''}  ABS ${i?.absWarning ? '故障' : '就绪'}  ${i?.tcsActive ? 'TCS介入' : ''}`, 530, 396, 23, i?.absWarning ? '#edbc69' : MUTED);
+      const i = t.indicators; text(`${i?.parkingBrake ? 'EPB' : ''}  ABS ${i?.absWarning ? '故障' : '就绪'}  ${i?.tcsActive ? 'TCS介入' : ''}`, 485, 396, 23, i?.absWarning ? '#edbc69' : MUTED);
+      const activeLamps: Array<'position' | 'lowBeam' | 'highBeam' | 'frontFog' | 'rearFog'> = [];
+      if (i?.positionLights) activeLamps.push('position');
+      if (i?.headlights) activeLamps.push('lowBeam');
+      if (i?.highBeam) activeLamps.push('highBeam');
+      if (i?.frontFogLights || (i?.fogLights && !i?.rearFogLights)) activeLamps.push('frontFog');
+      if (i?.rearFogLights) activeLamps.push('rearFog');
+      activeLamps.forEach((lamp, idx) => this.drawLampIcon(c, lamp, 685 + idx * 46, 388));
       if (i?.leftTurn) text('◀', 65, 82, 34, GREEN); if (i?.rightTurn) text('▶', 1135, 82, 34, GREEN);
     }
     if (this.bootAge < .65 && Math.abs(t.speedKmh) < .1 && !t.indicators?.absWarning && !t.tpmsState?.warning) {

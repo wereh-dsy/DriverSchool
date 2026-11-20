@@ -23,6 +23,7 @@ import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
 import { CityPhysicsSectors } from './CityPhysicsSectors';
 import {CitySimulationSectors} from './CitySimulationSectors';
 import { prepareRoadCarriagewaysSteps } from './RoadCarriageway';
+import { LaneGraph } from '../navigation/lanegraph/LaneGraph';
 
 interface SurfaceArea { junctionId?: string; reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
 export interface SurfaceQueryDebug {
@@ -37,6 +38,13 @@ export class CityGround implements DrivingGround {
   readonly worldBounds;
   readonly spawnPose;
   readonly roadNetwork;
+  private _laneGraph?: LaneGraph;
+  get laneGraph(): LaneGraph | undefined {
+    if (!this._laneGraph && this.data) {
+      this._laneGraph = LaneGraph.fromMap(this.data);
+    }
+    return this._laneGraph;
+  }
   readonly colliders: DrivingGround['colliders'][number][] = [];
   readonly sectors: SectorManager|CitySimulationSectors;
   get whenDisposed():Promise<void>{return this.sectors.whenReleased;}

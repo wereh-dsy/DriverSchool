@@ -46,6 +46,7 @@ export class ControlSettingsPanel {
   public onVibrationChange?: (enabled: boolean) => void;
   public onTrajectoryPredictionChange?: (enabled: boolean) => void;
   public onAccelerationTestChange?: (enabled: boolean) => void;
+  public onHybridEnergyHudChange?: (enabled: boolean) => void;
   public onBlackBoxChange?: (enabled: boolean) => void;
   public onBlackBoxSave?: () => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
@@ -76,10 +77,15 @@ export class ControlSettingsPanel {
   public onVehicleChange?: (vehicleId: string) => void;
   public onFuelChange?: (litres: number) => void;
   public onNotice?: (message: string) => void;
+  public onHudHeightChange?: (level: number) => void;
+  public onDrivingLabChange?: (enabled: boolean) => void;
 
   private readonly toggleButton: HTMLButtonElement;
   private readonly panel: HTMLElement;
+  private readonly drivingLabInput: HTMLInputElement;
   private readonly mirrorValue: HTMLElement;
+  private hudHeightRange!: HTMLInputElement;
+  private hudHeightValue!: HTMLElement;
   private readonly mapButtonsContainer: HTMLElement;
   private readonly vehicleButtonsContainer: HTMLElement;
   private readonly fuelLitresInput: HTMLInputElement;
@@ -164,6 +170,15 @@ export class ControlSettingsPanel {
               <p class="settings-note" data-trip-summary></p>
               <div class="settings-segments"><button type="button" data-trip-reset="A">重置 Trip A</button><button type="button" data-trip-reset="B">重置 Trip B</button></div>
             </section>
+            <section class="settings-group" data-hud-height-group>
+              <div class="settings-group-title"><span>车载 HUD 高度</span><small data-hud-height-value>0 (默认)</small></div>
+              <div class="settings-segments" style="display:flex;align-items:center;gap:6px;">
+                <button type="button" data-hud-height-step="-1" aria-label="降低 HUD 高度" style="flex:0 0 32px;">-</button>
+                <input type="range" min="-5" max="5" step="1" value="0" data-hud-height-range aria-label="车载 HUD 高度" style="flex:1;min-width:90px;">
+                <button type="button" data-hud-height-step="1" aria-label="升高 HUD 高度" style="flex:0 0 32px;">+</button>
+                <button type="button" data-hud-height-reset style="flex:0 0 auto;padding:0 10px;">恢复默认</button>
+              </div>
+            </section>
             <section class="settings-group">
               <div class="settings-group-title"><span>后视镜</span><small data-mirror-value>水平 0.0° · 垂直 0.0°</small></div>
               <div class="settings-segments mirror-selector">
@@ -242,7 +257,7 @@ export class ControlSettingsPanel {
           <div id="settings-page-controls" class="settings-page" data-settings-page="controls" role="tabpanel" aria-labelledby="settings-tab-controls" tabindex="0" hidden>
             <section class="settings-group">
               <div class="settings-group-title"><span>手柄</span></div>
-              <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑ 短按：关→示宽→近光→远光 · ↑ 长按：雾灯 OFF→前→前后 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：Lane Assist OFF→LDW→LKA→LCC · B：驾驶模式 ECO→NORMAL→SPORT（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
+              <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑ 短按：关→示宽→近光→远光 · ↑ 长按：雾灯 OFF→前→前后 · ↓ 短按：双闪 · ↓ 长按：混动动力模式（EV/HEV/智能，支持车型）<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：Lane Assist OFF→LDW→LKA→LCC · B：驾驶模式（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
               <label class="settings-switch"><span>手柄震动</span><input type="checkbox" data-vibration aria-label="手柄震动"></label>
             </section>
             <section class="settings-group keyboard-settings">
@@ -261,10 +276,17 @@ export class ControlSettingsPanel {
               <p class="settings-note">F11 保存；包含触发后约 1.5 秒的记录。</p>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>实验功能</span></div>
+              <div class="settings-group-title"><span>驾驶实验室 (Driving Lab)</span></div>
+              <label class="settings-switch"><span>启用驾驶实验室总控面板</span><input type="checkbox" data-driving-lab aria-label="驾驶实验室"></label>
+              <p class="settings-note">整合场景模拟、轨迹预测、加速测试与混动/电驱能量管理；关闭后自动释放实验室窗口与测试资源。</p>
+            </section>
+            <section class="settings-group">
+              <div class="settings-group-title"><span>实验功能 (独立开关)</span></div>
               <label class="settings-switch"><span>轨迹预测</span><input type="checkbox" data-trajectory-prediction aria-label="轨迹预测"></label>
               <label class="settings-switch"><span>百公里加速测试</span><input type="checkbox" data-acceleration-test aria-label="百公里加速测试"></label>
               <p class="settings-note">停稳后开启，踩油门开始计时。</p>
+              <label class="settings-switch"><span>混动能量控制 HUD</span><input type="checkbox" data-hybrid-energy-hud aria-label="混动能量控制 HUD"></label>
+              <p class="settings-note">默认关闭显示；关闭仅隐藏控制面板，不影响混动能量管理策略运行。</p>
             </section>
           </div>
         </div>
@@ -296,6 +318,26 @@ export class ControlSettingsPanel {
       });
     });
     this.mirrorValue = this.require(shell, '[data-mirror-value]');
+    this.hudHeightRange = this.require<HTMLInputElement>(shell, '[data-hud-height-range]');
+    this.hudHeightValue = this.require(shell, '[data-hud-height-value]');
+    this.hudHeightRange.addEventListener('input', () => {
+      const val = Math.max(-5, Math.min(5, Math.round(Number(this.hudHeightRange.value) || 0)));
+      this.setHudHeightLevel(val);
+      this.onHudHeightChange?.(val);
+    });
+    shell.querySelectorAll<HTMLButtonElement>('[data-hud-height-step]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const delta = Number(btn.dataset.hudHeightStep ?? 0);
+        const cur = Math.max(-5, Math.min(5, Math.round(Number(this.hudHeightRange.value) || 0)));
+        const next = Math.max(-5, Math.min(5, cur + delta));
+        this.setHudHeightLevel(next);
+        this.onHudHeightChange?.(next);
+      });
+    });
+    this.require<HTMLButtonElement>(shell, '[data-hud-height-reset]').addEventListener('click', () => {
+      this.setHudHeightLevel(0);
+      this.onHudHeightChange?.(0);
+    });
     this.mapButtonsContainer = this.require(shell, '[data-map-buttons]');
     this.vehicleButtonsContainer = this.require(shell, '[data-vehicle-buttons]');
     this.fuelLitresInput = this.require(shell, '[data-fuel-litres]');
@@ -332,11 +374,18 @@ export class ControlSettingsPanel {
       });
     });
     this.require<HTMLInputElement>(shell, '[data-vibration]').checked = this.vibrationOn;
+    this.drivingLabInput = this.require<HTMLInputElement>(shell, '[data-driving-lab]');
+    this.drivingLabInput.addEventListener('change', event => {
+      this.onDrivingLabChange?.((event.currentTarget as HTMLInputElement).checked);
+    });
     this.require<HTMLInputElement>(shell, '[data-trajectory-prediction]').addEventListener('change', event => {
       this.onTrajectoryPredictionChange?.((event.currentTarget as HTMLInputElement).checked);
     });
     this.require<HTMLInputElement>(shell, '[data-acceleration-test]').addEventListener('change', event => {
       this.onAccelerationTestChange?.((event.currentTarget as HTMLInputElement).checked);
+    });
+    this.require<HTMLInputElement>(shell, '[data-hybrid-energy-hud]').addEventListener('change', event => {
+      this.onHybridEnergyHudChange?.((event.currentTarget as HTMLInputElement).checked);
     });
     this.require<HTMLInputElement>(shell, '[data-black-box]').addEventListener('change', event => {
       this.onBlackBoxChange?.((event.currentTarget as HTMLInputElement).checked);
@@ -459,6 +508,12 @@ export class ControlSettingsPanel {
 
   public setImmersiveMode(enabled: boolean): void {
     this.require<HTMLInputElement>(this.panel, '[data-immersive-mode]').checked = enabled;
+  }
+
+  public setHudHeightLevel(level: number): void {
+    const clamped = Math.max(-5, Math.min(5, Math.round(Number.isFinite(level) ? level : 0)));
+    this.hudHeightRange.value = String(clamped);
+    this.hudHeightValue.textContent = clamped === 0 ? '0 (默认)' : clamped > 0 ? `+${clamped}` : String(clamped);
   }
 
   private selectSettingsTab(selected: HTMLButtonElement): void {
@@ -801,6 +856,10 @@ export class ControlSettingsPanel {
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+  }
+
+  public setDrivingLabEnabled(enabled: boolean): void {
+    this.drivingLabInput.checked = enabled;
   }
 
   public setEnvironment(weather: Weather, time: EnvironmentTime): void {

@@ -74,10 +74,14 @@ export interface VehicleInputState {
   lccToggle?: boolean;
   /** Selection request only; does not engage a lateral steering controller. */
   cycleLaneAssist?: boolean;
+  /** Gamepad Y long-press (~700ms) toggle edge for independent ADAS V1 controller. */
+  adasToggle?: boolean;
   /** Discrete toggle; held buttons never repeat this command. */
   fogToggle?: boolean;
   cycleWipers?: boolean;
   cycleDriveMode?: boolean;
+  /** Hybrid energy-mode cycle (EV/HEV/INTELLIGENT); ignored by non-hybrid vehicles. */
+  cycleEnergyMode?: boolean;
   /** Momentary controls, independent from persistent light/gear modes. */
   highBeamFlash?: boolean;
   hornPressed?: boolean;
@@ -118,9 +122,11 @@ export function createNeutralVehicleInputState(
     cruiseToggle: false,
     lccToggle: false,
     cycleLaneAssist: false,
+    adasToggle: false,
     fogToggle: false,
     cycleWipers: false,
     cycleDriveMode: false,
+    cycleEnergyMode: false,
     highBeamFlash: false,
     hornPressed: false,
     enterExitVehicle: false,

@@ -64,16 +64,53 @@ export function createTank500Hi4TPhysicsConfig(): P2HybridVehiclePhysicsConfig {
   c.aero = { ...c.aero, dragCoefficient: .39, frontalArea: 3.05 };
   c.frontDiff = { type: 'open' }; c.rearDiff = { type: 'open' };
   c.electronicDifferential = { slipThreshold: .19, speedDifferenceThreshold: .7, maximumBrakeTorque: 850, response: 10 };
-  // Fixed passive springs/dampers; off-road control is pedal/rack/TCS calibration, no invented CDC.
+  // Fixed passive springs/dampers; off-road all-terrain strategies live separately in hybrid.terrainStrategies.
   const normalShift = c.transmission.automatic!.shiftStrategy;
-  c.driveModes = Object.fromEntries((['ECO', 'NORMAL', 'SPORT', 'WET'] as const).map(mode => [mode, {
-    throttleExponent: mode === 'WET' ? 1.6 : mode === 'ECO' ? 1.35 : mode === 'SPORT' ? .88 : 1.1,
-    throttleResponse: mode === 'WET' ? 3 : mode === 'SPORT' ? 8 : 5,
-    steeringResponse: mode === 'WET' ? 3.5 : 2.7, steeringDamping: mode === 'SPORT' ? 12 : 10,
-    shiftStrategy: { ...normalShift, map: normalShift.map.map(p => ({ ...p, upshiftRPM: Math.min(6200, p.upshiftRPM * (mode === 'SPORT' ? 1.15 : 1)) })) },
-    tcs: { slipThresholdMultiplier: mode === 'WET' ? 1.45 : 1.1, maximumTorqueReduction: .95, response: 7, recoveryResponse: 2 },
-  } ]));
-  c.driveModeOrder = ['NORMAL', 'ECO', 'SPORT', 'WET']; c.defaultDriveMode = 'NORMAL';
+  c.driveModes = {
+    STANDARD: {
+      throttleExponent: 1.12, throttleResponse: 6.0,
+      steeringResponse: 2.7, steeringDamping: 10,
+      shiftStrategy: { ...normalShift, map: normalShift.map.map(p => ({ ...p })) },
+      tcs: { slipThresholdMultiplier: 1.12, maximumTorqueReduction: .95, response: 7, recoveryResponse: 2 },
+    },
+    ECO: {
+      throttleExponent: 1.38, throttleResponse: 4.5,
+      steeringResponse: 2.5, steeringDamping: 9.2,
+      shiftStrategy: {
+        ...normalShift,
+        map: normalShift.map.map(p => ({
+          ...p,
+          upshiftRPM: Math.max(1350, Math.round(p.upshiftRPM * .88)),
+          downshiftRPM: Math.max(850, Math.round(p.downshiftRPM * .92)),
+        })),
+        kickdownThrottle: .90,
+        liftHoldTime: .85,
+        brakingDownshiftRPM: 1350,
+      },
+      tcs: { slipThresholdMultiplier: 1.08, maximumTorqueReduction: .95, response: 8, recoveryResponse: 1.8 },
+    },
+    SPORT: {
+      throttleExponent: .86, throttleResponse: 9.2,
+      steeringResponse: 3.1, steeringDamping: 12.2,
+      shiftStrategy: {
+        ...normalShift,
+        map: normalShift.map.map(p => ({
+          ...p,
+          upshiftRPM: Math.min(6200, Math.round(p.upshiftRPM * 1.18)),
+          downshiftRPM: Math.min(3400, Math.round(p.downshiftRPM * 1.22)),
+        })),
+        minimumTimeInGear: .85,
+        kickdownThrottle: .72,
+        kickdownTargetRPM: 4450,
+        liftHoldTime: 2.6,
+        brakingDownshiftRPM: 2100,
+      },
+      tcs: { slipThresholdMultiplier: 1.28, maximumTorqueReduction: .92, response: 6.5, recoveryResponse: 2.4 },
+    },
+  };
+  // Road driving mode cycle matches OEM Tank 500 Hi4-T display naming (STANDARD / ECO / SPORT).
+  // All-terrain modes (SNOW / MUD / SAND) remain separated in hybrid.terrainStrategies.
+  c.driveModeOrder = ['STANDARD', 'ECO', 'SPORT']; c.defaultDriveMode = 'STANDARD';
   c.hybrid = {
     battery: { usableCapacityKWh: 37.1, grossEnergyKWh: 37.1, defaultStateOfCharge: .75, nominalVoltage: 360,
       maxDischargePower: 150000, maxChargePower: 70000, dischargeEfficiency: .985, chargeEfficiency: .985,
@@ -87,10 +124,37 @@ export function createTank500Hi4TPhysicsConfig(): P2HybridVehiclePhysicsConfig {
       thermal: { thermalCapacity: 35000, coolingRate: 120, airflowCooling: 2,
         derateStartTemperature: 125, criticalTemperature: 165, minimumCapability: .15, initialTemperatureOffset: 0 } },
     charging: { acPower: 6600, dcPower: 50000, acEfficiency: .92, dcEfficiency: .96 },
-    driveability: { normalAcceleration: 6.0, sportAcceleration: 6.4, ecoAcceleration: 4.2,
+    driveability: { normalAcceleration: 5.8, sportAcceleration: 6.5, ecoAcceleration: 4.2,
       lowRangeAcceleration: 9.0, creepSpeed: 1.45, creepAcceleration: .55, coastDeceleration: .48, fullPowerPedalStart: .80 },
+    driveModeStrategy: {
+      ECO: { acceleration: 4.2, demandResponseRate: 4.5, fullPowerPedalStart: .86, coastDecelerationScale: 1.22,
+        engineStartPowerScale: 1.22, engineStartSpeedScale: 1.12, startDelayScale: 1.45, engineEfficientLoad: .72,
+        sportEngineReady: false, smartTargetSocOffset: -.04 },
+      STANDARD: { acceleration: 5.8, demandResponseRate: 7.2, fullPowerPedalStart: .80, coastDecelerationScale: 1.0,
+        engineStartPowerScale: 1.0, engineStartSpeedScale: 1.0, startDelayScale: 1.0, engineEfficientLoad: .75,
+        sportEngineReady: false, smartTargetSocOffset: 0 },
+      SPORT: { acceleration: 6.5, demandResponseRate: 12.0, fullPowerPedalStart: .72, coastDecelerationScale: .78,
+        engineStartPowerScale: .66, engineStartSpeedScale: .76, startDelayScale: .30, engineEfficientLoad: .86,
+        sportEngineReady: true, smartTargetSocOffset: .05 },
+    },
+    terrainStrategies: {
+      SNOW: { pedalExponent: 1.55, acceleration: 3.4, demandResponseRate: 3.2, fullPowerPedalStart: .92,
+        coastDecelerationScale: .52, engineStartPowerScale: 1.05, preferEngineReady: false, tcsSlipMultiplier: 1.0 },
+      MUD: { pedalExponent: 1.26, acceleration: 4.9, demandResponseRate: 4.8, fullPowerPedalStart: .84,
+        coastDecelerationScale: .70, engineStartPowerScale: .75, preferEngineReady: true, tcsSlipMultiplier: 1.48 },
+      SAND: { pedalExponent: .96, acceleration: 5.9, demandResponseRate: 7.5, fullPowerPedalStart: .76,
+        coastDecelerationScale: .65, engineStartPowerScale: .68, preferEngineReady: true, tcsSlipMultiplier: 1.55 },
+    },
+    // Low-cost deterministic engineering approximation of Hi4-T INTELLIGENT mode (no ML user-habit learning).
+    intelligent: {
+      urbanSpeedMps: 50 / 3.6, highwaySpeedMps: 85 / 3.6,
+      urbanStartPowerScale: 1.35, midStartPowerScale: 1.05, highwayStartPowerScale: .62,
+      urbanTargetSOC: .28, midTargetSOC: .36, highwayTargetSOC: .44,
+      generationPowerCapW: 16000, evMaxSpeedMps: 125 / 3.6,
+    },
     inverterEfficiency: .97, auxiliaryPower: 650, starterPower: 1800,
-    systemPower: 300000, systemTorque: 750, defaultMode: 'HYBRID',
+    systemPower: 300000, systemTorque: 750, defaultMode: 'INTELLIGENT',
+    energyModeOrder: ['EV', 'HEV', 'INTELLIGENT'],
     engineCooling: { coolantWasteFraction: .35, thermostatStartC: 82, thermostatFullC: 95,
       bypassWPerK: 35, fanStartC: 98, fanFullC: 108, minimumFanFraction: .15 },
     energyManagement: { minimumSOC: .15, restartSOC: .22, holdSOC: .50, chargeTargetSOC: .80,

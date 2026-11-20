@@ -15,7 +15,33 @@ export function createQinPlusDmiPhysicsConfig(): EhsHybridVehiclePhysicsConfig {
   Object.assign(c, QIN_PLUS_DMI_DIMENSIONS, { mass: 1580 - 65 * .745, trackWidth: 1.580,
     frontWeightBias: .59, centerOfMassHeight: .50, yawInertia: 2600,
     layoutCalibrationNote: 'Transverse EHS P1/P3 FWD; 1580 kg provisional curb mass, base excludes 65 L fuel.' });
-  c.capabilities = { cruiseControl: true, advancedInstrument: true, navigation: true, tpms: true };
+  c.capabilities = { cruiseControl: true, advancedInstrument: true, navigation: true, tpms: true, driveModes: true };
+  // OEM 2026 Qin PLUS DM-i 210KM supports ECO / NORMAL / SPORT + independent SNOW low-adhesion mode.
+  c.driveModes = {
+    ECO: {
+      throttleExponent: 1.38, throttleResponse: 7.0,
+      steeringResponse: 3.1, steeringDamping: 8.8,
+      tcs: { slipThresholdMultiplier: 1.15, maximumTorqueReduction: .95, response: 8, recoveryResponse: 1.8 },
+    },
+    NORMAL: {
+      throttleExponent: 1.08, throttleResponse: 9.5,
+      steeringResponse: 3.4, steeringDamping: 9.4,
+      tcs: { slipThresholdMultiplier: 1.22, maximumTorqueReduction: .95, response: 7.5, recoveryResponse: 2.0 },
+    },
+    SPORT: {
+      throttleExponent: .84, throttleResponse: 13.0,
+      steeringResponse: 3.9, steeringDamping: 10.8,
+      tcs: { slipThresholdMultiplier: 1.38, maximumTorqueReduction: .92, response: 7.0, recoveryResponse: 2.5 },
+    },
+    SNOW: {
+      throttleExponent: 1.60, throttleResponse: 5.0,
+      steeringResponse: 3.0, steeringDamping: 9.8,
+      tcs: { slipThresholdMultiplier: 1.02, maximumTorqueReduction: .96, response: 14, recoveryResponse: 1.2 },
+      esc: { yawErrorThreshold: .12, sideslipThreshold: .085, response: 9.5 },
+    },
+  };
+  c.driveModeOrder = ['ECO', 'NORMAL', 'SPORT', 'SNOW'];
+  c.defaultDriveMode = 'NORMAL';
   c.parkingBrake = { ...controls.parkingBrake! }; c.autoHold = { ...controls.autoHold! };
   c.cruiseControl = { ...controls.cruiseControl! };
   c.driverAids = { ...c.driverAids, absEnabled: true, ebdEnabled: true,
@@ -53,7 +79,21 @@ export function createQinPlusDmiPhysicsConfig(): EhsHybridVehiclePhysicsConfig {
   const thermal = { thermalCapacity: 40000, coolingRate: 65, airflowCooling: 1.8,
     derateStartTemperature: 100, criticalTemperature: 145, minimumCapability: .1, initialTemperatureOffset: 0 };
   return { ...c, ehs: {
-    defaultMode: 'HEV', inverterEfficiency: .975, busEfficiency: .99, auxiliaryPower: 400,
+    defaultMode: 'HEV', energyModeOrder: ['EV', 'HEV'], inverterEfficiency: .975, busEfficiency: .99, auxiliaryPower: 400,
+    driveModeStrategy: {
+      ECO: { accelerationScale: .78, torqueResponse: 4.2, fullPowerPedalStart: .86, liftRegenScale: 1.25,
+        engineStartPowerScale: 1.18, engineStopPowerScale: 1.12, evPowerThresholdScale: 1.10,
+        seriesRpmScale: .94, parallelLoadMin: .28 },
+      NORMAL: { accelerationScale: 1.0, torqueResponse: 6.2, fullPowerPedalStart: .82, liftRegenScale: 1.0,
+        engineStartPowerScale: 1.0, engineStopPowerScale: 1.0, evPowerThresholdScale: 1.0,
+        seriesRpmScale: 1.0, parallelLoadMin: .32 },
+      SPORT: { accelerationScale: 1.18, torqueResponse: 11.5, fullPowerPedalStart: .70, liftRegenScale: .78,
+        engineStartPowerScale: .68, engineStopPowerScale: .78, evPowerThresholdScale: .90,
+        assistThrottleThreshold: .42, seriesRpmScale: 1.12, parallelLoadMin: .24 },
+      SNOW: { accelerationScale: .65, torqueResponse: 2.6, fullPowerPedalStart: .94, maximumDemandScale: .74,
+        liftRegenScale: .40, engineStartPowerScale: 1.08, engineStopPowerScale: 1.05, evPowerThresholdScale: 1.05,
+        seriesRpmScale: .95, parallelLoadMin: .38 },
+    },
     engineCooling: { thermostatStartC: 78, thermostatFullC: 94, bypassWPerK: 12 },
     battery: { usableCapacityKWh: 25.28, grossEnergyKWh: 25.28, defaultStateOfCharge: .8, nominalVoltage: 355,
       maxDischargePower: 135000, maxChargePower: 48000, dischargeEfficiency: .985, chargeEfficiency: .98,

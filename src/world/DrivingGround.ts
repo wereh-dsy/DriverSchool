@@ -39,6 +39,8 @@ export interface DrivingGround {
   readonly metadata: DrivingGroundMetadata;
   /** Shared by HUD, future routes and instrument navigation. */
   readonly roadNetwork?: RoadNetworkData;
+  /** High-definition lane-level topology and boundaries for ADAS and autonomous driving. */
+  readonly laneGraph?: import('./navigation/lanegraph/LaneGraph').LaneGraph;
   /** Optional live phase/lane snapshots; independent of visual sector loading. */
   readonly trafficSignals?: TrafficSignalProvider;
   /** Optional authored timing gates; timing state belongs to the game. */

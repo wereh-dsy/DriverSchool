@@ -493,7 +493,7 @@ export interface SimulationSafetyConfig {
  * All handling-affecting data for a vehicle. Values use SI units unless noted.
  * Visual/cockpit measurements intentionally live in a separate visual config.
  */
-export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE' | 'RANGE' | 'SPORT_PLUS' | 'MAYBACH';
+export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'STANDARD' | 'SPORT' | 'SNOW' | 'WET' | 'RACE' | 'RANGE' | 'SPORT_PLUS' | 'MAYBACH';
 /** Optional calibration only; existing engine, rack, shift controller and AWD own behavior. */
 export interface DriveModeCalibration {
   throttleExponent: number;
